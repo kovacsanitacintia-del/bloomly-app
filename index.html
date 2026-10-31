@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031224353">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031224353">
+<meta name="bloomly-version" content="20261031224650">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031224650">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -840,7 +840,7 @@ function nextB(c){const t=now();let d=new Date(t.getFullYear(),+c.bday.slice(0,2
 const SKEY='bloomly.v1';
 let S=load();
 function load(){try{const r=localStorage.getItem(SKEY);if(r)return JSON.parse(r)}catch(e){}return seed()}
-function save(){try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}}
+function save(){_trkStart=null;try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}}
 function mkHabit(t){return{id:uid(),name:t.name,icon:t.icon,color:t.color,cat:t.cat,freq:t.freq,days:t.days||[0,1,2,3,4,5,6],target:t.target||3,note:t.note||'',created:TODAY}}
 function seed(){
   const s={onboarded:false,name:'Lili',theme:'system',focus:['Nyugalom','Egészség'],goal:'Nyugodtabb reggelek és több energia',cycleOn:true,
@@ -883,17 +883,39 @@ function periodCount(h,k){if(h.freq==='weekly')return weekCount(h,k);const pre=h
 function scheduledOn(h,d){if(h.freq==='daily'||isT(h))return true;return h.days.includes(wd(d))}
 const isDone=(h,k)=>(S.log[k]||[]).includes(h.id);
 function weekCount(h,k){const d=parseK(k),st=addDays(d,-wd(d));let c=0;for(let i=0;i<7;i++){const kk=keyOf(addDays(st,i));if((S.log[kk]||[]).includes(h.id))c++}return c}
-function dayRate(k,s=S){const d=parseK(k);const hs=s.habits.filter(h=>!isT(h)&&scheduledOn(h,d));if(!hs.length)return null;return hs.filter(h=>(s.log[k]||[]).includes(h.id)).length/hs.length}
-const active=(k,s=S)=>(s.log[k]||[]).length>0;
+/* ───────── Szokáskövető a számításokban ─────────
+   A napi haladás, a teljesítési arány és a sorozat a szokáslistát ÉS a Szokáskövetőt is figyeli.
+   Egy követő attól a naptól számít, amikor először használtad; ha a hozzá tartozó szokás a listádon van
+   (Edzés, Meditáció, Bőrápolás), nem számoljuk kétszer. */
+let _trkStart=null;
+function trackerStarts(s){let main=false;try{main=s===S}catch(e){}if(main&&_trkStart)return _trkStart;
+  const mn=a=>a.length?a.reduce((x,y)=>x<y?x:y):null,f=(s.fitness||{}).log||{},sk=(s.skin||{}).log||{};
+  const r={fit:mn(Object.keys(f).filter(k=>f[k].done)),mood:mn(Object.keys(s.moods||{})),med:mn((s.med||[]).map(x=>x.date)),
+    skin:mn(Object.keys(sk).filter(k=>sk[k].am.length||sk[k].pm.length)),sleep:mn(Object.keys(s.sleep||{}))};
+  if(main)_trkStart=r;return r}
+function trackerChecks(k,s=S){
+  if(!s.fitness||!s.skin||k>TODAY)return[];const st=trackerStarts(s),has=n=>s.habits.some(h=>h.name===n),out=[];
+  const plan=s.fitness.plan[wd(parseK(k))],f=s.fitness.log[k],lg=s.skin.log[k]||{am:[],pm:[]},sk=s.skin.am.length+s.skin.pm.length;
+  if(st.fit&&k>=st.fit&&plan!=='Pihenő'&&!has('Edzés'))out.push(!!(f&&f.done));
+  if(st.mood&&k>=st.mood)out.push(!!s.moods[k]);
+  if(st.med&&k>=st.med&&!has('Meditáció'))out.push(s.med.some(x=>x.date===k));
+  if(st.skin&&k>=st.skin&&sk&&!has('Bőrápolás'))out.push(lg.am.length+lg.pm.length>=sk);
+  if(st.sleep&&k>=st.sleep)out.push(!!(s.sleep||{})[k]);
+  return out}
+function trackerDone(k,s=S){
+  if((s.moods||{})[k]||(s.sleep||{})[k])return true;const f=((s.fitness||{}).log||{})[k];if(f&&f.done)return true;
+  if((s.med||[]).some(x=>x.date===k))return true;const e=((s.skin||{}).log||{})[k];return!!(e&&(e.am.length||e.pm.length))}
+function dayRate(k,s=S){const d=parseK(k);const hs=s.habits.filter(h=>!isT(h)&&scheduledOn(h,d)),tc=trackerChecks(k,s),tot=hs.length+tc.length;if(!tot)return null;return(hs.filter(h=>(s.log[k]||[]).includes(h.id)).length+tc.filter(Boolean).length)/tot}
+const active=(k,s=S)=>(s.log[k]||[]).length>0||trackerDone(k,s);
 function curStreak(s=S){let d=now();if(!active(keyOf(d),s))d=addDays(d,-1);let c=0;while(active(keyOf(d),s)){c++;d=addDays(d,-1)}return c}
-function longestStreak(s=S){const ks=Object.keys(s.log).filter(k=>s.log[k].length).sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&dayDiff(k,prev)===1?run+1:1;best=Math.max(best,run);prev=k});return best}
+function longestStreak(s=S){const ks=[...new Set([...Object.keys(s.log).filter(k=>s.log[k].length),...Object.keys(s.moods||{}),...Object.keys(s.sleep||{}),...(s.med||[]).map(x=>x.date),...Object.keys((s.fitness||{}).log||{}).filter(k=>s.fitness.log[k].done),...Object.keys((s.skin||{}).log||{}).filter(k=>{const e=s.skin.log[k];return e.am.length||e.pm.length})])].filter(k=>k<=TODAY).sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&dayDiff(k,prev)===1?run+1:1;best=Math.max(best,run);prev=k});return best}
 function habitStreak(h){let d=now();if(!isDone(h,keyOf(d)))d=addDays(d,-1);let c=0,guard=0;while(guard++<400){if(!scheduledOn(h,d)||isT(h)){d=addDays(d,-1);if(isT(h))break;continue}if(isDone(h,keyOf(d))){c++;d=addDays(d,-1)}else break}return c}
 function totalDone(s=S){return Object.values(s.log).reduce((a,v)=>a+v.length,0)}
 function perfectDays(s=S){return Object.keys(s.log).filter(k=>dayRate(k,s)===1).length}
 function petals(s=S){return totalDone(s)*10+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
 const LEVELS=[[0,'Mag'],[200,'Csíra'],[600,'Bimbó'],[1200,'Virágzó'],[2000,'Kert'],[3200,'Liget'],[5000,'Édenkert'],[8000,'Bloom Paradicsom']];
 function level(p=petals()){let i=0;LEVELS.forEach((l,j)=>{if(p>=l[0])i=j});const nx=LEVELS[i+1];return{i,name:LEVELS[i][1],from:LEVELS[i][0],to:nx?nx[0]:LEVELS[i][0],next:nx?nx[1]:null}}
-function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++})}return b?a/b:0}
+function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++});trackerChecks(k).forEach(v=>{b++;if(v)a++})}return b?a/b:0}
 
 /* Ciklus */
 function cycInfo(k=TODAY){
@@ -1068,11 +1090,11 @@ function todays(){return S.habits.filter(h=>scheduledOn(h,now()))}
 
 const SCREENS={
 home(){
-  const hs=todays(),dailyHs=hs.filter(h=>!isT(h)),done=dailyHs.filter(h=>isDone(h,TODAY)).length,p=dailyHs.length?done/dailyHs.length:0;
+  const hs=todays(),dailyHs=hs.filter(h=>!isT(h)),tcToday=trackerChecks(TODAY),done=dailyHs.filter(h=>isDone(h,TODAY)).length+tcToday.filter(Boolean).length,allItems=dailyHs.length+tcToday.length,p=allItems?done/allItems:0;
   const mood=S.moods[TODAY],ci=S.checkins[TODAY],rf=S.reflections[TODAY],lv=level(),pt=petals(),c=S.cycleOn&&cycInfo();
   const q=QUOTES[Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5)%QUOTES.length];const fav=S.favQuotes.includes(q);
   return`<div class="hello"><div><div class="eyebrow">${fmt(TODAY,{weekday:'long',month:'long',day:'numeric'})}</div><h1>${greet()},<br>${esc(S.name)}</h1></div><button class="avatar" data-a="tab" data-t="me" aria-label="Profil">${esc(S.name[0]||'B')}</button></div>
-  <section class="glass hero" aria-label="Mai haladás"><div class="ring">${ringSVG(p)}<div class="val"><div><b>${Math.round(p*100)}%</b><span>${done}/${dailyHs.length} szokás</span></div></div></div>
+  <section class="glass hero" aria-label="Mai haladás"><div class="ring">${ringSVG(p)}<div class="val"><div><b>${Math.round(p*100)}%</b><span>${done}/${allItems} teendő</span></div></div></div>
    <div class="stat-chips"><div class="chip-stat"><span class="ic" style="background:var(--peach)">${ic('flame',18)}</span><div><b>${curStreak()} nap</b><small>aktuális sorozat</small></div></div>
    <button class="chip-stat" data-a="openCheckin" style="text-align:left"><span class="ic" style="background:var(--lav)">${mood?`<span style="font-size:18px">${MOODS[mood.m].e}</span>`:ic('smile',18)}</span><div><b>${mood?MOODS[mood.m].n:'Hangulat'}</b><small>${mood?'mai hangulatod':'rögzítsd most'}</small></div></button></div></section>
   ${trackerTodayCard()}
