@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031222956">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031222956">
+<meta name="bloomly-version" content="20261031223659">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031223659">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -265,11 +265,13 @@ textarea.inp{min-height:92px;resize:vertical}
 .kpi{padding:16px;border-radius:22px;background:var(--card);border:1px solid var(--line)}
 .kpi b{font-family:var(--f-display);font-size:28px;font-weight:600;color:var(--ink);display:block;line-height:1.1;font-variant-numeric:tabular-nums}
 .kpi small{font-size:12px;color:var(--text2)}
-.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart svg:not(.i){width:100%;height:auto;display:block;overflow:visible}
 .chart text{fill:var(--text2);font-size:10px;font-family:var(--f-body)}
 .chart .barr{transition:opacity .2s;cursor:pointer}
 .chart .barr:hover{opacity:.8}
 .cons{display:flex;flex-direction:column;gap:12px}
+.insight>svg.i{flex:none;width:22px;height:22px;margin-top:1px;color:var(--lav-deep)}
+.insight>p{min-width:0;flex:1}
 .insight{display:flex;gap:12px;padding:14px;border-radius:20px;background:var(--lav-soft);color:var(--ink);font-size:13.5px}
 
 /* Vision board */
@@ -1155,8 +1157,8 @@ stats(){
   <section class="card chart"><b style="color:var(--ink)">Havi fejlődés</b><p class="muted">Heti átlagos teljesítés az elmúlt 6 hétben</p>${lineChart(weeks)}</section>
   <section class="card"><b style="color:var(--ink)">Következetesség · 12 hét</b><div class="heat" style="margin-top:12px">${heat}</div><div class="row muted" style="margin-top:10px;font-size:11px;gap:5px">Kevesebb <i style="width:12px;height:12px;border-radius:4px;background:var(--track)"></i><i style="width:12px;height:12px;border-radius:4px;background:color-mix(in srgb,var(--lav) 40%,var(--track))"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav)"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav-deep)"></i> Több</div></section>
   <section class="card"><b style="color:var(--ink)">Szokások következetessége · ${N} nap</b><div class="cons" style="margin-top:14px">${S.habits.map(h=>{let a=0,b=0;for(let i=0;i<N;i++){const d=addDays(now(),-i);if(!scheduledOn(h,d))continue;b++;if(isDone(h,keyOf(d)))a++}const v=isT(h)?Math.min(1,a/(h.target*N/({weekly:7,monthly:30,yearly:365})[h.freq])):b?a/b:0;return`<div class="row"><span class="tile" style="width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,16)}</span><span class="grow" style="font-size:13.5px">${esc(h.name)}</span><div class="bar" style="width:90px"><i style="width:${v*100}%"></i></div><b style="width:40px;text-align:right;font-size:13px;color:var(--ink)">${Math.round(v*100)}%</b></div>`}).join('')}</div></section>
-  <section class="card chart"><b style="color:var(--ink)">Hangulat és szokások</b>${bars([{l:'80% felett',v:av(hi)/5,t:av(hi).toFixed(1)},{l:'80% alatt',v:av(lo)/5,t:av(lo).toFixed(1)}],'m')}<div class="insight" style="margin-top:12px">${ic('sparkle')}<p>Azokon a napokon, amikor a szokásaid legalább 80%-át teljesíted, a hangulatod átlagosan <b>${(av(hi)-av(lo)).toFixed(1)} ponttal</b> jobb.</p></div></section>
-  ${S.cycleOn?`<section class="card chart"><b style="color:var(--ink)">Ciklus és hangulat</b>${bars(Object.keys(ph).map(p=>({l:PHASES[p].n.split(' ')[0],v:av(ph[p])/5,t:av(ph[p]).toFixed(1),c:PHASES[p].c})),'c')}<p class="muted" style="margin-top:8px">Átlagos hangulat (1–5) ciklusfázisonként</p></section>`:''}`
+  <section class="card chart"><b style="color:var(--ink)">Hangulat és szokások</b>${bars([{l:'80% felett',v:av(hi)/5,t:av(hi).toFixed(1).replace('.',',')},{l:'80% alatt',v:av(lo)/5,t:av(lo).toFixed(1).replace('.',',')}],'m')}<div class="insight" style="margin-top:12px">${ic('sparkle')}<p>Azokon a napokon, amikor a szokásaid legalább 80%-át teljesíted, a hangulatod átlagosan <b>${Math.abs(av(hi)-av(lo)).toFixed(1).replace('.',',')} ponttal</b> ${av(hi)>=av(lo)?'jobb':'alacsonyabb'}, mint a többi napon.</p></div></section>
+  ${S.cycleOn?`<section class="card chart"><b style="color:var(--ink)">Ciklus és hangulat</b>${bars(Object.keys(ph).map(p=>({l:PHASES[p].n.split(' ')[0],v:av(ph[p])/5,t:av(ph[p]).toFixed(1).replace('.',','),c:PHASES[p].c})),'c')}<p class="muted" style="margin-top:8px">Átlagos hangulat (1–5) ciklusfázisonként</p></section>`:''}`
 },
 vision(){
   const f=S.ui.vf;const items=S.vision.filter(v=>f==='Mind'||(f==='Kedvencek'?v.fav:v.cat===f));
