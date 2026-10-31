@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031223931">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031223931">
+<meta name="bloomly-version" content="20261031224353">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031224353">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -497,6 +497,20 @@ textarea.inp{min-height:92px;resize:vertical}
 .upd small{color:var(--text2);font-size:12px}
 .upd .btn{padding:10px 16px;font-size:13px}
 .upd .iconbtn{width:36px;height:36px}
+
+/* Szokáskövető összesítő kártyák */
+.trk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.trk{display:flex;align-items:center;gap:8px;padding:10px;border-radius:16px;text-align:left;min-width:0;background:color-mix(in srgb,var(--c) 12%,var(--card));border:1px solid color-mix(in srgb,var(--c) 25%,transparent)}
+.trk-ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;flex:none;color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--card))}
+.trk.ok .trk-ic{background:var(--c);color:#fff}
+.trk-t{min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.trk-t small{font-size:10.5px;color:var(--text2)}
+.trk-t b{font-size:12.5px;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trk-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.trk-kpi{padding:12px 10px;border-radius:16px;background:color-mix(in srgb,var(--c) 10%,var(--card));border:1px solid color-mix(in srgb,var(--c) 22%,transparent);display:flex;flex-direction:column;gap:4px;min-width:0}
+.trk-kpi b{font-family:var(--f-display);font-size:22px;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+.trk-kpi small{font-size:11px;color:var(--text2);line-height:1.25}
+@container app (max-width:420px){.trk-grid,.trk-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* Menüsorok (Én fül) */
 .mlist{display:flex;flex-direction:column;gap:9px}
@@ -1061,10 +1075,11 @@ home(){
   <section class="glass hero" aria-label="Mai haladás"><div class="ring">${ringSVG(p)}<div class="val"><div><b>${Math.round(p*100)}%</b><span>${done}/${dailyHs.length} szokás</span></div></div></div>
    <div class="stat-chips"><div class="chip-stat"><span class="ic" style="background:var(--peach)">${ic('flame',18)}</span><div><b>${curStreak()} nap</b><small>aktuális sorozat</small></div></div>
    <button class="chip-stat" data-a="openCheckin" style="text-align:left"><span class="ic" style="background:var(--lav)">${mood?`<span style="font-size:18px">${MOODS[mood.m].e}</span>`:ic('smile',18)}</span><div><b>${mood?MOODS[mood.m].n:'Hangulat'}</b><small>${mood?'mai hangulatod':'rögzítsd most'}</small></div></button></div></section>
+  ${trackerTodayCard()}
   ${!ci?`<section class="checkin" aria-label="Reggeli check-in"><div class="eyebrow" style="color:inherit;opacity:.7">Reggeli check-in</div><h3 style="margin-top:6px">Hogy érzed magad ma?</h3><p>Három rövid kérdés, hogy tudatosan indítsd a napot.</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood-b ${mood&&mood.m===i?'on':''}" data-a="openCheckin" data-m="${i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div></section>`:
    `<section class="card" aria-label="Mai szándék"><div class="eyebrow">Mai célod</div><p style="font-family:var(--f-display);font-size:19px;color:var(--ink);margin-top:6px">${esc(ci.goal)}</p><p class="muted" style="margin-top:6px">Hálás vagy: ${esc(ci.grateful)}</p></section>`}
   ${c?`<button class="card row" data-a="tab" data-t="cycle" style="text-align:left;width:100%"><span class="ic" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:${PHASES[c.ph].c};color:var(--on-pastel)">${ic('cycle')}</span><div class="grow"><b style="color:var(--ink)">${PHASES[c.ph].n} · ${c.day}. nap</b><div class="muted">${PHASES[c.ph].rec[0]}</div></div>${ic('next',18)}</button>`:''}
-  <div class="sec-h"><h2>Mai szokások</h2><button class="link" data-a="tab" data-t="habits">Mind</button></div>
+  <div class="sec-h"><h2>Mai szokások</h2><button class="link" data-a="habitsList">Mind</button></div>
   <div class="habits">${hs.length?hs.map(habitRow).join(''):`<div class="card empty-note">Ma nincs ütemezett szokásod. Pihenj, vagy adj hozzá egy újat.</div>`}</div>
   <section class="card quote" aria-label="Napi inspiráció"><div class="eyebrow">Napi inspiráció</div><p class="q">„${q}”</p><div class="acts"><span class="muted">Bloomly · ${fmt(TODAY,{month:'long',day:'numeric'})}</span><button class="iconbtn" style="width:36px;height:36px;color:${fav?'#E28FA6':'var(--text2)'}" data-a="favQ" aria-pressed="${fav}" aria-label="Idézet kedvencnek jelölése"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px;${fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button></div><span class="mark">${ic('lotus',120)}</span></section>
   <button class="card garden-prev garden" data-a="tab" data-t="garden" style="text-align:left;width:100%" aria-label="Bloom Kert megnyitása">${gardenSVG(true)}<div class="meta"><div class="grow"><div class="eyebrow">Bloom Kert · ${lv.name}</div><div class="bar" style="margin-top:8px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div><div class="muted" style="margin-top:6px">${lv.next?`${lv.to-pt} szirom a(z) ${lv.next} szintig`:'Elérted a legmagasabb szintet'}</div></div>${ic('next',18)}</div></button>
@@ -1072,7 +1087,7 @@ home(){
 },
 habits(){
   if(S.ui.hv==='bujo')return habitsHead()+bujoView();
-  if(S.ui.hv==='track')return habitsHead()+trackersView();
+  if((S.ui.hv||'track')==='track')return habitsHead()+trackersView();
   if(!['Mind','Napi','Heti','Havi','Éves'].includes(S.ui.hf))S.ui.hf='Mind';
   const f=S.ui.hf;const list=S.habits.filter(h=>f==='Mind'||(f==='Napi'&&h.freq==='daily')||(f==='Heti'&&h.freq==='weekly')||(f==='Havi'&&h.freq==='monthly')||(f==='Éves'&&h.freq==='yearly')||h.cat===f);
   return`${habitsHead()}
@@ -1153,6 +1168,7 @@ stats(){
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Statisztikák</h1></div>
   <div class="seg">${[[7,'7 nap'],[30,'30 nap'],[90,'90 nap']].map(([v,n])=>`<button class="${N===v?'on':''}" data-a="range" data-v="${v}">${n}</button>`).join('')}</div>
   <div class="kpis"><div class="kpi"><b>${Math.round(rate*100)}%</b><small>teljesítési arány</small></div><div class="kpi"><b>${cs} nap</b><small>aktuális sorozat</small></div><div class="kpi"><b>${ls} nap</b><small>leghosszabb sorozat</small></div><div class="kpi"><b>${totalDone()}</b><small>összes teljesítés</small></div></div>
+  ${trackerStats(N)}
   <section class="card chart"><div class="row"><b class="grow" style="color:var(--ink)">Heti fejlődés</b><span class="muted" id="barInfo">Koppints egy napra</span></div>${bars(days,'d')}</section>
   <section class="card chart"><b style="color:var(--ink)">Havi fejlődés</b><p class="muted">Heti átlagos teljesítés az elmúlt 6 hétben</p>${lineChart(weeks)}</section>
   <section class="card"><b style="color:var(--ink)">Következetesség · 12 hét</b><div class="heat" style="margin-top:12px">${heat}</div><div class="row muted" style="margin-top:10px;font-size:11px;gap:5px">Kevesebb <i style="width:12px;height:12px;border-radius:4px;background:var(--track)"></i><i style="width:12px;height:12px;border-radius:4px;background:color-mix(in srgb,var(--lav) 40%,var(--track))"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav)"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav-deep)"></i> Több</div></section>
@@ -1222,7 +1238,35 @@ function unlockArt(id){const m={sunflower:flower(28,47,1.2,'sunflower'),forget:f
   fountain:'<g transform="translate(28 40) scale(1.4)"><ellipse rx="18" ry="5" fill="#CFE0EA"/><ellipse cy="-1" rx="14" ry="3.5" fill="#D8E8F6"/><rect x="-2" y="-16" width="4" height="15" fill="#E4DED8"/><ellipse cy="-16" rx="7" ry="2" fill="#E4DED8"/><path d="M0 -17c-3-6-8-6-10 0M0 -17c3-6 8-6 10 0" stroke="#9FC9E6" stroke-width="1.4" fill="none"/></g>',lav:flower(28,48,1.25,'lav'),tulip:flower(28,46,1.25,'tulip','#E9A8B8',0),poppy:flower(28,46,1.25,'poppy'),daisy:flower(28,46,1.25,'daisy'),bush:'<circle cx="20" cy="32" r="10" fill="#A9D6AE"/><circle cx="36" cy="32" r="11" fill="#B9DDBE"/><circle cx="28" cy="24" r="10" fill="#C6E6C8"/><circle cx="22" cy="24" r="3.5" fill="#fff"/><circle cx="33" cy="22" r="3.5" fill="#E6F0FA"/>',pond:'<ellipse cx="28" cy="34" rx="22" ry="8" fill="#B8D3EC"/><ellipse cx="22" cy="34" rx="6" ry="2.5" fill="#A9D6AE"/><circle cx="34" cy="31" r="4" fill="#fff"/>',tree:'<rect x="26" y="30" width="4" height="16" fill="#B9A08C"/><circle cx="22" cy="24" r="10" fill="#F2C6D3"/><circle cx="34" cy="22" r="11" fill="#FBE3EA"/>',bfly:'<g transform="translate(28 28)"><ellipse cx="-6" rx="7" ry="5" fill="#CBB7F7"/><ellipse cx="6" rx="7" ry="5" fill="#CBB7F7"/><rect x="-1" y="-5" width="2" height="10" fill="#8D7B9E"/></g>',bench:'<rect x="12" y="24" width="32" height="4" rx="2" fill="#C2AA93"/><rect x="12" y="31" width="32" height="4" rx="2" fill="#B39A82"/><rect x="15" y="35" width="3" height="8" fill="#9F8670"/><rect x="38" y="35" width="3" height="8" fill="#9F8670"/>',lantern:'<line x1="28" y1="10" x2="28" y2="18" stroke="#B9A08C"/><rect x="21" y="18" width="14" height="20" rx="7" fill="#F7CBD6"/><circle cx="28" cy="28" r="12" fill="#FFE3D6" opacity=".5"/>',oak:'<rect x="25" y="30" width="6" height="16" fill="#9F8670"/><circle cx="28" cy="22" r="13" fill="#9FD0A5"/><circle cx="18" cy="28" r="8" fill="#B9DDBE"/><circle cx="38" cy="28" r="8" fill="#B9DDBE"/>',gl:'<g transform="translate(28 32)">'+[0,60,120,180,240,300].map(a=>`<ellipse cy="-8" rx="4.5" ry="9" fill="#F4E3B5" stroke="#D4B373" stroke-width=".6" transform="rotate(${a})"/>`).join('')+'<circle r="3.5" fill="#D4B373"/></g>'};
   return`<svg viewBox="0 0 56 56" width="48" height="48" aria-hidden="true">${m[id]||''}</svg>`}
 
-/* ───────── Követők: edzés, tünet, bőrápolás, meditáció, kapcsolatok, terápia, alvás ───────── */
+/* ───────── Szokáskövető összesítők: a Kezdőlap és a Statisztikák ezekből dolgoznak ───────── */
+function trackerSummary(N){
+  const inRange=k=>k<=TODAY&&dayDiff(TODAY,k)<N;
+  const fitE=Object.entries(S.fitness.log).filter(([k,e])=>inRange(k)&&e.done),med=S.med.filter(x=>inRange(x.date));
+  const skinFull=Object.entries(S.skin.log).filter(([k,e])=>inRange(k)&&e.am.length>=S.skin.am.length&&e.pm.length>=S.skin.pm.length).length;
+  const sl=Object.keys(S.sleep).filter(inRange),mo=Object.keys(S.moods).filter(inRange);
+  const symDays=Object.keys(S.cycle.days).filter(k=>inRange(k)&&(S.cycle.days[k].sym||[]).length).length;
+  return{fit:fitE.length,fitMin:fitE.reduce((a,[,e])=>a+(e.min||0),0),med:med.length,medMin:med.reduce((a,x)=>a+x.min,0),skinFull,
+    sleepAvg:sl.length?sl.reduce((a,k)=>a+sHrs(S.sleep[k]),0)/sl.length:0,sleepN:sl.length,
+    moodAvg:mo.length?mo.reduce((a,k)=>a+moodScore(S.moods[k].m),0)/mo.length:0,moodN:mo.length,symDays}}
+const num1=v=>v.toFixed(1).replace('.',',');
+function trackerTodayCard(){
+  const plan=S.fitness.plan[wd(now())],f=S.fitness.log[TODAY],m=S.moods[TODAY],lg=S.skin.log[TODAY]||{am:[],pm:[]},sk=S.skin.am.length+S.skin.pm.length;
+  const medToday=S.med.filter(x=>x.date===TODAY).reduce((a,x)=>a+x.min,0),sl=S.sleep[TODAY],sym=((S.cycle.days[TODAY]||{}).sym||[]).length;
+  const items=[
+   ['dumbbell','#E39A6C','Edzés',plan==='Pihenő'?'Pihenőnap':f&&f.done?`Kész · ${f.min} perc`:plan,'fitness',!!(f&&f.done)||plan==='Pihenő'],
+   ['smile','#6FAE7B','Hangulat',m?MOODS[m.m].e+' '+MOODS[m.m].n:'Még nincs','journal',!!m],
+   ['lotus','#D3A55A','Meditáció',medToday?`${medToday} perc`:'Még nincs','meditation',medToday>0],
+   ['plant','#D9809A','Bőrápolás',`${lg.am.length+lg.pm.length}/${sk} lépés`,'skin',lg.am.length+lg.pm.length>=sk],
+   ['moon','#6E9CCB','Alvás',sl?num1(sHrs(sl))+' óra':'Még nincs','sleep',!!sl],
+   ['shield','#6E9CCB','Tünetek',sym?`${sym} rögzítve`:'Nincs','symptoms',true]];
+  const done=items.filter(x=>x[5]).length;
+  return`<section class="card trk-card" aria-label="Szokáskövető ma"><div class="row"><div class="grow"><div class="eyebrow">Szokáskövető · ma</div><b style="color:var(--ink);font-size:16px">${done}/${items.length} rendben</b></div><button class="link" data-a="tab" data-t="habits">Megnyitás</button></div>
+   <div class="trk-grid">${items.map(([i,c,n,v,s,ok])=>`<button class="trk ${ok?'ok':''}" style="--c:${c}" data-a="go" data-s="${s}"><span class="trk-ic">${ic(i,18)}</span><span class="trk-t"><small>${n}</small><b>${v}</b></span></button>`).join('')}</div></section>`}
+function trackerStats(N){
+  const t=trackerSummary(N);
+  const cell=(i,c,v,l)=>`<div class="trk-kpi" style="--c:${c}"><span class="trk-ic">${ic(i,16)}</span><b>${v}</b><small>${l}</small></div>`;
+  return`<section class="card"><div class="row"><b class="grow" style="color:var(--ink)">Szokáskövető · ${N} nap</b><button class="link" data-a="tab" data-t="habits">Megnyitás</button></div>
+   <div class="trk-kpis">${cell('dumbbell','#E39A6C',t.fit,`edzés · ${t.fitMin} perc`)}${cell('lotus','#D3A55A',t.medMin,`perc meditáció · ${t.med} alkalom`)}${cell('plant','#D9809A',t.skinFull,'nap teljes bőrápolás')}${cell('moon','#6E9CCB',t.sleepN?num1(t.sleepAvg):'–','óra átlagos alvás')}${cell('smile','#6FAE7B',t.moodN?num1(t.moodAvg):'–','átlagos hangulat (1–5)')}${cell('shield','#6E9CCB',t.symDays,'nap tünetekkel')}</div></section>`}/* ───────── Követők: edzés, tünet, bőrápolás, meditáció, kapcsolatok, terápia, alvás ───────── */
 const backBtn=()=>`<button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button>`;
 const subTop=(t,extra='')=>`<div class="top">${backBtn()}<h1 class="grow">${t}</h1>${extra}</div>`;
 /* Navigációs előzmény: minden fül- és menüváltás ide kerül, a Vissza gomb innen lép vissza */
@@ -1235,7 +1279,7 @@ function markHabit(name){const h=S.habits.find(x=>x.name===name);if(h&&!isDone(h
 const ICHU={drop:'csepp',pill:'tabletta',dumbbell:'súlyzó',book:'könyv',lotus:'lótusz',pen:'toll',sparkle:'csillogás',moon:'hold',leaf:'levél',heart:'szív',sun:'nap',star:'csillag',cup:'csésze',home:'otthon',coin:'érme',phone:'telefon',palette:'paletta',globe:'földgömb',apple:'alma',bike:'kerékpár',steps:'lábnyom',music:'zene',headphones:'fejhallgató',bath:'fürdőkád',bed:'ágy',paw:'mancs',gift:'ajándék',flower:'virág',sprout:'csíra',target:'célpont',calendar:'naptár',bell:'csengő',chat:'beszélgetés',flame:'láng',journal:'napló',smile:'mosoly'};
 const COLHU={lav:'levendula',rose:'rózsa',peach:'barack',mint:'menta',gold:'arany',sky:'égkék',orchid:'orchidea',coral:'korall',sage:'zsálya',aqua:'akvamarin',lemon:'citrom',sand:'homok'};
 const habitsHead=()=>`<div class="top">${backBtn()}<h1 class="grow">Szokásaim</h1><button class="iconbtn" data-a="go" data-s="library" aria-label="Szokástár">${ic('book')}</button><button class="iconbtn" data-a="editHabit" aria-label="Új szokás">${ic('plus')}</button></div>
-  <div class="seg wide">${[['list','Lista'],['bujo','Havi szokáskövető'],['track','Követők']].map(([v,n])=>`<button class="${(S.ui.hv||'list')===v?'on':''}" data-a="hv" data-v="${v}">${n}</button>`).join('')}</div>`;
+  <div class="seg wide">${[['track','Szokáskövető'],['list','Lista'],['bujo','Havi nézet']].map(([v,n])=>`<button class="${(S.ui.hv||'track')===v?'on':''}" data-a="hv" data-v="${v}">${n}</button>`).join('')}</div>`;
 /* Színes menüsor (Követők a Szokások alatt, Fejlődés és beállítások az Én alatt) */
 const menuRow=([i,n,col,g,meta])=>`<button class="mrow" style="--c:${col}" data-a="${g.startsWith('tab:')?'tab':'go'}" ${g.startsWith('tab:')?`data-t="${g.slice(4)}"`:`data-s="${g}"`}>${ic(i,26)}<span class="grow">${n}</span>${meta?`<small>${meta}</small>`:''}</button>`;
 function trackersView(){
@@ -1251,7 +1295,7 @@ function trackersView(){
    ['user','Kapcsolatok és születésnapok','#6FAE7B','contacts',nb?`${esc(nb.name)} · ${nb.n===0?'ma':nb.n+' nap'}`:''],
    ['chat','Terápia','#9C86D6','therapy',S.therapy.next&&dayDiff(S.therapy.next,TODAY)>=0?fmt(S.therapy.next,{month:'short',day:'numeric'}):''],
    ['moon','Alvás és álomnapló','#6E9CCB','sleep',sl?sHrs(sl).toFixed(1).replace('.',',')+' óra':'']];
-  return`<p class="muted">A szokásaidhoz kapcsolódó követők. Ha itt rögzítesz valamit (például edzést, meditációt vagy bőrápolást), a hozzá tartozó szokás is kipipálódik.</p><nav class="mlist" aria-label="Követők">${T.map(menuRow).join('')}</nav>`}
+  return`<p class="muted">A Bloomly szíve: innen indul minden. Amit itt rögzítesz, az összesítőkben, a statisztikákban és a kertedben is megjelenik.</p><nav class="mlist" aria-label="Szokáskövető">${T.map(menuRow).join('')}</nav>`}
 /* Bullet journal stílusú havi szokáskövető: napok felül, szokások a bal oldalon (rögzített oszlop) */
 function bujoView(){
   const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),Y=b.getFullYear(),M=b.getMonth(),dim=new Date(Y,M+1,0).getDate(),hs=S.habits;
@@ -1399,6 +1443,7 @@ function contactSheet(){const c=draft;openSheet(`<h2>${c.id?'Kapcsolat szerkeszt
   <div class="btns">${c.id?`<button class="btn danger" data-a="delContact">Törlés</button>`:''}<button class="btn" data-a="saveContact">Mentés</button></div>`)}
 function readContact(){const n=$('#cn'),b=$('#cb'),no=$('#cno');if(n)draft.name=n.value;if(no)draft.note=no.value;if(b&&b.value){const y=+b.value.slice(0,4);draft.bday=b.value.slice(5);draft.year=y===2000&&!draft.year?null:y}}
 const EXTRA_A={
+ habitsList(){S.ui.hv='list';if(S.ui.tab==='habits'&&!S.ui.sub){render(true);return}A.tab({dataset:{t:'habits',keep:'1'}})},
  newCat(){syncDraft();draft.newCat=!draft.newCat;habitSheet();if(draft.newCat)setTimeout(()=>{const i=$('#hcat');if(i)i.focus()},60)},
  addCat(){syncDraft();const i=$('#hcat'),v=(i&&i.value||'').trim().replace(/\s+/g,' ');if(!v){toast('Írd be az új kategória nevét');return}
   S.customCats=S.customCats||[];const exists=[...CATS,...S.customCats].find(c=>c.toLowerCase()===v.toLowerCase());
@@ -1630,7 +1675,7 @@ function seedVision(){S.vision=[
 
 /* ───────── Események ───────── */
 const A={
- tab(el){const t=el.dataset.t;if(t===S.ui.tab&&!S.ui.sub)return;pushNav();S.ui.tab=t;S.ui.sub=null;save();render()},
+ tab(el){const t=el.dataset.t;if(t===S.ui.tab&&!S.ui.sub)return;pushNav();S.ui.tab=t;S.ui.sub=null;if(t==='habits'&&!el.dataset.keep)S.ui.hv='track';save();render()},
  go(el){closeSheet();if(el.dataset.s===S.ui.sub)return;pushNav();S.ui.sub=el.dataset.s;render()},
  back(){closeSheet();const p=NAV.pop();if(p){S.ui.tab=p.tab;S.ui.sub=p.sub}else if(S.ui.sub)S.ui.sub=null;else S.ui.tab='home';save();render()},
  toggle(el){const id=el.dataset.id,k=TODAY;S.log[k]=S.log[k]||[];const was=S.log[k].includes(id);
