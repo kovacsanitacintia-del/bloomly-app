@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031222549">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031222549">
+<meta name="bloomly-version" content="20261031222956">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031222956">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -160,6 +160,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 
 .seg{display:flex;background:var(--bg2);border-radius:16px;padding:4px;gap:4px}
 .seg button{flex:1;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:600;color:var(--text2);transition:all .3s var(--ease)}
+.seg.wide button{flex:auto;padding-inline:10px;white-space:nowrap}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 4px 12px -8px rgba(80,60,120,.5)}
 .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .chips::-webkit-scrollbar{display:none}
@@ -1069,6 +1070,7 @@ home(){
 },
 habits(){
   if(S.ui.hv==='bujo')return habitsHead()+bujoView();
+  if(S.ui.hv==='track')return habitsHead()+trackersView();
   if(!['Mind','Napi','Heti','Havi','Éves'].includes(S.ui.hf))S.ui.hf='Mind';
   const f=S.ui.hf;const list=S.habits.filter(h=>f==='Mind'||(f==='Napi'&&h.freq==='daily')||(f==='Heti'&&h.freq==='weekly')||(f==='Havi'&&h.freq==='monthly')||(f==='Éves'&&h.freq==='yearly')||h.cat===f);
   return`${habitsHead()}
@@ -1120,24 +1122,9 @@ cycle(){
 },
 me(){
   const lv=level(),b=allBadges().filter(x=>x.got).length;
-  const dh=todays().filter(h=>!isT(h)),c=S.cycleOn&&cycInfo(),sd=S.cycle.days[TODAY],sl=S.sleep[TODAY]||S.sleep[keyOf(addDays(now(),-1))];
-  const lg=S.skin.log[TODAY]||{am:[],pm:[]},nb=S.contacts.map(x=>({...x,...nextB(x)})).sort((a,b)=>a.n-b.n)[0],medw=S.med.filter(x=>dayDiff(TODAY,x.date)<7).reduce((a,x)=>a+x.min,0);
-  const T=[
-   ['heart','Szokások és rutin','#D9809A','tab:habits',`${dh.filter(h=>isDone(h,TODAY)).length}/${dh.length} ma`],
-   ['dumbbell','Edzéstervező','#E39A6C','fitness',S.fitness.plan[wd(now())]],
-   ['smile','Hangulatkövető','#6FAE7B','journal',S.moods[TODAY]?MOODS[S.moods[TODAY].m].e+' '+MOODS[S.moods[TODAY].m].n:''],
-   ['calDrop','Ciklus­követő','#9C86D6','tab:cycle',c?`${c.day}. nap`:'Kikapcsolva'],
-   ['shield','Tünetkövető','#6E9CCB','symptoms',sd&&sd.sym&&sd.sym.length?`${sd.sym.length} tünet ma`:''],
-   ['plant','Bőrápolás','#D9809A','skin',`${lg.am.length+lg.pm.length}/${S.skin.am.length+S.skin.pm.length} lépés`],
-   ['lotus','Meditáció','#D3A55A','meditation',medw?`${medw} perc a héten`:''],
-   ['user','Kapcsolatok és születésnapok','#6FAE7B','contacts',nb?`${esc(nb.name)} · ${nb.n===0?'ma':nb.n+' nap'}`:''],
-   ['chat','Terápia','#9C86D6','therapy',S.therapy.next&&dayDiff(S.therapy.next,TODAY)>=0?fmt(S.therapy.next,{month:'short',day:'numeric'}):''],
-   ['moon','Alvás és álomnapló','#6E9CCB','sleep',sl?sHrs(sl).toFixed(1).replace('.',',')+' óra':'']];
   const T2=[['chart','Statisztikák','#6FAE7B','stats',''],['image','Vision Board','#E39A6C','vision',`${S.vision.length} elem`],['medal','Jelvények','#D3A55A','badges',`${b} megszerezve`],['bell','Értesítések','#D9809A','notifs',''],['gear','Beállítások','#6E9CCB','settings','']];
-  const row=([i,n,col,g,meta])=>`<button class="mrow" style="--c:${col}" data-a="${g.startsWith('tab:')?'tab':'go'}" ${g.startsWith('tab:')?`data-t="${g.slice(4)}"`:`data-s="${g}"`}>${ic(i,26)}<span class="grow">${n}</span>${meta?`<small>${meta}</small>`:''}</button>`;
   return`<div class="top">${backBtn()}<h1 class="grow">Profilom</h1></div><section class="glass" style="padding:22px;display:flex;align-items:center;gap:16px"><span class="avatar" style="width:64px;height:64px;font-size:26px">${esc(S.name[0]||'B')}</span><div class="grow"><h1 style="font-size:24px">${esc(S.name)}</h1><div class="muted">${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom</div><div class="muted">Fő célod: ${esc(S.goal)}</div></div></section>
-  <div class="eyebrow">Követőim</div><nav class="mlist" aria-label="Követők">${T.map(row).join('')}</nav>
-  <div class="eyebrow" style="margin-top:6px">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(row).join('')}</nav>`
+  <div class="eyebrow">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(menuRow).join('')}</nav>`
 },
 journal(){
   const t=S.ui.jt;
@@ -1246,7 +1233,23 @@ function markHabit(name){const h=S.habits.find(x=>x.name===name);if(h&&!isDone(h
 const ICHU={drop:'csepp',pill:'tabletta',dumbbell:'súlyzó',book:'könyv',lotus:'lótusz',pen:'toll',sparkle:'csillogás',moon:'hold',leaf:'levél',heart:'szív',sun:'nap',star:'csillag',cup:'csésze',home:'otthon',coin:'érme',phone:'telefon',palette:'paletta',globe:'földgömb',apple:'alma',bike:'kerékpár',steps:'lábnyom',music:'zene',headphones:'fejhallgató',bath:'fürdőkád',bed:'ágy',paw:'mancs',gift:'ajándék',flower:'virág',sprout:'csíra',target:'célpont',calendar:'naptár',bell:'csengő',chat:'beszélgetés',flame:'láng',journal:'napló',smile:'mosoly'};
 const COLHU={lav:'levendula',rose:'rózsa',peach:'barack',mint:'menta',gold:'arany',sky:'égkék',orchid:'orchidea',coral:'korall',sage:'zsálya',aqua:'akvamarin',lemon:'citrom',sand:'homok'};
 const habitsHead=()=>`<div class="top">${backBtn()}<h1 class="grow">Szokásaim</h1><button class="iconbtn" data-a="go" data-s="library" aria-label="Szokástár">${ic('book')}</button><button class="iconbtn" data-a="editHabit" aria-label="Új szokás">${ic('plus')}</button></div>
-  <div class="seg">${[['list','Lista'],['bujo','Havi szokáskövető']].map(([v,n])=>`<button class="${(S.ui.hv||'list')===v?'on':''}" data-a="hv" data-v="${v}">${n}</button>`).join('')}</div>`;
+  <div class="seg wide">${[['list','Lista'],['bujo','Havi szokáskövető'],['track','Követők']].map(([v,n])=>`<button class="${(S.ui.hv||'list')===v?'on':''}" data-a="hv" data-v="${v}">${n}</button>`).join('')}</div>`;
+/* Színes menüsor (Követők a Szokások alatt, Fejlődés és beállítások az Én alatt) */
+const menuRow=([i,n,col,g,meta])=>`<button class="mrow" style="--c:${col}" data-a="${g.startsWith('tab:')?'tab':'go'}" ${g.startsWith('tab:')?`data-t="${g.slice(4)}"`:`data-s="${g}"`}>${ic(i,26)}<span class="grow">${n}</span>${meta?`<small>${meta}</small>`:''}</button>`;
+function trackersView(){
+  const c=S.cycleOn&&cycInfo(),sd=S.cycle.days[TODAY],sl=S.sleep[TODAY]||S.sleep[keyOf(addDays(now(),-1))];
+  const lg=S.skin.log[TODAY]||{am:[],pm:[]},nb=S.contacts.map(x=>({...x,...nextB(x)})).sort((a,b)=>a.n-b.n)[0],medw=S.med.filter(x=>dayDiff(TODAY,x.date)<7).reduce((a,x)=>a+x.min,0);
+  const T=[
+   ['dumbbell','Edzéstervező','#E39A6C','fitness',S.fitness.plan[wd(now())]],
+   ['smile','Hangulatkövető','#6FAE7B','journal',S.moods[TODAY]?MOODS[S.moods[TODAY].m].e+' '+MOODS[S.moods[TODAY].m].n:''],
+   ['calDrop','Ciklus­követő','#9C86D6','tab:cycle',c?`${c.day}. nap`:'Kikapcsolva'],
+   ['shield','Tünetkövető','#6E9CCB','symptoms',sd&&sd.sym&&sd.sym.length?`${sd.sym.length} tünet ma`:''],
+   ['plant','Bőrápolás','#D9809A','skin',`${lg.am.length+lg.pm.length}/${S.skin.am.length+S.skin.pm.length} lépés`],
+   ['lotus','Meditáció','#D3A55A','meditation',medw?`${medw} perc a héten`:''],
+   ['user','Kapcsolatok és születésnapok','#6FAE7B','contacts',nb?`${esc(nb.name)} · ${nb.n===0?'ma':nb.n+' nap'}`:''],
+   ['chat','Terápia','#9C86D6','therapy',S.therapy.next&&dayDiff(S.therapy.next,TODAY)>=0?fmt(S.therapy.next,{month:'short',day:'numeric'}):''],
+   ['moon','Alvás és álomnapló','#6E9CCB','sleep',sl?sHrs(sl).toFixed(1).replace('.',',')+' óra':'']];
+  return`<p class="muted">A szokásaidhoz kapcsolódó követők. Ha itt rögzítesz valamit (például edzést, meditációt vagy bőrápolást), a hozzá tartozó szokás is kipipálódik.</p><nav class="mlist" aria-label="Követők">${T.map(menuRow).join('')}</nav>`}
 /* Bullet journal stílusú havi szokáskövető: napok felül, szokások a bal oldalon (rögzített oszlop) */
 function bujoView(){
   const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),Y=b.getFullYear(),M=b.getMonth(),dim=new Date(Y,M+1,0).getDate(),hs=S.habits;
