@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031215127">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031215127">
+<meta name="bloomly-version" content="20261031215618">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031215618">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,9 +98,9 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .checkin{padding:20px;background:linear-gradient(150deg,color-mix(in srgb,var(--lav) 55%,var(--card)),color-mix(in srgb,var(--peach) 50%,var(--card)));border-radius:28px;box-shadow:var(--shadow);color:var(--on-pastel);position:relative;overflow:hidden}
 .checkin h3{font-size:22px;color:var(--on-pastel);font-weight:600}
 .checkin p{opacity:.8;font-size:13.5px;margin-top:4px}
-.moods{display:flex;justify-content:space-between;gap:6px;margin-top:16px}
-.mood-b{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px;border-radius:18px;background:rgba(255,255,255,.55);font-size:11px;color:var(--on-pastel);transition:transform .3s var(--ease),background .3s}
-.mood-b .e{font-size:24px;line-height:1}
+.moods{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:16px}
+.mood-b{min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border-radius:16px;background:rgba(255,255,255,.55);font-size:10.5px;line-height:1.15;text-align:center;color:var(--on-pastel);transition:transform .3s var(--ease),background .3s}
+.mood-b .e{font-size:22px;line-height:1}
 .mood-b:hover{transform:translateY(-3px)}
 .mood-b.on{background:#fff;box-shadow:0 8px 20px -10px rgba(80,60,120,.5);transform:translateY(-3px)}
 .moods.plain .mood-b{background:var(--bg2);color:var(--text)}
@@ -370,9 +370,9 @@ textarea.inp{min-height:92px;resize:vertical}
 .ob-tip{animation:screenIn .6s var(--ease) backwards}
 .ob-phases{display:flex;gap:6px}
 .ob-phases span{flex:1;text-align:center;padding:8px 2px;border-radius:12px;font-size:11.5px;font-weight:700;color:var(--on-pastel)}
-.mood-big{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
-.mood-big button{padding:14px 2px;border-radius:20px;background:var(--glass);border:1.5px solid var(--glass-line);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--ink);min-width:0;transition:transform .35s var(--ease),background .3s,border-color .3s}
-.mood-big .e{font-size:30px;line-height:1;transition:transform .35s var(--ease)}
+.mood-big{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.mood-big button{padding:14px 2px;border-radius:20px;background:var(--glass);border:1.5px solid var(--glass-line);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10.5px;line-height:1.15;text-align:center;font-weight:600;color:var(--ink);min-width:0;transition:transform .35s var(--ease),background .3s,border-color .3s}
+.mood-big .e{font-size:27px;line-height:1;transition:transform .35s var(--ease)}
 .mood-big button:hover .e{transform:scale(1.12)}
 .mood-big button.on{transform:translateY(-4px);border-color:var(--lav);background:var(--lav-soft)}
 .mood-big button.on .e{transform:scale(1.15)}
@@ -652,8 +652,11 @@ const lotusMark=()=>`<g transform="translate(0 5)">${LOTUS_PETALS.map(([d,f])=>`
 const LOTUS=(id='lg')=>`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lotus-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBF1F4"/><stop offset="1" stop-color="#E6D9F0"/></linearGradient></defs><rect width="120" height="120" rx="30" fill="url(#lotus-${id})"/><rect x=".5" y=".5" width="119" height="119" rx="29.5" fill="none" stroke="#fff" stroke-opacity=".8"/>${lotusMark()}</svg>`;
 
 const COLORS={lav:'#CBB7F7',rose:'#F5D3DC',peach:'#FFD6C2',mint:'#CDECCF',gold:'#E9D6A7',sky:'#CFE2F6'};
-const MOODS=[{e:'😊',n:'Boldog'},{e:'😌',n:'Nyugodt'},{e:'😐',n:'Semleges'},{e:'😔',n:'Szomorú'},{e:'😫',n:'Stresszes'}];
-const moodScore=m=>5-m;
+/* 15 hangulat. Az első öt sorrendje rögzített (a korábbi bejegyzések ezekre hivatkoznak), s = 1–5 pontszám az elemzésekhez */
+const MOODS=[{e:'😊',n:'Boldog',s:5},{e:'😌',n:'Nyugodt',s:4},{e:'😐',n:'Semleges',s:3},{e:'😔',n:'Szomorú',s:2},{e:'😫',n:'Stresszes',s:1},
+ {e:'🤩',n:'Lelkes',s:5},{e:'🥰',n:'Szerelmes',s:5},{e:'🥹',n:'Hálás',s:5},{e:'😎',n:'Magabiztos',s:4},{e:'🤗',n:'Szeretett',s:4},
+ {e:'🤔',n:'Töprengő',s:3},{e:'😴',n:'Fáradt',s:2},{e:'🥺',n:'Magányos',s:2},{e:'😟',n:'Szorongó',s:1},{e:'😠',n:'Dühös',s:1}];
+const moodScore=m=>(MOODS[m]||MOODS[2]).s;
 const CATS=['Egészség','Táplálkozás','Mozgás','Nyugalom','Tudatosság','Alvás','Szépség','Önszeretet','Otthon','Pénzügyek','Tanulás','Kreativitás','Kapcsolatok','Digitális egyensúly'];
 /* Szokástár: bullet journal szokáskövetőkből ismert ötletek, kategóriánként */
 const L=(name,icon,color,cat,note,freq='daily',x={})=>({name,icon,color,cat,note,freq,...x});
@@ -969,12 +972,12 @@ journal(){
   const tabs=`<div class="seg">${[['mood','Hangulat'],['am','Reggelek'],['pm','Esték']].map(([v,n])=>`<button class="${t===v?'on':''}" data-a="jt" data-v="${v}">${n}</button>`).join('')}</div>`;
   let body='';
   if(t==='mood'){const m=S.moods[TODAY];const N=S.ui.seg==='week'?7:30;const vals=[...Array(N)].map((_,i)=>{const k=keyOf(addDays(now(),i-N+1));return{k,v:S.moods[k]?moodScore(S.moods[k].m):null}});
-   const dist=[0,0,0,0,0];Object.keys(S.moods).filter(k=>dayDiff(TODAY,k)<N).forEach(k=>dist[S.moods[k].m]++);const tot=dist.reduce((a,b)=>a+b,0)||1;
+   const dist=MOODS.map(()=>0);Object.keys(S.moods).filter(k=>dayDiff(TODAY,k)<N).forEach(k=>dist[S.moods[k].m]++);const tot=dist.reduce((a,b)=>a+b,0)||1;
    const avg=vals.filter(v=>v.v).reduce((a,b)=>a+b.v,0)/(vals.filter(v=>v.v).length||1);
    body=`<section class="card"><div class="lbl">Mai hangulat</div><div class="moods plain" style="margin-top:10px">${MOODS.map((x,i)=>`<button class="mood-b ${m&&m.m===i?'on':''}" data-a="setMood" data-m="${i}"><span class="e">${x.e}</span>${x.n}</button>`).join('')}</div><div class="field"><label for="mnote">Jegyzet</label><textarea class="inp" id="mnote" placeholder="Mi alakította ma a hangulatodat?">${esc(m&&m.note)}</textarea></div><button class="btn block" style="margin-top:12px" data-a="saveMoodNote">Jegyzet mentése</button></section>
    <div class="row"><h2 class="grow" style="font-size:20px">Hangulat trend</h2><div class="seg" style="width:170px"><button class="${S.ui.seg==='week'?'on':''}" data-a="mseg" data-v="week">Heti</button><button class="${S.ui.seg==='month'?'on':''}" data-a="mseg" data-v="month">Havi</button></div></div>
    <section class="card chart">${moodChart(vals)}<p class="muted" style="margin-top:10px">Átlag: <b style="color:var(--ink)">${MOODS[Math.max(0,Math.min(4,5-Math.round(avg)))].e} ${avg.toFixed(1)}/5</b> az elmúlt ${N} napban</p></section>
-   <section class="card"><div class="lbl">Megoszlás</div><div class="cons" style="margin-top:12px">${MOODS.map((x,i)=>`<div class="row"><span style="width:26px;font-size:18px">${x.e}</span><span style="width:74px;font-size:13px">${x.n}</span><div class="bar grow"><i style="width:${dist[i]/tot*100}%"></i></div><span class="muted" style="width:30px;text-align:right">${dist[i]}</span></div>`).join('')}</div></section>`}
+   <section class="card"><div class="lbl">Megoszlás</div><div class="cons" style="margin-top:12px">${MOODS.map((x,i)=>({...x,i})).filter(x=>dist[x.i]).sort((a,b)=>dist[b.i]-dist[a.i]).map(x=>`<div class="row"><span style="width:26px;font-size:18px">${x.e}</span><span style="width:86px;font-size:13px">${x.n}</span><div class="bar grow"><i style="width:${dist[x.i]/tot*100}%"></i></div><span class="muted" style="width:30px;text-align:right">${dist[x.i]}</span></div>`).join('')||'<p class="muted">Még nincs bejegyzés ebben az időszakban.</p>'}</div></section>`}
   else{const src=t==='am'?S.checkins:S.reflections;const ks=Object.keys(src).sort().reverse();
    body=`<button class="btn block" data-a="${t==='am'?'openCheckin':'openReflect'}">${t==='am'?'Mai check-in':'Mai reflexió'}</button>`+(ks.length?ks.slice(0,30).map(k=>{const e=src[k];return`<article class="entry"><div class="row"><b class="grow" style="color:var(--ink);font-size:13px">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}</b>${t==='am'&&e.mood!=null?`<span>${MOODS[e.mood].e}</span>`:''}</div>${t==='am'?`<div><div class="q">Mai cél</div><p>${esc(e.goal)}</p></div><div><div class="q">Hálás vagyok</div><p>${esc(e.grateful)}</p></div>`:`<div><div class="q">Amit teljesítettem</div><p>${esc(e.done)}</p></div><div><div class="q">Amire büszke vagyok</div><p>${esc(e.proud)}</p></div>`}</article>`}).join(''):`<div class="card empty-note">Még nincs bejegyzés.</div>`)}
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Hangulatnapló</h1></div>${tabs}${body}`
@@ -1355,7 +1358,9 @@ function lfPanel(id,sc){const a=AREAS.find(x=>x.id===id),v=sc[id];
 
 /* ───────── Onboarding: 12 képernyő ───────── */
 const OB_FLOWERS=[{id:'lav',n:'Levendula',col:'#CBB7F7'},{id:'tulip',n:'Tulipán',col:'#E9A8B8'},{id:'poppy',n:'Pipacs',col:'#FFC9B3'},{id:'daisy',n:'Margaréta',col:'#FFFFFF'}];
-const MOOD_REPLY=['Csodás! Vigyük tovább ezt a ragyogást.','Szép, kiegyensúlyozott állapot. Építsünk rá.','Teljesen rendben van. Kis lépésekkel indulunk.','Köszönjük, hogy megosztottad. Ma legyél különösen kedves magadhoz.','Érthető. A Bloomly abban is segít, hogy lassíts egy kicsit.'];
+const MOOD_REPLY=['Csodás! Vigyük tovább ezt a ragyogást.','Szép, kiegyensúlyozott állapot. Építsünk rá.','Teljesen rendben van. Kis lépésekkel indulunk.','Köszönjük, hogy megosztottad. Ma legyél különösen kedves magadhoz.','Érthető. A Bloomly abban is segít, hogy lassíts egy kicsit.',
+ 'Ez az energia aranyat ér. Tegyük olyan szokásokba, amik sokáig kitartanak.','Milyen szép érzés! Jusson belőle magadra is egy kis figyelem.','A hála a legszebb kezdet. Ma is lesz miért hálásnak lenned.','Bízol magadban, és ez meglátszik. Merj ma nagyot lépni.','Jó, hogy szeretet vesz körül. Engedd, hogy feltöltsön.',
+ 'A töprengés is érték. Egy kis naplóírás segíthet rendet tenni a gondolataidban.','A tested pihenést kér. Ma a kisebb lépések is számítanak.','Nem vagy egyedül. Egy rövid üzenet egy barátnak csodákra képes.','Lélegezz mélyet. Most semmi nem sürget, egyszerre csak egy dolog.','Rendben van dühösnek lenni. Egy kis mozgás vagy séta segíthet kiengedni.'];
 let ob;
 function newOb(){ob={step:0,dir:1,areas:[],goals:[],picks:[],picksInit:false,life:Object.fromEntries(AREAS.map(a=>[a.id,5])),lfs:null,lfAnim:true,cycle:true,last:'',clen:28,mood:null,nm:true,ne:true,mt:'07:30',et:'21:00',theme:S.theme||'system',name:S.onboarded?S.name:'',flower:'lav',planted:false,sample:false}}
 const flowerArt=(type,col,size)=>`<svg viewBox="-17 -41 34 44" width="${size}" height="${size}" aria-hidden="true">${flower(0,0,1,type,col,0,false)}</svg>`;
