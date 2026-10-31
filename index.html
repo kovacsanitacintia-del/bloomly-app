@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031220637">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220637">
+<meta name="bloomly-version" content="20261031221014">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221014">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -696,7 +696,69 @@ const TEMPLATES=[
  {name:'Korai lefekvés',icon:'moon',color:'lav',cat:'Alvás',freq:'daily',note:'22:30 előtt'},
  {name:'Egészséges étkezés',icon:'leaf',color:'mint',cat:'Egészség',freq:'weekly',target:5,note:'Heti 5 alkalom'}
 ];
-const QUOTES=['A kis lépések vezetnek a nagy eredményekhez.','Nem kell tökéletesnek lenned. A kitartás elég.','Minden nap egy új lehetőség virágozni.','Ami ma apró szokás, az holnap a természeted.','Légy olyan türelmes magaddal, mint egy kertész a magvaival.','A pihenés is része a növekedésnek.','Ma elég, ha csak egy dolgot megteszel magadért.','A gyökerek csendben nőnek, mielőtt a virág kinyílik.','Önmagadra figyelni nem önzés, hanem gondoskodás.','A változás nem egy nagy ugrás, hanem sok kis lépés.','Megérdemled azt a szeretetet, amit másoknak adsz.','Minden reggel újra eldöntheted, ki szeretnél lenni.','Lassan is lehet messzire jutni.','A hála ablakot nyit a jelenre.','A tested az otthonod. Bánj vele szeretettel.','Nem a tökéletes nap a cél, hanem a jelenlét.','Egy pohár víz, egy mély levegő, egy kedves gondolat. Így kezdődik.','A virág sem siet, mégis kinyílik.','Ma büszke lehetsz arra, hogy itt vagy.','Engedd el, ami nem a tiéd, és ápold, ami igen.','Minden kipipált szokás egy ígéret, amit betartottál magadnak.','A belső béke is gyakorlás kérdése.','Ragyogj a saját tempódban.','Ahol a figyelmed jár, ott nő a kerted.'];
+/* Napi inspiráció: minden nap egy új, gyengéd üzenet (az év napja szerint körbeforogva) */
+const QUOTES=[
+ 'Nem kell kiérdemelned a pihenést. Már azzal is elég vagy, hogy itt vagy.',
+ 'Lehet, hogy ma csak annyit tudsz, hogy felkelsz. Ez is bátorság.',
+ 'Azok a napok is számítanak, amikor senki sem látja, mennyit küzdöttél.',
+ 'A szíved már annyi mindent túlélt. Ezt a napot is el fogja bírni.',
+ 'Szabad lassabban haladnod. A virágok sem nyílnak egyszerre.',
+ 'Te is megérdemled azt a gyengédséget, amit olyan könnyen adsz másoknak.',
+ 'Nem vagy lemaradva. A saját utadon jársz, a saját tempódban.',
+ 'Ami ma nehéz, holnap talán már csak egy emlék, amiből erőt merítesz.',
+ 'Néha a legnagyobb lépés az, hogy kedvesen szólsz önmagadhoz.',
+ 'A sebeid nem gyengítenek. Azt mutatják, hogy éltél, és mégis itt maradtál.',
+ 'Engedd meg magadnak, hogy ne kelljen mindig erősnek lenned.',
+ 'A csendben is növekszel. A gyökerek is a sötétben erősödnek.',
+ 'Nem kell ma mindent megoldanod. Elég, ha egy kicsit jobban szereted magad.',
+ 'Valahol valaki hálát ad azért, hogy te létezel.',
+ 'A könnyeid nem kudarcok. Tisztára mossák az utat a következő lépéshez.',
+ 'Lehetsz egyszerre befejezetlen mű és csodálatos alkotás.',
+ 'Amikor nem tudod, hogyan tovább, csak a következő lélegzetre figyelj.',
+ 'A tested minden nap érted dolgozik. Ma köszönd meg neki.',
+ 'Nem a tökéletességed tesz szerethetővé, hanem az, hogy önmagad vagy.',
+ 'Elengedni nem feladás. Helyet teremtesz annak, ami érkezni szeretne.',
+ 'A fény mindig megtalálja az utat, még a legapróbb résen át is.',
+ 'Van benned valami, ami még nem bontakozott ki. Ez maga a remény.',
+ 'Kedvesnek lenni önmagadhoz nem önzés. Ez a gyógyulás kezdete.',
+ 'Azok az álmok, amelyeket még nem engedtél el, ma is rád várnak.',
+ 'Mindaz, amin keresztülmentél, erősebb és bölcsebb nővé formált.',
+ 'Megérdemled, hogy a saját életed főszereplője legyél.',
+ 'A nehéz napok nem tartanak örökké. Te viszont kitartasz.',
+ 'Néha a legszebb dolog, amit tehetsz, hogy egyszerűen jelen vagy.',
+ 'Az érzékenységed nem gyengeség. Ez a világ egyik legszebb ajándéka.',
+ 'A holnap tiszta lap, és a tollat te tartod a kezedben.',
+ 'Nézz ma szeretettel a tükörképedre. Ő mindvégig melletted volt.',
+ 'Minden apró lépés, amit ma megteszel, szeretetteljes üzenet a jövőbeli önmagadnak.',
+ 'Nem kell hangosnak lenned ahhoz, hogy erős légy.',
+ 'A legmélyebb gyökerekből nő a legszebb virág.',
+ 'Ha ma elfáradtál, pihenj meg. A kerted holnap is vár rád.',
+ 'A boldogság nem cél, hanem apró pillanatok, amelyeket észreveszel.',
+ 'Te vagy az otthon, ahová mindig hazatérhetsz.',
+ 'Ma is elég vagy. Holnap is az leszel.',
+ 'Az önszeretet nem egy nap alatt születik. Minden reggel újra választod.',
+ 'Egyszer visszanézel erre az időszakra, és büszke leszel, hogy nem adtad fel.',
+ 'A lelked is virág: fényre, vízre és türelemre van szüksége.',
+ 'Engedd, hogy a mai nap meglepjen valami széppel.',
+ 'Nem vagy egyedül azzal, amit érzel. Sokan járnak melletted csendben ugyanazon az úton.',
+ 'A változás ott kezdődik, ahol először megengeded magadnak, hogy többre vágyj.',
+ 'Ami neked szól, megtalál. Addig ápold azt, ami már a tiéd.',
+ 'Egy mély lélegzet, és újrakezdheted. Bármikor, bármennyiszer.',
+ 'A szívednek nem kell sietnie. A legszebb dolgok lassan bomlanak ki.',
+ 'Lehetsz valakinek a napsugara. Kezdd önmagaddal.',
+ 'Légy hálás a lányért, aki voltál, és kíváncsi a nőre, akivé válsz.',
+ 'A béke nem odakint vár. Akkor találsz rá, amikor befelé figyelsz.',
+ 'Nem a hibáid határoznak meg, hanem az, ahogyan újra felállsz.',
+ 'Ültess el ma egy gondolatot, amelyből holnap remény nő.',
+ 'Gyönyörű vagy akkor is, amikor nem érzed.',
+ 'A legkisebb kedvesség is gyógyít, különösen, ha önmagadnak adod.',
+ 'Minden napnak megvan a maga virága. Ma csak észre kell venned.',
+ 'Bízz az időzítésben. Ami most rügy, egyszer kinyílik.',
+ 'Jó helyen vagy ahhoz, hogy elkezdd. Pont itt, pont most.',
+ 'A legszebb kertek is magokkal kezdődtek, amelyekben valaki hitt.',
+ 'Gondolj ma szeretettel valakire, aki fontos neked. Aztán önmagadra is.',
+ 'Virágozz a magad módján. Nincs két egyforma szirom.'
+];
 const NOTIFS=['A kerted vár rád 🌸','Egyetlen szokás ma is közelebb visz a céljaidhoz.','Ne hagyd megszakadni a sorozatodat.','Ma is nyílik egy új virág a kertedben.','Szánj ma 2 percet a reggeli check-inre.','Mire voltál ma büszke? Az esti reflexió vár.'];
 const PHASES={
  men:{n:'Menstruáció',c:'#F7CBD6',d:'A tested most megújul. Lassíts, és adj magadnak több pihenést.',
