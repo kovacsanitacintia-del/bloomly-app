@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031221621">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221621">
+<meta name="bloomly-version" content="20261031221822">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221822">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -581,7 +581,6 @@ try{if(/BloomlyApp/.test(navigator.userAgent)||/[?&]app=1/.test(location.search)
   <div class="row"><span id="asideLogo"></span><span class="wm">BLOOMLY</span></div>
   <h2>Virágozz minden&nbsp;nap.</h2>
   <p>Interaktív prototípus. Pipálj ki szokásokat, rögzítsd a hangulatod, és nézd, ahogy a Bloom Kerted nő. Minden adat csak a te böngésződben tárolódik.</p>
-  <p style="margin-top:18px"><a href="terv.html">A teljes terméktervezési dokumentáció →</a></p>
 </aside>
 
 <div class="phone" id="phone">
@@ -1064,8 +1063,7 @@ me(){
   const row=([i,n,col,g,meta])=>`<button class="mrow" style="--c:${col}" data-a="${g.startsWith('tab:')?'tab':'go'}" ${g.startsWith('tab:')?`data-t="${g.slice(4)}"`:`data-s="${g}"`}>${ic(i,26)}<span class="grow">${n}</span>${meta?`<small>${meta}</small>`:''}</button>`;
   return`<div class="top">${backBtn()}<h1 class="grow">Profilom</h1></div><section class="glass" style="padding:22px;display:flex;align-items:center;gap:16px"><span class="avatar" style="width:64px;height:64px;font-size:26px">${esc(S.name[0]||'B')}</span><div class="grow"><h1 style="font-size:24px">${esc(S.name)}</h1><div class="muted">${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom</div><div class="muted">Fő célod: ${esc(S.goal)}</div></div></section>
   <div class="eyebrow">Követőim</div><nav class="mlist" aria-label="Követők">${T.map(row).join('')}</nav>
-  <div class="eyebrow" style="margin-top:6px">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(row).join('')}</nav>
-  <a class="card row" href="terv.html" style="text-decoration:none;color:inherit"><span style="width:44px;height:44px;flex:none">${LOTUS('me')}</span><div class="grow"><b style="color:var(--ink)">Terméktervezési dokumentáció</b><div class="muted">Architektúra, design rendszer, ütemterv</div></div>${ic('next',18)}</a>`
+  <div class="eyebrow" style="margin-top:6px">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(row).join('')}</nav>`
 },
 journal(){
   const t=S.ui.jt;
