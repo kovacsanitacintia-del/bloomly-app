@@ -88,7 +88,7 @@ code{font-size:12.5px;background:var(--bg2);padding:2px 6px;border-radius:6px;co
 <div class="layout">
 <nav class="toc" aria-label="Tartalomjegyzék">
   <div class="brand"><svg width="30" height="30" viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#A58BE6"/><g fill="#fff"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z"/></g><circle cx="60" cy="61" r="5" fill="#D4B373"/></svg>BLOOMLY</div>
-  <a href="#logo">Logó és ikon</a><a href="#arch">1. Architektúra</a><a href="#flows">2. Felhasználói útvonalak</a><a href="#screens">3. Képernyők</a><a href="#comp">4. Komponensek</a><a href="#color">5. Színrendszer</a><a href="#type">6. Tipográfia</a><a href="#icons">7. Ikonkészlet</a><a href="#db">8. Adatbázis</a><a href="#road">9. Ütemterv</a><a href="#visual">10. Prémium vizuál</a><a href="#market">11. Marketing</a><a href="#dash">12. Dashboardok</a><a href="#garden">13. Bloom Kert</a><a href="#onboarding">14. Onboarding 2.0</a>
+  <a href="#logo">Logó és ikon</a><a href="#arch">1. Architektúra</a><a href="#flows">2. Felhasználói útvonalak</a><a href="#screens">3. Képernyők</a><a href="#comp">4. Komponensek</a><a href="#color">5. Színrendszer</a><a href="#type">6. Tipográfia</a><a href="#icons">7. Ikonkészlet</a><a href="#db">8. Adatbázis</a><a href="#road">9. Ütemterv</a><a href="#visual">10. Prémium vizuál</a><a href="#market">11. Marketing</a><a href="#dash">12. Dashboardok</a><a href="#garden">13. Bloom Kert</a><a href="#onboarding">14. Onboarding 2.0</a><a href="#szokasok2">15. Szokások 2.0</a>
 </nav>
 <main>
 <button class="back" onclick="history.back()">← Vissza a prototípushoz</button>
@@ -396,7 +396,59 @@ code{font-size:12.5px;background:var(--bg2);padding:2px 6px;border-radius:6px;co
 <h3>Mérés</h3>
 <p>Fő mutató a befejezési arány (cél: 80% felett) és az első napi pipa aránya (cél: 60% felett). Lépésenkénti lemorzsolódást mérünk; ha egy lépés 8% felett veszít, azt egyszerűsítjük vagy kihagyhatóvá tesszük.</p>
 
-<p style="margin-top:48px" class="eyebrow">Bloomly · Virágozz minden nap.</p>
+<h2 id="szokasok2"><span class="num">15</span>Szokások 2.0: életterületek</h2>
+<p class="lead">A felhasználó nem funkciókat lát, hanem az élete nyolc fő területét. Minden szokás, követő és napló pontosan egy terület alá tartozik, így azonnal egyértelmű, hova kerül valami.</p>
+<div class="tbl"><table><thead><tr><th>Életterület</th><th>Követők és naplók</th><th>Jellemző szokások</th></tr></thead><tbody>
+<tr><td>🌿 Egészség</td><td>Edzéstervező, Alvás és álomnapló, Cikluskövetés, Tünetnapló, Testsúly</td><td>Vízivás, Vitaminok, Edzés, Egészséges étkezés, Testsúly mérése</td></tr>
+<tr><td>✨ Öngondoskodás</td><td>Reggeli rutin, Bőrápolás</td><td>Hajápolás, Énidő, Pihenés, Arcmaszk</td></tr>
+<tr><td>❤️ Kapcsolatok</td><td>Születésnapok és kapcsolatok</td><td>Családi telefon, Üzenet egy barátnak, Minőségi idő a pároddal, Közös program</td></tr>
+<tr><td>💼 Karrier</td><td>Napi fókusz, Célok és Vision Board</td><td>Munkahelyi cél lépése, Mélymunka blokk, Projektmunka, Heti tervezés</td></tr>
+<tr><td>📚 Tanulás</td><td>–</td><td>Olvasás, Nyelvtanulás, Online kurzus, Egy új dolog megtanulása</td></tr>
+<tr><td>💰 Pénzügyek</td><td>–</td><td>Kiadások vezetése, Megtakarítás, Pénzügyi célok áttekintése</td></tr>
+<tr><td>🎨 Hobbik</td><td>–</td><td>Rajzolás, Fotózás, Kézimunka, Kertészkedés</td></tr>
+<tr><td>🧘 Lelki egyensúly</td><td>Hangulatkövető, Meditáció, Hála napló, Naplóírás, Terápia, Légzőgyakorlatok</td><td>Meditáció, Hálanapló, Légzőgyakorlat, Telefonmentes reggel</td></tr>
+</tbody></table></div>
+<h3>1. A Szokások oldal felépítése</h3>
+<ul>
+<li><b>Fejléc:</b> vissza gomb, „Szokásaim” cím, jobbra a Szokástár (könyv) és az Új szokás (+) gomb.</li>
+<li><b>Nézetváltó:</b> Életterületek (alapértelmezett) · Összes szokás · Havi nézet. A Szokások fülre koppintva mindig az Életterületek nyílik.</li>
+<li><b>„Ma” kártya:</b> egy mondatban a nap állapota („3/7 teendő kész”), nagy százalék és színátmenetes sáv. A szokások és a napi követők együtt számítanak.</li>
+<li><b>Nyolc területkártya</b> 2×4-es rácsban: ikon a terület pasztell színében, név, „4 szokás · 5 követő”, mai haladás sávval és „2/3 ma” felirattal.</li>
+</ul>
+<h3>2. A kategóriák megjelenése</h3>
+<p>Minden terület saját pasztell színt kap (menta, rózsa, barack, arany, égkék, zsálya, orchidea, levendula). A kártya felülről lefelé halványuló színátmenetet, vékony színes keretet és lágy árnyékot kap; érintésre 3 pt-ot emelkedik. A szín végigkíséri a területet: a kategóriaképernyő fejléc-ikonján, a szerkesztő területválasztóján és a statisztika soraiban is.</p>
+<h3>3. A kategórián belüli képernyő</h3>
+<ol>
+<li><b>Fejléc:</b> a terület ikonja nagy színes csempén, név és egysoros leírás.</li>
+<li><b>Három mutató:</b> „2/3 szokás ma”, „94% elmúlt 7 nap”, „4 szokás összesen”.</li>
+<li><b>Követők és naplók:</b> színes menüsorok élő állapottal (például „8,8 óra”, „25. nap”, „Réka · 3 nap”).</li>
+<li><b>Szokások:</b> a terület szokásai, közvetlenül kipipálhatók; mellette „+ Új szokás”, amely a területet előre kiválasztja.</li>
+<li><b>Ajánlott szokások:</b> legfeljebb 5 ajánlat a szokástárból egy érintéses felvétellel.</li>
+<li><b>Elmúlt 7 nap:</b> oszlopdiagram a terület napi teljesítéséről.</li>
+</ol>
+<h3>4. Szokás létrehozása</h3>
+<ol>
+<li>Indítás három helyről: a terület képernyőjéről (a terület előre kiválasztva), a fejléc + gombjáról vagy a Szokástárból.</li>
+<li>Név (vagy sablon), majd ikon és szín.</li>
+<li><b>Életterület:</b> 8 nagy, színes választógomb (tableten egy sorban).</li>
+<li>Ismétlődés: Napi, Heti N×, Havi N×, Éves N×.</li>
+<li>Jegyzet („Miért fontos neked?”), majd Mentés. Visszajelzés: „Új szokás elültetve 🌱”.</li>
+</ol>
+<p>A Szokástár is a 8 terület szerint szűr és csoportosít.</p>
+<h3>5. Napi használat</h3>
+<div class="flow"><span>Kezdőlap: „Ma” állapot</span><em>→</em><span>Napi követők kártya</span><em>→</em><span>Szokások kipipálása</span><em>→</em><span>Szokások → terület</span><em>→</em><span>Követő vagy napló</span><em>→</em><span>Esti reflexió</span></div>
+<p>Reggel a check-in (Reggeli rutin, Napi fókusz), napközben a szokások és a követők, este a Naplóírás. Minden rögzítés virágot nevel a Bloom Kertben.</p>
+<h3>6. Statisztikák helye</h3>
+<ul>
+<li><b>Területen belül:</b> a három mutató és a 7 napos diagram, mert ott keresi az ember.</li>
+<li><b>Profilom → Statisztikák:</b> összesítő mutatók, „Követők és naplók” időszakos összesítő, és az új <b>„Életterületek”</b> lista, ahol mind a 8 terület teljesítési aránya egymás alatt látszik; egy sorra koppintva a terület nyílik meg.</li>
+</ul>
+<h3>7. Mobil és tablet</h3>
+<ul>
+<li><b>Mobil:</b> 2 oszlopos területkártyák, legalább 44 pt-os érintési felületek, minden fontos művelet hüvelykujjal elérhető; a + gomb lebeg.</li>
+<li><b>Tablet (700 pt-tól):</b> 4 oszlopos területkártyák, a szerkesztő területválasztója egy sorban, a szokások két oszlopban, a lapok középre igazítva.</li>
+<li><b>Mindkettőn:</b> a vissza gomb és az Android vissza gombja is a megelőző képernyőre lép; a mozgás a rendszer „Mozgás csökkentése” beállítását követi.</li>
+</ul><p style="margin-top:48px" class="eyebrow">Bloomly · Virágozz minden nap.</p>
 </main>
 </div>
 <script>
