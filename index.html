@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031214744">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031214744">
+<meta name="bloomly-version" content="20261031215127">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031215127">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -948,7 +948,6 @@ me(){
   const lg=S.skin.log[TODAY]||{am:[],pm:[]},nb=S.contacts.map(x=>({...x,...nextB(x)})).sort((a,b)=>a.n-b.n)[0],medw=S.med.filter(x=>dayDiff(TODAY,x.date)<7).reduce((a,x)=>a+x.min,0);
   const T=[
    ['heart','Szokások és rutin','#D9809A','tab:habits',`${dh.filter(h=>isDone(h,TODAY)).length}/${dh.length} ma`],
-   ['flower','Életvirág','#B48FD9','life',`${lfAvg(S.life.scores)} / 10`],
    ['dumbbell','Edzéstervező','#E39A6C','fitness',S.fitness.plan[wd(now())]],
    ['smile','Hangulatkövető','#6FAE7B','journal',S.moods[TODAY]?MOODS[S.moods[TODAY].m].e+' '+MOODS[S.moods[TODAY].m].n:''],
    ['calDrop','Ciklus­követő','#9C86D6','tab:cycle',c?`${c.day}. nap`:'Kikapcsolva'],
@@ -1365,12 +1364,12 @@ function demoGarden(){const pts=[[38,128,'lav','#CBB7F7'],[74,138,'bloom','#F5D3
   return`<svg viewBox="0 0 320 150" role="img" aria-label="Bemutató kert: a virágok egymás után kinyílnak"><defs><linearGradient id="obsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky1)"/><stop offset="1" style="stop-color:var(--sky2)"/></linearGradient></defs><rect width="320" height="150" fill="url(#obsky)"/><circle cx="270" cy="34" r="16" style="fill:var(--sun)" class="glow"/><path d="M0 100C70 76 140 84 200 94S290 80 320 90V150H0z" style="fill:var(--hill1)"/><path d="M0 116C90 100 170 110 240 106S300 104 320 108V150H0z" style="fill:var(--hill2)"/>`+pts.map(([x,y,t,c],i)=>`<g style="--d:${(.3+i*.2).toFixed(2)}s">${flower(x,y,1.3,t,c,i*.7,true)}</g>`).join('')+`</svg>`}
 function renderOb(dir){
   const prev=$('#ob .ob'),keep=dir==null&&prev?prev.scrollTop:0;if(dir!=null)ob.dir=dir;
-  const s=ob.step,N=12;let b='',cta='Tovább',ok=true,skip=false,sec='';
+  const s=ob.step,N=11,pos=s>4?s:s+1;let b='',cta='Tovább',ok=true,skip=false,sec='';
   const H=(eb,t,l)=>`<div class="eyebrow">${eb}</div><h1>${t}</h1>${l?`<p class="lead">${l}</p>`:''}`;
   const freq=t=>t.freq==='daily'?'naponta':t.freq==='weekly'?`heti ${t.target}×`:t.days.map(d=>WD[d]).join(', ');
-  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMLY</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomly világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('flower',14)} Életvirág</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
+  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMLY</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomly világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('cycle',14)} Ciklus</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
   if(s===1){ok=ob.areas.length>0;const card=(a,sm)=>{const on=ob.areas.includes(a.id);return`<button class="area ${sm?'sm':''} ${on?'on':''}" style="--ac:${a.c}" data-a="obArea" data-v="${a.id}" aria-pressed="${on}"${sm?` title="${AREAS.find(x=>x.id===a.p).n} szirom"`:''}><span class="tile">${ic(a.i,sm?18:20)}</span><b>${a.n}</b>${sm?'':`<small>${a.d}</small>`}<span class="tick">${ic('check',sm?11:13)}</span></button>`};
-    b=H('Fókusz','Miben szeretnél fejlődni?','Válaszd ki azokat a területeket, amelyek most a legfontosabbak neked. Bármennyit választhatsz, és később is módosíthatod.')+`<div class="sec-h"><h2 style="font-size:16px">Az Életvirág nyolc szirma</h2><span class="muted">${AREAS.filter(a=>ob.areas.includes(a.id)).length}/8</span></div><div class="area-grid">${AREAS.map(a=>card(a)).join('')}</div>`;cta=ok?`Tovább · ${ob.areas.length} terület`:'Válassz legalább egy területet'}
+    b=H('Fókusz','Miben szeretnél fejlődni?','Válaszd ki azokat a területeket, amelyek most a legfontosabbak neked. Bármennyit választhatsz, és később is módosíthatod.')+`<div class="sec-h"><h2 style="font-size:16px">Életterületek</h2><span class="muted">${AREAS.filter(a=>ob.areas.includes(a.id)).length}/8</span></div><div class="area-grid">${AREAS.map(a=>card(a)).join('')}</div>`;cta=ok?`Tovább · ${ob.areas.length} terület`:'Válassz legalább egy területet'}
   if(s===2){const seenG=new Set(),opts=ALL_FOCUS.filter(a=>ob.areas.includes(a.id)).flatMap(a=>a.g.map(g=>({g,a}))).filter(o=>!seenG.has(o.g)&&seenG.add(o.g));ok=ob.goals.length>0;
     const goalBtn=(g,c,icn,sub)=>{const i=ob.goals.indexOf(g);return`<button class="opt goal ${i>=0?'on':''}" data-a="obGoal" data-v="${esc(g)}" aria-pressed="${i>=0}"><span class="tile" style="background:${c}">${ic(icn,18)}</span><div class="grow"><b>${esc(g)}</b><div class="muted">${sub}</div></div><span class="gnum">${i>=0?i+1:''}</span></button>`};
     b=H('Célok','Mit szeretnél elérni?','Válassz legfeljebb 3 célt a következő 90 napra. Ezek lesznek az iránytűid.')+`<div class="opts">${opts.map(({g,a})=>goalBtn(g,a.c,a.i,a.n)).join('')}${ob.goals.filter(g=>!opts.some(o=>o.g===g)).map(g=>goalBtn(g,'#E9D6A7','star','Saját cél')).join('')}</div>
@@ -1389,10 +1388,10 @@ function renderOb(dir){
   if(s===9){b=H('Személyre szabás','Tedd a magadévá','Hogyan szólíthatunk, és melyik hangulat illik hozzád?')+`<div class="field"><label for="obn">Keresztneved</label><input class="inp" id="obn" value="${esc(ob.name)}" placeholder="pl. Anna" maxlength="24" autocomplete="given-name"></div><div class="lbl" style="margin-top:18px">Téma</div><div class="theme-cards">${[['light','Levendula hajnal',['#FFFDFB','#CBB7F7','#F7E5EA','#CDECCF']],['dark','Éjszakai kert',['#1C1925','#B9A3EE','#3B2E3A','#3B5245']],['system','Automatikus',['linear-gradient(135deg,#FFFDFB 50%,#1C1925 50%)','#CBB7F7','#F7E5EA','#B9A3EE']]].map(([v,n,c])=>`<button class="tcard ${ob.theme===v?'on':''}" data-a="obTheme" data-v="${v}" aria-pressed="${ob.theme===v}"><span class="tprev" style="background:${c[0]}"><i style="background:${c[1]};width:72%"></i><i style="background:${c[2]}"></i><i style="background:${c[3]};width:55%"></i></span>${n}</button>`).join('')}</div>`}
   if(s===10){const f=OB_FLOWERS.find(x=>x.id===ob.flower);ok=ob.planted;b=H('Első virág','Ültesd el az első virágodat',ob.planted?'Gyönyörű. Ez a virág mindig a kerted közepén marad, emlékeztetőül arra, hogy itt kezdődött.':'Válassz egy virágot, majd tartsd lenyomva a gombot, amíg a mag a földbe kerül.')+`${ob.planted?'':`<div class="flower-pick">${OB_FLOWERS.map(x=>`<button class="fp ${ob.flower===x.id?'on':''}" data-a="obFlower" data-v="${x.id}" aria-pressed="${ob.flower===x.id}">${flowerArt(x.id,x.col,64)}${x.n}</button>`).join('')}</div>`}<div class="pot">${potArt(f,ob.planted)}</div>${ob.planted?`<div class="insight mood-reply">${ic('sparkle')}<p>Az első virágod kinyílt: <b>${f.n}</b></p></div>`:`<button class="plant-btn" id="plantBtn" aria-label="Tartsd lenyomva az ültetéshez, vagy nyomj Entert"><i></i><span>${ic('sprout',18)} Tartsd lenyomva az ültetéshez</span></button>`}`;cta=ok?'Tovább':'Előbb ültesd el a virágot'}
   if(s===11){const f=OB_FLOWERS.find(x=>x.id===ob.flower);b=`<div class="ob-hero"><div class="ob-final-flower">${flowerArt(f.id,f.col,120)}</div><h1>Kezdődhet a virágzás${ob.name.trim()?', '+esc(ob.name.trim()):''}</h1><p class="lead">Minden készen áll. Az első lépést már megtetted, a többit napról napra együtt visszük.</p></div>
-    <div class="sum-grid"><div class="kpi sum-lf">${lifeFlowerSVG(ob.life,null,false,true)}<div><b>${lfAvg(ob.life)}</b><small>Életvirág átlag</small></div></div><div class="kpi"><b>${ob.picks.length}</b><small>első szokás</small></div><div class="kpi"><b>${ob.goals.length}</b><small>cél 90 napra</small></div><div class="kpi"><b>${ob.areas.length}</b><small>fókuszterület</small></div></div>
+    <div class="sum-grid"><div class="kpi"><b>${f.n}</b><small>első virágod</small></div><div class="kpi"><b>${ob.picks.length}</b><small>első szokás</small></div><div class="kpi"><b>${ob.goals.length}</b><small>cél 90 napra</small></div><div class="kpi"><b>${ob.areas.length}</b><small>fókuszterület</small></div></div>
     <button class="opt ${ob.sample?'on':''}" data-a="obSample" role="switch" aria-checked="${ob.sample}"><span class="tile" style="background:var(--gold)">${ic('chart',18)}</span><div class="grow"><b>Bemutató előzmények</b><div class="muted">60 nap mintaadat, hogy azonnal lásd a statisztikákat</div></div><span class="switch ${ob.sample?'on':''}" aria-hidden="true"></span></button>`;cta='Belépés a kertembe'}
-  $('#ob').innerHTML=`<div class="ob" role="dialog" aria-modal="true" aria-label="Bevezető, ${s+1}. lépés a ${N}-ből">
-   <div class="ob-top">${s>0||S.onboarded?`<button class="iconbtn" data-a="obBack" aria-label="Vissza">${ic('back')}</button>`:'<span style="width:42px;flex:none"></span>'}<div class="ob-bar" role="progressbar" aria-valuemin="1" aria-valuemax="${N}" aria-valuenow="${s+1}"><i style="width:${(s+1)/N*100}%"></i></div><span class="ob-count">${s+1} / ${N}</span></div>
+  $('#ob').innerHTML=`<div class="ob" role="dialog" aria-modal="true" aria-label="Bevezető, ${pos}. lépés a ${N}-ből">
+   <div class="ob-top">${s>0||S.onboarded?`<button class="iconbtn" data-a="obBack" aria-label="Vissza">${ic('back')}</button>`:'<span style="width:42px;flex:none"></span>'}<div class="ob-bar" role="progressbar" aria-valuemin="1" aria-valuemax="${N}" aria-valuenow="${pos}"><i style="width:${pos/N*100}%"></i></div><span class="ob-count">${pos} / ${N}</span></div>
    <div class="body ${dir!=null?(ob.dir>0?'fwd':'bk'):''}">${b}</div>
    <div class="foot">${sec?`<button class="btn ghost" data-a="obSec">${sec}</button>`:''}<button class="btn grow" data-a="obNext" ${ok?'':'disabled'}>${cta}</button></div>
    ${s===0?`<button class="link ob-link" data-a="obSkip">Már ismerem, bemutatót kérek</button>`:''}${skip?`<button class="link ob-link" data-a="obSkipStep">Kihagyom ezt a lépést</button>`:''}</div>`;
@@ -1494,8 +1493,8 @@ const A={
  theme(el){S.theme=el.dataset.v;save();applyTheme();render(true)},
  restartOb(){newOb();renderOb(1)},
  reset(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Megerősítés';$('#resetMsg').textContent='Koppints újra a végleges törléshez.';return}try{localStorage.removeItem(SKEY)}catch(e){}S=seed();applyTheme();render();A.restartOb()},
- obNext(){readOb();if(ob.step===11){finishOb();return}ob.step++;renderOb(1);if(ob.step===11)setTimeout(()=>petalsFall(26),350)},
- obBack(){readOb();if(ob.step===0){if(S.onboarded)A.obClose();return}ob.step--;renderOb(-1)},
+ obNext(){readOb();if(ob.step===11){finishOb();return}ob.step++;if(ob.step===4)ob.step++;renderOb(1);if(ob.step===11)setTimeout(()=>petalsFall(26),350)},
+ obBack(){readOb();if(ob.step===0){if(S.onboarded)A.obClose();return}ob.step--;if(ob.step===4)ob.step--;renderOb(-1)},
  obSec(){readOb();if(ob.step===8){ob.nm=false;ob.ne=false}ob.step++;renderOb(1)},
  obSkipStep(){readOb();if(ob.step===6)ob.cycle=false;if(ob.step===7)ob.mood=null;ob.step++;renderOb(1)},
  obClose(){$('#ob').innerHTML='';applyTheme()},
