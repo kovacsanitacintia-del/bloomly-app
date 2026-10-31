@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="202610312047">
+<meta name="bloomly-version" content="20261031204828">
 <link rel="icon" type="image/png" href="bloomly-256.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1530,7 +1530,7 @@ document.addEventListener('mouseup',e=>{if(e.button===3){e.preventDefault();if($
    a GitHub Pages címen futó webes változat mindig a legfrissebb. */
 const UPD_BASE='https://kovacsanitacintia-del.github.io/bloomly-app/';
 const APP_VER=(document.querySelector('meta[name="bloomly-version"]')||{}).content||'';
-function verLabel(){const v=(window.BloomlyNative&&BloomlyNative.version&&BloomlyNative.version())||APP_VER;return /^\d{12}$/.test(v)?`Verzió: ${v.slice(0,4)}.${v.slice(4,6)}.${v.slice(6,8)}. ${v.slice(8,10)}:${v.slice(10)}`:'Fejlesztői változat'}
+function verLabel(){const v=(window.BloomlyNative&&BloomlyNative.version&&BloomlyNative.version())||APP_VER;return /^\d{12,14}$/.test(v)?`Verzió: ${v.slice(0,4)}.${v.slice(4,6)}.${v.slice(6,8)}. ${v.slice(8,10)}:${v.slice(10,12)}`:'Fejlesztői változat'}
 function updHint(){return window.BloomlyNative?'az app indításkor magától keres':/[?&]app=1/.test(location.search)?'az exe minden indításkor frissül':'a webes változat mindig a legfrissebb'}
 window.bloomlyUpdateReady=v=>{$('#upd').innerHTML=`<div class="upd glass" role="status">${ic('sparkle')}<div class="grow"><b>Új Bloomly-verzió érkezett</b><small>Az adataid megmaradnak.</small></div><button class="btn" data-a="applyUpd">Frissítés</button><button class="iconbtn" data-a="laterUpd" aria-label="Később">${ic('close',16)}</button></div>`};
 window.bloomlyUpToDate=()=>toast('A Bloomly naprakész ✨');
