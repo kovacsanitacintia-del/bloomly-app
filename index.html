@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031230521">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230521">
+<meta name="bloomly-version" content="20261031230704">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230704">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -971,6 +971,7 @@ function trackerStarts(s){let main=false;try{main=s===S}catch(e){}if(main&&_trkS
     skin:mn(Object.keys(sk).filter(k=>sk[k].am.length||sk[k].pm.length)),sleep:mn(Object.keys(s.sleep||{}))};
   if(main)_trkStart=r;return r}
 function trackerChecks(k,s=S){
+  return[];/* A követők már nem jelennek meg külön, ezért a haladás és az arányok csak a szokásokból számolnak */
   if(!s.fitness||!s.skin||k>TODAY)return[];const st=trackerStarts(s),has=n=>s.habits.some(h=>h.name===n),out=[];
   const plan=s.fitness.plan[wd(parseK(k))],f=s.fitness.log[k],lg=s.skin.log[k]||{am:[],pm:[]},sk=s.skin.am.length+s.skin.pm.length;
   if(st.fit&&k>=st.fit&&plan!=='Pihenő'&&!has('Edzés'))out.push(!!(f&&f.done));
@@ -1171,10 +1172,9 @@ home(){
   const mood=S.moods[TODAY],ci=S.checkins[TODAY],rf=S.reflections[TODAY],lv=level(),pt=petals(),c=S.cycleOn&&cycInfo();
   const q=QUOTES[Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5)%QUOTES.length];const fav=S.favQuotes.includes(q);
   return`<div class="hello"><div><div class="eyebrow">${fmt(TODAY,{weekday:'long',month:'long',day:'numeric'})}</div><h1>${greet()},<br>${esc(S.name)}</h1></div><button class="avatar" data-a="tab" data-t="me" aria-label="Profil">${esc(S.name[0]||'B')}</button></div>
-  <section class="glass hero" aria-label="Mai haladás"><div class="ring">${ringSVG(p)}<div class="val"><div><b>${Math.round(p*100)}%</b><span>${done}/${allItems} teendő</span></div></div></div>
+  <section class="glass hero" aria-label="Mai haladás"><div class="ring">${ringSVG(p)}<div class="val"><div><b>${Math.round(p*100)}%</b><span>${done}/${allItems} szokás</span></div></div></div>
    <div class="stat-chips"><div class="chip-stat"><span class="ic" style="background:var(--peach)">${ic('flame',18)}</span><div><b>${curStreak()} nap</b><small>aktuális sorozat</small></div></div>
    <button class="chip-stat" data-a="openCheckin" style="text-align:left"><span class="ic" style="background:var(--lav)">${mood?`<span style="font-size:18px">${MOODS[mood.m].e}</span>`:ic('smile',18)}</span><div><b>${mood?MOODS[mood.m].n:'Hangulat'}</b><small>${mood?'mai hangulatod':'rögzítsd most'}</small></div></button></div></section>
-  ${trackerTodayCard()}
   ${!ci?`<section class="checkin" aria-label="Reggeli check-in"><div class="eyebrow" style="color:inherit;opacity:.7">Reggeli check-in</div><h3 style="margin-top:6px">Hogy érzed magad ma?</h3><p>Három rövid kérdés, hogy tudatosan indítsd a napot.</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood-b ${mood&&mood.m===i?'on':''}" data-a="openCheckin" data-m="${i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div></section>`:
    `<section class="card" aria-label="Mai szándék"><div class="eyebrow">Mai célod</div><p style="font-family:var(--f-display);font-size:19px;color:var(--ink);margin-top:6px">${esc(ci.goal)}</p><p class="muted" style="margin-top:6px">Hálás vagy: ${esc(ci.grateful)}</p></section>`}
   ${c?`<button class="card row" data-a="tab" data-t="cycle" style="text-align:left;width:100%"><span class="ic" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:${PHASES[c.ph].c};color:var(--on-pastel)">${ic('cycle')}</span><div class="grow"><b style="color:var(--ink)">${PHASES[c.ph].n} · ${c.day}. nap</b><div class="muted">${PHASES[c.ph].rec[0]}</div></div>${ic('next',18)}</button>`:''}
@@ -1266,7 +1266,6 @@ stats(){
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Statisztikák</h1></div>
   <div class="seg">${[[7,'7 nap'],[30,'30 nap'],[90,'90 nap']].map(([v,n])=>`<button class="${N===v?'on':''}" data-a="range" data-v="${v}">${n}</button>`).join('')}</div>
   <div class="kpis"><div class="kpi"><b>${Math.round(rate*100)}%</b><small>teljesítési arány</small></div><div class="kpi"><b>${cs} nap</b><small>aktuális sorozat</small></div><div class="kpi"><b>${ls} nap</b><small>leghosszabb sorozat</small></div><div class="kpi"><b>${totalDone()}</b><small>összes teljesítés</small></div></div>
-  ${trackerStats(N)}
   ${areaStats(N)}
   <section class="card chart"><div class="row"><b class="grow" style="color:var(--ink)">Heti fejlődés</b><span class="muted" id="barInfo">Koppints egy napra</span></div>${bars(days,'d')}</section>
   <section class="card chart"><b style="color:var(--ink)">Havi fejlődés</b><p class="muted">Heti átlagos teljesítés az elmúlt 6 hétben</p>${lineChart(weeks)}</section>
@@ -1418,7 +1417,7 @@ function areaProgress(id){
   return{hs,today,done:today.filter(h=>isDone(h,TODAY)).length,rate:b?Math.round(a/b*100):null}}
 function areasView(){
   const hsAll=todays().filter(h=>!isT(h)),tc=trackerChecks(TODAY),done=hsAll.filter(h=>isDone(h,TODAY)).length+tc.filter(Boolean).length,tot=hsAll.length+tc.length;
-  return`<section class="card area-today"><div class="row"><div class="grow"><div class="eyebrow">Ma</div><b style="color:var(--ink);font-size:17px">${done}/${tot} teendő kész</b></div><span class="area-pct">${tot?Math.round(done/tot*100):0}%</span></div><div class="bar" style="margin-top:10px"><i style="width:${tot?done/tot*100:0}%"></i></div></section>
+  return`<section class="card area-today"><div class="row"><div class="grow"><div class="eyebrow">Ma</div><b style="color:var(--ink);font-size:17px">${done}/${tot} szokás kész</b></div><span class="area-pct">${tot?Math.round(done/tot*100):0}%</span></div><div class="bar" style="margin-top:10px"><i style="width:${tot?done/tot*100:0}%"></i></div></section>
   <div class="acards">${AREAS.map(a=>{const pr=areaProgress(a.id);
     return`<button class="acard" style="--ac:${a.c}" data-a="openArea" data-v="${a.id}"><span class="acard-ic">${ic(a.i,22)}</span><b>${a.n}</b><small>${pr.hs.length} szokás</small>
      <span class="acard-bar"><i style="width:${pr.today.length?pr.done/pr.today.length*100:0}%"></i></span><small class="acard-today">${pr.today.length?`${pr.done}/${pr.today.length} ma`:'Ma nincs teendő'}</small></button>`}).join('')}</div>`}
