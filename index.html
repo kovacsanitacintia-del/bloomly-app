@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031220319">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220319">
+<meta name="bloomly-version" content="20261031220447">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220447">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -919,9 +919,10 @@ home(){
 },
 habits(){
   if(S.ui.hv==='bujo')return habitsHead()+bujoView();
+  if(!['Mind','Napi','Heti','Havi','Éves'].includes(S.ui.hf))S.ui.hf='Mind';
   const f=S.ui.hf;const list=S.habits.filter(h=>f==='Mind'||(f==='Napi'&&h.freq==='daily')||(f==='Heti'&&h.freq==='weekly')||(f==='Havi'&&h.freq==='monthly')||(f==='Éves'&&h.freq==='yearly')||h.cat===f);
   return`${habitsHead()}
-  <div class="chips" role="tablist">${['Mind','Napi','Heti','Havi','Éves',...CATS.filter(c=>c!=='Egészség'&&c!=='Táplálkozás')].map(c=>`<button class="chip ${f===c?'on':''}" data-a="hf" data-v="${c}">${c}</button>`).join('')}</div>
+  <div class="chips" role="tablist">${['Mind','Napi','Heti','Havi','Éves'].map(c=>`<button class="chip ${f===c?'on':''}" data-a="hf" data-v="${c}">${c}</button>`).join('')}</div>
   <div class="habits">${list.map(h=>{const days=[...Array(7)].map((_,i)=>{const k=keyOf(addDays(now(),i-6));return`<i class="${isDone(h,k)?'y':''}"></i>`}).join('');
    const fr=freqLabel(h);
    return`<button class="habit" data-a="habitDetail" data-id="${h.id}" style="text-align:left;width:100%"><span class="tile" style="background:${COLORS[h.color]}">${ic(h.icon)}</span><div class="grow"><div class="name">${esc(h.name)}</div><div class="meta"><span>${fr}</span><span>· ${esc(h.cat)}</span></div><div class="week" style="--hc:${COLORS[h.color]}">${days}</div></div><div style="text-align:right"><b style="font-family:var(--f-display);font-size:20px;color:var(--ink)">${habitStreak(h)}</b><div class="muted" style="font-size:11px">nap</div></div></button>`}).join('')||`<div class="card empty-note">Ebben a kategóriában még nincs szokás.</div>`}</div>
