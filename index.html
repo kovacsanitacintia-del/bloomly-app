@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031220021">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220021">
+<meta name="bloomly-version" content="20261031220319">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220319">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -768,8 +768,8 @@ function genHistory(s,withSample){
     s.habits.forEach((h,hi)=>{if(!scheduledOn(h,d))return;const p=[.86,.78,.72,.66,.7,.8,.62][hi%7]+trend;if(r()<p)done.push(h.id)});
     if(!done.length)done.push(s.habits[0].id);
     s.log[k]=done;
-    const daily=s.habits.filter(h=>h.freq!=='weekly'&&scheduledOn(h,d)).length||1;
-    const ratio=done.filter(id=>{const h=s.habits.find(x=>x.id===id);return h.freq!=='weekly'}).length/daily;
+    const daily=s.habits.filter(h=>!isT(h)&&scheduledOn(h,d)).length||1;
+    const ratio=done.filter(id=>{const h=s.habits.find(x=>x.id===id);return !isT(h)}).length/daily;
     let m=ratio>.85?0:ratio>.65?1:ratio>.45?2:3;if(r()<.18)m=Math.min(4,m+ (r()<.5?1:2));if(r()<.12)m=Math.max(0,m-1);
     s.moods[k]={m,energy:Math.max(1,Math.min(5,Math.round(5-m*0.8+(r()-.5)))),note:''};
     if(r()<.42)s.checkins[k]={mood:m,goal:GO[Math.floor(r()*GO.length)],grateful:GR[Math.floor(r()*GR.length)]};
@@ -781,20 +781,26 @@ function genHistory(s,withSample){
 }
 
 /* ───────── Számítások ───────── */
-function scheduledOn(h,d){if(h.freq==='daily'||h.freq==='weekly')return true;return h.days.includes(wd(d))}
+/* Időszakos szokások: heti / havi / éves célszámmal; ezek minden nap kipipálhatók, és az időszak végéig kell elérni a célt */
+function isT(h){return h.freq==='weekly'||h.freq==='monthly'||h.freq==='yearly'}
+function periodText(h){return{weekly:'Ezen a héten',monthly:'Ebben a hónapban',yearly:'Idén'}[h.freq]}
+function periodMax(f){return{weekly:7,monthly:31,yearly:365}[f]||7}
+function freqLabel(t){return t.freq==='daily'?'Minden nap':t.freq==='weekly'?`Heti ${t.target}×`:t.freq==='monthly'?`Havi ${t.target}×`:t.freq==='yearly'?`Évente ${t.target}×`:t.days.map(d=>WD[d]).join(', ')}
+function periodCount(h,k){if(h.freq==='weekly')return weekCount(h,k);const pre=h.freq==='monthly'?k.slice(0,7):k.slice(0,4);return Object.keys(S.log).filter(x=>x.startsWith(pre)&&x<=k&&S.log[x].includes(h.id)).length}
+function scheduledOn(h,d){if(h.freq==='daily'||isT(h))return true;return h.days.includes(wd(d))}
 const isDone=(h,k)=>(S.log[k]||[]).includes(h.id);
 function weekCount(h,k){const d=parseK(k),st=addDays(d,-wd(d));let c=0;for(let i=0;i<7;i++){const kk=keyOf(addDays(st,i));if((S.log[kk]||[]).includes(h.id))c++}return c}
-function dayRate(k,s=S){const d=parseK(k);const hs=s.habits.filter(h=>h.freq!=='weekly'&&scheduledOn(h,d));if(!hs.length)return null;return hs.filter(h=>(s.log[k]||[]).includes(h.id)).length/hs.length}
+function dayRate(k,s=S){const d=parseK(k);const hs=s.habits.filter(h=>!isT(h)&&scheduledOn(h,d));if(!hs.length)return null;return hs.filter(h=>(s.log[k]||[]).includes(h.id)).length/hs.length}
 const active=(k,s=S)=>(s.log[k]||[]).length>0;
 function curStreak(s=S){let d=now();if(!active(keyOf(d),s))d=addDays(d,-1);let c=0;while(active(keyOf(d),s)){c++;d=addDays(d,-1)}return c}
 function longestStreak(s=S){const ks=Object.keys(s.log).filter(k=>s.log[k].length).sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&dayDiff(k,prev)===1?run+1:1;best=Math.max(best,run);prev=k});return best}
-function habitStreak(h){let d=now();if(!isDone(h,keyOf(d)))d=addDays(d,-1);let c=0,guard=0;while(guard++<400){if(!scheduledOn(h,d)||h.freq==='weekly'){d=addDays(d,-1);if(h.freq==='weekly')break;continue}if(isDone(h,keyOf(d))){c++;d=addDays(d,-1)}else break}return c}
+function habitStreak(h){let d=now();if(!isDone(h,keyOf(d)))d=addDays(d,-1);let c=0,guard=0;while(guard++<400){if(!scheduledOn(h,d)||isT(h)){d=addDays(d,-1);if(isT(h))break;continue}if(isDone(h,keyOf(d))){c++;d=addDays(d,-1)}else break}return c}
 function totalDone(s=S){return Object.values(s.log).reduce((a,v)=>a+v.length,0)}
 function perfectDays(s=S){return Object.keys(s.log).filter(k=>dayRate(k,s)===1).length}
 function petals(s=S){return totalDone(s)*10+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
 const LEVELS=[[0,'Mag'],[200,'Csíra'],[600,'Bimbó'],[1200,'Virágzó'],[2000,'Kert'],[3200,'Liget'],[5000,'Édenkert'],[8000,'Bloom Paradicsom']];
 function level(p=petals()){let i=0;LEVELS.forEach((l,j)=>{if(p>=l[0])i=j});const nx=LEVELS[i+1];return{i,name:LEVELS[i][1],from:LEVELS[i][0],to:nx?nx[0]:LEVELS[i][0],next:nx?nx[1]:null}}
-function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(h.freq==='weekly'||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++})}return b?a/b:0}
+function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++})}return b?a/b:0}
 
 /* Ciklus */
 function cycInfo(k=TODAY){
@@ -888,14 +894,14 @@ function greet(){const h=new Date().getHours();return h<10?'Jó reggelt':h<18?'S
 function ringSVG(p,size=118){const R=50,C=2*Math.PI*R;return`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CBB7F7"/><stop offset="1" stop-color="#FFC9B3"/></linearGradient></defs><circle cx="60" cy="60" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="11"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="url(#rg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}"/></svg>`}
 function habitRow(h){
   const k=TODAY,done=isDone(h,k),st=habitStreak(h);
-  const meta=h.freq==='weekly'?`Ezen a héten ${weekCount(h,k)}/${h.target}`:(h.note?esc(h.note):esc(h.cat));
+  const meta=isT(h)?`${periodText(h)} ${periodCount(h,k)}/${h.target}`:(h.note?esc(h.note):esc(h.cat));
   return`<div class="habit ${done?'done':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div><button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button></div>`
 }
 function todays(){return S.habits.filter(h=>scheduledOn(h,now()))}
 
 const SCREENS={
 home(){
-  const hs=todays(),dailyHs=hs.filter(h=>h.freq!=='weekly'),done=dailyHs.filter(h=>isDone(h,TODAY)).length,p=dailyHs.length?done/dailyHs.length:0;
+  const hs=todays(),dailyHs=hs.filter(h=>!isT(h)),done=dailyHs.filter(h=>isDone(h,TODAY)).length,p=dailyHs.length?done/dailyHs.length:0;
   const mood=S.moods[TODAY],ci=S.checkins[TODAY],rf=S.reflections[TODAY],lv=level(),pt=petals(),c=S.cycleOn&&cycInfo();
   const q=QUOTES[Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5)%QUOTES.length];const fav=S.favQuotes.includes(q);
   return`<div class="hello"><div><div class="eyebrow">${fmt(TODAY,{weekday:'long',month:'long',day:'numeric'})}</div><h1>${greet()},<br>${esc(S.name)}</h1></div><button class="avatar" data-a="tab" data-t="me" aria-label="Profil">${esc(S.name[0]||'B')}</button></div>
@@ -913,11 +919,11 @@ home(){
 },
 habits(){
   if(S.ui.hv==='bujo')return habitsHead()+bujoView();
-  const f=S.ui.hf;const list=S.habits.filter(h=>f==='Mind'||(f==='Napi'&&h.freq==='daily')||(f==='Heti'&&h.freq==='weekly')||(f==='Egyedi'&&h.freq==='custom')||h.cat===f);
+  const f=S.ui.hf;const list=S.habits.filter(h=>f==='Mind'||(f==='Napi'&&h.freq==='daily')||(f==='Heti'&&h.freq==='weekly')||(f==='Havi'&&h.freq==='monthly')||(f==='Éves'&&h.freq==='yearly')||h.cat===f);
   return`${habitsHead()}
-  <div class="chips" role="tablist">${['Mind','Napi','Heti','Egyedi',...CATS].map(c=>`<button class="chip ${f===c?'on':''}" data-a="hf" data-v="${c}">${c}</button>`).join('')}</div>
+  <div class="chips" role="tablist">${['Mind','Napi','Heti','Havi','Éves',...CATS.filter(c=>c!=='Egészség'&&c!=='Táplálkozás')].map(c=>`<button class="chip ${f===c?'on':''}" data-a="hf" data-v="${c}">${c}</button>`).join('')}</div>
   <div class="habits">${list.map(h=>{const days=[...Array(7)].map((_,i)=>{const k=keyOf(addDays(now(),i-6));return`<i class="${isDone(h,k)?'y':''}"></i>`}).join('');
-   const fr=h.freq==='daily'?'Minden nap':h.freq==='weekly'?`Heti ${h.target}×`:h.days.map(d=>WD[d]).join(', ');
+   const fr=freqLabel(h);
    return`<button class="habit" data-a="habitDetail" data-id="${h.id}" style="text-align:left;width:100%"><span class="tile" style="background:${COLORS[h.color]}">${ic(h.icon)}</span><div class="grow"><div class="name">${esc(h.name)}</div><div class="meta"><span>${fr}</span><span>· ${esc(h.cat)}</span></div><div class="week" style="--hc:${COLORS[h.color]}">${days}</div></div><div style="text-align:right"><b style="font-family:var(--f-display);font-size:20px;color:var(--ink)">${habitStreak(h)}</b><div class="muted" style="font-size:11px">nap</div></div></button>`}).join('')||`<div class="card empty-note">Ebben a kategóriában még nincs szokás.</div>`}</div>
   <button class="btn block" data-a="go" data-s="library">${ic('book',18)} Szokástár · ${LIBRARY.length} ötlet</button>
   <button class="btn ghost block" data-a="editHabit">${ic('plus',18)} Saját szokás létrehozása</button>`
@@ -963,7 +969,7 @@ cycle(){
 },
 me(){
   const lv=level(),b=allBadges().filter(x=>x.got).length;
-  const dh=todays().filter(h=>h.freq!=='weekly'),c=S.cycleOn&&cycInfo(),sd=S.cycle.days[TODAY],sl=S.sleep[TODAY]||S.sleep[keyOf(addDays(now(),-1))];
+  const dh=todays().filter(h=>!isT(h)),c=S.cycleOn&&cycInfo(),sd=S.cycle.days[TODAY],sl=S.sleep[TODAY]||S.sleep[keyOf(addDays(now(),-1))];
   const lg=S.skin.log[TODAY]||{am:[],pm:[]},nb=S.contacts.map(x=>({...x,...nextB(x)})).sort((a,b)=>a.n-b.n)[0],medw=S.med.filter(x=>dayDiff(TODAY,x.date)<7).reduce((a,x)=>a+x.min,0);
   const T=[
    ['heart','Szokások és rutin','#D9809A','tab:habits',`${dh.filter(h=>isDone(h,TODAY)).length}/${dh.length} ma`],
@@ -1011,7 +1017,7 @@ stats(){
   <section class="card chart"><div class="row"><b class="grow" style="color:var(--ink)">Heti fejlődés</b><span class="muted" id="barInfo">Koppints egy napra</span></div>${bars(days,'d')}</section>
   <section class="card chart"><b style="color:var(--ink)">Havi fejlődés</b><p class="muted">Heti átlagos teljesítés az elmúlt 6 hétben</p>${lineChart(weeks)}</section>
   <section class="card"><b style="color:var(--ink)">Következetesség · 12 hét</b><div class="heat" style="margin-top:12px">${heat}</div><div class="row muted" style="margin-top:10px;font-size:11px;gap:5px">Kevesebb <i style="width:12px;height:12px;border-radius:4px;background:var(--track)"></i><i style="width:12px;height:12px;border-radius:4px;background:color-mix(in srgb,var(--lav) 40%,var(--track))"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav)"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav-deep)"></i> Több</div></section>
-  <section class="card"><b style="color:var(--ink)">Szokások következetessége · ${N} nap</b><div class="cons" style="margin-top:14px">${S.habits.map(h=>{let a=0,b=0;for(let i=0;i<N;i++){const d=addDays(now(),-i);if(!scheduledOn(h,d))continue;b++;if(isDone(h,keyOf(d)))a++}const v=h.freq==='weekly'?Math.min(1,a/(h.target*N/7)):b?a/b:0;return`<div class="row"><span class="tile" style="width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,16)}</span><span class="grow" style="font-size:13.5px">${esc(h.name)}</span><div class="bar" style="width:90px"><i style="width:${v*100}%"></i></div><b style="width:40px;text-align:right;font-size:13px;color:var(--ink)">${Math.round(v*100)}%</b></div>`}).join('')}</div></section>
+  <section class="card"><b style="color:var(--ink)">Szokások következetessége · ${N} nap</b><div class="cons" style="margin-top:14px">${S.habits.map(h=>{let a=0,b=0;for(let i=0;i<N;i++){const d=addDays(now(),-i);if(!scheduledOn(h,d))continue;b++;if(isDone(h,keyOf(d)))a++}const v=isT(h)?Math.min(1,a/(h.target*N/({weekly:7,monthly:30,yearly:365})[h.freq])):b?a/b:0;return`<div class="row"><span class="tile" style="width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,16)}</span><span class="grow" style="font-size:13.5px">${esc(h.name)}</span><div class="bar" style="width:90px"><i style="width:${v*100}%"></i></div><b style="width:40px;text-align:right;font-size:13px;color:var(--ink)">${Math.round(v*100)}%</b></div>`}).join('')}</div></section>
   <section class="card chart"><b style="color:var(--ink)">Hangulat és szokások</b>${bars([{l:'80% felett',v:av(hi)/5,t:av(hi).toFixed(1)},{l:'80% alatt',v:av(lo)/5,t:av(lo).toFixed(1)}],'m')}<div class="insight" style="margin-top:12px">${ic('sparkle')}<p>Azokon a napokon, amikor a szokásaid legalább 80%-át teljesíted, a hangulatod átlagosan <b>${(av(hi)-av(lo)).toFixed(1)} ponttal</b> jobb.</p></div></section>
   ${S.cycleOn?`<section class="card chart"><b style="color:var(--ink)">Ciklus és hangulat</b>${bars(Object.keys(ph).map(p=>({l:PHASES[p].n.split(' ')[0],v:av(ph[p])/5,t:av(ph[p]).toFixed(1),c:PHASES[p].c})),'c')}<p class="muted" style="margin-top:8px">Átlagos hangulat (1–5) ciklusfázisonként</p></section>`:''}`
 },
@@ -1086,10 +1092,10 @@ function bujoView(){
   const rh=(icon,bg,name,meta)=>`<th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:${bg}">${ic(icon,14)}</span><span class="bj-lbl"><b title="${name}">${name}</b><small>${meta}</small></span></div></th>`;
   let total=0,done=0,poss=0,best=null;
   const rows=hs.map(h=>{let c=0,p=0;
-    const cells=days.map(x=>{const sc=scheduledOn(h,x.dt),on=isDone(h,x.k);if(on)c++;if(h.freq!=='weekly'&&sc&&!x.fut){p++;if(on)done++}
+    const cells=days.map(x=>{const sc=scheduledOn(h,x.dt),on=isDone(h,x.k);if(on)c++;if(!isT(h)&&sc&&!x.fut){p++;if(on)done++}
       return`<td class="${cc(x)}"><button class="bj-c ${on?'on':''} ${x.fut?'fut':''} ${sc?'':'off'}" style="--hc:${COLORS[h.color]}" data-a="bjt" data-id="${h.id}" data-k="${x.k}" ${x.fut?'disabled':''} aria-pressed="${on}" aria-label="${esc(h.name)}, ${fmt(x.k,{month:'long',day:'numeric'})}"></button></td>`}).join('');
-    total+=c;poss+=p;const pct=p?Math.round(c/p*100):0;if(h.freq!=='weekly'&&p&&(!best||pct>best.pct))best={n:h.name,pct};
-    return`<tr>${rh(h.icon,COLORS[h.color],esc(h.name),h.freq==='weekly'?`${c} alkalom · heti ${h.target}×`:`${c} nap · ${pct}%`)}${cells}</tr>`}).join('');
+    total+=c;poss+=p;const pct=p?Math.round(c/p*100):0;if(!isT(h)&&p&&(!best||pct>best.pct))best={n:h.name,pct};
+    return`<tr>${rh(h.icon,COLORS[h.color],esc(h.name),isT(h)?`${c} alkalom · ${freqLabel(h).toLowerCase()}`:`${c} nap · ${pct}%`)}${cells}</tr>`}).join('');
   const mood=`<tr class="bj-sep">${rh('smile','var(--peach)','Hangulat','napi bejegyzés')}${days.map(x=>`<td class="${cc(x)} bj-mood">${S.moods[x.k]?MOODS[S.moods[x.k].m].e:''}</td>`).join('')}</tr>`;
   const rate=`<tr>${rh('chart','var(--lav)','Napi teljesítés','ütemezett szokások')}${days.map(x=>{const r=x.fut?null:dayRate(x.k);return`<td class="${cc(x)}"><span class="bj-bar" title="${r==null?'':Math.round(r*100)+'%'}"><i style="height:${r==null?0:Math.max(6,r*100)}%"></i></span></td>`}).join('')}</tr>`;
   const head=`<tr><th class="bj-corner" scope="col">Szokás</th>${days.map(x=>`<th scope="col" class="bj-day ${cc(x)}"><small>${WD[x.w]}</small><b>${x.d}</b></th>`).join('')}</tr>`;
@@ -1287,9 +1293,9 @@ function habitSheet(){const h=draft;
   <div class="field"><span class="lbl">Ikon</span><div class="icongrid">${['drop','pill','dumbbell','book','lotus','pen','sparkle','moon','leaf','heart','sun','star','cup','home','coin','phone','palette','globe'].map(i=>`<button class="${h.icon===i?'on':''}" data-a="hset" data-k="icon" data-v="${i}" aria-label="${ICHU[i]||i} ikon">${ic(i)}</button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Szín</span><div class="swatches">${Object.entries(COLORS).map(([k,c])=>`<button class="${h.color===k?'on':''}" style="background:${c}" data-a="hset" data-k="color" data-v="${k}" aria-label="${COLHU[k]} szín"></button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${CATS.map(c=>`<button class="chip ${h.cat===c?'on':''}" data-a="hset" data-k="cat" data-v="${c}">${c}</button>`).join('')}</div></div>
-  <div class="field"><span class="lbl">Ismétlődés</span><div class="seg">${[['daily','Napi'],['weekly','Heti'],['custom','Egyedi']].map(([v,n])=>`<button class="${h.freq===v?'on':''}" data-a="hset" data-k="freq" data-v="${v}">${n}</button>`).join('')}</div>
+  <div class="field"><span class="lbl">Ismétlődés</span><div class="seg">${[['daily','Napi'],['weekly','Heti'],['monthly','Havi'],['yearly','Éves'],['custom','Egyedi']].map(([v,n])=>`<button class="${h.freq===v?'on':''}" data-a="hset" data-k="freq" data-v="${v}">${n}</button>`).join('')}</div>
    ${h.freq==='custom'?`<div class="days" style="margin-top:10px">${WD.map((w,i)=>`<button class="${h.days.includes(i)?'on':''}" data-a="hday" data-v="${i}">${w}</button>`).join('')}</div>`:''}
-   ${h.freq==='weekly'?`<div class="row" style="margin-top:10px"><span class="grow muted">Hányszor egy héten?</span><div class="stepper"><button data-a="htarget" data-v="-1" aria-label="Kevesebb">−</button><b>${h.target}</b><button data-a="htarget" data-v="1" aria-label="Több">+</button></div></div>`:''}</div>
+   ${isT(h)?`<div class="row" style="margin-top:10px"><span class="grow muted">${{weekly:'Hányszor egy héten?',monthly:'Hányszor egy hónapban?',yearly:'Hányszor egy évben?'}[h.freq]}</span><div class="stepper"><button data-a="htarget" data-v="-1" aria-label="Kevesebb">−</button><b>${h.target}</b><button data-a="htarget" data-v="1" aria-label="Több">+</button></div></div>`:''}</div>
   <div class="field"><label for="hnote">Jegyzet</label><textarea class="inp" id="hnote" placeholder="Miért fontos neked ez a szokás?">${esc(h.note)}</textarea></div>
   <div class="btns">${h.id?`<button class="btn danger" data-a="delHabit" id="delH">Törlés</button>`:''}<button class="btn" data-a="saveHabit">Mentés</button></div>`)}
 function syncDraft(){if(!draft)return;const n=$('#hn'),no=$('#hnote');if(n)draft.name=n.value;if(no)draft.note=no.value}
@@ -1454,26 +1460,26 @@ const A={
  go(el){closeSheet();if(el.dataset.s===S.ui.sub)return;pushNav();S.ui.sub=el.dataset.s;render()},
  back(){closeSheet();const p=NAV.pop();if(p){S.ui.tab=p.tab;S.ui.sub=p.sub}else if(S.ui.sub)S.ui.sub=null;else S.ui.tab='home';save();render()},
  toggle(el){const id=el.dataset.id,k=TODAY;S.log[k]=S.log[k]||[];const was=S.log[k].includes(id);
-  const before=todays().filter(h=>h.freq!=='weekly').every(h=>isDone(h,k));
+  const before=todays().filter(h=>!isT(h)).every(h=>isDone(h,k));
   if(was)S.log[k]=S.log[k].filter(x=>x!==id);else{S.log[k].push(id);S.lastBloom=Date.now()}save();render(true);
-  if(!was){const c=view.querySelector(`.habit[data-h="${id}"] .chk`);if(c){c.classList.add('burst')}const all=todays().filter(h=>h.freq!=='weekly').every(h=>isDone(h,k));
+  if(!was){const c=view.querySelector(`.habit[data-h="${id}"] .chk`);if(c){c.classList.add('burst')}const all=todays().filter(h=>!isT(h)).every(h=>isDone(h,k));
    if(all&&!before){setTimeout(()=>{petalsFall(40);toast('Minden mai szokásod kész. Virágzol! 🌸')},400)}else toast(['+10 szirom · új virág nyílt','Szép volt! +10 szirom','Egy lépéssel közelebb +10 szirom'][Math.floor(Math.random()*3)]);checkBadges()}},
  quick(){openSheet(`<h2>Gyors hozzáadás</h2><div class="opts" style="margin-top:14px">${[['plus','Új szokás','editHabit','lav'],['smile','Hangulat rögzítése','openCheckin','peach'],['moon','Esti reflexió','openReflect','sky'],['image','Vision Board elem','addVision','rose']].map(([i,n,a,c])=>`<button class="opt" data-a="${a}"><span class="tile" style="background:${COLORS[c]}">${ic(i,18)}</span><b>${n}</b></button>`).join('')}</div>`)},
  closeSheet(){closeSheet()},
  editHabit(el){const h=el.dataset.id&&S.habits.find(x=>x.id===el.dataset.id);draft=h?JSON.parse(JSON.stringify(h)):{name:'',icon:'lotus',color:'lav',cat:'Nyugalom',freq:'daily',days:[0,1,2,3,4,5,6],target:3,note:''};habitSheet()},
  tpl(el){const t=TEMPLATES.find(x=>x.name===el.dataset.n);draft={...draft,...JSON.parse(JSON.stringify(t)),days:t.days||[0,1,2,3,4,5,6],target:t.target||3};habitSheet()},
- hset(el){syncDraft();draft[el.dataset.k]=el.dataset.v;habitSheet()},
+ hset(el){syncDraft();draft[el.dataset.k]=el.dataset.v;if(el.dataset.k==='freq')draft.target=Math.min(draft.target||3,periodMax(draft.freq));habitSheet()},
  hday(el){syncDraft();const v=+el.dataset.v;draft.days=draft.days.includes(v)?draft.days.filter(x=>x!==v):[...draft.days,v].sort();if(!draft.days.length)draft.days=[v];habitSheet()},
- htarget(el){syncDraft();draft.target=Math.max(1,Math.min(7,draft.target+ +el.dataset.v));habitSheet()},
+ htarget(el){syncDraft();draft.target=Math.max(1,Math.min(periodMax(draft.freq),draft.target+ +el.dataset.v));habitSheet()},
  saveHabit(){syncDraft();if(!draft.name.trim()){$('#hn').focus();toast('Adj nevet a szokásnak');return}
   if(draft.id){const i=S.habits.findIndex(x=>x.id===draft.id);S.habits[i]=draft}else{S.habits.push({...draft,id:uid(),created:TODAY})}save();closeSheet();render(true);toast(draft.id?'Szokás frissítve':'Új szokás elültetve 🌱')},
  delHabit(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.habits=S.habits.filter(x=>x.id!==draft.id);save();closeSheet();render(true);toast('Szokás törölve')},
  habitDetail(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;let heat='';const st=addDays(now(),-(7*12-1)-wd(addDays(now(),-(7*12-1))));let a=0,b=0;
-  for(let d=new Date(st);d<=now();d=addDays(d,1)){const k=keyOf(d),sc=scheduledOn(h,d),dn=isDone(h,k);if(sc&&h.freq!=='weekly'){b++;if(dn)a++}heat+=`<i class="${dn?'l3':''}" style="${dn?`background:${COLORS[h.color]}`:''}"></i>`}
+  for(let d=new Date(st);d<=now();d=addDays(d,1)){const k=keyOf(d),sc=scheduledOn(h,d),dn=isDone(h,k);if(sc&&!isT(h)){b++;if(dn)a++}heat+=`<i class="${dn?'l3':''}" style="${dn?`background:${COLORS[h.color]}`:''}"></i>`}
   const last=Object.keys(S.log).filter(k=>S.log[k].includes(h.id)).sort().reverse().slice(0,5);
-  openSheet(`<div class="row"><span class="tile" style="width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,24)}</span><div class="grow"><h2>${esc(h.name)}</h2><div class="muted">${esc(h.cat)} · ${h.freq==='daily'?'Minden nap':h.freq==='weekly'?`Heti ${h.target}×`:h.days.map(d=>WD[d]).join(', ')}</div></div></div>
+  openSheet(`<div class="row"><span class="tile" style="width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,24)}</span><div class="grow"><h2>${esc(h.name)}</h2><div class="muted">${esc(h.cat)} · ${freqLabel(h)}</div></div></div>
   ${h.note?`<div class="insight" style="margin-top:14px">${ic('pen')}<p>${esc(h.note)}</p></div>`:''}
-  <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${habitStreak(h)}</b><small>sorozat</small></div><div class="kpi"><b>${h.freq==='weekly'?weekCount(h,TODAY)+'/'+h.target:b?Math.round(a/b*100)+'%':'–'}</b><small>${h.freq==='weekly'?'e héten':'12 hét'}</small></div><div class="kpi"><b>${Object.values(S.log).filter(v=>v.includes(h.id)).length}</b><small>összesen</small></div></div>
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${habitStreak(h)}</b><small>sorozat</small></div><div class="kpi"><b>${isT(h)?periodCount(h,TODAY)+'/'+h.target:b?Math.round(a/b*100)+'%':'–'}</b><small>${isT(h)?'e héten':'12 hét'}</small></div><div class="kpi"><b>${Object.values(S.log).filter(v=>v.includes(h.id)).length}</b><small>összesen</small></div></div>
   <div class="lbl" style="margin-top:18px">Teljesítési előzmények</div><div class="heat" style="margin-top:10px">${heat}</div>
   <div class="list" style="margin-top:10px">${last.map(k=>`<div class="li"><span style="color:var(--mint-deep)">${ic('check',18)}</span><span class="grow">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}</span></div>`).join('')||'<p class="muted">Még nincs teljesítés.</p>'}</div>
   <div class="btns"><button class="btn ghost" data-a="editHabit" data-id="${h.id}">Szerkesztés</button><button class="btn" data-a="toggleFromSheet" data-id="${h.id}">${isDone(h,TODAY)?'Visszavonás':'Ma kész'}</button></div>`)},
