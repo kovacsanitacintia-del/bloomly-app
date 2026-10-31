@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bloomly terméktervezés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap">
+<style>
+/* Elrendezés: bal oldali tartalomjegyzék + 72 karakteres olvasóhasáb; táblázatok és rácsok a hasábon belül görgethetők. */
+:root{
+  --bg:#FFFDFB; --bg2:#F8F5F2; --card:#FFFFFF; --text:#556070; --ink:#465064; --text2:#7D879A;
+  --lav:#CBB7F7; --lav-deep:#8F78CF; --lav-soft:#F1EBFD; --rose:#F7E5EA; --peach:#FFD6C2; --mint:#CDECCF; --gold:#E9D6A7;
+  --line:rgba(85,96,112,.1); --on-pastel:#4A4360;
+  --f-display:"Urbanist","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1C1925;--bg2:#231F2E;--card:#2A2537;--text:#E3DEEC;--ink:#F1ECF7;--text2:#A69FB8;--lav-deep:#CDBBF7;--lav-soft:#332B47;--line:rgba(255,255,255,.08);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1C1925;--bg2:#231F2E;--card:#2A2537;--text:#E3DEEC;--ink:#F1ECF7;--text2:#A69FB8;--lav-deep:#CDBBF7;--lav-soft:#332B47;--line:rgba(255,255,255,.08);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:15.5px/1.7 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-font-smoothing:antialiased}
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px;padding-block:48px 96px}
+nav.toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:13.5px}
+nav.toc a{display:block;padding:5px 10px;border-radius:10px;color:var(--text2);text-decoration:none}
+nav.toc a:hover{background:var(--lav-soft);color:var(--ink)}
+nav.toc .brand{display:flex;gap:10px;align-items:center;margin-bottom:20px;font-family:var(--f-display);letter-spacing:.3em;color:var(--ink);font-weight:500}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:28px 64px}nav.toc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:4px}nav.toc .brand{width:100%}}
+main{min-width:0}
+h1,h2,h3{font-family:var(--f-display);color:var(--ink);text-wrap:balance;letter-spacing:-.01em;line-height:1.15}
+h1{font-size:clamp(34px,5vw,52px);font-weight:400;margin:10px 0 14px}
+h2{font-size:30px;font-weight:500;margin:72px 0 6px;padding-top:12px;scroll-margin-top:20px}
+h3{font-size:19px;font-weight:600;margin:30px 0 8px}
+p,li{max-width:72ch}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--lav-deep);font-weight:700}
+.num{font-family:var(--f-display);color:var(--lav-deep);font-weight:600;margin-right:8px}
+.lead{font-size:18px;color:var(--text2);max-width:62ch}
+a{color:var(--lav-deep)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.grid.sm{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:18px;margin-block:12px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);background:var(--bg2)}
+tr:last-child td{border-bottom:0}
+code{font-size:12.5px;background:var(--bg2);padding:2px 6px;border-radius:6px;color:var(--ink)}
+.sw{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.sw i{display:block;height:84px}
+.sw div{padding:10px 12px;font-size:12.5px;line-height:1.45}
+.sw b{color:var(--ink);display:block;font-size:13.5px}
+.logo-row{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.logo-tile{border-radius:22px;padding:28px 18px;display:flex;flex-direction:column;align-items:center;gap:14px;border:1px solid var(--line);text-align:center}
+.logo-tile small{font-size:12px;opacity:.75}
+.wm{font-family:var(--f-display);letter-spacing:.38em;font-weight:500;font-size:20px}
+.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.icons div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11.5px;color:var(--text2);text-align:center}
+.icons svg{width:26px;height:26px;fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.arch{display:grid;gap:10px}
+.layer{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:stretch}
+.layer>b{font-family:var(--f-display);color:var(--ink);font-size:15px;padding-top:10px}
+.boxes{display:flex;flex-wrap:wrap;gap:8px}
+.boxes span{padding:9px 13px;border-radius:14px;font-size:13px;color:var(--on-pastel);font-weight:600}
+@media (max-width:600px){.layer{grid-template-columns:minmax(0,1fr)}.layer>b{padding-top:0}}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-block:8px 16px}
+.flow span{padding:7px 12px;border-radius:12px;background:var(--lav-soft);color:var(--ink);font-size:13px;font-weight:600}
+.flow em{color:var(--text2);font-style:normal}
+.type-row{display:grid;grid-template-columns:140px minmax(0,1fr);gap:16px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.type-row small{color:var(--text2);font-size:12px}
+.road{display:grid;gap:10px}
+.phase{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:16px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.phase b{font-family:var(--f-display);color:var(--lav-deep)}
+.phase h4{margin:0 0 4px;color:var(--ink);font-size:15.5px}
+.phase p{margin:0;font-size:14px}
+@media (max-width:600px){.phase,.type-row{grid-template-columns:minmax(0,1fr);gap:4px}}
+.quote{font-family:var(--f-display);font-size:22px;color:var(--ink);border-left:0;padding:18px 22px;background:var(--lav-soft);border-radius:18px;margin:18px 0}
+.back{display:inline-flex;gap:6px;align-items:center;font-weight:600;font-size:14px;text-decoration:none;padding:8px 14px;border-radius:12px;background:var(--lav-soft);border:0;color:var(--lav-deep);cursor:pointer;font-family:inherit}
+.shot{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.shot div{aspect-ratio:9/17;max-width:100%;border-radius:22px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;color:var(--on-pastel)}
+.shot b{font-family:var(--f-display);font-size:17px;line-height:1.2}
+.shot small{font-size:11.5px;opacity:.8}
+:focus-visible{outline:2px solid var(--lav-deep);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Tartalomjegyzék">
+  <div class="brand"><svg width="30" height="30" viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#A58BE6"/><g fill="#fff"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z"/></g><circle cx="60" cy="61" r="5" fill="#D4B373"/></svg>BLOOMLY</div>
+  <a href="#logo">Logó és ikon</a><a href="#arch">1. Architektúra</a><a href="#flows">2. Felhasználói útvonalak</a><a href="#screens">3. Képernyők</a><a href="#comp">4. Komponensek</a><a href="#color">5. Színrendszer</a><a href="#type">6. Tipográfia</a><a href="#icons">7. Ikonkészlet</a><a href="#db">8. Adatbázis</a><a href="#road">9. Ütemterv</a><a href="#visual">10. Prémium vizuál</a><a href="#market">11. Marketing</a><a href="#dash">12. Dashboardok</a><a href="#garden">13. Bloom Kert</a><a href="#onboarding">14. Onboarding 2.0</a><a href="#lifeflower">15. Életvirág</a>
+</nav>
+<main>
+<button class="back" onclick="history.back()">← Vissza a prototípushoz</button>
+<div class="eyebrow" style="margin-top:28px">Terméktervezési dokumentáció · 1.0 · 2026. október</div>
+<h1>Bloomly</h1>
+<p class="lead">Prémium szokáskövető és női jólléti alkalmazás magyar nőknek. Szokások, ciklus, hangulat és egy kert, ami a felhasználóval együtt nő. Szlogen: <b>Virágozz minden nap.</b></p>
+<p>A márka hét értékre épül: önfejlesztés, tudatosság, egyensúly, női jóllét, önszeretet, egészséges rutinok és pozitív változás. A termék minden döntése ezekhez mérhető. A Bloomly soha nem szégyenít, nem sürget és nem hasonlítgat. A hangja egy bölcs, meleg barátnőé.</p>
+
+<h2 id="logo">Logó és alkalmazásikon</h2>
+<p>Lekerekített négyzet levendula színátmenettel, ötszirmú fehér lótusz, középen arany pont. A lótusz a sárból is kinyíló virág, a növekedés és a belső nyugalom jelképe; az arany pont a „mag”, a felhasználó saját értéke. A BLOOMLY felirat Urbanist Medium, 0,38 em betűközzel, csupa nagybetűvel.</p>
+<div class="logo-row">
+  <div class="logo-tile" style="background:#FFFDFB;color:#465064"><svg width="96" height="96" viewBox="0 0 120 120" aria-label="Bloomly ikon"><defs><linearGradient id="a1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B9A0F2"/><stop offset="1" stop-color="#9479DC"/></linearGradient></defs><rect width="120" height="120" rx="30" fill="url(#a1)"/><g fill="#fff"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z" opacity=".92"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z" opacity=".92"/><path d="M57 82c-14-1-27-7-36-16 5 13 19 21 36 20z" opacity=".78"/><path d="M63 82c14-1 27-7 36-16-5 13-19 21-36 20z" opacity=".78"/></g><circle cx="60" cy="61" r="5" fill="#D4B373"/></svg><span class="wm">BLOOMLY</span><small>Teljes logó · világos háttér</small></div>
+  <div class="logo-tile" style="background:#1C1925;color:#F1ECF7"><svg width="96" height="96" viewBox="0 0 120 120" aria-label="Bloomly ikon sötét módban"><rect width="120" height="120" rx="30" fill="#2A2537"/><rect x="1" y="1" width="118" height="118" rx="29" fill="none" stroke="#B9A3EE" stroke-opacity=".35"/><g fill="#CDBBF7"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z" opacity=".85"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z" opacity=".85"/><path d="M57 82c-14-1-27-7-36-16 5 13 19 21 36 20z" opacity=".65"/><path d="M63 82c14-1 27-7 36-16-5 13-19 21-36 20z" opacity=".65"/></g><circle cx="60" cy="61" r="5" fill="#E0C98F"/></svg><span class="wm">BLOOMLY</span><small>Sötét mód · éjszakai szilva háttér</small></div>
+  <div class="logo-tile" style="background:#F8F5F2;color:#465064"><svg width="96" height="96" viewBox="0 0 120 120" aria-label="Bloomly monokróm ikon"><rect width="120" height="120" rx="30" fill="none" stroke="#465064" stroke-width="3"/><g fill="none" stroke="#465064" stroke-width="3" stroke-linejoin="round"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z"/><path d="M57 82c-14-1-27-7-36-16 5 13 19 21 36 20z"/><path d="M63 82c14-1 27-7 36-16-5 13-19 21-36 20z"/></g><circle cx="60" cy="61" r="5" fill="#465064"/></svg><span class="wm">BLOOMLY</span><small>Monokróm · nyomda, gravírozás, vízjel</small></div>
+  <div class="logo-tile" style="background:linear-gradient(150deg,#EFE6FD,#FFE7DB);color:#4A4360"><div style="display:flex;gap:14px;align-items:flex-end"><svg width="60" height="60" viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#A58BE6"/><g fill="#fff"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z"/></g><circle cx="60" cy="61" r="5" fill="#D4B373"/></svg><svg width="36" height="36" viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#A58BE6"/><g fill="#fff"><path d="M60 30c10 13 12 29 0 47-12-18-10-34 0-47z"/><path d="M58 78c-8-15-19-24-31-26 2 14 13 25 31 26z"/><path d="M62 78c8-15 19-24 31-26-2 14-13 25-31 26z"/></g><circle cx="60" cy="61" r="6" fill="#D4B373"/></svg><svg width="20" height="20" viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="30" fill="#A58BE6"/><path fill="#fff" d="M60 26c12 15 14 32 0 54-14-22-12-39 0-54z"/></svg></div><small>Méretskála · 1024 / 180 / 48 px · 32 px alatt csak a középső szirom marad</small></div>
+</div>
+<p><b>Használati szabályok:</b> védőzóna a négyzet magasságának 25%-a; a felirat soha nem kap árnyékot; az ikon színátmenete mindig bal felső → jobb alsó irányú. iOS-en a rendszer maszkol, ezért a forrásfájl teljes négyzet, a 30/120 arányú lekerekítés csak a marketinganyagokon jelenik meg.</p>
+
+<h2 id="arch"><span class="num">1</span>Teljes alkalmazásarchitektúra</h2>
+<p>Helyben elsőként működő (local-first) mobilalkalmazás: minden funkció offline is megy, a szinkronizáció a háttérben történik. Az egészségügyi (ciklus) adatok eszközön titkosítva tárolódnak, a szerverre csak végponttól végpontig titkosított formában kerülnek, EU-s adatközpontban.</p>
+<div class="arch">
+  <div class="layer"><b>Kliens</b><div class="boxes"><span style="background:#E3D7FC">React Native + Expo (TypeScript)</span><span style="background:#E3D7FC">Expo Router</span><span style="background:#E3D7FC">Reanimated 3 · Skia (Bloom Kert)</span><span style="background:#E3D7FC">iOS widget (SwiftUI) · Android Glance</span></div></div>
+  <div class="layer"><b>Állapot és adat</b><div class="boxes"><span style="background:#F7E5EA">Zustand (UI állapot)</span><span style="background:#F7E5EA">TanStack Query</span><span style="background:#F7E5EA">WatermelonDB / SQLite, SQLCipher titkosítás</span><span style="background:#F7E5EA">Sync motor (pull/push, ütközéskezelés)</span></div></div>
+  <div class="layer"><b>Domain modulok</b><div class="boxes"><span style="background:#CDECCF">Szokások</span><span style="background:#CDECCF">Ciklus</span><span style="background:#CDECCF">Hangulatnapló</span><span style="background:#CDECCF">Check-in · Reflexió</span><span style="background:#CDECCF">Jutalmak · Kert motor</span><span style="background:#CDECCF">Vision Board</span><span style="background:#CDECCF">Statisztika</span><span style="background:#CDECCF">Értesítésütemező</span></div></div>
+  <div class="layer"><b>Backend</b><div class="boxes"><span style="background:#FFD6C2">Supabase (Postgres, Frankfurt régió)</span><span style="background:#FFD6C2">Auth: Apple, Google, e-mail link</span><span style="background:#FFD6C2">Storage: Vision Board képek</span><span style="background:#FFD6C2">Edge Functions: idézetek, szezonok, statisztika</span><span style="background:#FFD6C2">Row Level Security</span></div></div>
+  <div class="layer"><b>Szolgáltatások</b><div class="boxes"><span style="background:#E9D6A7">Expo Notifications (APNs, FCM)</span><span style="background:#E9D6A7">RevenueCat (Prémium)</span><span style="background:#E9D6A7">PostHog EU (anonim analitika)</span><span style="background:#E9D6A7">Sentry</span><span style="background:#E9D6A7">HealthKit / Health Connect (opcionális)</span></div></div>
+</div>
+<h3>Fő elvek</h3>
+<ul>
+<li><b>Modulhatárok:</b> minden domain modul saját sémát, tárolót és eseményeket ad. A kert motor nem olvas közvetlenül a szokásokból, hanem a <code>habit.completed</code>, <code>checkin.saved</code>, <code>streak.milestone</code> eseményekre iratkozik fel. Így új jutalomforrás bekötése egy eseménykezelő.</li>
+<li><b>Számított értékek:</b> a sorozatokat és arányokat a kliens számolja helyben a naplóból, a szerver csak ellenőriz (csalás elleni védelem a ranglistához, ha később lesz).</li>
+<li><b>Adatvédelem:</b> GDPR szerinti hozzájárulás külön a ciklusadatokra; teljes adatexport és fiók törlése az appból; analitikában soha nem szerepel egészségügyi adat.</li>
+<li><b>Akadálymentesség:</b> Dynamic Type, VoiceOver/TalkBack címkék minden ikonon, legalább 44×44 pt érintési felület, a „Mozgás csökkentése” beállítás tiszteletben tartása.</li>
+</ul>
+<h3>Navigációs térkép</h3>
+<div class="tbl"><table><thead><tr><th>Fül</th><th>Gyökérképernyő</th><th>Aloldalak és lapok</th></tr></thead><tbody>
+<tr><td>Ma</td><td>Főoldal</td><td>Reggeli check-in (3 lépéses lap), Esti reflexió, Szokás részletei, Gyors hozzáadás</td></tr>
+<tr><td>Szokások</td><td>Szokáslista szűrőkkel</td><td>Szokásszerkesztő, Előzmények hőtérkép, Sablonkönyvtár</td></tr>
+<tr><td>Kert</td><td>Bloom Kert</td><td>Gyűjtemény, Szezonális bolt, Kertszerkesztő (Prémium)</td></tr>
+<tr><td>Ciklus</td><td>Ciklusgyűrű és fázis</td><td>Napi napló (tünetek, energia, hangulat), Naptár, Ciklusbeállítások</td></tr>
+<tr><td>Én</td><td>Profil központ</td><td>Hangulatnapló, Statisztikák, Vision Board, Jelvények, Értesítések, Beállítások, Prémium</td></tr>
+</tbody></table></div>
+
+<h2 id="flows"><span class="num">2</span>Felhasználói útvonalak</h2>
+<h3>Első indítás (onboarding, kb. 90 másodperc)</h3>
+<div class="flow"><span>Üdvözlünk a Bloomly világában</span><em>→</em><span>Miben szeretnél fejlődni?</span><em>→</em><span>Szokások kiválasztása</span><em>→</em><span>Célok beállítása</span><em>→</em><span>Cikluskövetés</span><em>→</em><span>Személyre szabás</span><em>→</em><span>Kezdődhet a virágzás</span></div>
+<p>A fókuszterületek alapján rendezett szokásjavaslatok jelennek meg, 3–5 szokást ajánlunk. A cikluskövetés kihagyható és később bekapcsolható. Az értesítési engedélyt nem az elején kérjük, hanem az első kipipált szokás után („Szeretnéd, hogy holnap reggel emlékeztessünk?”), mert ekkor a legmagasabb az elfogadási arány.</p>
+<h3>Napi alapciklus</h3>
+<div class="flow"><span>Reggeli értesítés</span><em>→</em><span>Check-in: hangulat, cél, hála</span><em>→</em><span>Főoldal</span><em>→</em><span>Szokás pipálása</span><em>→</em><span>Szirom animáció, +10 szirom</span><em>→</em><span>Új virág a kertben</span></div>
+<div class="flow"><span>Esti értesítés</span><em>→</em><span>Esti reflexió</span><em>→</em><span>Napi összegzés</span><em>→</em><span>Holnapi előnézet</span></div>
+<h3>Mérföldkő</h3>
+<div class="flow"><span>7. nap egymás után</span><em>→</em><span>Teljes képernyős jelvény: Bronz virág</span><em>→</em><span>Arany csillogás és szirmok</span><em>→</em><span>Barackpipacs feloldva</span><em>→</em><span>„Megnézem a kertem”</span></div>
+<h3>Kihagyott nap (empatikus útvonal)</h3>
+<div class="flow"><span>Kimaradt nap</span><em>→</em><span>Harmatcsepp automatikusan védi a sorozatot</span><em>→</em><span>Másnap: „Örülünk, hogy itt vagy”</span><em>→</em><span>A növények nem hervadnak, csak pihennek</span></div>
+<h3>Ciklus</h3>
+<div class="flow"><span>Menstruáció kezdete gomb</span><em>→</em><span>Előrejelzés frissül</span><em>→</em><span>Fázis szerinti ajánlások a főoldalon</span><em>→</em><span>Tünetek, energia rögzítése</span><em>→</em><span>Ciklus és hangulat elemzés</span></div>
+
+<h2 id="screens"><span class="num">3</span>Képernyőről képernyőre UI-terv</h2>
+<p>Minden képernyő élőben kipróbálható a prototípusban. Közös rács: 20 pt oldalmargó, 18 pt függőleges szekciótávolság, 4 pt alapegység.</p>
+<div class="tbl"><table><thead><tr><th>Képernyő</th><th>Tartalom fentről lefelé</th><th>Kulcs interakció</th></tr></thead><tbody>
+<tr><td><b>Onboarding 1–7</b></td><td>Haladásjelző sáv · lebegő logó · nagy cím (32 pt) · egy döntés képernyőnként · elsődleges gomb alul</td><td>Kártyás választók, a kiválasztás levendula kerettel és pipával; az utolsó képernyőn kinyíló virág animáció</td></tr>
+<tr><td><b>Főoldal</b></td><td>Dátum és személyes üdvözlés · üveg hero kártya: haladási kör, sorozat, hangulat · reggeli check-in kártya · cikluskártya · mai szokások · napi inspiráció · Bloom Kert előnézet · esti reflexió</td><td>Pipáláskor szirom-robbanás, a kör animáltan telik, 100%-nál szirom eső</td></tr>
+<tr><td><b>Szokások</b></td><td>Cím + új gomb · szűrőcsipek (Napi, Heti, Egyedi, kategóriák) · kártyák: ikon, név, ismétlődés, 7 napos sáv, sorozat</td><td>Kártya → részletek lap: 12 hetes hőtérkép, statisztika, jegyzet</td></tr>
+<tr><td><b>Szokásszerkesztő</b></td><td>Név + sablonok · ikonrács · 6 pasztell szín · kategória · ismétlődés (napi / heti N alkalom / egyedi napok) · jegyzet</td><td>Alsó lap, rugalmas felcsúszás; törlés kétlépcsős megerősítéssel</td></tr>
+<tr><td><b>Reggeli check-in</b></td><td>Három kártya: Hogy érzed magad? · Mi a mai célod? · Miért vagy ma hálás?</td><td>Hangulat választás után automatikus továbblépés; javaslatcsipek</td></tr>
+<tr><td><b>Esti reflexió</b></td><td>Mai teljesítések összegzése · Mit sikerült ma teljesítened? · Mire vagy ma büszke?</td><td>Mentés után a válasz a Naplóban visszanézhető</td></tr>
+<tr><td><b>Ciklus</b></td><td>Fázisnév · négyszínű ciklusgyűrű a mai nappal · napok a következő menstruációig és ovulációig · fázisleírás, ajánlások, öngondoskodás, motiváció · napi napló · havi naptár</td><td>Gyűrű jelölő csúszik; „Ma kezdődött” gomb egy érintéssel</td></tr>
+<tr><td><b>Hangulatnapló</b></td><td>Fülek: Hangulat / Reggelek / Esték · mai hangulat és jegyzet · heti/havi trendvonal · megoszlás</td><td>Heti és havi váltó; bejegyzések idővonalon</td></tr>
+<tr><td><b>Statisztikák</b></td><td>Időszak váltó · 4 mutató · heti oszlopok · havi trend · 12 hetes hőtérkép · szokásonkénti következetesség · hangulat és szokás · ciklus és hangulat</td><td>Oszlopra koppintva érték-felirat</td></tr>
+<tr><td><b>Bloom Kert</b></td><td>Teljes szélességű élő kert · szint és szirom sáv · 3 mutató · szezon üzenet · gyűjtemény ritkasággal · szabályok</td><td>Virágok lengenek, pillangók repülnek, új virág kinyílik</td></tr>
+<tr><td><b>Vision Board</b></td><td>Kategória csipek · kétoszlopos mozaik: kép, idézet, cél, emlékeztető · kedvenc szív · fogantyú</td><td>Húzd és ejtsd átrendezés, képfeltöltés</td></tr>
+<tr><td><b>Jelvények</b></td><td>Következő nagy cél csillogó kártyán · jelvényrács · különleges jutalmak</td><td>Jelvény koppintás → teljes képernyős bemutató konfettivel</td></tr>
+<tr><td><b>Értesítések</b></td><td>Kapcsolók és időpontok · zárolt képernyős előnézet</td><td>Próba értesítés</td></tr>
+</tbody></table></div>
+
+<h2 id="comp"><span class="num">4</span>Komponenskönyvtár</h2>
+<div class="tbl"><table><thead><tr><th>Komponens</th><th>Változatok</th><th>Specifikáció</th></tr></thead><tbody>
+<tr><td>Gomb</td><td>Elsődleges, Szellem, Veszély, Ikon</td><td>Magasság 52 pt, sarok 18, Plus Jakarta 15/700. Elsődleges: levendula átmenet + színes árnyék. Lenyomva 0,97-es méret, 120 ms</td></tr>
+<tr><td>Kártya</td><td>Alap, Üveg, Kiemelt (átmenetes), Üres állapot</td><td>Sarok 26, belső térköz 18, árnyék <code>0 14 34 -18 lila/35%</code>. Üveg: 66% fehér, 18 px elmosás, 140% telítettség</td></tr>
+<tr><td>Szokás sor</td><td>Alap, Kész, Heti, Kihagyott</td><td>Ikon csempe 46 pt / sarok 16 a szokás színével; jelölőkör 38 pt, kész állapotban menta</td></tr>
+<tr><td>Haladási kör</td><td>Nagy (118), Kicsi (44)</td><td>11 pt vonal, levendula → barack átmenet, 1,1 s kifutó animáció</td></tr>
+<tr><td>Hangulat választó</td><td>Kártyán, Lapon</td><td>5 egyforma gomb, emoji 24–30 pt + címke; kiválasztva felemelkedik 3 pt-t</td></tr>
+<tr><td>Csip</td><td>Szűrő, Javaslat, Tünet</td><td>Magasság 34, kapszula, kiválasztva levendula halvány háttér és keret</td></tr>
+<tr><td>Szegmentált vezérlő</td><td>2–4 elem</td><td>Háttér <code>bg2</code>, aktív elem fehér kártyán, 300 ms csúszás</td></tr>
+<tr><td>Alsó lap</td><td>Űrlap, Részletek, Lépéses</td><td>Felső sarok 32, fogantyú 42×5, max 90% magasság, 500 ms rugós felcsúszás</td></tr>
+<tr><td>Tabsáv</td><td>5 elem</td><td>Lebegő üvegsáv 70 pt, 12 pt-ra a szélektől, aktív elem levendula ikon + pont</td></tr>
+<tr><td>Jelvény</td><td>Bronz, Ezüst, Arany, Pasztell, Ritka</td><td>Ötszirmú érem fémes átmenettel, ritka változaton fénycsík animáció</td></tr>
+<tr><td>Diagramok</td><td>Oszlop, Vonal + terület, Hőtérkép, Megoszlás sáv</td><td>Kerekített oszlopok, halvány rács, kiemelt utolsó pont, téma tokenekből színezett feliratok</td></tr>
+<tr><td>Toast és Modal</td><td>Siker, Jutalom</td><td>Toast felülről, 2,6 s; jutalom modal középen, csillogással</td></tr>
+</tbody></table></div>
+
+<h2 id="color"><span class="num">5</span>Színrendszer</h2>
+<p>Pasztell paletta, harsány és neon árnyalatok nélkül. A pasztellek felületként és kitöltésként szerepelnek; szövegre és vékony ikonra a mélyített változatok kerülnek, hogy megmaradjon a WCAG AA kontraszt.</p>
+<div class="grid sm">
+<div class="sw"><i style="background:#CBB7F7"></i><div><b>Pasztell Levendula</b>#CBB7F7 · elsődleges<br>mély: #8F78CF</div></div>
+<div class="sw"><i style="background:#F7E5EA"></i><div><b>Púderrózsaszín</b>#F7E5EA · másodlagos</div></div>
+<div class="sw"><i style="background:#FFD6C2"></i><div><b>Pasztell Barack</b>#FFD6C2 · kiemelő</div></div>
+<div class="sw"><i style="background:#CDECCF"></i><div><b>Pasztell Menta</b>#CDECCF · siker<br>mély: #5E9C6B</div></div>
+<div class="sw"><i style="background:#E9D6A7"></i><div><b>Pasztell Arany</b>#E9D6A7 · jutalom<br>mély: #B48F4E</div></div>
+<div class="sw"><i style="background:#FFFDFB"></i><div><b>Háttér</b>#FFFDFB</div></div>
+<div class="sw"><i style="background:#F8F5F2"></i><div><b>Másodlagos háttér</b>#F8F5F2</div></div>
+<div class="sw"><i style="background:#FFFFFF"></i><div><b>Kártya</b>#FFFFFF</div></div>
+<div class="sw"><i style="background:#556070"></i><div><b>Elsődleges szöveg</b>#556070 · 6,4:1</div></div>
+<div class="sw"><i style="background:#8A94A6"></i><div><b>Másodlagos szöveg</b>#8A94A6 · csak 16 pt felett; kis méretre #7D879A</div></div>
+</div>
+<h3>Sötét mód: „Levendula alkony”</h3>
+<p>Nem fekete, hanem mély szilva-ibolya. A pasztellek kissé telítetlenebbek, a fény a kártyákon keresztül jön.</p>
+<div class="grid sm">
+<div class="sw"><i style="background:#1C1925"></i><div><b>Háttér</b>#1C1925</div></div>
+<div class="sw"><i style="background:#231F2E"></i><div><b>Másodlagos</b>#231F2E</div></div>
+<div class="sw"><i style="background:#2A2537"></i><div><b>Kártya</b>#2A2537</div></div>
+<div class="sw"><i style="background:#B9A3EE"></i><div><b>Levendula</b>#B9A3EE</div></div>
+<div class="sw"><i style="background:#E3DEEC"></i><div><b>Szöveg</b>#E3DEEC</div></div>
+<div class="sw"><i style="background:#E0C98F"></i><div><b>Arany</b>#E0C98F</div></div>
+</div>
+<h3>Szokásszínek és szemantika</h3>
+<p>Hat szokásszín: Levendula, Rózsa (#F5D3DC), Barack, Menta, Arany, Égkék (#CFE2F6). Ciklusfázisok: Menstruáció #F7CBD6, Follikuláris menta, Ovuláció barack, Luteális levendula. Hiba és törlés: púder alapon mély rózsa szöveg (#A0526A), soha nem piros.</p>
+
+<h2 id="type"><span class="num">6</span>Tipográfia</h2>
+<p><b>Urbanist</b> a címekhez: geometrikus, nyitott formák, nőies, de nem dekoratív. <b>Plus Jakarta Sans</b> a szövegekhez: kiváló olvashatóság kis méretben, teljes magyar ékezetkészlet (ő, ű). Mindkettő szabad licencű.</p>
+<div class="card">
+<div class="type-row"><small>Display · 32/1,12 · 500</small><span style="font-family:var(--f-display);font-size:32px;color:var(--ink);font-weight:500;line-height:1.12">Virágozz minden nap</span></div>
+<div class="type-row"><small>Cím 1 · 26/1,15 · 600</small><span style="font-family:var(--f-display);font-size:26px;color:var(--ink);font-weight:600">Szokásaim</span></div>
+<div class="type-row"><small>Cím 2 · 20/1,2 · 600</small><span style="font-family:var(--f-display);font-size:20px;color:var(--ink);font-weight:600">Mai szokások</span></div>
+<div class="type-row"><small>Idézet · 21/1,35 · 400</small><span style="font-family:var(--f-display);font-size:21px;color:var(--ink)">„A kis lépések vezetnek a nagy eredményekhez.”</span></div>
+<div class="type-row"><small>Törzs · 15/1,5 · 400</small><span>Minden kipipált szokás egy új virágot növeszt.</span></div>
+<div class="type-row"><small>Meta · 13/1,4 · 500</small><span style="font-size:13px;color:var(--text2)">8 pohár naponta · 12 nap</span></div>
+<div class="type-row" style="border:0"><small>Felülcím · 11,5 · 600 · +0,14em</small><span style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--text2)">Reggeli check-in</span></div>
+</div>
+
+<h2 id="icons"><span class="num">7</span>Ikonkészlet</h2>
+<p>24 pt rács, 1,6 pt vonal, lekerekített végek és csatlakozások. Az ikon mindig pasztell csempén ül (sarok = méret × 0,35), mély szilva (#4A4360) vonallal. Kitöltött változat csak aktív állapotban (pl. kedvenc szív).</p>
+<div class="icons" id="iconset"></div>
+
+<h2 id="db"><span class="num">8</span>Adatbázis-struktúra</h2>
+<p>PostgreSQL (Supabase), minden táblán <code>user_id</code> és Row Level Security. A kliens WatermelonDB-ben ugyanezt a sémát tükrözi <code>updated_at</code> és <code>deleted</code> mezőkkel a szinkronhoz. A dőlt betűs mezők titkosítottak.</p>
+<div class="tbl"><table><thead><tr><th>Tábla</th><th>Mezők</th><th>Megjegyzés</th></tr></thead><tbody>
+<tr><td><code>profiles</code></td><td>id, display_name, focus_areas[], main_goal, theme, locale='hu', timezone, premium_until, created_at</td><td>1:1 az auth felhasználóval</td></tr>
+<tr><td><code>habits</code></td><td>id, user_id, name, icon, color, category_id, frequency (daily|weekly|custom), days_of_week int[], weekly_target, reminder_time, note, sort_order, archived_at</td><td>Archiválás törlés helyett, az előzmények megmaradnak</td></tr>
+<tr><td><code>categories</code></td><td>id, user_id (null = rendszer), name, color</td><td>Rendszer és egyedi kategóriák</td></tr>
+<tr><td><code>habit_logs</code></td><td>id, habit_id, user_id, date, completed_at, value, source (app|widget|watch)</td><td>Egyedi index: (habit_id, date)</td></tr>
+<tr><td><code>mood_entries</code></td><td>id, user_id, date, mood (0–4), energy (1–5), <i>note</i>, tags[]</td><td>Naponta egy, felülírható</td></tr>
+<tr><td><code>checkins</code></td><td>id, user_id, date, mood, <i>goal</i>, <i>gratitude</i></td><td>Reggeli check-in</td></tr>
+<tr><td><code>reflections</code></td><td>id, user_id, date, <i>accomplished</i>, <i>proud_of</i></td><td>Esti reflexió</td></tr>
+<tr><td><code>cycles</code></td><td>id, user_id, start_date, end_date, length_days</td><td>Előrejelzés: utolsó 6 ciklus súlyozott átlaga</td></tr>
+<tr><td><code>cycle_days</code></td><td>id, user_id, date, <i>flow</i>, <i>symptoms[]</i>, energy</td><td>E2E titkosított, külön hozzájárulás</td></tr>
+<tr><td><code>vision_items</code></td><td>id, user_id, type (image|quote|goal|reminder), text, image_path, category, is_favorite, position, remind_at</td><td>Képek a privát Storage-ban</td></tr>
+<tr><td><code>garden_catalog</code></td><td>id, kind (flower|bush|tree|water|decor|creature), name, rarity, unlock_rule jsonb, season, asset_key</td><td>Szerverről frissíthető, app kiadás nélkül</td></tr>
+<tr><td><code>garden_items</code></td><td>id, user_id, catalog_id, x, y, layer, planted_at, source_event</td><td>A kert elrendezése</td></tr>
+<tr><td><code>petal_ledger</code></td><td>id, user_id, amount, reason, ref_id, created_at</td><td>Szirom főkönyv, az egyenleg összegzés</td></tr>
+<tr><td><code>achievements</code> / <code>user_achievements</code></td><td>id, name, tier, rule jsonb, is_rare / user_id, achievement_id, earned_at, seen_at</td><td><code>seen_at</code> vezérli az ünneplő animációt</td></tr>
+<tr><td><code>notification_prefs</code></td><td>user_id, morning_on, morning_time, evening_on, evening_time, streak_guard, garden_news, quiet_hours</td><td>Napi legfeljebb 2 push</td></tr>
+<tr><td><code>quotes</code></td><td>id, text, author, tags[], season, active</td><td>Napi inspiráció rotáció</td></tr>
+</tbody></table></div>
+
+<h2 id="road"><span class="num">9</span>Fejlesztési ütemterv</h2>
+<p>Csapat: 1 termékmenedzser, 1 terméktervező, 2 mobilfejlesztő, 1 backend fejlesztő, részmunkaidős illusztrátor és nőgyógyász szakértő. Indulás a 28. héten.</p>
+<div class="road">
+<div class="phase"><b>1–2. hét</b><div><h4>Feltárás</h4><p>20 interjú 25–45 éves magyar nőkkel, versenytárselemzés, értékajánlat és mutatók (D7, D30 megtartás, napi aktív pipálás).</p></div></div>
+<div class="phase"><b>3–5. hét</b><div><h4>Design rendszer és prototípus</h4><p>Tokenek, komponensek Figmában, kert illusztrációs stílus, kattintható prototípus, 8 fős használhatósági teszt.</p></div></div>
+<div class="phase"><b>6–13. hét</b><div><h4>MVP</h4><p>Onboarding, szokások, főoldal, check-in, reflexió, hangulatnapló, értesítések, helyi adatbázis, bejelentkezés.</p></div></div>
+<div class="phase"><b>14–17. hét</b><div><h4>Bloom Kert és jutalmak</h4><p>Skia kertmotor, katalógus, szirom főkönyv, jelvények, ünneplő animációk, haptika.</p></div></div>
+<div class="phase"><b>18–21. hét</b><div><h4>Cikluskövetés</h4><p>Előrejelző algoritmus, fázistartalmak szakértői lektorálással, titkosítás, adatvédelmi audit.</p></div></div>
+<div class="phase"><b>22–24. hét</b><div><h4>Statisztika és Vision Board</h4><p>Elemzések, összefüggések, képfeltöltés, húzd és ejtsd, widgetek.</p></div></div>
+<div class="phase"><b>25–27. hét</b><div><h4>Béta</h4><p>TestFlight és Play zárt teszt 300 felhasználóval, Prémium árazás tesztje, teljesítmény és akadálymentességi audit.</p></div></div>
+<div class="phase"><b>28. hét</b><div><h4>Indulás</h4><p>App Store és Google Play megjelenés, sajtó, influenszer kampány, „21 napos virágzás” kihívás.</p></div></div>
+<div class="phase"><b>Utána</b><div><h4>Növekedés</h4><p>Apple Watch, közös kertek barátnőkkel, vezetett meditációk, szezonális események, Health integráció.</p></div></div>
+</div>
+
+<h2 id="visual"><span class="num">10</span>Prémium vizuális ajánlások</h2>
+<ul>
+<li><b>Levegő:</b> a tartalom legfeljebb a képernyő 70%-át töltse ki. Egy képernyőn egy fő döntés.</li>
+<li><b>Mozgás:</b> három tempó: 180 ms (visszajelzés), 320 ms (állapotváltás), 600–1100 ms (ünneplés). Görbe: <code>cubic-bezier(.22,1,.36,1)</code>, kifutó, rugalmas, soha nem pattogó.</li>
+<li><b>Mikroanimációk:</b> pipáláskor hat szirom nyílik ki a jelölőből; 100%-os napnál lassú szirom eső; jelvénynél arany szikrák; a kert növényei 5–9 másodperces ciklusban lengenek, mindegyik eltolt fázissal.</li>
+<li><b>Haptika:</b> könnyű koppintás pipáláskor, „siker” minta mérföldkőnél. Hang alapértelmezésben kikapcsolva; bekapcsolva egy halk szélcsengő.</li>
+<li><b>Üveghatás:</b> csak lebegő rétegeken (tabsáv, hero kártya, értesítések), hogy ne veszítse el a hatását.</li>
+<li><b>Illusztráció:</b> akvarell textúrájú, lapos vektor növények, puha szemcsés zaj a háttéren. Emberalak nincs, így minden nő magára ismerhet.</li>
+<li><b>Fotó (marketing):</b> természetes reggeli fény, len textil, kerámia, friss virágok, valódi bőr retusálás nélkül.</li>
+<li><b>Hangvétel:</b> tegeződő, meleg, rövid. „Szép volt!” helyett gyakran konkrét: „Ez már a 12. nap. A kerted is érzi.”</li>
+</ul>
+<div class="quote">„Egyetlen szokás ma is közelebb visz a céljaidhoz.”</div>
+<h3>Értesítési szövegek</h3>
+<div class="tbl"><table><thead><tr><th>Helyzet</th><th>Szöveg</th></tr></thead><tbody>
+<tr><td>Reggel</td><td>Jó reggelt! Hogy érzed magad ma? 🌿</td></tr>
+<tr><td>Napközben, nincs pipálás</td><td>Egyetlen szokás ma is közelebb visz a céljaidhoz.</td></tr>
+<tr><td>Sorozat veszélyben (20:00)</td><td>Ne hagyd megszakadni a sorozatodat. Még van időd.</td></tr>
+<tr><td>Kert</td><td>Ma is nyílik egy új virág a kertedben.</td></tr>
+<tr><td>Visszatérés 3 nap után</td><td>A kerted vár rád 🌸</td></tr>
+<tr><td>Luteális szakasz</td><td>Ma lassíthatsz. A pihenés is fejlődés.</td></tr>
+</tbody></table></div>
+
+<h2 id="market"><span class="num">11</span>App Store / Google Play marketingkoncepció</h2>
+<div class="grid">
+<div class="card"><div class="eyebrow">Név (30 karakter)</div><p style="font-family:var(--f-display);font-size:20px;color:var(--ink)">Bloomly: Szokás és Ciklus</p></div>
+<div class="card"><div class="eyebrow">Alcím</div><p style="font-family:var(--f-display);font-size:20px;color:var(--ink)">Virágozz minden nap.</p></div>
+<div class="card"><div class="eyebrow">Kulcsszavak</div><p>szokáskövető, napló, menstruáció, ciklus, hangulat, önfejlesztés, rutin, meditáció, hála, női</p></div>
+</div>
+<h3>Képernyőképek sorrendje</h3>
+<div class="shot">
+<div style="background:linear-gradient(160deg,#E3D7FC,#FFE7DB)"><small>1</small><b>Szokásaidból kert nő</b></div>
+<div style="background:linear-gradient(160deg,#F7E5EA,#FFF1EA)"><small>2</small><b>Napi rutinok, egy érintéssel</b></div>
+<div style="background:linear-gradient(160deg,#DDF2DE,#E6F0FA)"><small>3</small><b>Ismerd meg a ciklusod ritmusát</b></div>
+<div style="background:linear-gradient(160deg,#FFE3D6,#FBEFD9)"><small>4</small><b>Hogy érzed magad ma?</b></div>
+<div style="background:linear-gradient(160deg,#F4E3B5,#F7E5EA)"><small>5</small><b>Bronz, ezüst, arany virág</b></div>
+<div style="background:linear-gradient(160deg,#E6F0FA,#EFE6FD)"><small>6</small><b>Álmaid egy falon</b></div>
+</div>
+<h3>Leírás (első három sor)</h3>
+<p>A Bloomly a te nyugodt sarkod a nap rohanásában. Kövesd a szokásaidat, a hangulatodat és a ciklusodat egy helyen, és nézd, ahogy minden kis lépésből virág lesz a saját kertedben. Magyar nőknek, magyarul, szeretettel tervezve.</p>
+<h3>Üzleti modell</h3>
+<p>Ingyenes alapcsomag: 5 szokás, hangulatnapló, ciklus, alap kert. <b>Bloomly Prémium</b>: korlátlan szokás, teljes statisztika, kertszerkesztő, szezonális gyűjtemények, témák, adatexport. Ár: 1 490 Ft/hó vagy 9 990 Ft/év, 7 napos próbával.</p>
+<h3>Bevezető kampány</h3>
+<ul>
+<li><b>„21 napos virágzás” kihívás</b> Instagramon és TikTokon: a résztvevők megosztják a kertjüket, a 21. napon exkluzív „Balatoni tavirózsa” jár.</li>
+<li><b>Mikroinfluenszerek</b> (10–80 ezer követő): wellness, jóga, anyaság, bőrápolás. Hiteles, hosszú távú együttműködés, nem egyszeri poszt.</li>
+<li><b>Pinterest</b>: nyomtatható szokáskövető lapok és vision board sablonok a márka stílusában.</li>
+<li><b>PR:</b> Nők Lapja, Marie Claire, Joy online; nőgyógyász szakértői interjú a ciklustudatosságról.</li>
+<li><b>ASO:</b> értékelés kérése a 7 napos jelvény után, soha nem első használatkor; App Store In-App Events a szezonális kertekhez.</li>
+</ul>
+
+<h2 id="dash"><span class="num">12</span>Modern dashboard tervek</h2>
+<p>Két dashboard van: a napi <b>Főoldal</b> (cselekvésre) és a <b>Statisztikák</b> (megértésre). Mindkettő élőben kipróbálható a prototípusban.</p>
+<h3>Főoldal: „egy pillantás, egy érintés”</h3>
+<ol>
+<li>Üdvözlés napszak szerint („Jó reggelt, Lili”) és dátum.</li>
+<li>Üveg hero kártya: haladási kör a napi százalékkal, aktuális sorozat lánggal, mai hangulat.</li>
+<li>Kontextuális kártya: reggel check-in, este reflexió, a ciklus aktuális tippje.</li>
+<li>Mai szokások: a teljesítettek halványulnak, de a helyükön maradnak, így látszik a haladás.</li>
+<li>Napi inspiráció, kedvencnek jelölhető, a gyűjteménybe kerül.</li>
+<li>Bloom Kert előnézet a szintsávval: „140 szirom a Liget szintig”.</li>
+<li>Lebegő + gomb: szokás, hangulat, reflexió, vision board elem.</li>
+</ol>
+<h3>Statisztikák: összegzés, utána részletek</h3>
+<ol>
+<li>Időszakváltó (7 / 30 / 90 nap) és négy mutató: teljesítési arány, aktuális és leghosszabb sorozat, összes teljesítés.</li>
+<li>Heti oszlopdiagram, a mai nap kiemelve, koppintásra értékkel.</li>
+<li>Havi trend: hat hét átlaga vonallal és területtel.</li>
+<li>12 hetes hőtérkép a következetességről.</li>
+<li>Szokásonkénti következetesség sávokkal.</li>
+<li>Összefüggések közérthető mondatban: „Amikor a szokásaid 80%-át teljesíted, a hangulatod átlagosan 0,9 ponttal jobb.”</li>
+<li>Ciklus és hangulat: átlagos hangulat fázisonként.</li>
+</ol>
+
+<h2 id="garden"><span class="num">13</span>Bloom Kert: gamifikációs rendszer</h2>
+<p>A kert a Bloomly szíve: a következetesség látható, megfogható jutalma. A tervezés alapelve az <b>együttérző gamifikáció</b>: a kert soha nem hervad el, nem büntet, és nincs benne versengés más felhasználókkal. A kihagyott napon a növények „pihennek” (enyhén lehajtják a fejüket), és az első pipálással újra felállnak.</p>
+<h3>Szirom gazdaság</h3>
+<div class="tbl"><table><thead><tr><th>Tevékenység</th><th>Szirom</th><th>Kertben</th></tr></thead><tbody>
+<tr><td>Szokás teljesítése</td><td>+10</td><td>Egy új virág nyílik a szokás színében</td></tr>
+<tr><td>Reggeli check-in</td><td>+15</td><td>Reggeli harmat a leveleken</td></tr>
+<tr><td>Esti reflexió</td><td>+15</td><td>Szentjánosbogarak este</td></tr>
+<tr><td>Hangulat rögzítése</td><td>+5</td><td>Az ég színe a hangulatot követi</td></tr>
+<tr><td>100%-os nap</td><td>+25 bónusz</td><td>Szivárvány a kert felett</td></tr>
+<tr><td>Sorozat mérföldkő (7/30/100)</td><td>+100 / +500 / +2000</td><td>Jelvény és ritka növény</td></tr>
+</tbody></table></div>
+<h3>Szintek</h3>
+<div class="flow"><span>Mag · 0</span><em>→</em><span>Csíra · 200</span><em>→</em><span>Bimbó · 600</span><em>→</em><span>Virágzó · 1 200</span><em>→</em><span>Kert · 2 000</span><em>→</em><span>Liget · 3 200</span><em>→</em><span>Édenkert · 5 000</span><em>→</em><span>Bloom Paradicsom · 8 000</span></div>
+<p>Minden szint új kertrészt nyit (ösvény, tópart, gyümölcsös, rózsalugas), így a kert térben is nő, nem csak sűrűsödik.</p>
+<h3>Növény- és dekorációkatalógus</h3>
+<div class="tbl"><table><thead><tr><th>Ritkaság</th><th>Példák</th><th>Feloldás</th></tr></thead><tbody>
+<tr><td>Gyakori</td><td>Levendula, pasztell tulipán, barackpipacs</td><td>Kezdés, 10 teljesítés, 7 napos sorozat</td></tr>
+<tr><td>Ritka</td><td>Margaréta, hortenzia bokor, pillangók, kerti pad</td><td>50 és 100 teljesítés, 10 reflexió, 14 check-in</td></tr>
+<tr><td>Különleges</td><td>Lótuszos tó, cseresznyefa, szezonális lampionok</td><td>30 napos sorozat, 200 teljesítés, szezon</td></tr>
+<tr><td>Legendás</td><td>Bölcs tölgy, aranylótusz, holdvirág</td><td>100 napos sorozat, 30 tökéletes nap, 30 esti reflexió</td></tr>
+</tbody></table></div>
+<h3>Szezonok és magyar ünnepek</h3>
+<ul>
+<li><b>Tavasz:</b> cseresznyevirágzás, Nőnap (március 8.) exkluzív tulipán.</li>
+<li><b>Nyár:</b> napraforgók, balatoni tavirózsa, Szent Iván éji szentjánosbogarak.</li>
+<li><b>Ősz:</b> lampionok, színes lombok, Mindenszentek heti gyertyafény.</li>
+<li><b>Tél:</b> hóban nyíló hóvirág, adventi koszorú, karácsonyi fényfüzér.</li>
+</ul>
+<p>A szezonális elemek a szezon után is megmaradnak a gyűjteményben, így a hűséges felhasználók kertje évről évre gazdagodik.</p>
+<h3>Sorozatvédelem</h3>
+<p><b>Harmatcsepp:</b> minden 7 egymás utáni nap után egy jár (legfeljebb 3 tartható). Egy kihagyott napon automatikusan megvédi a sorozatot. Menstruáció alatt a felhasználó bekapcsolhat „Pihenő módot”: a sorozat szünetel, nem szakad meg.</p>
+<h3>Hosszú távú motiváció</h3>
+<ul>
+<li><b>Kertnapló:</b> havonta egy „fotó” a kertről, egymás mellett látszik a fejlődés.</li>
+<li><b>Gyűjthető magvak:</b> ritka magvak véletlenszerűen (3% esély) teljesítéskor; elültetve 7 nap alatt nőnek ki.</li>
+<li><b>Kertszerkesztő (Prémium):</b> a növények áthelyezhetők, dekorációk elhelyezhetők.</li>
+<li><b>Közös kert (később):</b> két barátnő közös ágyást gondoz; nincs ranglista, csak közös virágzás.</li>
+</ul>
+<h2 id="onboarding"><span class="num">14</span>Onboarding 2.0: 12 képernyő</h2>
+<p>Az első indítás célja az érzelmi kapcsolódás: a felhasználó ne űrlapot töltsön ki, hanem a saját virágát és kertjét alakítsa. A folyamat kb. 2–3 perc, minden lépés egyetlen döntést kér. A prototípusban élőben kipróbálható (Beállítások → Bevezető újraindítása).</p>
+<h3>Közös szabályok</h3>
+<ul>
+<li><b>Váz:</b> felül vissza gomb (42 pt), színátmenetes haladásjelző (levendula → barack) és „3 / 12” számláló; középen a tartalom; alul egy elsődleges CTA a teljes szélességben, szükség esetén mellette egy szellemgomb.</li>
+<li><b>Háttér:</b> krémfehér (#FFFDFB) alap három lágy fényfolttal: levendula balra fent, barack jobbra, menta alul.</li>
+<li><b>Átmenet:</b> előre lépve a tartalom 34 pt-ról jobbról csúszik be áttűnéssel, visszalépve balról, 550 ms, <code>cubic-bezier(.22,1,.36,1)</code>. A haladásjelző 700 ms alatt nő.</li>
+<li><b>CTA logika:</b> amíg nincs érvényes választás, a gomb halvány, és megmondja, mi hiányzik („Válassz legalább egy területet”). Választás után a gomb szövege visszaigazol („Tovább · 3 terület”).</li>
+<li><b>Kihagyható lépések:</b> Ciklus, Hangulat, Értesítések. Alattuk halk „Kihagyom ezt a lépést” link.</li>
+<li><b>Akadálymentesség:</b> minden választó <code>aria-pressed</code> vagy <code>role="switch"</code>, a haladásjelző <code>progressbar</code>, a „Mozgás csökkentése” beállítás kikapcsolja a csúszást és a lebegést.</li>
+</ul>
+<div class="tbl"><table><thead><tr><th style="width:150px">Képernyő</th><th>Elrendezés és szövegek</th><th>Ikonok, animáció, mikrointerakció</th><th style="width:170px">CTA és átmenet</th></tr></thead><tbody>
+<tr><td><b>1. Üdvözlés</b><br><small>érzelmi belépő</small></td><td>Középre zárt hős: 104 pt-os lebegő app-ikon, BLOOMLY felirat 0,38 em betűközzel. Cím: „Üdvözlünk a Bloomly világában”. Alcím: „Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.” Alatta három üveg címke: Szokások, Életvirág, Bloom Kert.</td><td>Az ikon 6 s-os ciklusban 8 pt-ot lebeg. A három címke 120 ms-os eltolással emelkedik be. Ikonok: pipa, nyolcszirmú virág, csíra.</td><td>„Kezdjük el”. Halk link: „Már ismerem, bemutatót kérek”. Az első csúszás jobbról.</td></tr>
+<tr><td><b>2. Miben szeretnél fejlődni?</b></td><td>Felülcím: „Fókusz”. Lead: „Válaszd ki azokat a területeket, amelyek most a legfontosabbak neked.” Két csoport. Felül „Az Életvirág nyolc szirma”: 2×4-es rács üvegkártyákkal, ikonnal, névvel és egy soros leírással. Alatta „Még több terület”: 17 kisebb, háromoszlopos kártya (Alvás, Mozgás és fittség, Táplálkozás, Női egészség és ciklus, Szépség és bőrápolás, Önbizalom, Anyaság és család, Párkapcsolat, Produktivitás, Karrierépítés, Nyelvtanulás, Megtakarítás, Kreativitás, Rendezett otthon, Stresszkezelés, Digitális egyensúly, Hála és jelenlét). Mindegyik egy szirom alá tartozik, így a célok és a szokásajánlatok is ebből épülnek.</td><td>Kiválasztáskor a kártya 2 pt-ot emelkedik, a terület pasztell színével telítődik, és jobb felső sarkában egy pipa ugrik be (scale 0 → 1, 400 ms). Haptika: könnyű koppintás.</td><td>„Tovább · N terület”, 0 választásnál tiltva.</td></tr>
+<tr><td><b>3. Céljaid kiválasztása</b></td><td>„Mit szeretnél elérni?” Lead: legfeljebb 3 cél a következő 90 napra. A választott területekhez tartozó 3-3 célajánlat listában, alattuk saját cél mező + gombbal.</td><td>A választott célok sorszámot kapnak (1, 2, 3) levendula körben. A 4. választásnál kedves figyelmeztetés: „Legfeljebb 3 célt választhatsz”. Enter is felveszi a saját célt.</td><td>„Tovább · 2/3 cél”.</td></tr>
+<tr><td><b>4. Első szokások</b></td><td>„Válaszd ki az első szokásaidat”. Számláló címke: „3 kiválasztva · ajánlott 3–5”. Legfeljebb 12 ajánlat a szokástárból, a választott területek kategóriáit váltogatva, hogy változatos legyen.</td><td>Az első 3 ajánlat előre ki van jelölve, így egy koppintással tovább lehet lépni. 5 fölött a számláló barackra vált (finom jelzés, nem tiltás). Kész jel: menta kör pipával.</td><td>„Tovább · N szokás”.</td></tr>
+<tr><td><b>5. Életvirág bemutatása</b></td><td>„Ismerd meg az Életvirágodat”. Lead: „Nyolc szirom, nyolc életterület. Koppints egy sziromra, és értékeld 1-től 10-ig.” Középen a 8 szirmú virág ikonokkal a peremén, alatta értékelő panel: terület neve, szöveges állapot („Szépen virágzik”), nagy szám, csúszka, 8 gyorsváltó gomb.</td><td>A szirmok 90 ms-os eltolással, középről kinőve nyílnak ki (1,1 s). A csúszka mozgatásakor a szirom valós időben nő vagy zsugorodik (600 ms rugós átmenet), középen az arany pontban frissül az átlag.</td><td>„Ez az én virágom”.</td></tr>
+<tr><td><b>6. Bloom Kert bemutatása</b></td><td>„Ez a te Bloom Kerted”. Panoráma kártya élő kerttel, alatta három lépés: Kipipálsz egy szokást → kinyílik egy virág. Sorozatot építesz → ritka növények. Különleges eredmények → fák, tó, szezonális díszek.</td><td>A 8 virág 200 ms-os eltolással egymás után nyílik ki forogva. A virágok lengenek, a nap pulzál. A három magyarázó sor csak a virágok után emelkedik be.</td><td>„Csodás, tovább”.</td></tr>
+<tr><td><b>7. Cikluskövetés</b></td><td>„Kövessük együtt a ciklusodat?” A négy fázis színes címkéje, kapcsoló („Titkosítva, csak az eszközödön tárolva”), bekapcsolva dátum mező az utolsó menstruáció első napjához és ciklushossz-léptető.</td><td>A kapcsoló rugós csúszással vált, a mezők lenyílnak. Ikon: ciklus nyíl cseppel.</td><td>„Bekapcsolom” vagy „Tovább nélküle”, valamint a kihagyás link.</td></tr>
+<tr><td><b>8. Hangulat</b></td><td>„Hogy érzed magad most?” Öt nagy, üveg emoji gomb: Boldog, Nyugodt, Semleges, Szomorú, Stresszes. Választás után empatikus válasz kártya, például „Köszönjük, hogy megosztottad. Ma legyél különösen kedves magadhoz.”</td><td>Hovernél az emoji 1,12-re nő, kiválasztva 4 pt-ot emelkedik. A válasz kártya beúszik. Ez az első hangulatnapló-bejegyzés.</td><td>„Tovább”, választás nélkül tiltva. Kihagyható.</td></tr>
+<tr><td><b>9. Értesítések</b></td><td>„Kérsz kedves emlékeztetőket?” Lead: legfeljebb napi kettő, soha nem sürgetünk. Élethű, zárolt képernyős értesítés előnézet a felhasználó nevével. Alatta két sor: Reggeli check-in és Esti reflexió, időpont és kapcsoló.</td><td>Az értesítés felülről, enyhe nagyítással érkezik (900 ms). Kikapcsolt sornál az időmező elhalványul.</td><td>„Engedélyezem” (itt kéri a rendszer-engedélyt) és „Most nem”.</td></tr>
+<tr><td><b>10. Téma</b></td><td>„Tedd a magadévá”. Keresztnév mező, alatta három témakártya mini előnézettel: Levendula hajnal, Éjszakai kert, Automatikus.</td><td>A téma azonnal, élőben vált az egész felületen. A kiválasztott kártya levendula keretet kap és emelkedik.</td><td>„Tovább”.</td></tr>
+<tr><td><b>11. Első virág elültetése</b></td><td>„Ültesd el az első virágodat”. Négy virág választható: Levendula, Tulipán, Pipacs, Margaréta. Középen földkupac lebegő maggal, alatta „Tartsd lenyomva az ültetéshez” gomb.</td><td>Lenyomva a gomb 1,3 s alatt balról jobbra telik; elengedve 300 ms alatt visszafut (meg kell tartani, ez adja a rituálé érzését). Teljes töltésnél a mag eltűnik, a választott virág kinyílik, arany szikrák szállnak. Billentyűzettel Enter. Haptika: erősödő rezgés, a végén „siker” minta.</td><td>„Előbb ültesd el a virágot” (tiltva), ültetés után „Tovább”. Ez a virág örökre a kert közepén marad.</td></tr>
+<tr><td><b>12. Befejező</b></td><td>Az első virág arany fényudvarban lebeg. Cím: „Kezdődhet a virágzás, Anna”. Összegző rács: Életvirág mini átlaggal, első szokások, célok, fókuszterületek száma. Kapcsoló: Bemutató előzmények.</td><td>Belépéskor pasztell szirom eső. A rácselemek finoman beúsznak.</td><td>„Belépés a kertembe”. A főoldalra lépve újabb szirom eső és üdvözlő értesítés: „Üdv a kertedben, Anna 🌸”.</td></tr>
+</tbody></table></div>
+<h3>Mérés</h3>
+<p>Fő mutató a befejezési arány (cél: 80% felett) és az első napi pipa aránya (cél: 60% felett). Lépésenkénti lemorzsolódást mérünk; ha egy lépés 8% felett veszít, azt egyszerűsítjük vagy kihagyhatóvá tesszük.</p>
+
+<h2 id="lifeflower"><span class="num">15</span>Életvirág</h2>
+<p>Az Életvirág a Bloomly saját életkerék-modellje: nyolc szirom, nyolc életterület. Minden szirom mérete a felhasználó önértékelését mutatja 1 és 10 között, középen az arany pontban az átlag. A virág nem ítélkezik: a kis szirom azt jelenti, hogy az a terület most több figyelmet kér.</p>
+<div class="tbl"><table><thead><tr><th>Szirom</th><th>Szín</th><th>Mit takar</th><th>Kapcsolódó szokáskategóriák</th></tr></thead><tbody>
+<tr><td>Egészség</td><td>Menta #CDECCF</td><td>Energia, mozgás, alvás</td><td>Egészség, Táplálkozás, Mozgás, Alvás</td></tr>
+<tr><td>Öngondoskodás</td><td>Rózsa #F5D3DC</td><td>Szépség, pihenés, énidő</td><td>Szépség, Önszeretet</td></tr>
+<tr><td>Kapcsolatok</td><td>Barack #FFD6C2</td><td>Család, barátok, párkapcsolat</td><td>Kapcsolatok</td></tr>
+<tr><td>Karrier</td><td>Arany #E9D6A7</td><td>Munka, fókusz, előrelépés</td><td>Tudatosság, Digitális egyensúly</td></tr>
+<tr><td>Tanulás</td><td>Égkék #CFE2F6</td><td>Olvasás, nyelvek, új készségek</td><td>Tanulás</td></tr>
+<tr><td>Pénzügyek</td><td>Zsálya #DCEFC9</td><td>Tudatos költés, megtakarítás</td><td>Pénzügyek</td></tr>
+<tr><td>Hobbik</td><td>Orchidea #F1D7F2</td><td>Kreativitás, otthon, öröm</td><td>Kreativitás, Otthon</td></tr>
+<tr><td>Lelki egyensúly</td><td>Levendula #CBB7F7</td><td>Nyugalom, jelenlét, hála</td><td>Nyugalom, Tudatosság</td></tr>
+</tbody></table></div>
+<ul>
+<li><b>Az appban:</b> az „Én” menü Életvirág pontja. Megmutatja a legerősebb szirmot és azt, amelyik most a legtöbb figyelmet kéri, és ehhez a szirmhoz illő három szokást ajánl a szokástárból, egy érintéssel felvehetően.</li>
+<li><b>Ritmus:</b> havonta egy újraértékelést javaslunk. A korábbi értékelések mini virágként visszanézhetők, így látszik a változás.</li>
+<li><b>Kapcsolat a kerttel:</b> a jövőben a 7-es fölé emelkedő szirmok a kertben az adott terület színében nyitnak különleges virágot.</li>
+</ul>
+<p style="margin-top:48px" class="eyebrow">Bloomly · Virágozz minden nap.</p>
+</main>
+</div>
+<script>
+const IC={'Vízivás':'M12 3.5c3 3.6 5.5 6.7 5.5 10a5.5 5.5 0 0 1-11 0c0-3.3 2.5-6.4 5.5-10z','Vitamin':'M10.2 20.3a4.6 4.6 0 0 1-6.5-6.5l6.1-6.1a4.6 4.6 0 0 1 6.5 6.5z M6.8 10.7l6.5 6.5','Edzés':'M6.5 7v10 M3.5 9.5v5 M17.5 7v10 M20.5 9.5v5 M6.5 12h11','Olvasás':'M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5z M12 6.5v13','Meditáció':'M12 18.5c-4 0-7.5-2-8.5-5 2.5 0 5 1 6.5 2.5 M12 18.5c4 0 7.5-2 8.5-5-2.5 0-5 1-6.5 2.5 M12 18.5c-2.2-2-3-4.4-3-6.8C9 9.3 10.2 7 12 5.5c1.8 1.5 3 3.8 3 6.2 0 2.4-.8 4.8-3 6.8z','Naplóírás':'M4 20l1-4L16 5l3 3L8 19z M14 7l3 3','Bőrápolás':'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z','Alvás':'M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z','Étkezés':'M5 19c0-8 5-13 14-14 0 9-5 14-13 14 M5 19l7-7','Önszeretet':'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z','Energia':'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 2.5v2 M12 19.5v2 M2.5 12h2 M19.5 12h2 M5.3 5.3l1.4 1.4 M17.3 17.3l1.4 1.4 M5.3 18.7l1.4-1.4 M17.3 6.7l1.4-1.4','Kert':'M12 20v-8 M12 12c0-4 2.5-6.5 7-6.5 0 4-2.5 6.5-7 6.5z M12 14.5c0-3-2-5-6-5 0 3 2 5 6 5z M7.5 20h9','Ciklus':'M20.5 12a8.5 8.5 0 1 1-2.5-6 M20.5 4v4h-4 M12 8.5c1.3 1.6 2.3 2.8 2.3 4.1a2.3 2.3 0 0 1-4.6 0c0-1.3 1-2.5 2.3-4.1z','Főoldal':'M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z','Profil':'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4.5 20c.8-3.5 3.8-5.5 7.5-5.5s6.7 2 7.5 5.5','Statisztika':'M4 20h16 M7 16v-4 M12 16V7 M17 16v-7','Vision Board':'M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z M4 16l4.5-4.5 4 4 2.5-2.5L20 18 M15.5 8.5v.01','Jelvény':'M12 14.5a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M8.7 13.4L7.2 20.5l4.8-2.4 4.8 2.4-1.5-7.1','Értesítés':'M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z M10 20.5a2 2 0 0 0 4 0','Sorozat':'M12 21c-3.6 0-6-2.4-6-5.6 0-3.4 2.6-5.2 3.6-8.4 1.6 1.2 2.4 2.8 2.4 4.2 1-.6 1.8-2 1.8-3.6 2.6 2 4.2 4.8 4.2 7.8 0 3.2-2.4 5.6-6 5.6z','Naptár':'M4.5 7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11.5a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z M4.5 10h15 M8.5 3v4 M15.5 3v4','Hangulat':'M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17z M8.5 14c.9 1.3 2.1 2 3.5 2s2.6-.7 3.5-2 M9 9.5h.01 M15 9.5h.01','Cél':'M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 12h.01','Idézet':'M10 7C7 8 5.5 10.5 5.5 14v3h4.5v-4.5H7.8c0-2 .9-3.4 2.2-4.1z M18.5 7c-3 1-4.5 3.5-4.5 7v3h4.5v-4.5h-2.2c0-2 .9-3.4 2.2-4.1z','Kész':'M5 12.5l4.5 4.5L19 7.5','Beállítás':'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.3 3h-4l-.4 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.4 2.4-1a7 7 0 0 0 2 1.2l.4 2.6h4l.3-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z'};
+document.getElementById('iconset').innerHTML=Object.entries(IC).map(([n,d])=>`<div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>${n}</div>`).join('');
+</script>
+</body>
+</html>
