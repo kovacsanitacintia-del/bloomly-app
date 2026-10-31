@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031225659">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031225659">
+<meta name="bloomly-version" content="20261031230315">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230315">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -512,6 +512,16 @@ textarea.inp{min-height:92px;resize:vertical}
 .trk-kpi small{font-size:11px;color:var(--text2);line-height:1.25}
 @container app (max-width:420px){.trk-grid,.trk-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
+/* „Bloomly ajánlja” */
+.reco{position:relative;padding:16px 16px 14px;border-radius:26px;background:linear-gradient(165deg,color-mix(in srgb,var(--ac) 28%,var(--card)),var(--card) 55%);border:1px solid color-mix(in srgb,var(--ac) 45%,transparent);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.reco-head{display:flex;align-items:center;gap:12px}
+.reco-mark{width:42px;height:42px;flex:none;border-radius:14px;overflow:hidden;box-shadow:0 8px 18px -12px rgba(176,120,150,.8)}
+.reco-mark svg{display:block;width:100%;height:100%}
+.reco-head b{font-family:var(--f-display);font-size:18px;color:var(--ink);font-weight:600}
+.reco-list{background:var(--card);border-radius:18px;padding:0 12px;border:1px solid var(--line)}
+.reco-list .li b{color:var(--ink);font-size:14px}
+.reco-ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;flex:none;color:var(--on-pastel)}
+
 /* Életterületek (Szokások főoldal és kategóriaképernyő) */
 .area-today .area-pct{font-family:var(--f-display);font-size:26px;font-weight:600;color:var(--lav-deep)}
 .acards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -745,6 +755,44 @@ const LIBRARY=[
 const CAT2AREA={'Egészség':'health','Táplálkozás':'health','Mozgás':'health','Alvás':'health','Szépség':'self','Önszeretet':'self','Otthon':'self','Kapcsolatok':'rel','Tanulás':'learn','Pénzügyek':'money','Kreativitás':'hobby','Nyugalom':'soul','Tudatosság':'soul','Digitális egyensúly':'soul'};
 const NAME2AREA={'Olvasás':'learn','Napi célok leírása':'career','Heti tervezés':'career','Kiadások vezetése':'money'};
 function areaOf(h){return h.area||NAME2AREA[h.name]||CAT2AREA[h.cat]||'self'}
+/* „Bloomly ajánlja”: életterületenként, alcsoportokba rendezett szokásjavaslatok.
+   R(név, ikon, szín, jegyzet, ismétlődés, cél) — alapértelmezés: naponta */
+const R=(name,icon,color,note,freq='daily',target)=>({name,icon,color,note,freq,target});
+const RECO={
+ health:[
+  {g:'Alap szokások',items:[R('2 liter víz','drop','sky','Naponta 8 pohár'),R('8000 lépés','steps','mint','Séta, lépcső, gyaloglás'),R('30 perc mozgás','dumbbell','mint','Bármilyen mozgás számít'),R('Vitamin bevétele','pill','peach','Reggeli után'),R('Zöldség fogyasztása','leaf','sage','Minden főétkezéshez'),R('Gyümölcs fogyasztása','apple','coral','Napi 1–2 adag'),R('8 óra alvás','bed','lav','Pihentető éjszaka'),R('Reggeli nyújtás','sun','gold','5–10 perc ébredés után')]},
+  {g:'Haladó szokások',items:[R('Cigaretta nélkül','shield','sage','Egy füstmentes nap'),R('Alkoholmentes nap','drop','aqua','Egész nap'),R('15 perc a szabadban','sun','lemon','Napfény és friss levegő'),R('Ebéd utáni séta','steps','sage','10–15 perc'),R('Vérnyomás mérés','heart','rose','Hetente kétszer','weekly',2),R('Testsúly követése','scale','mint','Hetente egyszer, reggel','weekly',1)]}],
+ self:[
+  {g:'Szépségápolás',items:[R('Reggeli bőrápolás','sparkle','rose','Tisztítás, szérum, fényvédő'),R('Esti bőrápolás','moon','lav','Sminklemosás, éjszakai krém'),R('Testápoló használata','heart','peach','Zuhanyzás után'),R('Hajápolás','sparkle','gold','Maszk vagy olaj','weekly',2),R('Körömápolás','star','rose','Heti egy alkalom','weekly',1)]},
+  {g:'Énidő',items:[R('15 perc nyugalom','cup','sand','Csak te és a csend'),R('Olvasás énidőként','book','gold','Egy jó könyv, csak magadnak'),R('Relaxáló fürdő','bath','aqua','Heti egy alkalom','weekly',1),R('Kedvenc zenék hallgatása','headphones','orchid','15 perc csak magadnak'),R('Gyertyafényes kikapcsolódás','flame','peach','Esténként, képernyő nélkül')]},
+  {g:'Digitális detox',items:[R('1 óra telefonmentes idő','phone','sky','Tedd félre a telefont'),R('Közösségi média szünet','phone','lav','Egész nap')]}],
+ rel:[
+  {g:'Család',items:[R('Hívj fel egy családtagot','chat','peach','Egy rövid beszélgetés is sokat jelent'),R('Minőségi idő a családdal','heart','rose','Telefon nélkül'),R('Beszélj a szüleiddel','user','sand','Hetente kétszer','weekly',2)]},
+  {g:'Barátok',items:[R('Írj egy kedves üzenetet','chat','lav','Csak úgy, szeretetből'),R('Találkozz egy baráttal','cup','peach','Heti egy alkalom','weekly',1),R('Köszönts fel valakit','gift','coral','Születés- vagy névnapon','weekly',1)]},
+  {g:'Párkapcsolat',items:[R('Közös program','heart','rose','Heti egy élmény együtt','weekly',1),R('Bók a párodnak','flower','rose','Egy kedves szó naponta'),R('Közös vacsora','cup','peach','Heti három alkalom','weekly',3)]}],
+ career:[
+  {g:'Produktivitás',items:[R('Napi fő cél kijelölése','target','gold','Reggel, egyetlen fő cél'),R('3 legfontosabb feladat','check','mint','A nap három kulcsfeladata'),R('Inbox rendberakása','bell','sky','Napi 15 perc'),R('Napi tervezés','calendar','lav','Este a holnapra, vagy reggel')]},
+  {g:'Fejlődés',items:[R('Szakmai cikk olvasása','book','sky','Napi egy cikk'),R('Tanfolyam haladás','journal','mint','Heti három lecke','weekly',3),R('Új ötlet rögzítése','sparkle','lemon','Írd le, mielőtt elszáll'),R('Jegyzetelés','pen','lav','A nap tanulságai')]},
+  {g:'Vállalkozóknak',items:[R('Social media poszt','image','orchid','Heti három alkalom','weekly',3),R('Weboldal fejlesztése','globe','aqua','Heti két alkalom','weekly',2),R('Üzleti cél követése','chart','gold','Hetente egyszer','weekly',1)]}],
+ learn:[
+  {g:'Nyelvtanulás',items:[R('15 perc angol','globe','sky','Napi gyakorlás'),R('Német gyakorlás','globe','sand','Napi 10 perc'),R('Duolingo lecke','phone','mint','Napi egy lecke')]},
+  {g:'Olvasás',items:[R('10 oldal könyv','book','gold','Minden nap'),R('Fejezet befejezése','book','lav','Heti három alkalom','weekly',3),R('Jegyzet készítése','pen','peach','Olvasás után')]},
+  {g:'Készségfejlesztés',items:[R('Webdesign gyakorlás','palette','aqua','Heti három alkalom','weekly',3),R('Grafikai tanulás','palette','orchid','Heti két alkalom','weekly',2),R('Oktatóvideó megtekintése','image','sky','Napi egy videó')]}],
+ money:[
+  {g:'Mindennapi pénzügyek',items:[R('Kiadások rögzítése','coin','gold','Minden költés felírva'),R('Napi pénzügyi áttekintés','chart','sky','5 perc este'),R('Blokkok mentése','journal','sand','Fotó vagy mappa')]},
+  {g:'Megtakarítás',items:[R('Napi megtakarítás','coin','mint','Akár egy kis összeg is számít'),R('Befektetések ellenőrzése','chart','lav','Havonta egyszer','monthly',1),R('Megtakarítási cél frissítése','target','peach','Havonta egyszer','monthly',1)]},
+  {g:'Tudatos pénzkezelés',items:[R('Impulzusvásárlás nélkül','shield','coral','24 óra gondolkodási idő'),R('Bevásárlólista használata','check','sage','Minden vásárlásnál')]}],
+ hobby:[
+  {g:'Kreativitás',items:[R('Rajzolás','palette','rose','10 perc vázlat'),R('Kézműveskedés','star','peach','Heti két alkalom','weekly',2),R('Fotózás','image','sky','Egy szép pillanat naponta'),R('Zenélés','music','orchid','20 perc gyakorlás')]},
+  {g:'Otthon',items:[R('Növénygondozás','sprout','mint','Locsolás, átültetés'),R('Dekorálás','home','peach','Heti egy alkalom','weekly',1),R('Lakásszépítés','sparkle','sand','Havonta egy kis projekt','monthly',1)]},
+  {g:'Különleges hobbik',items:[R('Sütés','cup','coral','Heti egy alkalom','weekly',1),R('Horgolás','heart','orchid','Heti három alkalom','weekly',3),R('Scrapbook készítés','journal','rose','Heti egy alkalom','weekly',1),R('Gipszformák készítése','flower','sand','Havonta két alkalom','monthly',2)]}],
+ soul:[
+  {g:'Mindfulness',items:[R('Meditáció','lotus','lav','10 perc csend'),R('Légzőgyakorlat','drop','sky','5 perc tudatos légzés'),R('Hála gyakorlása','heart','gold','3 dolog, amiért hálás vagy')]},
+  {g:'Érzelmi jóllét',items:[R('Hangulat rögzítése','smile','mint','Naponta egyszer'),R('Naplóírás','pen','rose','3 mondat'),R('Pozitív megerősítés','sparkle','orchid','Mondd ki a tükör előtt')]},
+  {g:'Stresszkezelés',items:[R('Relaxáció','moon','lav','Lefekvés előtt'),R('Digitális szünet','phone','sky','1 óra képernyő nélkül'),R('Csendes séta','steps','sage','20 perc a természetben')]}]
+};
+/* A javaslatok a Szokástárba is bekerülnek a saját életterületükkel */
+Object.entries(RECO).forEach(([area,gs])=>gs.forEach(g=>g.items.forEach(r=>{r.area=area;r.sub=g.g;if(!LIBRARY.some(t=>t.name===r.name))LIBRARY.push({...r,cat:''})})));
 const TEMPLATES=[
  {name:'Vízivás',icon:'drop',color:'sky',cat:'Egészség',freq:'daily',note:'8 pohár naponta'},
  {name:'Vitamin szedése',icon:'pill',color:'peach',cat:'Egészség',freq:'daily',note:'Reggeli után'},
@@ -1565,7 +1613,7 @@ const EXTRA_A={
  thSave(){const s={id:uid(),date:$('#tsd').value||TODAY,topics:$('#tst').value.trim(),take:$('#tsk').value.trim(),home:$('#tsh').value.trim()};if(!s.topics&&!s.take&&!s.home){toast('Írj legalább egy gondolatot');return}S.therapy.sessions.push(s);save();closeSheet();render(true);toast('Jegyzet mentve')},
  slq(el){readSl();slDraft.q=+el.dataset.v;render(true)},
  sltag(el){readSl();const v=el.dataset.v;slDraft.tags=slDraft.tags.includes(v)?slDraft.tags.filter(x=>x!==v):[...slDraft.tags,v];render(true)},
- slSave(){readSl();const isNew=!S.sleep[TODAY];S.sleep[TODAY]=slDraft;slDraft=null;const hb=sHrs(S.sleep[TODAY])>=7&&markHabit('Korai lefekvés');save();render(true);toast(isNew?(hb?'Alvás mentve · +10 szirom 🌙':'Alvás mentve 🌙'):'Alvásnapló frissítve')}
+ slSave(){readSl();const isNew=!S.sleep[TODAY];S.sleep[TODAY]=slDraft;slDraft=null;const hb=sHrs(S.sleep[TODAY])>=7&&(markHabit('Korai lefekvés')|(sHrs(S.sleep[TODAY])>=8&&markHabit('8 óra alvás')));save();render(true);toast(isNew?(hb?'Alvás mentve · +10 szirom 🌙':'Alvás mentve 🌙'):'Alvásnapló frissítve')}
 };
 document.addEventListener('change',e=>{const id=e.target.id;if(id==='thn'){S.therapy.next=e.target.value;save();render(true)}if(id==='slb'||id==='slw'){readSl();const h=$('#slh');if(h)h.textContent=sHrs(slDraft).toFixed(1).replace('.',',')+' óra alvás'}});
 document.addEventListener('input',e=>{if(e.target.id!=='lfr')return;const id=e.target.dataset.id,v=+e.target.value,inOb=!!$('#ob').innerHTML,sc=inOb?ob.life:S.life.scores;sc[id]=v;
@@ -1790,7 +1838,7 @@ const A={
   const isNew=!S.checkins[TODAY];S.checkins[TODAY]={mood:ciData.mood,goal:ciData.goal.trim()||'Ma kedves leszek magamhoz',grateful:ciData.grateful.trim()||'Ezért a napért'};S.moods[TODAY]={...(S.moods[TODAY]||{}),m:ciData.mood};save();closeSheet();render(true);if(isNew){petalsFall(22);toast('Szép napot! +15 szirom')}checkBadges()},
  openReflect(){reflectSheet()},
  saveReflect(){const d=$('#rd').value.trim(),p=$('#rp').value.trim();if(!d&&!p){toast('Írj legalább egy gondolatot');return}const isNew=!S.reflections[TODAY];S.reflections[TODAY]={done:d,proud:p};save();closeSheet();render(true);toast(isNew?'Reflexió mentve · +15 szirom':'Reflexió frissítve');if(isNew)petalsFall(18);checkBadges()},
- setMood(el){S.moods[TODAY]={...(S.moods[TODAY]||{note:''}),m:+el.dataset.m};save();render(true);toast(`Hangulat rögzítve: ${MOODS[+el.dataset.m].n}`)},
+ setMood(el){S.moods[TODAY]={...(S.moods[TODAY]||{note:''}),m:+el.dataset.m};markHabit('Hangulat rögzítése');save();render(true);toast(`Hangulat rögzítve: ${MOODS[+el.dataset.m].n}`)},
  saveMoodNote(){const n=$('#mnote').value;S.moods[TODAY]={m:2,...(S.moods[TODAY]||{}),note:n};save();toast('Jegyzet mentve')},
  jt(el){S.ui.jt=el.dataset.v;render(true)},
  mseg(el){S.ui.seg=el.dataset.v;render(true)},
@@ -1837,18 +1885,24 @@ const A={
  lfSel(el){const v=el.dataset.v;if($('#ob').innerHTML){ob.lfs=v;renderOb()}else{S.ui.lfs=v;render(true)}},
  lfSave(){S.life.hist=S.life.hist.filter(h=>h.date!==TODAY);S.life.hist.push({date:TODAY,scores:{...S.life.scores}});save();render(true);toast('Életvirág elmentve 🌸')}
 };
-Object.assign(SCREENS,{
+/* „Bloomly ajánlja” blokk egy életterülethez: alcsoport-csipek, egy érintéses felvétel, „Mindet felveszem” */
+function recoSection(a,have){
+  const gs=RECO[a.id]||[];if(!gs.length)return'';const gi=Math.min(((S.ui.recoG||{})[a.id])||0,gs.length-1),g=gs[gi],left=g.items.filter(r=>!have.has(r.name)).length;
+  return`<section class="reco" style="--ac:${a.c}" aria-label="Bloomly ajánlja: ${a.n}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomly ajánlja</div><b>${g.g}</b></div><button class="link" data-a="go" data-s="library">Szokástár</button></div>
+   <div class="chips">${gs.map((x,i)=>`<button class="chip ${i===gi?'on':''}" data-a="recoG" data-area="${a.id}" data-v="${i}">${x.g}</button>`).join('')}</div>
+   <div class="list reco-list">${g.items.map(r=>{const on=have.has(r.name);return`<div class="li"><span class="reco-ic" style="background:${COLORS[r.color]}">${ic(r.icon,17)}</span><div class="grow"><b>${r.name}</b><div class="muted">${r.note} · ${freqLabel(r).toLowerCase()}</div></div><button class="chk ${on?'on':'add'}" data-a="recoAdd" data-area="${a.id}" data-n="${esc(r.name)}" ${on?'disabled':''} aria-label="${on?esc(r.name)+' már a szokásaid között':esc(r.name)+' felvétele'}">${ic(on?'check':'plus')}</button></div>`}).join('')}</div>
+   ${left>1?`<button class="btn ghost block" style="margin-top:10px" data-a="recoAll" data-area="${a.id}" data-g="${gi}">${ic('plus',16)} Mind a ${left} felvétele</button>`:''}</section>`}Object.assign(SCREENS,{
 /* Egy életterület: követők és naplók, szokások, ajánlások, 7 napos statisztika */
 area(){
   const a=AREAS.find(x=>x.id===S.ui.area)||AREAS[0],pr=areaProgress(a.id),defs=trackerDefs(),trk=(AREA_TRK[a.id]||[]).map(id=>defs[id]).filter(Boolean);
-  const have=new Set(S.habits.map(h=>h.name)),sug=LIBRARY.filter(t=>libArea(t)===a.id&&!have.has(t.name)).slice(0,5);
+  const have=new Set(S.habits.map(h=>h.name));
   const days=[...Array(7)].map((_,i)=>{const d=addDays(now(),i-6),k=keyOf(d);let x=0,y=0;pr.hs.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;y++;if(isDone(h,k))x++});return{l:WD[wd(d)],v:y?x/y:0,t:y?Math.round(x/y*100)+'%':''}});
   return`<div class="top">${backBtn()}<span class="area-hero-ic" style="--ac:${a.c}">${ic(a.i,24)}</span><div class="grow" style="min-width:0"><h1 style="font-size:24px">${a.n}</h1><div class="muted">${a.d}</div></div></div>
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${pr.done}/${pr.today.length}</b><small>szokás ma</small></div><div class="kpi"><b>${pr.rate==null?'–':pr.rate+'%'}</b><small>elmúlt 7 nap</small></div><div class="kpi"><b>${pr.hs.length}</b><small>szokás összesen</small></div></div>
   ${trk.length?`<div class="sec-h"><h2>Követők és naplók</h2></div><nav class="mlist" aria-label="${a.n}: követők és naplók">${trk.map(menuRow).join('')}</nav>`:''}
   <div class="sec-h"><h2>Szokások</h2><button class="link" data-a="editHabit" data-area="${a.id}">+ Új szokás</button></div>
   <div class="habits">${pr.hs.map(habitRow).join('')||`<div class="card empty-note">Ebben a területben még nincs szokásod. Válassz az ajánlottak közül, vagy hozz létre egy sajátot.</div>`}</div>
-  ${sug.length?`<div class="sec-h"><h2>Ajánlott szokások</h2><button class="link" data-a="go" data-s="library">Szokástár</button></div><section class="card list" style="padding-block:4px">${sug.map(t=>`<div class="li"><span style="width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:${COLORS[t.color]};color:var(--on-pastel);flex:none">${ic(t.icon,17)}</span><div class="grow"><b style="color:var(--ink);font-size:14px">${t.name}</b><div class="muted">${t.note} · ${freqLabel(t).toLowerCase()}</div></div><button class="chk add" data-a="libAdd" data-n="${esc(t.name)}" aria-label="${esc(t.name)} felvétele">${ic('plus')}</button></div>`).join('')}</section>`:''}
+  ${recoSection(a,have)}
   ${pr.hs.length?`<section class="card chart"><b style="color:var(--ink)">Elmúlt 7 nap</b>${bars(days,'d')}</section>`:''}`
 },
 /* Testsúly: gyengéd, ítélkezésmentes nyomon követés */
@@ -1865,11 +1919,14 @@ weight(){
   ${ks.length?`<section class="card list">${ks.slice().reverse().slice(0,10).map(k=>`<div class="li"><span class="grow">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}</span><b style="color:var(--ink)">${num1(w.log[k])} kg</b></div>`).join('')}</section>`:''}`
 }});
 Object.assign(EXTRA_A,{
+ recoG(el){S.ui.recoG={...(S.ui.recoG||{}),[el.dataset.area]:+el.dataset.v};render(true)},
+ recoAdd(el){const g=(RECO[el.dataset.area]||[]).flatMap(x=>x.items),r=g.find(x=>x.name===el.dataset.n);if(!r||S.habits.some(h=>h.name===r.name))return;S.habits.push(mkHabit({...r,area:el.dataset.area}));save();render(true);toast(`${r.name} elültetve 🌱`)},
+ recoAll(el){const a=el.dataset.area,g=(RECO[a]||[])[+el.dataset.g];if(!g)return;let n=0;g.items.forEach(r=>{if(!S.habits.some(h=>h.name===r.name)){S.habits.push(mkHabit({...r,area:a}));n++}});save();render(true);toast(n?`${n} szokás elültetve 🌱`:'Ezek már mind a szokásaid között vannak')},
  openArea(el){S.ui.area=el.dataset.v;if(S.ui.sub==='area'){render();return}A.go({dataset:{s:'area'}})},
  goJournal(el){S.ui.jt=el.dataset.v;A.go({dataset:{s:'journal'}})},
  openBreath(){S.ui.med={min:5,t:0};A.go({dataset:{s:'meditation'}})},
  wSave(){const i=$('#wkg'),v=parseFloat(String(i&&i.value||'').replace(',','.'));if(!(v>=30&&v<=250)){toast('Adj meg egy 30 és 250 kg közötti értéket');return}
-  S.weight=S.weight||{log:{}};S.weight.log[TODAY]=Math.round(v*10)/10;const hb=markHabit('Testsúly mérése');save();render(true);toast(hb?'Mérés mentve · +10 szirom':'Mérés mentve')}
+  S.weight=S.weight||{log:{}};S.weight.log[TODAY]=Math.round(v*10)/10;const hb=markHabit('Testsúly mérése')|markHabit('Testsúly követése');save();render(true);toast(hb?'Mérés mentve · +10 szirom':'Mérés mentve')}
 });
 Object.assign(A,EXTRA_A);
 function visionSheet(){const d=draft;openSheet(`<h2>Új elem a Vision Boardra</h2><p class="muted">Ami szem előtt van, az valósággá válik.</p>
