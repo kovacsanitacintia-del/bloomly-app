@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031221822">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221822">
+<meta name="bloomly-version" content="20261031222118">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031222118">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -888,22 +888,54 @@ function cycInfo(k=TODAY){
 }
 
 /* Jelvények */
+/* Jelvények csoportonként. v: jelenlegi érték, goal: cél; icon nélkül a klasszikus virágérem jelenik meg */
+const BADGE_GROUPS=['Sorozatok','Szokások','Napló és hangulat','Öngondoskodás','Különleges'];
 function allBadges(s=S){
   const L=longestStreak(s),T=totalDone(s),C=Object.keys(s.checkins).length,R=Object.keys(s.reflections).length,PD=perfectDays(s),M=Object.keys(s.moods).length;
+  const med=s.med||[],medMin=med.reduce((a,x)=>a+(x.min||0),0),fit=Object.values((s.fitness||{}).log||{}).filter(x=>x.done).length;
+  const sk=s.skin||{am:[],pm:[],log:{}},skinFull=Object.values(sk.log||{}).filter(e=>e.am.length>=sk.am.length&&e.pm.length>=sk.pm.length).length;
+  const moodKinds=new Set(Object.values(s.moods).map(m=>m.m)).size;
   return[
-   {id:'b7',n:'Bronz virág',d:'7 napos sorozat',tier:'bronz',v:L,goal:7},
-   {id:'b30',n:'Ezüst virág',d:'30 napos sorozat',tier:'ezust',v:L,goal:30},
-   {id:'b100',n:'Arany virág',d:'100 napos sorozat',tier:'arany',v:L,goal:100},
-   {id:'first',n:'Első bimbó',d:'Az első kipipált szokás',tier:'lav',v:T,goal:1},
-   {id:'dawn',n:'Hajnalcsillag',d:'21 reggeli check-in',tier:'peach',v:C,goal:21},
-   {id:'moon',n:'Holdvirág',d:'30 esti reflexió',tier:'lav',v:R,goal:30,rare:true},
-   {id:'perfect',n:'Tökéletes hét',d:'7 nap 100%-os teljesítés',tier:'mint',v:PD,goal:7},
-   {id:'mood',n:'Érzelmi iránytű',d:'50 hangulatbejegyzés',tier:'rose',v:M,goal:50},
-   {id:'lotus',n:'Aranylótusz',d:'500 teljesített szokás',tier:'arany',v:T,goal:500,rare:true}
+   {g:'Sorozatok',id:'b3',n:'Első hajtás',d:'3 napos sorozat',tier:'mint',icon:'sprout',v:L,goal:3},
+   {g:'Sorozatok',id:'b7',n:'Bronz virág',d:'7 napos sorozat',tier:'bronz',v:L,goal:7},
+   {g:'Sorozatok',id:'b14',n:'Két hét virágzás',d:'14 napos sorozat',tier:'peach',icon:'flame',v:L,goal:14},
+   {g:'Sorozatok',id:'b30',n:'Ezüst virág',d:'30 napos sorozat',tier:'ezust',v:L,goal:30},
+   {g:'Sorozatok',id:'b60',n:'Kitartó liliom',d:'60 napos sorozat',tier:'orchid',icon:'flower',v:L,goal:60},
+   {g:'Sorozatok',id:'b100',n:'Arany virág',d:'100 napos sorozat',tier:'arany',v:L,goal:100},
+   {g:'Sorozatok',id:'b365',n:'Örökvirág',d:'365 napos sorozat',tier:'arany',icon:'star',v:L,goal:365,rare:true},
+   {g:'Szokások',id:'first',n:'Első bimbó',d:'Az első kipipált szokás',tier:'lav',v:T,goal:1},
+   {g:'Szokások',id:'habits5',n:'Kertész',d:'5 szokás a listádon',tier:'mint',icon:'sprout',v:s.habits.length,goal:5},
+   {g:'Szokások',id:'t50',n:'Ötven szirom',d:'50 teljesített szokás',tier:'rose',icon:'check',v:T,goal:50},
+   {g:'Szokások',id:'t100',n:'Százszorszép',d:'100 teljesített szokás',tier:'lav',icon:'sparkle',v:T,goal:100},
+   {g:'Szokások',id:'t250',n:'Virágcsokor',d:'250 teljesített szokás',tier:'coral',icon:'gift',v:T,goal:250},
+   {g:'Szokások',id:'lotus',n:'Aranylótusz',d:'500 teljesített szokás',tier:'arany',icon:'lotus',v:T,goal:500,rare:true},
+   {g:'Szokások',id:'t1000',n:'Virágzó mező',d:'1000 teljesített szokás',tier:'aqua',icon:'sun',v:T,goal:1000,rare:true},
+   {g:'Szokások',id:'perfect',n:'Tökéletes hét',d:'7 nap 100%-os teljesítés',tier:'mint',v:PD,goal:7},
+   {g:'Szokások',id:'perfect30',n:'Tökéletes hónap',d:'30 nap 100%-os teljesítés',tier:'arany',icon:'target',v:PD,goal:30,rare:true},
+   {g:'Napló és hangulat',id:'dawn',n:'Hajnalcsillag',d:'21 reggeli check-in',tier:'peach',v:C,goal:21},
+   {g:'Napló és hangulat',id:'ci100',n:'Reggeli fény',d:'100 reggeli check-in',tier:'peach',icon:'sun',v:C,goal:100},
+   {g:'Napló és hangulat',id:'moon',n:'Holdvirág',d:'30 esti reflexió',tier:'lav',v:R,goal:30,rare:true},
+   {g:'Napló és hangulat',id:'rf100',n:'Csillagos ég',d:'100 esti reflexió',tier:'sky',icon:'moon',v:R,goal:100,rare:true},
+   {g:'Napló és hangulat',id:'mood',n:'Érzelmi iránytű',d:'50 hangulatbejegyzés',tier:'rose',v:M,goal:50},
+   {g:'Napló és hangulat',id:'rainbow',n:'Érzelmi szivárvány',d:'Mind a 15 hangulat legalább egyszer',tier:'orchid',icon:'smile',v:moodKinds,goal:15,rare:true},
+   {g:'Öngondoskodás',id:'med10',n:'Csendes óra',d:'10 meditáció',tier:'lav',icon:'lotus',v:med.length,goal:10},
+   {g:'Öngondoskodás',id:'med300',n:'Belső béke',d:'300 perc meditáció',tier:'aqua',icon:'lotus',v:medMin,goal:300},
+   {g:'Öngondoskodás',id:'fit20',n:'Erős és hajlékony',d:'20 elvégzett edzés',tier:'mint',icon:'dumbbell',v:fit,goal:20},
+   {g:'Öngondoskodás',id:'skin30',n:'Ragyogás',d:'30 nap teljes bőrápolás',tier:'rose',icon:'sparkle',v:skinFull,goal:30},
+   {g:'Öngondoskodás',id:'sleep14',n:'Álomőrző',d:'14 alvásnapló-bejegyzés',tier:'sky',icon:'bed',v:Object.keys(s.sleep||{}).length,goal:14},
+   {g:'Öngondoskodás',id:'cyc3',n:'Holdciklus',d:'3 rögzített ciklus',tier:'rose',icon:'cycle',v:((s.cycle||{}).starts||[]).length,goal:3},
+   {g:'Különleges',id:'vision10',n:'Álmodozó',d:'10 elem a Vision Boardon',tier:'peach',icon:'image',v:(s.vision||[]).length,goal:10},
+   {g:'Különleges',id:'contacts5',n:'Szeretetháló',d:'5 fontos ember a kapcsolataid között',tier:'coral',icon:'heart',v:(s.contacts||[]).length,goal:5},
+   {g:'Különleges',id:'therapy5',n:'Bátor szív',d:'5 terápiás jegyzet',tier:'lav',icon:'chat',v:((s.therapy||{}).sessions||[]).length,goal:5},
+   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (3200 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:3200,rare:true}
   ].map(b=>({...b,got:b.v>=b.goal}))
 }
-const TIER={bronz:['#E8C3A0','#C99872'],ezust:['#EEF0F5','#BFC5D2'],arany:['#F4E3B5','#D4B373'],lav:['#E3D7FC','#B9A2EE'],peach:['#FFE3D6','#F2B79C'],mint:['#DDF2DE','#9FD0A5'],rose:['#FBE3EA','#EDB3C3']};
-function medal(t,id){const[a,b]=TIER[t];return`<svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="m${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><circle cx="40" cy="40" r="36" fill="url(#m${id})"/><circle cx="40" cy="40" r="29" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="2 4"/><g fill="#fff" transform="translate(40 40)">${[0,72,144,216,288].map(r=>`<ellipse rx="6.5" ry="11" cy="-10" transform="rotate(${r})" opacity=".92"/>`).join('')}</g><circle cx="40" cy="40" r="5.5" fill="${b}"/></svg>`}
+const TIER={bronz:['#E8C3A0','#C99872'],ezust:['#EEF0F5','#BFC5D2'],arany:['#F4E3B5','#D4B373'],lav:['#E3D7FC','#B9A2EE'],peach:['#FFE3D6','#F2B79C'],mint:['#DDF2DE','#9FD0A5'],rose:['#FBE3EA','#EDB3C3'],
+  sky:['#E3EEFB','#A9C6EA'],coral:['#FCE0D8','#EFA796'],orchid:['#F5E1F7','#D7A6DE'],aqua:['#DDF3F1','#93CFCA']};
+function medal(t,id,icon){const[a,b]=TIER[t]||TIER.lav;
+  const inner=icon&&IC[icon]?`<path d="${IC[icon]}" transform="translate(25 25) scale(1.25)" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>`
+    :`<g fill="#fff" transform="translate(40 40)">${[0,72,144,216,288].map(r=>`<ellipse rx="6.5" ry="11" cy="-10" transform="rotate(${r})" opacity=".92"/>`).join('')}</g><circle cx="40" cy="40" r="5.5" fill="${b}"/>`;
+  return`<svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="m${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><circle cx="40" cy="40" r="36" fill="url(#m${id})"/><circle cx="40" cy="40" r="29" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5" stroke-dasharray="2 4"/>${inner}</svg>`}
 
 /* Kert elemek */
 function unlocks(s=S){
@@ -1108,10 +1140,10 @@ vision(){
    <button class="vc empty" data-a="addVision">${ic('image',26)}<b>Kép feltöltése</b><small>vagy idézet, cél, emlékeztető</small></button></div>`
 },
 badges(){
-  const bs=allBadges();
-  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Jelvények</h1></div>
-  <section class="glass shine" style="padding:20px;text-align:center"><div style="width:90px;margin:0 auto">${medal('arany','hero')}</div><h2 style="font-size:20px;margin-top:8px">Arany virág</h2><p class="muted">${Math.max(0,100-longestStreak())} nap van hátra a 100 napos sorozatig</p><div class="bar gold" style="margin-top:12px"><i style="width:${Math.min(100,longestStreak())}%"></i></div></section>
-  <div class="badges">${bs.map(b=>`<button class="badge ${b.got?'':'locked'}" data-a="showBadge" data-id="${b.id}"><span class="${b.got&&b.rare?'shine':''}" style="border-radius:50%">${medal(b.tier,b.id)}</span><b>${b.n}</b><small>${b.got?'Megszerezve':`${Math.min(b.v,b.goal)}/${b.goal}`}</small>${b.rare?'<span class="rar l">Ritka</span>':''}</button>`).join('')}</div>
+  const bs=allBadges(),got=bs.filter(b=>b.got).length,next=bs.filter(b=>!b.got).sort((a,b)=>b.v/b.goal-a.v/a.goal)[0];
+  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Jelvények</h1><span class="rar l" style="font-size:11px;padding:6px 10px">${got}/${bs.length}</span></div>
+  ${next?`<section class="glass shine" style="padding:20px;text-align:center"><div class="eyebrow">Következő jelvényed</div><div style="width:90px;margin:10px auto 0">${medal(next.tier,'hero',next.icon)}</div><h2 style="font-size:20px;margin-top:8px">${next.n}</h2><p class="muted">${next.d} · még ${next.goal-next.v} hiányzik</p><div class="bar gold" style="margin-top:12px"><i style="width:${Math.min(100,next.v/next.goal*100)}%"></i></div></section>`:`<section class="glass shine" style="padding:20px;text-align:center"><h2 style="font-size:20px">Minden jelvényt megszereztél</h2><p class="muted">Igazi Bloom mester vagy.</p></section>`}
+  ${BADGE_GROUPS.map(g=>{const list=bs.filter(b=>b.g===g);return`<div class="sec-h"><h2>${g}</h2><span class="muted">${list.filter(b=>b.got).length}/${list.length}</span></div><div class="badges">${list.map(b=>`<button class="badge ${b.got?'':'locked'}" data-a="showBadge" data-id="${b.id}"><span class="${b.got&&b.rare?'shine':''}" style="border-radius:50%">${medal(b.tier,b.id,b.icon)}</span><b>${b.n}</b><small>${b.got?'Megszerezve':`${Math.min(b.v,b.goal)}/${b.goal}`}</small>${b.rare?'<span class="rar l">Ritka</span>':''}</button>`).join('')}</div>`}).join('')}
   <div class="sec-h"><h2>Különleges jutalmak</h2></div>
   <section class="card tips">${[['sprout','Exkluzív növények','Minden jelvény új növényt ültet a Bloom Kertbe.'],['sparkle','Prémium témák','A Holdvirág jelvény feloldja az „Éjszakai kert” témát.'],['star','Harmatcsepp','Minden 7. nap után kapsz egyet: megvédi a sorozatodat egy kihagyott napon.']].map(([i,t,d])=>`<div class="tip"><span class="ic" style="background:var(--gold)">${ic(i,18)}</span><div><b style="color:var(--ink)">${t}</b><p class="muted">${d}</p></div></div>`).join('')}</section>`
 },
@@ -1400,7 +1432,7 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function petalsFall(n=28){if(reduce)return;const fx=$('#fx'),cs=['#CBB7F7','#F7E5EA','#FFD6C2','#CDECCF','#E9D6A7','#F5D3DC'];for(let i=0;i<n;i++){const p=document.createElement('i');p.className='fall';const d=3+Math.random()*3;p.style.cssText=`left:${Math.random()*100}%;background:${cs[i%cs.length]};animation-duration:${d}s;animation-delay:${Math.random()*1.2}s;--dx:${(Math.random()-.5)*160}px;--rot:${Math.random()*720}deg;transform:scale(${.6+Math.random()*.7})`;fx.appendChild(p);setTimeout(()=>p.remove(),(d+1.4)*1000)}}
 function sparkle(x,y,n=22){if(reduce)return;const fx=$('#fx');for(let i=0;i<n;i++){const s=document.createElement('i');s.className='spark';const a=Math.random()*Math.PI*2,r=50+Math.random()*90;s.style.cssText=`left:${x}px;top:${y}px;--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px;animation-delay:${Math.random()*.3}s`;fx.appendChild(s);setTimeout(()=>s.remove(),1900)}}
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2600)}
-function badgeModal(b){$('#modal').innerHTML=`<div class="modal" data-a="closeModal"><div class="box" role="dialog" aria-label="Új jelvény"><div class="eyebrow">${b.got?'Új jelvény':'Hamarosan'}</div><div class="medal shine">${medal(b.tier,'big'+b.id)}</div><h2 style="font-size:24px">${b.n}</h2><p class="muted" style="margin-block:6px 18px">${b.d}${b.got?'. Új növény nyílt a kertedben.':` · még ${b.goal-b.v} hiányzik`}</p><button class="btn block" data-a="closeModal">Csodás</button></div></div>`;
+function badgeModal(b){$('#modal').innerHTML=`<div class="modal" data-a="closeModal"><div class="box" role="dialog" aria-label="Új jelvény"><div class="eyebrow">${b.got?'Új jelvény':'Hamarosan'}</div><div class="medal shine">${medal(b.tier,'big'+b.id,b.icon)}</div><h2 style="font-size:24px">${b.n}</h2><p class="muted" style="margin-block:6px 18px">${b.d}${b.got?'. Új növény nyílt a kertedben.':` · még ${b.goal-b.v} hiányzik`}</p><button class="btn block" data-a="closeModal">Csodás</button></div></div>`;
   if(b.got){const r=$('#phone').getBoundingClientRect();setTimeout(()=>{sparkle(r.width/2,r.height/2-60,30);petalsFall(36)},250)}}
 function checkBadges(){const nb=allBadges().find(b=>b.got&&!S.seen.includes(b.id));if(nb){S.seen.push(nb.id);save();setTimeout(()=>badgeModal(nb),700)}}
 
@@ -1664,6 +1696,8 @@ window.bloomlyBack=()=>{
   if(NAV.length||S.ui.sub||S.ui.tab!=='home'){A.back();return true}
   return false};
 if(!S.fitness)seedExtras(S,true);
+/* Új jelvénycsomag: a már teljesített új jelvények csendben kerülnek a gyűjteménybe, ne egyszerre ugorjon fel mind */
+if((S.badgesV||0)<2){S.seen=[...new Set([...(S.seen||[]),...allBadges().filter(b=>b.got).map(b=>b.id)])];S.badgesV=2;save()}
 applyTheme();if(!S.vision.length)seedVision();render();if(!S.onboarded)renderOb();
 </script>
 
