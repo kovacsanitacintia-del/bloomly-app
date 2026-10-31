@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031221250">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221250">
+<meta name="bloomly-version" content="20261031221506">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221506">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -195,6 +195,11 @@ textarea.inp{min-height:92px;resize:vertical}
 .icongrid button{aspect-ratio:1;max-width:100%;border-radius:14px;background:var(--bg2);display:grid;place-items:center;color:var(--ink);border:1.5px solid transparent}
 .icongrid button.on{border-color:var(--lav);background:var(--lav-soft)}
 .swatches{display:flex;gap:10px;flex-wrap:wrap}
+.cchip{display:inline-flex;align-items:center;gap:2px;padding-right:6px}
+.cchip>button:first-child{font:inherit;color:inherit;font-weight:inherit}
+.cchip .cx{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:var(--text2)}
+.cchip .cx:hover{background:color-mix(in srgb,var(--text2) 15%,transparent)}
+.add-cat{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px dashed color-mix(in srgb,var(--lav) 75%,transparent);color:var(--lav-deep)}
 .swatches button{width:36px;height:36px;border-radius:50%;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--line)}
 .swatches button.on{box-shadow:0 0 0 2px var(--lav-deep)}
 .days{display:flex;gap:6px}
@@ -669,7 +674,8 @@ const LOTUS_PETALS=[['M60 81C46 86 30 84 18 76C32 72 48 74 60 81Z','#F3D7E1'],['
 const lotusMark=()=>`<g transform="translate(0 5)">${LOTUS_PETALS.map(([d,f])=>`<path d="${d}" fill="${f}" fill-opacity=".9" stroke="#C9A66B" stroke-width="1.1" stroke-linejoin="round"/>`).join('')}<circle cx="60" cy="17" r="3.4" fill="#D4B373"/>${[34,40,46].map(y=>`<circle cx="60" cy="${y}" r=".95" fill="#C9A66B"/>`).join('')}</g>`;
 const LOTUS=(id='lg')=>`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lotus-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBF1F4"/><stop offset="1" stop-color="#E6D9F0"/></linearGradient></defs><rect width="120" height="120" rx="30" fill="url(#lotus-${id})"/><rect x=".5" y=".5" width="119" height="119" rx="29.5" fill="none" stroke="#fff" stroke-opacity=".8"/>${lotusMark()}</svg>`;
 
-const COLORS={lav:'#CBB7F7',rose:'#F5D3DC',peach:'#FFD6C2',mint:'#CDECCF',gold:'#E9D6A7',sky:'#CFE2F6'};
+const COLORS={lav:'#CBB7F7',rose:'#F5D3DC',peach:'#FFD6C2',mint:'#CDECCF',gold:'#E9D6A7',sky:'#CFE2F6',
+  orchid:'#EBC9F0',coral:'#F6BDB0',sage:'#D6E6C3',aqua:'#C3E6E3',lemon:'#F6E7A8',sand:'#E6D8CC'};
 /* 15 hangulat. Az első öt sorrendje rögzített (a korábbi bejegyzések ezekre hivatkoznak), s = 1–5 pontszám az elemzésekhez */
 const MOODS=[{e:'😊',n:'Boldog',s:5},{e:'😌',n:'Nyugodt',s:4},{e:'😐',n:'Semleges',s:3},{e:'😔',n:'Szomorú',s:2},{e:'😫',n:'Stresszes',s:1},
  {e:'🤩',n:'Lelkes',s:5},{e:'🥰',n:'Szerelmes',s:5},{e:'🥹',n:'Hálás',s:5},{e:'😎',n:'Magabiztos',s:4},{e:'🤗',n:'Szeretett',s:4},
@@ -1153,7 +1159,7 @@ const fSel=()=>S.ui.fday??wd(now());
 const fKey=()=>keyOf(addDays(now(),fSel()-wd(now())));
 function markHabit(name){const h=S.habits.find(x=>x.name===name);if(h&&!isDone(h,TODAY)){(S.log[TODAY]=S.log[TODAY]||[]).push(h.id);S.lastBloom=Date.now();return true}return false}
 const ICHU={drop:'csepp',pill:'tabletta',dumbbell:'súlyzó',book:'könyv',lotus:'lótusz',pen:'toll',sparkle:'csillogás',moon:'hold',leaf:'levél',heart:'szív',sun:'nap',star:'csillag',cup:'csésze',home:'otthon',coin:'érme',phone:'telefon',palette:'paletta',globe:'földgömb',apple:'alma',bike:'kerékpár',steps:'lábnyom',music:'zene',headphones:'fejhallgató',bath:'fürdőkád',bed:'ágy',paw:'mancs',gift:'ajándék',flower:'virág',sprout:'csíra',target:'célpont',calendar:'naptár',bell:'csengő',chat:'beszélgetés',flame:'láng',journal:'napló',smile:'mosoly'};
-const COLHU={lav:'levendula',rose:'rózsa',peach:'barack',mint:'menta',gold:'arany',sky:'égkék'};
+const COLHU={lav:'levendula',rose:'rózsa',peach:'barack',mint:'menta',gold:'arany',sky:'égkék',orchid:'orchidea',coral:'korall',sage:'zsálya',aqua:'akvamarin',lemon:'citrom',sand:'homok'};
 const habitsHead=()=>`<div class="top">${backBtn()}<h1 class="grow">Szokásaim</h1><button class="iconbtn" data-a="go" data-s="library" aria-label="Szokástár">${ic('book')}</button><button class="iconbtn" data-a="editHabit" aria-label="Új szokás">${ic('plus')}</button></div>
   <div class="seg">${[['list','Lista'],['bujo','Havi szokáskövető']].map(([v,n])=>`<button class="${(S.ui.hv||'list')===v?'on':''}" data-a="hv" data-v="${v}">${n}</button>`).join('')}</div>`;
 /* Bullet journal stílusú havi szokáskövető: napok felül, szokások a bal oldalon (rögzített oszlop) */
@@ -1303,6 +1309,11 @@ function contactSheet(){const c=draft;openSheet(`<h2>${c.id?'Kapcsolat szerkeszt
   <div class="btns">${c.id?`<button class="btn danger" data-a="delContact">Törlés</button>`:''}<button class="btn" data-a="saveContact">Mentés</button></div>`)}
 function readContact(){const n=$('#cn'),b=$('#cb'),no=$('#cno');if(n)draft.name=n.value;if(no)draft.note=no.value;if(b&&b.value){const y=+b.value.slice(0,4);draft.bday=b.value.slice(5);draft.year=y===2000&&!draft.year?null:y}}
 const EXTRA_A={
+ newCat(){syncDraft();draft.newCat=!draft.newCat;habitSheet();if(draft.newCat)setTimeout(()=>{const i=$('#hcat');if(i)i.focus()},60)},
+ addCat(){syncDraft();const i=$('#hcat'),v=(i&&i.value||'').trim().replace(/\s+/g,' ');if(!v){toast('Írd be az új kategória nevét');return}
+  S.customCats=S.customCats||[];const exists=[...CATS,...S.customCats].find(c=>c.toLowerCase()===v.toLowerCase());
+  if(!exists)S.customCats.push(v);draft.cat=exists||v;draft.newCat=false;save();habitSheet();toast(exists?'Ez a kategória már létezik, kiválasztottam':`„${v}” kategória hozzáadva`)},
+ delCat(el){syncDraft();const v=el.dataset.v;S.customCats=(S.customCats||[]).filter(c=>c!==v);if(draft.cat===v)draft.cat=CATS[0];save();habitSheet();toast(`„${v}” kategória törölve`)},
  hv(el){S.ui.hv=el.dataset.v;save();render(true)},
  bm(el){S.ui.bm=Math.min(0,(S.ui.bm||0)+ +el.dataset.v);render(true)},
  bjt(el){const id=el.dataset.id,k=el.dataset.k,sc=$('.bj-scroll'),sl=sc?sc.scrollLeft:0;const cur=S.log[k]||[],was=cur.includes(id);
@@ -1346,7 +1357,7 @@ document.addEventListener('change',e=>{const id=e.target.id;if(id==='thn'){S.the
 document.addEventListener('input',e=>{if(e.target.id!=='lfr')return;const id=e.target.dataset.id,v=+e.target.value,inOb=!!$('#ob').innerHTML,sc=inOb?ob.life:S.life.scores;sc[id]=v;
   const p=document.getElementById('lp-'+id);if(p)p.style.transform=`scale(${(.18+v*.082).toFixed(3)})`;const o=$('#lfv');if(o)o.textContent=v;const w=$('#lfw');if(w)w.textContent=LF_WORDS[v];const a=$('.lf-avg');if(a)a.textContent=lfAvg(sc);if(!inOb)save()});
 document.addEventListener('input',e=>{if(e.target.id!=='lq')return;S.ui.lq=e.target.value;render(true);const i=$('#lq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}});
-document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={sknew:'skadd',thqn:'thqAdd',obgc:'obGoalAdd'}[e.target.id];if(m){e.preventDefault();A[m]()}});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={sknew:'skadd',thqn:'thqAdd',obgc:'obGoalAdd',hcat:'addCat'}[e.target.id];if(m){e.preventDefault();A[m]()}});
 
 function renderTabs(){const T=[['home','home','Kezdőlap'],['habits','check','Szokások'],['garden','sprout','Kert'],['cycle','cycle','Ciklus'],['me','user','Én']];
   $('#tabbar').innerHTML=T.map(([k,i,n])=>`<button class="tab ${S.ui.tab===k&&!S.ui.sub?'on':''}" data-a="tab" data-t="${k}" aria-current="${S.ui.tab===k?'page':'false'}">${ic(i)}<span>${n}</span><span class="dot"></span></button>`).join('')}
@@ -1364,7 +1375,8 @@ function habitSheet(){const h=draft;
   ${!h.id?`<div class="sugg">${TEMPLATES.filter(t=>!S.habits.some(x=>x.name===t.name)).slice(0,6).map(t=>`<button class="chip" data-a="tpl" data-n="${t.name}">${t.name}</button>`).join('')}</div><button class="link" style="margin-top:10px" data-a="go" data-s="library">Böngéssz a szokástárban (${LIBRARY.length} ötlet) →</button>`:''}
   <div class="field"><span class="lbl">Ikon</span><div class="icongrid">${['drop','pill','dumbbell','book','lotus','pen','sparkle','moon','leaf','heart','sun','star','cup','home','coin','phone','palette','globe','apple','bike','steps','music','headphones','bath','bed','paw','gift','flower','sprout','target','calendar','bell','chat','flame','journal','smile'].map(i=>`<button class="${h.icon===i?'on':''}" data-a="hset" data-k="icon" data-v="${i}" aria-label="${ICHU[i]||i} ikon">${ic(i)}</button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Szín</span><div class="swatches">${Object.entries(COLORS).map(([k,c])=>`<button class="${h.color===k?'on':''}" style="background:${c}" data-a="hset" data-k="color" data-v="${k}" aria-label="${COLHU[k]} szín"></button>`).join('')}</div></div>
-  <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${CATS.map(c=>`<button class="chip ${h.cat===c?'on':''}" data-a="hset" data-k="cat" data-v="${c}">${c}</button>`).join('')}</div></div>
+  <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${CATS.map(c=>`<button class="chip ${h.cat===c?'on':''}" data-a="hset" data-k="cat" data-v="${esc(c)}">${esc(c)}</button>`).join('')}${(S.customCats||[]).map(c=>`<span class="chip cchip ${h.cat===c?'on':''}"><button data-a="hset" data-k="cat" data-v="${esc(c)}">${esc(c)}</button><button class="cx" data-a="delCat" data-v="${esc(c)}" aria-label="${esc(c)} kategória törlése">${ic('close',12)}</button></span>`).join('')}<button class="chip add-cat" data-a="newCat" aria-expanded="${!!h.newCat}">${ic('plus',14)} Új kategória</button></div>
+   ${h.newCat?`<div class="row" style="margin-top:8px"><input class="inp" id="hcat" placeholder="pl. Önkéntesség" maxlength="24" aria-label="Új kategória neve"><button class="iconbtn" data-a="addCat" aria-label="Kategória hozzáadása">${ic('check')}</button></div>`:''}</div>
   <div class="field"><span class="lbl">Ismétlődés</span><div class="seg">${[['daily','Napi'],['weekly','Heti'],['monthly','Havi'],['yearly','Éves'],['custom','Egyedi']].map(([v,n])=>`<button class="${h.freq===v?'on':''}" data-a="hset" data-k="freq" data-v="${v}">${n}</button>`).join('')}</div>
    ${h.freq==='custom'?`<div class="days" style="margin-top:10px">${WD.map((w,i)=>`<button class="${h.days.includes(i)?'on':''}" data-a="hday" data-v="${i}">${w}</button>`).join('')}</div>`:''}
    ${isT(h)?`<div class="row" style="margin-top:10px"><span class="grow muted">${{weekly:'Hányszor egy héten?',monthly:'Hányszor egy hónapban?',yearly:'Hányszor egy évben?'}[h.freq]}</span><div class="stepper"><button data-a="htarget" data-v="-1" aria-label="Kevesebb">−</button><b>${h.target}</b><button data-a="htarget" data-v="1" aria-label="Több">+</button></div></div>`:''}</div>
@@ -1543,7 +1555,7 @@ const A={
  hset(el){syncDraft();draft[el.dataset.k]=el.dataset.v;if(el.dataset.k==='freq')draft.target=Math.min(draft.target||3,periodMax(draft.freq));habitSheet()},
  hday(el){syncDraft();const v=+el.dataset.v;draft.days=draft.days.includes(v)?draft.days.filter(x=>x!==v):[...draft.days,v].sort();if(!draft.days.length)draft.days=[v];habitSheet()},
  htarget(el){syncDraft();draft.target=Math.max(1,Math.min(periodMax(draft.freq),draft.target+ +el.dataset.v));habitSheet()},
- saveHabit(){syncDraft();if(!draft.name.trim()){$('#hn').focus();toast('Adj nevet a szokásnak');return}
+ saveHabit(){syncDraft();delete draft.newCat;if(!draft.name.trim()){$('#hn').focus();toast('Adj nevet a szokásnak');return}
   if(draft.id){const i=S.habits.findIndex(x=>x.id===draft.id);S.habits[i]=draft}else{S.habits.push({...draft,id:uid(),created:TODAY})}save();closeSheet();render(true);toast(draft.id?'Szokás frissítve':'Új szokás elültetve 🌱')},
  delHabit(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.habits=S.habits.filter(x=>x.id!==draft.id);save();closeSheet();render(true);toast('Szokás törölve')},
  habitDetail(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;let heat='';const st=addDays(now(),-(7*12-1)-wd(addDays(now(),-(7*12-1))));let a=0,b=0;
