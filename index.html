@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031230704">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230704">
+<meta name="bloomly-version" content="20261031230924">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230924">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1886,12 +1886,16 @@ const A={
 };
 /* „Bloomly ajánlja” blokk egy életterülethez: alcsoport-csipek, egy érintéses felvétel, „Mindet felveszem” */
 function recoSection(a,have){
-  const gs=RECO[a.id]||[];if(!gs.length)return'';const gi=Math.min(((S.ui.recoG||{})[a.id])||0,gs.length-1),g=gs[gi],left=g.items.filter(r=>!have.has(r.name)).length;
+  /* Csak a még fel nem vett javaslatok látszanak; a felvett szokás átkerül a Szokások részbe. Az üres alcsoport eltűnik. */
+  const gs=(RECO[a.id]||[]).map((x,i)=>({...x,i,items:x.items.filter(r=>!have.has(r.name))})).filter(x=>x.items.length);
+  if(!gs.length)return`<section class="reco reco-done" style="--ac:${a.c}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomly ajánlja</div><b>Minden javaslatot felvettél</b><div class="muted">További ötleteket a Szokástárban találsz.</div></div><button class="link" data-a="go" data-s="library">Szokástár</button></div></section>`;
+  const want=((S.ui.recoG||{})[a.id])||0,g=gs.find(x=>x.i===want)||gs[0],left=g.items.length;
   return`<section class="reco" style="--ac:${a.c}" aria-label="Bloomly ajánlja: ${a.n}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomly ajánlja</div><b>${g.g}</b></div><button class="link" data-a="go" data-s="library">Szokástár</button></div>
-   <div class="chips">${gs.map((x,i)=>`<button class="chip ${i===gi?'on':''}" data-a="recoG" data-area="${a.id}" data-v="${i}">${x.g}</button>`).join('')}</div>
-   <div class="list reco-list">${g.items.map(r=>{const on=have.has(r.name);return`<div class="li"><span class="reco-ic" style="background:${COLORS[r.color]}">${ic(r.icon,17)}</span><div class="grow"><b>${r.name}</b><div class="muted">${r.note} · ${freqLabel(r).toLowerCase()}</div></div><button class="chk ${on?'on':'add'}" data-a="recoAdd" data-area="${a.id}" data-n="${esc(r.name)}" ${on?'disabled':''} aria-label="${on?esc(r.name)+' már a szokásaid között':esc(r.name)+' felvétele'}">${ic(on?'check':'plus')}</button></div>`}).join('')}</div>
-   ${left>1?`<button class="btn ghost block" style="margin-top:10px" data-a="recoAll" data-area="${a.id}" data-g="${gi}">${ic('plus',16)} Mind a ${left} felvétele</button>`:''}</section>`}Object.assign(SCREENS,{
-/* Egy életterület: követők és naplók, szokások, ajánlások, 7 napos statisztika */
+   ${gs.length>1?`<div class="chips">${gs.map(x=>`<button class="chip ${x.i===g.i?'on':''}" data-a="recoG" data-area="${a.id}" data-v="${x.i}">${x.g} · ${x.items.length}</button>`).join('')}</div>`:''}
+   <div class="list reco-list">${g.items.map(r=>`<div class="li"><span class="reco-ic" style="background:${COLORS[r.color]}">${ic(r.icon,17)}</span><div class="grow"><b>${r.name}</b><div class="muted">${r.note} · ${freqLabel(r).toLowerCase()}</div></div><button class="chk add" data-a="recoAdd" data-area="${a.id}" data-n="${esc(r.name)}" aria-label="${esc(r.name)} felvétele a szokásaim közé">${ic('plus')}</button></div>`).join('')}</div>
+   ${left>1?`<button class="btn ghost block" style="margin-top:10px" data-a="recoAll" data-area="${a.id}" data-g="${g.i}">${ic('plus',16)} Mind a ${left} felvétele</button>`:''}</section>`}
+Object.assign(SCREENS,{
+/* Egy életterület: szokások, ajánlások, 7 napos statisztika */
 area(){
   const a=AREAS.find(x=>x.id===S.ui.area)||AREAS[0],pr=areaProgress(a.id);
   const have=new Set(S.habits.map(h=>h.name));
