@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031221506">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221506">
+<meta name="bloomly-version" content="20261031221621">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031221621">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1369,7 +1369,7 @@ $('#fab').innerHTML=ic('plus');$('#asideLogo').innerHTML=`<span style="display:b
 function openSheet(html){$('#sheet').innerHTML=`<div class="grab"></div><button class="iconbtn sheet-x" data-a="closeSheet" aria-label="Bezárás">${ic('close',18)}</button>${html}`;$('#sheet').classList.add('on');$('#scrim').classList.add('on');setTimeout(()=>{const f=$('#sheet input,#sheet textarea,#sheet button.btn');},50)}
 function closeSheet(){$('#sheet').classList.remove('on');$('#scrim').classList.remove('on')}
 let draft=null,ciStep=0,ciData={};
-function habitSheet(){const h=draft;
+function habitSheet(){const h=draft;if(h.freq==='custom'){h.freq='weekly';h.target=Math.max(1,(h.days||[]).length||3)}
   openSheet(`<h2>${h.id?'Szokás szerkesztése':'Új szokás'}</h2><p class="muted">Kis lépés, nagy változás.</p>
   <div class="field"><label for="hn">Név</label><input class="inp" id="hn" value="${esc(h.name)}" placeholder="pl. Reggeli nyújtás" maxlength="40"></div>
   ${!h.id?`<div class="sugg">${TEMPLATES.filter(t=>!S.habits.some(x=>x.name===t.name)).slice(0,6).map(t=>`<button class="chip" data-a="tpl" data-n="${t.name}">${t.name}</button>`).join('')}</div><button class="link" style="margin-top:10px" data-a="go" data-s="library">Böngéssz a szokástárban (${LIBRARY.length} ötlet) →</button>`:''}
@@ -1377,7 +1377,7 @@ function habitSheet(){const h=draft;
   <div class="field"><span class="lbl">Szín</span><div class="swatches">${Object.entries(COLORS).map(([k,c])=>`<button class="${h.color===k?'on':''}" style="background:${c}" data-a="hset" data-k="color" data-v="${k}" aria-label="${COLHU[k]} szín"></button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${CATS.map(c=>`<button class="chip ${h.cat===c?'on':''}" data-a="hset" data-k="cat" data-v="${esc(c)}">${esc(c)}</button>`).join('')}${(S.customCats||[]).map(c=>`<span class="chip cchip ${h.cat===c?'on':''}"><button data-a="hset" data-k="cat" data-v="${esc(c)}">${esc(c)}</button><button class="cx" data-a="delCat" data-v="${esc(c)}" aria-label="${esc(c)} kategória törlése">${ic('close',12)}</button></span>`).join('')}<button class="chip add-cat" data-a="newCat" aria-expanded="${!!h.newCat}">${ic('plus',14)} Új kategória</button></div>
    ${h.newCat?`<div class="row" style="margin-top:8px"><input class="inp" id="hcat" placeholder="pl. Önkéntesség" maxlength="24" aria-label="Új kategória neve"><button class="iconbtn" data-a="addCat" aria-label="Kategória hozzáadása">${ic('check')}</button></div>`:''}</div>
-  <div class="field"><span class="lbl">Ismétlődés</span><div class="seg">${[['daily','Napi'],['weekly','Heti'],['monthly','Havi'],['yearly','Éves'],['custom','Egyedi']].map(([v,n])=>`<button class="${h.freq===v?'on':''}" data-a="hset" data-k="freq" data-v="${v}">${n}</button>`).join('')}</div>
+  <div class="field"><span class="lbl">Ismétlődés</span><div class="seg">${[['daily','Napi'],['weekly','Heti'],['monthly','Havi'],['yearly','Éves']].map(([v,n])=>`<button class="${h.freq===v?'on':''}" data-a="hset" data-k="freq" data-v="${v}">${n}</button>`).join('')}</div>
    ${h.freq==='custom'?`<div class="days" style="margin-top:10px">${WD.map((w,i)=>`<button class="${h.days.includes(i)?'on':''}" data-a="hday" data-v="${i}">${w}</button>`).join('')}</div>`:''}
    ${isT(h)?`<div class="row" style="margin-top:10px"><span class="grow muted">${{weekly:'Hányszor egy héten?',monthly:'Hányszor egy hónapban?',yearly:'Hányszor egy évben?'}[h.freq]}</span><div class="stepper"><button data-a="htarget" data-v="-1" aria-label="Kevesebb">−</button><b>${h.target}</b><button data-a="htarget" data-v="1" aria-label="Több">+</button></div></div>`:''}</div>
   <div class="field"><label for="hnote">Jegyzet</label><textarea class="inp" id="hnote" placeholder="Miért fontos neked ez a szokás?">${esc(h.note)}</textarea></div>
