@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031215909">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031215909">
+<meta name="bloomly-version" content="20261031220021">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220021">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1270,7 +1270,7 @@ document.addEventListener('input',e=>{if(e.target.id!=='lfr')return;const id=e.t
 document.addEventListener('input',e=>{if(e.target.id!=='lq')return;S.ui.lq=e.target.value;render(true);const i=$('#lq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}});
 document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={sknew:'skadd',thqn:'thqAdd',obgc:'obGoalAdd'}[e.target.id];if(m){e.preventDefault();A[m]()}});
 
-function renderTabs(){const T=[['home','home','Ma'],['habits','check','Szokások'],['garden','sprout','Kert'],['cycle','cycle','Ciklus'],['me','user','Én']];
+function renderTabs(){const T=[['home','home','Kezdőlap'],['habits','check','Szokások'],['garden','sprout','Kert'],['cycle','cycle','Ciklus'],['me','user','Én']];
   $('#tabbar').innerHTML=T.map(([k,i,n])=>`<button class="tab ${S.ui.tab===k&&!S.ui.sub?'on':''}" data-a="tab" data-t="${k}" aria-current="${S.ui.tab===k?'page':'false'}">${ic(i)}<span>${n}</span><span class="dot"></span></button>`).join('')}
 function render(keepScroll){if(!S.life)ensureLife();const st=scroll.scrollTop;const key=S.ui.sub||S.ui.tab;if(key!=='meditation'&&medT)stopMed();if(key!=='sleep')slDraft=null;view.innerHTML=`<div class="wrap ${keepScroll?'':'screen-in'}">${SCREENS[key]()}</div>`;renderTabs();$('#fab').hidden=S.ui.sub?S.ui.sub!=='vision':S.ui.tab==='me';if(keepScroll)scroll.scrollTop=st;else scroll.scrollTop=0;
   const bs=$('.bj-scroll'),tc=bs&&bs.querySelector('th.td');if(tc)bs.scrollLeft=Math.max(0,tc.offsetLeft-152-(bs.clientWidth-152)/2+14);if(key==='vision')initDrag()}
