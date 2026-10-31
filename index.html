@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031230924">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230924">
+<meta name="bloomly-version" content="20261031231259">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031231259">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -520,6 +520,8 @@ textarea.inp{min-height:92px;resize:vertical}
 .reco-head b{font-family:var(--f-display);font-size:18px;color:var(--ink);font-weight:600}
 .reco-list{background:var(--card);border-radius:18px;padding:0 12px;border:1px solid var(--line)}
 .reco-list .li b{color:var(--ink);font-size:14px}
+.ret{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--text2);transition:background .25s,color .25s}
+.ret:hover{background:var(--bg2);color:var(--lav-deep)}
 .reco-ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;flex:none;color:var(--on-pastel)}
 
 /* Életterületek (Szokások főoldal és kategóriaképernyő) */
@@ -695,6 +697,7 @@ medal:'M12 14.5a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M8.7 13.4L7.2 20.5l4.8-2.4 4.8 2.
 trash:'M5 7h14 M9.5 7V4.5h5V7 M7 7l1 13h8l1-13',
 smile:'M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17z M8.5 14c.9 1.3 2.1 2 3.5 2s2.6-.7 3.5-2 M9 9.5h.01 M15 9.5h.01',
 calDrop:'M4.5 7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11.5a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z M4.5 10h15 M8.5 3v4 M15.5 3v4 M12 12.3c1.1 1.3 1.9 2.3 1.9 3.3a1.9 1.9 0 0 1-3.8 0c0-1 .8-2 1.9-3.3z',
+undo:'M9 14L4 9l5-5 M4 9h10.5a5.5 5.5 0 0 1 0 11H11',
 scale:'M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v11a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18V7A1.5 1.5 0 0 1 5 5.5z M8.5 12a3.5 3.5 0 0 1 7 0 M12 12l1.6-2.2',
 flower:'M12 9.6a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8z M12 9.6c-2.2-2.4-1.9-5.4 0-6.6 1.9 1.2 2.2 4.2 0 6.6z M14.3 11.3c1.3-3 4.3-3.6 5.9-2.1-.9 2-3.7 3.2-5.9 2.1z M13.4 14c3.1.9 4.2 3.8 3 5.5-2.1-.3-3.6-3-3-5.5z M10.6 14c.6 2.5-.9 5.2-3 5.5-1.2-1.7-.1-4.6 3-5.5z M9.7 11.3c-2.2 1.1-5-.1-5.9-2.1 1.6-1.5 4.6-.9 5.9 2.1z',
 apple:'M12 7.5c-1.6-1.4-4.6-1.6-6.2.6-1.7 2.4-1 6.6 1.3 9.3 1.4 1.7 2.8 2.5 4.9 1.6 2.1.9 3.5.1 4.9-1.6 2.3-2.7 3-6.9 1.3-9.3-1.6-2.2-4.6-2-6.2-.6z M12 7.5c0-2 .8-3.5 2.5-4.5',
@@ -1159,10 +1162,10 @@ function applyTheme(){const r=document.documentElement,th=THEMES.find(x=>x[0]===
 const themeCards=(cur,action)=>`<div class="theme-cards">${THEMES.map(([v,n,,c])=>`<button class="tcard ${cur===v?'on':''}" data-a="${action}" data-v="${v}" aria-pressed="${cur===v}"><span class="tprev" style="background:${c[0]}"><i style="background:${c[1]};width:72%"></i><i style="background:${c[2]}"></i><i style="background:${c[3]};width:55%"></i></span>${n}</button>`).join('')}</div>`;
 function greet(){const h=new Date().getHours();return h<10?'Jó reggelt':h<18?'Szép napot':'Szép estét'}
 function ringSVG(p,size=118){const R=50,C=2*Math.PI*R;return`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CBB7F7"/><stop offset="1" stop-color="#FFC9B3"/></linearGradient></defs><circle cx="60" cy="60" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="11"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="url(#rg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}"/></svg>`}
-function habitRow(h){
+function habitRow(h,opt){
   const k=TODAY,done=isDone(h,k),st=habitStreak(h);
   const meta=isT(h)?`${periodText(h)} ${periodCount(h,k)}/${h.target}`:(h.note?esc(h.note):areaName(h));
-  return`<div class="habit ${done?'done':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div><button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button></div>`
+  return`<div class="habit ${done?'done':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div>${opt&&opt.ret?`<button class="ret" data-a="unReco" data-id="${h.id}" title="Vissza a Bloomly ajánlja részbe" aria-label="${esc(h.name)} vissza a Bloomly ajánlja részbe">${ic('undo',17)}</button>`:''}<button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button></div>`
 }
 function todays(){return S.habits.filter(h=>scheduledOn(h,now()))}
 
@@ -1885,6 +1888,9 @@ const A={
  lfSave(){S.life.hist=S.life.hist.filter(h=>h.date!==TODAY);S.life.hist.push({date:TODAY,scores:{...S.life.scores}});save();render(true);toast('Életvirág elmentve 🌸')}
 };
 /* „Bloomly ajánlja” blokk egy életterülethez: alcsoport-csipek, egy érintéses felvétel, „Mindet felveszem” */
+const recoNames=id=>new Set((RECO[id]||[]).flatMap(g=>g.items.map(r=>r.name)));
+/* Ha egy szokást korábban visszatettél az ajánlások közé, újrafelvételkor a régi előzményeivel együtt tér vissza */
+function recoHabit(r,area){const old=(S.parked||{})[r.name];if(old){delete S.parked[r.name];return old}return mkHabit({...r,area})}
 function recoSection(a,have){
   /* Csak a még fel nem vett javaslatok látszanak; a felvett szokás átkerül a Szokások részbe. Az üres alcsoport eltűnik. */
   const gs=(RECO[a.id]||[]).map((x,i)=>({...x,i,items:x.items.filter(r=>!have.has(r.name))})).filter(x=>x.items.length);
@@ -1904,7 +1910,7 @@ area(){
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${pr.done}/${pr.today.length}</b><small>szokás ma</small></div><div class="kpi"><b>${pr.rate==null?'–':pr.rate+'%'}</b><small>elmúlt 7 nap</small></div><div class="kpi"><b>${pr.hs.length}</b><small>szokás összesen</small></div></div>
 
   <div class="sec-h"><h2>Szokások</h2><button class="link" data-a="editHabit" data-area="${a.id}">+ Új szokás</button></div>
-  <div class="habits">${pr.hs.map(habitRow).join('')||`<div class="card empty-note">Ebben a területben még nincs szokásod. Válassz az ajánlottak közül, vagy hozz létre egy sajátot.</div>`}</div>
+  <div class="habits">${pr.hs.map(h=>habitRow(h,{ret:recoNames(a.id).has(h.name)})).join('')||`<div class="card empty-note">Ebben a területben még nincs szokásod. Válassz az ajánlottak közül, vagy hozz létre egy sajátot.</div>`}</div>
   ${recoSection(a,have)}
   ${pr.hs.length?`<section class="card chart"><b style="color:var(--ink)">Elmúlt 7 nap</b>${bars(days,'d')}</section>`:''}`
 },
@@ -1923,8 +1929,9 @@ weight(){
 }});
 Object.assign(EXTRA_A,{
  recoG(el){S.ui.recoG={...(S.ui.recoG||{}),[el.dataset.area]:+el.dataset.v};render(true)},
- recoAdd(el){const g=(RECO[el.dataset.area]||[]).flatMap(x=>x.items),r=g.find(x=>x.name===el.dataset.n);if(!r||S.habits.some(h=>h.name===r.name))return;S.habits.push(mkHabit({...r,area:el.dataset.area}));save();render(true);toast(`${r.name} elültetve 🌱`)},
- recoAll(el){const a=el.dataset.area,g=(RECO[a]||[])[+el.dataset.g];if(!g)return;let n=0;g.items.forEach(r=>{if(!S.habits.some(h=>h.name===r.name)){S.habits.push(mkHabit({...r,area:a}));n++}});save();render(true);toast(n?`${n} szokás elültetve 🌱`:'Ezek már mind a szokásaid között vannak')},
+ unReco(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;S.parked={...(S.parked||{}),[h.name]:h};S.habits=S.habits.filter(x=>x.id!==h.id);save();render(true);toast(`„${h.name}” visszakerült a Bloomly ajánlja részbe`)},
+ recoAdd(el){const g=(RECO[el.dataset.area]||[]).flatMap(x=>x.items),r=g.find(x=>x.name===el.dataset.n);if(!r||S.habits.some(h=>h.name===r.name))return;S.habits.push(recoHabit(r,el.dataset.area));save();render(true);toast(`${r.name} elültetve 🌱`)},
+ recoAll(el){const a=el.dataset.area,g=(RECO[a]||[])[+el.dataset.g];if(!g)return;let n=0;g.items.forEach(r=>{if(!S.habits.some(h=>h.name===r.name)){S.habits.push(recoHabit(r,a));n++}});save();render(true);toast(n?`${n} szokás elültetve 🌱`:'Ezek már mind a szokásaid között vannak')},
  openArea(el){S.ui.area=el.dataset.v;if(S.ui.sub==='area'){render();return}A.go({dataset:{s:'area'}})},
  goJournal(el){S.ui.jt=el.dataset.v;A.go({dataset:{s:'journal'}})},
  openBreath(){S.ui.med={min:5,t:0};A.go({dataset:{s:'meditation'}})},
