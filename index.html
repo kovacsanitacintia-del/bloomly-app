@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031220447">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220447">
+<meta name="bloomly-version" content="20261031220637">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031220637">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1303,7 +1303,7 @@ function syncDraft(){if(!draft)return;const n=$('#hn'),no=$('#hnote');if(n)draft
 
 function checkinSheet(){const steps=[
   ()=>`<h2>Hogy érzed magad?</h2><p class="muted">Nincs jó vagy rossz válasz.</p><div class="moods plain" style="margin-top:18px">${MOODS.map((m,i)=>`<button class="mood-b ${ciData.mood===i?'on':''}" data-a="ciMood" data-m="${i}"><span class="e" style="font-size:30px">${m.e}</span>${m.n}</button>`).join('')}</div>`,
-  ()=>`<h2>Mi a mai célod?</h2><p class="muted">Egy szándék, ami ma iránytű lesz.</p><div class="field"><label for="cig">Mai célom</label><input class="inp" id="cig" value="${esc(ciData.goal)}" placeholder="pl. Nyugodt reggel, telefon nélkül" maxlength="80"></div><div class="sugg">${['Több vizet iszom','20 perc séta','Kedves leszek magamhoz','Korán lefekszem'].map(s=>`<button class="chip" data-a="ciSug" data-f="cig" data-v="${s}">${s}</button>`).join('')}</div>`,
+  ()=>`<h2>Mi a mai célod?</h2><p class="muted">Egy szándék, ami ma iránytű lesz.</p><div class="field"><label for="cig">Mai célom</label><input class="inp" id="cig" value="${esc(ciData.goal)}" placeholder="pl. Nyugodt reggel, telefon nélkül" maxlength="80"></div>`,
   ()=>`<h2>Miért vagy ma hálás?</h2><p class="muted">Akár egy apróság is elég.</p><div class="field"><label for="cih">Hálás vagyok</label><textarea class="inp" id="cih" placeholder="pl. A reggeli kávé csendjéért">${esc(ciData.grateful)}</textarea></div>`];
   openSheet(`<div class="steps-dots">${steps.map((_,i)=>`<i class="${i===ciStep?'on':''}"></i>`).join('')}</div><div class="screen-in">${steps[ciStep]()}</div><div class="btns">${ciStep?`<button class="btn ghost" data-a="ciBack">Vissza</button>`:''}<button class="btn" data-a="ciNext">${ciStep<2?'Tovább':'Mentés · +15 szirom'}</button></div>`)}
 function readCi(){const g=$('#cig'),h=$('#cih');if(g)ciData.goal=g.value;if(h)ciData.grateful=h.value}
