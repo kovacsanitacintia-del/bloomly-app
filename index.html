@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031230315">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230315">
+<meta name="bloomly-version" content="20261031230521">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031230521">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1419,8 +1419,8 @@ function areaProgress(id){
 function areasView(){
   const hsAll=todays().filter(h=>!isT(h)),tc=trackerChecks(TODAY),done=hsAll.filter(h=>isDone(h,TODAY)).length+tc.filter(Boolean).length,tot=hsAll.length+tc.length;
   return`<section class="card area-today"><div class="row"><div class="grow"><div class="eyebrow">Ma</div><b style="color:var(--ink);font-size:17px">${done}/${tot} teendő kész</b></div><span class="area-pct">${tot?Math.round(done/tot*100):0}%</span></div><div class="bar" style="margin-top:10px"><i style="width:${tot?done/tot*100:0}%"></i></div></section>
-  <div class="acards">${AREAS.map(a=>{const pr=areaProgress(a.id),tn=(AREA_TRK[a.id]||[]).length;
-    return`<button class="acard" style="--ac:${a.c}" data-a="openArea" data-v="${a.id}"><span class="acard-ic">${ic(a.i,22)}</span><b>${a.n}</b><small>${pr.hs.length} szokás${tn?` · ${tn} követő`:''}</small>
+  <div class="acards">${AREAS.map(a=>{const pr=areaProgress(a.id);
+    return`<button class="acard" style="--ac:${a.c}" data-a="openArea" data-v="${a.id}"><span class="acard-ic">${ic(a.i,22)}</span><b>${a.n}</b><small>${pr.hs.length} szokás</small>
      <span class="acard-bar"><i style="width:${pr.today.length?pr.done/pr.today.length*100:0}%"></i></span><small class="acard-today">${pr.today.length?`${pr.done}/${pr.today.length} ma`:'Ma nincs teendő'}</small></button>`}).join('')}</div>`}
 /* Bullet journal stílusú havi szokáskövető: napok felül, szokások a bal oldalon (rögzített oszlop) */
 function bujoView(){
@@ -1894,12 +1894,12 @@ function recoSection(a,have){
    ${left>1?`<button class="btn ghost block" style="margin-top:10px" data-a="recoAll" data-area="${a.id}" data-g="${gi}">${ic('plus',16)} Mind a ${left} felvétele</button>`:''}</section>`}Object.assign(SCREENS,{
 /* Egy életterület: követők és naplók, szokások, ajánlások, 7 napos statisztika */
 area(){
-  const a=AREAS.find(x=>x.id===S.ui.area)||AREAS[0],pr=areaProgress(a.id),defs=trackerDefs(),trk=(AREA_TRK[a.id]||[]).map(id=>defs[id]).filter(Boolean);
+  const a=AREAS.find(x=>x.id===S.ui.area)||AREAS[0],pr=areaProgress(a.id);
   const have=new Set(S.habits.map(h=>h.name));
   const days=[...Array(7)].map((_,i)=>{const d=addDays(now(),i-6),k=keyOf(d);let x=0,y=0;pr.hs.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;y++;if(isDone(h,k))x++});return{l:WD[wd(d)],v:y?x/y:0,t:y?Math.round(x/y*100)+'%':''}});
   return`<div class="top">${backBtn()}<span class="area-hero-ic" style="--ac:${a.c}">${ic(a.i,24)}</span><div class="grow" style="min-width:0"><h1 style="font-size:24px">${a.n}</h1><div class="muted">${a.d}</div></div></div>
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${pr.done}/${pr.today.length}</b><small>szokás ma</small></div><div class="kpi"><b>${pr.rate==null?'–':pr.rate+'%'}</b><small>elmúlt 7 nap</small></div><div class="kpi"><b>${pr.hs.length}</b><small>szokás összesen</small></div></div>
-  ${trk.length?`<div class="sec-h"><h2>Követők és naplók</h2></div><nav class="mlist" aria-label="${a.n}: követők és naplók">${trk.map(menuRow).join('')}</nav>`:''}
+
   <div class="sec-h"><h2>Szokások</h2><button class="link" data-a="editHabit" data-area="${a.id}">+ Új szokás</button></div>
   <div class="habits">${pr.hs.map(habitRow).join('')||`<div class="card empty-note">Ebben a területben még nincs szokásod. Válassz az ajánlottak közül, vagy hozz létre egy sajátot.</div>`}</div>
   ${recoSection(a,have)}
