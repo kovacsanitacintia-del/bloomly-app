@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261031215618">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031215618">
+<meta name="bloomly-version" content="20261031215909">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261031215909">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,7 @@
   --f-display:"Urbanist","Avenir Next","Segoe UI",system-ui,sans-serif;
   --f-body:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);
+  --btn1:#C7B2F6; --btn2:#B39CEC; --btn-shadow:rgba(140,110,210,.9);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1C1925; --bg2:#231F2E; --card:#2A2537; --text:#E3DEEC; --ink:#F1ECF7; --text2:#A69FB8;
@@ -37,6 +38,14 @@
   --shadow:0 18px 40px -20px rgba(0,0,0,.6),0 2px 6px -2px rgba(0,0,0,.3);
   --desk:#14121B; --frame:#2A2537; --sky1:#2A2440; --sky2:#3A2E45; --hill1:#2E3B35; --hill2:#3B5245; --pond:#33405A; --trunk:#7E6A5E;
   --sun:#EDE3C6; --on-pastel:#2B2538; --track:#352F44; color-scheme:dark }
+
+/* További témák: a data-palette a világos vagy sötét alapra teszi rá a saját színeit */
+:root[data-palette="rozsa"]{--bg:#FFFBFC;--bg2:#FBF1F4;--lav:#F2B8C9;--lav-deep:#C2607F;--lav-soft:#FCEAF0;--sky1:#FDEBF1;--sky2:#FFF3EC;--desk:#F8EDF1;--track:#F5E6EC;--btn1:#F3BCD0;--btn2:#DE8FAE;--btn-shadow:rgba(214,120,155,.75)}
+:root[data-palette="menta"]{--bg:#FBFEFB;--bg2:#F1F8F2;--lav:#A9D9B4;--lav-deep:#3F8A57;--lav-soft:#E6F5E9;--sky1:#E9F7EE;--sky2:#FBF8EC;--desk:#EDF5EF;--track:#E3EFE5;--btn1:#9FD8B0;--btn2:#6DBA88;--btn-shadow:rgba(90,170,120,.7)}
+:root[data-palette="barack"]{--bg:#FFFCFA;--bg2:#FBF3EE;--lav:#FFC4A8;--lav-deep:#B8623D;--lav-soft:#FFEDE4;--sky1:#FFEFE5;--sky2:#FFF7E8;--desk:#F9EFE9;--track:#F6E7DE;--btn1:#FFC2A5;--btn2:#EE9A76;--btn-shadow:rgba(230,140,100,.7)}
+:root[data-palette="arany"]{--bg:#FFFDF8;--bg2:#F8F3E9;--lav:#E3CB93;--lav-deep:#8C6A2E;--lav-soft:#F8F0DE;--sky1:#FBF3E1;--sky2:#FFF4EA;--desk:#F5EFE3;--track:#F0E8D8;--btn1:#E2C88C;--btn2:#C29A55;--btn-shadow:rgba(190,150,80,.7)}
+:root[data-palette="tenger"]{--bg:#FBFDFF;--bg2:#F0F5FA;--lav:#AFCDEE;--lav-deep:#3F72A8;--lav-soft:#E6F0FB;--sky1:#E6F1FC;--sky2:#F3F9F6;--desk:#ECF2F8;--track:#E3ECF5;--btn1:#ABCBEF;--btn2:#7AA4D8;--btn-shadow:rgba(100,150,210,.7)}
+:root[data-palette="ejfel"]{--bg:#1D161C;--bg2:#271D25;--card:#2F232C;--lav:#E3A6BC;--lav-deep:#F2C3D3;--lav-soft:#43293A;--glass:rgba(47,35,44,.66);--sky1:#3B2333;--sky2:#2C2038;--desk:#150F14;--frame:#2F232C;--track:#40303B;--btn1:#E6A9BF;--btn2:#C47A98;--btn-shadow:rgba(0,0,0,.6)}
 
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -133,7 +142,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--lav),var(--peach));transition:width 1s var(--ease)}
 .bar.gold i{background:linear-gradient(90deg,var(--gold),var(--peach))}
 
-.fab{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:100px;width:58px;height:58px;border-radius:22px;background:linear-gradient(145deg,var(--lav),#B6A0EE);color:#fff;display:grid;place-items:center;box-shadow:0 16px 30px -12px rgba(140,110,210,.75);z-index:5;transition:transform .3s var(--ease)}
+.fab{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:100px;width:58px;height:58px;border-radius:22px;background:linear-gradient(145deg,var(--btn1),var(--btn2));color:#fff;display:grid;place-items:center;box-shadow:0 16px 30px -12px var(--btn-shadow);z-index:5;transition:transform .3s var(--ease)}
 .fab:hover{transform:translateY(-2px) rotate(90deg)}
 .fab svg{width:26px;height:26px;stroke-width:2}
 
@@ -175,7 +184,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .inp{width:100%;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:var(--card);outline:none;transition:border .3s,box-shadow .3s;color:var(--ink)}
 .inp:focus{border-color:var(--lav);box-shadow:0 0 0 4px color-mix(in srgb,var(--lav) 25%,transparent)}
 textarea.inp{min-height:92px;resize:vertical}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 22px;border-radius:18px;font-weight:700;font-size:15px;background:linear-gradient(145deg,#C7B2F6,#B39CEC);color:#fff;box-shadow:0 14px 26px -14px rgba(140,110,210,.9);transition:transform .25s var(--ease),filter .25s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 22px;border-radius:18px;font-weight:700;font-size:15px;background:linear-gradient(145deg,var(--btn1),var(--btn2));color:#fff;box-shadow:0 14px 26px -14px var(--btn-shadow);transition:transform .25s var(--ease),filter .25s}
 .btn:hover{transform:translateY(-1px);filter:brightness(1.03)}
 .btn.block{width:100%}
 .btn.ghost{background:var(--bg2);color:var(--ink);box-shadow:none}
@@ -867,7 +876,14 @@ function gardenSVG(compact){
 
 /* ───────── Megjelenítés ───────── */
 const view=$('#view'),scroll=$('#scroll');
-function applyTheme(){const r=document.documentElement;if(S.theme==='system')r.removeAttribute('data-theme');else r.dataset.theme=S.theme}
+/* Témák: [azonosító, név, alap (világos/sötét/rendszer), előnézet színei: háttér, kiemelés, másodlagos, harmadik] */
+const THEMES=[['light','Levendula hajnal','light',['#FFFDFB','#CBB7F7','#F7E5EA','#CDECCF']],['dark','Éjszakai kert','dark',['#1C1925','#B9A3EE','#3B2E3A','#3B5245']],['system','Automatikus','system',['linear-gradient(135deg,#FFFDFB 50%,#1C1925 50%)','#CBB7F7','#F7E5EA','#B9A3EE']],
+ ['rozsa','Rózsakert','light',['#FFFBFC','#F2B8C9','#FCEAF0','#E9D6A7']],['menta','Mentás reggel','light',['#FBFEFB','#A9D9B4','#E6F5E9','#FFD6C2']],['barack','Barackvirág','light',['#FFFCFA','#FFC4A8','#FFEDE4','#CBB7F7']],
+ ['arany','Arany óra','light',['#FFFDF8','#E3CB93','#F8F0DE','#F7E5EA']],['tenger','Tengerpart','light',['#FBFDFF','#AFCDEE','#E6F0FB','#CDECCF']],['ejfel','Éjféli rózsa','dark',['#1D161C','#E3A6BC','#43293A','#E0C98F']]];
+function applyTheme(){const r=document.documentElement,th=THEMES.find(x=>x[0]===S.theme)||THEMES[2];
+  if(th[2]==='system'){r.removeAttribute('data-theme');r.removeAttribute('data-palette');return}
+  r.dataset.theme=th[2];if(th[0]===th[2])r.removeAttribute('data-palette');else r.dataset.palette=th[0]}
+const themeCards=(cur,action)=>`<div class="theme-cards">${THEMES.map(([v,n,,c])=>`<button class="tcard ${cur===v?'on':''}" data-a="${action}" data-v="${v}" aria-pressed="${cur===v}"><span class="tprev" style="background:${c[0]}"><i style="background:${c[1]};width:72%"></i><i style="background:${c[2]}"></i><i style="background:${c[3]};width:55%"></i></span>${n}</button>`).join('')}</div>`;
 function greet(){const h=new Date().getHours();return h<10?'Jó reggelt':h<18?'Szép napot':'Szép estét'}
 function ringSVG(p,size=118){const R=50,C=2*Math.PI*R;return`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CBB7F7"/><stop offset="1" stop-color="#FFC9B3"/></linearGradient></defs><circle cx="60" cy="60" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="11"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="url(#rg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}"/></svg>`}
 function habitRow(h){
@@ -1028,7 +1044,7 @@ notifs(){
 settings(){
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Beállítások</h1></div>
   <section class="card"><div class="field" style="margin-top:0"><label for="nm">Megszólítás</label><input class="inp" id="nm" value="${esc(S.name)}" maxlength="24"></div><div class="field"><label for="gl">Fő célom</label><input class="inp" id="gl" value="${esc(S.goal)}" maxlength="60"></div><button class="btn block" style="margin-top:14px" data-a="saveProfile">Mentés</button></section>
-  <section class="card"><div class="lbl">Megjelenés</div><div class="seg" style="margin-top:10px">${[['system','Rendszer'],['light','Világos'],['dark','Sötét']].map(([v,n])=>`<button class="${S.theme===v?'on':''}" data-a="theme" data-v="${v}">${n}</button>`).join('')}</div></section>
+  <section class="card"><div class="lbl">Téma</div><div style="margin-top:12px">${themeCards(S.theme,'theme')}</div></section>
   <section class="card list"><div class="li"><div class="grow"><b style="color:var(--ink)">Cikluskövetés</b><div class="muted">Fázisok, előrejelzés, tünetek</div></div><button class="switch ${S.cycleOn?'on':''}" data-a="cycleToggle" role="switch" aria-checked="${S.cycleOn}" aria-label="Cikluskövetés"></button></div>
    ${S.cycleOn?`<div class="li"><div class="grow"><b style="color:var(--ink)">Ciklus hossza</b><div class="muted">átlagosan</div></div><div class="stepper"><button data-a="clen" data-v="-1" aria-label="Csökkentés">−</button><b>${S.cycle.length}</b><button data-a="clen" data-v="1" aria-label="Növelés">+</button></div></div>`:''}</section>
   <section class="card list"><button class="li" data-a="restartOb" style="width:100%;text-align:left"><div class="grow"><b style="color:var(--ink)">Bevezető újraindítása</b><div class="muted">Az onboarding újra lefut</div></div>${ic('next',18)}</button>
@@ -1390,7 +1406,7 @@ function renderOb(dir){
   if(s===7){skip=true;ok=ob.mood!=null;b=H('Hangulat','Hogy érzed magad most?','Nincs jó vagy rossz válasz. Ez lesz az első bejegyzés a hangulatnaplódban.')+`<div class="mood-big">${MOODS.map((m,i)=>`<button class="${ob.mood===i?'on':''}" data-a="obMood" data-v="${i}" aria-pressed="${ob.mood===i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div>${ob.mood!=null?`<div class="insight mood-reply">${ic('heart')}<p>${MOOD_REPLY[ob.mood]}</p></div>`:''}`;cta=ok?'Tovább':'Válassz egy hangulatot'}
   if(s===8){b=H('Értesítések','Kérsz kedves emlékeztetőket?','Naponta legfeljebb kettőt küldünk. Soha nem sürgetünk, és bármikor kikapcsolhatod.')+`<div class="notif glass notif-demo"><span class="ap">${LOTUS('obn')}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomly</b><span class="muted" style="font-size:11px">${ob.mt}</span></div><p style="font-size:13.5px;color:var(--ink)">Jó reggelt${ob.name?', '+esc(ob.name):''}! A kerted vár rád 🌸</p></div></div>
     <section class="card list">${[['nm','mt','Reggeli check-in','Hogy indul a napod?'],['ne','et','Esti reflexió','Mire vagy ma büszke?']].map(([k,tk,t,d])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div><input type="time" class="inp" id="ob-${tk}" value="${ob[tk]}" style="width:auto;padding:8px 10px" aria-label="${t} időpontja" ${ob[k]?'':'disabled'}><button class="switch ${ob[k]?'on':''}" data-a="obNotif" data-k="${k}" role="switch" aria-checked="${ob[k]}" aria-label="${t}"></button></div>`).join('')}</section>`;cta='Engedélyezem';sec='Most nem'}
-  if(s===9){b=H('Személyre szabás','Tedd a magadévá','Hogyan szólíthatunk, és melyik hangulat illik hozzád?')+`<div class="field"><label for="obn">Keresztneved</label><input class="inp" id="obn" value="${esc(ob.name)}" placeholder="pl. Anna" maxlength="24" autocomplete="given-name"></div><div class="lbl" style="margin-top:18px">Téma</div><div class="theme-cards">${[['light','Levendula hajnal',['#FFFDFB','#CBB7F7','#F7E5EA','#CDECCF']],['dark','Éjszakai kert',['#1C1925','#B9A3EE','#3B2E3A','#3B5245']],['system','Automatikus',['linear-gradient(135deg,#FFFDFB 50%,#1C1925 50%)','#CBB7F7','#F7E5EA','#B9A3EE']]].map(([v,n,c])=>`<button class="tcard ${ob.theme===v?'on':''}" data-a="obTheme" data-v="${v}" aria-pressed="${ob.theme===v}"><span class="tprev" style="background:${c[0]}"><i style="background:${c[1]};width:72%"></i><i style="background:${c[2]}"></i><i style="background:${c[3]};width:55%"></i></span>${n}</button>`).join('')}</div>`}
+  if(s===9){b=H('Személyre szabás','Tedd a magadévá','Hogyan szólíthatunk, és melyik hangulat illik hozzád?')+`<div class="field"><label for="obn">Keresztneved</label><input class="inp" id="obn" value="${esc(ob.name)}" placeholder="pl. Anna" maxlength="24" autocomplete="given-name"></div><div class="lbl" style="margin-top:18px">Téma</div>${themeCards(ob.theme,'obTheme')}`}
   if(s===10){const f=OB_FLOWERS.find(x=>x.id===ob.flower);ok=ob.planted;b=H('Első virág','Ültesd el az első virágodat',ob.planted?'Gyönyörű. Ez a virág mindig a kerted közepén marad, emlékeztetőül arra, hogy itt kezdődött.':'Válassz egy virágot, majd tartsd lenyomva a gombot, amíg a mag a földbe kerül.')+`${ob.planted?'':`<div class="flower-pick">${OB_FLOWERS.map(x=>`<button class="fp ${ob.flower===x.id?'on':''}" data-a="obFlower" data-v="${x.id}" aria-pressed="${ob.flower===x.id}">${flowerArt(x.id,x.col,64)}${x.n}</button>`).join('')}</div>`}<div class="pot">${potArt(f,ob.planted)}</div>${ob.planted?`<div class="insight mood-reply">${ic('sparkle')}<p>Az első virágod kinyílt: <b>${f.n}</b></p></div>`:`<button class="plant-btn" id="plantBtn" aria-label="Tartsd lenyomva az ültetéshez, vagy nyomj Entert"><i></i><span>${ic('sprout',18)} Tartsd lenyomva az ültetéshez</span></button>`}`;cta=ok?'Tovább':'Előbb ültesd el a virágot'}
   if(s===11){const f=OB_FLOWERS.find(x=>x.id===ob.flower);b=`<div class="ob-hero"><div class="ob-final-flower">${flowerArt(f.id,f.col,120)}</div><h1>Kezdődhet a virágzás${ob.name.trim()?', '+esc(ob.name.trim()):''}</h1><p class="lead">Minden készen áll. Az első lépést már megtetted, a többit napról napra együtt visszük.</p></div>
     <div class="sum-grid"><div class="kpi"><b>${f.n}</b><small>első virágod</small></div><div class="kpi"><b>${ob.picks.length}</b><small>első szokás</small></div><div class="kpi"><b>${ob.goals.length}</b><small>cél 90 napra</small></div><div class="kpi"><b>${ob.areas.length}</b><small>fókuszterület</small></div></div>
