@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101081916">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101081916">
+<meta name="bloomly-version" content="20261101082301">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101082301">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -449,45 +449,61 @@ textarea.inp{min-height:92px;resize:vertical}
 .sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .empty-note{padding:22px;text-align:center;color:var(--text2);font-size:13.5px}
 
-/* Bullet journal havi szokáskövető */
+/* Szokáskövető táblázat (Havi nézet) */
 .bj-h{display:flex;align-items:center;gap:10px}
-.bj-month{font-size:27px;font-weight:500;text-transform:capitalize;margin-top:2px}
-.bj-month span{color:var(--text2);font-weight:400}
+.bj-month{font-size:26px;font-weight:500;margin-top:2px}
 .iconbtn:disabled{opacity:.35;cursor:default}
-.bj{padding:10px 0 12px;overflow:hidden;background-image:radial-gradient(circle,color-mix(in srgb,var(--text2) 26%,transparent) 1px,transparent 1.4px);background-size:14px 14px}
+.bj-range{max-width:240px;align-self:center;width:100%}
+.bj-best{font-size:16px!important;line-height:1.3!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bj{padding:0;overflow:hidden}
 .bj-scroll{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--lav) 60%,transparent) transparent}
-.bj-t{border-collapse:separate;border-spacing:0}
-.bj-t td,.bj-t th{padding:4px 2px;text-align:center}
-.bj-t th[scope="row"],.bj-corner{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;padding:5px 10px 5px 14px;min-width:152px;max-width:152px;box-shadow:8px 0 12px -10px rgba(60,40,90,.35)}
+.bj-t{border-collapse:separate;border-spacing:0;min-width:100%}
+.bj.bj-week .bj-t{width:100%}
+.bj-t td,.bj-t th{padding:5px 2px;text-align:center;border-bottom:1px solid var(--line)}
+.bj-t th[scope="row"],.bj-corner,.bj-grp th{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;padding:6px 10px 6px 14px;min-width:148px;max-width:148px;box-shadow:1px 0 0 var(--line)}
 .bj-corner{vertical-align:bottom;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-weight:700;padding-bottom:10px!important}
 .bj-rh{display:flex;align-items:center;gap:9px}
 .bj-ic{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;color:var(--on-pastel);flex:none}
-.bj-lbl{min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.bj-lbl{min-width:0;display:flex;flex-direction:column;line-height:1.25;gap:2px;overflow:hidden}
 .bj-lbl b{font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bj-lbl small{font-size:10.5px;color:var(--text2);white-space:nowrap;font-variant-numeric:tabular-nums}
-.bj-day{vertical-align:bottom;padding-bottom:8px!important}
+.bj-meta{display:flex;align-items:center;gap:6px;min-width:0}
+.bj-meta small{overflow:hidden;text-overflow:ellipsis}
+.bj-mini{width:34px;height:4px;border-radius:4px;background:var(--track);overflow:hidden;flex:none}
+.bj-mini i{display:block;height:100%;border-radius:4px;filter:saturate(1.4) brightness(.92)}
+.bj-day{vertical-align:bottom;padding:10px 2px 8px!important;background:var(--card)}
 .bj-day small{display:block;font-size:9.5px;font-weight:600;color:var(--text2);line-height:1.2}
-.bj-day b{display:grid;place-items:center;width:23px;height:23px;margin:2px auto 0;border-radius:50%;font-size:11.5px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
-.bj-t .we{background:color-mix(in srgb,var(--lav) 8%,transparent)}
-.bj-t .td{background:color-mix(in srgb,var(--lav) 22%,transparent)}
+.bj-day b{display:grid;place-items:center;width:24px;height:24px;margin:3px auto 0;border-radius:50%;font-size:11.5px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
 .bj-day.td b{background:var(--lav-deep);color:var(--card)}
-.bj-t .wk{box-shadow:inset 1px 0 0 color-mix(in srgb,var(--text2) 30%,transparent)}
-.bj-c{width:20px;height:20px;border-radius:50%;display:block;margin:0 auto;border:1.5px solid color-mix(in srgb,var(--hc) 75%,var(--text2));transition:transform .25s var(--ease),background .25s}
-.bj-c.on{background:var(--hc);border-color:color-mix(in srgb,var(--hc) 82%,var(--ink))}
-.bj-c.off{border-style:dashed;opacity:.45}
-.bj-c.fut{opacity:.22;cursor:default}
-.bj-c:not(:disabled):hover{transform:scale(1.18)}
+.bj-t .we{background:color-mix(in srgb,var(--bg2) 70%,transparent)}
+.bj-t .td{background:color-mix(in srgb,var(--lav) 14%,var(--card))}
+.bj-t .wk{box-shadow:inset 1px 0 0 var(--line)}
+.bj-grp th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);padding-top:12px!important;padding-bottom:6px!important;background:var(--bg2);display:table-cell}
+.bj-grp td{background:var(--bg2)}
+.bj-gdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:0}
+.bj-c{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;margin:0 auto;color:var(--on-pastel);transition:transform .2s var(--ease),background .2s}
+.bj-c svg.i{stroke-width:2.6}
+.bj-c.on{background:var(--hc);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--hc) 70%,var(--ink) 30%)}
+.bj-c.miss{background:color-mix(in srgb,var(--text2) 13%,transparent)}
+.bj-c.opt{background:color-mix(in srgb,var(--text2) 6%,transparent)}
+.bj-c.off{position:relative}
+.bj-c.off::after{content:"";width:4px;height:4px;border-radius:50%;background:color-mix(in srgb,var(--text2) 45%,transparent)}
+.bj-c.fut{border:1px dashed color-mix(in srgb,var(--text2) 22%,transparent);cursor:default}
+.bj-c:not(:disabled):hover{transform:scale(1.12)}
 .bj-c.pop{animation:pop .5s var(--ease)}
-.bj-sep th,.bj-sep td{border-top:1px dashed color-mix(in srgb,var(--text2) 40%,transparent);padding-top:8px}
-.bj-mood{font-size:13px;line-height:20px}
-.bj-bar{display:block;width:8px;height:22px;margin:0 auto;border-radius:4px;background:var(--track);position:relative;overflow:hidden}
-.bj-bar i{position:absolute;left:0;right:0;bottom:0;border-radius:4px;background:linear-gradient(var(--lav),var(--lav-deep))}
+.bj.bj-week .bj-c{width:32px;height:32px;border-radius:10px}
+.bj.bj-week .bj-day b{width:28px;height:28px;font-size:12.5px}
+.bj-sum th,.bj-sum td{background:color-mix(in srgb,var(--bg2) 50%,var(--card))}
+.bj-sum:first-of-type th,.bj-sum:first-of-type td{border-top:1px solid var(--line)}
+.bj-pct{display:grid;place-items:center;width:24px;height:20px;margin:0 auto;border-radius:6px;font-size:9.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text2)}
+.bj-pct.full{background:var(--mint);color:#3F6B48}
+.bj-pct.mid{background:color-mix(in srgb,var(--gold) 60%,transparent);color:#6E5426}
+.bj-pct.low{background:color-mix(in srgb,var(--peach) 60%,transparent);color:#8A4E33}
+.bj-mood{font-size:14px;line-height:22px}
 .bj-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;font-size:12px;color:var(--text2)}
 .bj-legend span{display:inline-flex;align-items:center;gap:6px}
-.bj-legend .bj-c{width:14px;height:14px;margin:0}
-.bj-legend .sw{width:14px;height:14px;border-radius:4px;display:inline-block;border:1px solid color-mix(in srgb,var(--lav) 40%,transparent)}
-.bj-legend .sw.we{background:color-mix(in srgb,var(--lav) 14%,var(--card))}
-.bj-legend .sw.td{background:color-mix(in srgb,var(--lav) 35%,var(--card))}
+.bj-legend .bj-c{width:16px;height:16px;border-radius:5px;margin:0}
+.bj-legend .bj-c svg.i{width:10px;height:10px}
 .chk.add{color:var(--lav-deep);border-style:dashed}
 
 /* Frissítési sáv */
@@ -1424,26 +1440,40 @@ function areasView(){
   <div class="acards">${AREAS.map(a=>{const pr=areaProgress(a.id);
     return`<button class="acard" style="--ac:${a.c}" data-a="openArea" data-v="${a.id}"><span class="acard-ic">${ic(a.i,22)}</span><b>${a.n}</b><small>${pr.hs.length} szokás</small>
      <span class="acard-bar"><i style="width:${pr.today.length?pr.done/pr.today.length*100:0}%"></i></span><small class="acard-today">${pr.today.length?`${pr.done}/${pr.today.length} ma`:'Ma nincs teendő'}</small></button>`}).join('')}</div>`}
-/* Bullet journal stílusú havi szokáskövető: napok felül, szokások a bal oldalon (rögzített oszlop) */
+/* Szokáskövető táblázat (Havi nézet): napok felül, szokások bal oldalon életterületenként csoportosítva.
+   Heti nézetben a 7 nap görgetés nélkül elfér, havi nézetben vízszintesen görgethető, a mai napra ugrik.
+   Cellák: kész (a szokás színe, pipa) · kimaradt (halvány) · pihenőnap (pont) · jövő (üres). */
 function bujoView(){
-  const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),Y=b.getFullYear(),M=b.getMonth(),dim=new Date(Y,M+1,0).getDate(),hs=S.habits;
-  const days=[...Array(dim)].map((_,i)=>{const dt=new Date(Y,M,i+1,12),k=keyOf(dt);return{d:i+1,dt,k,w:wd(dt),fut:k>TODAY}});
-  const cc=x=>`${x.w>=5?'we':''} ${x.k===TODAY?'td':''} ${x.w===0&&x.d>1?'wk':''}`;
-  const rh=(icon,bg,name,meta)=>`<th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:${bg}">${ic(icon,14)}</span><span class="bj-lbl"><b title="${name}">${name}</b><small>${meta}</small></span></div></th>`;
-  let total=0,done=0,poss=0,best=null;
-  const rows=hs.map(h=>{let c=0,p=0;
-    const cells=days.map(x=>{const sc=scheduledOn(h,x.dt),on=isDone(h,x.k);if(on)c++;if(!isT(h)&&sc&&!x.fut){p++;if(on)done++}
-      return`<td class="${cc(x)}"><button class="bj-c ${on?'on':''} ${x.fut?'fut':''} ${sc?'':'off'}" style="--hc:${COLORS[h.color]}" data-a="bjt" data-id="${h.id}" data-k="${x.k}" ${x.fut?'disabled':''} aria-pressed="${on}" aria-label="${esc(h.name)}, ${fmt(x.k,{month:'long',day:'numeric'})}"></button></td>`}).join('');
-    total+=c;poss+=p;const pct=p?Math.round(c/p*100):0;if(!isT(h)&&p&&(!best||pct>best.pct))best={n:h.name,pct};
-    return`<tr>${rh(h.icon,COLORS[h.color],esc(h.name),isT(h)?`${c} alkalom · ${freqLabel(h).toLowerCase()}`:`${c} nap · ${pct}%`)}${cells}</tr>`}).join('');
-  const mood=`<tr class="bj-sep">${rh('smile','var(--peach)','Hangulat','napi bejegyzés')}${days.map(x=>`<td class="${cc(x)} bj-mood">${S.moods[x.k]?MOODS[S.moods[x.k].m].e:''}</td>`).join('')}</tr>`;
-  const rate=`<tr>${rh('chart','var(--lav)','Napi teljesítés','ütemezett szokások')}${days.map(x=>{const r=x.fut?null:dayRate(x.k);return`<td class="${cc(x)}"><span class="bj-bar" title="${r==null?'':Math.round(r*100)+'%'}"><i style="height:${r==null?0:Math.max(6,r*100)}%"></i></span></td>`}).join('')}</tr>`;
-  const head=`<tr><th class="bj-corner" scope="col">Szokás</th>${days.map(x=>`<th scope="col" class="bj-day ${cc(x)}"><small>${WD[x.w]}</small><b>${x.d}</b></th>`).join('')}</tr>`;
-  return`<div class="bj-h"><button class="iconbtn" data-a="bm" data-v="-1" aria-label="Előző hónap">${ic('back',18)}</button><div class="grow" style="text-align:center"><div class="eyebrow">Szokáskövető</div><h2 class="bj-month">${b.toLocaleDateString('hu-HU',{month:'long'})} <span>${Y}</span></h2></div><button class="iconbtn" data-a="bm" data-v="1" ${off>=0?'disabled':''} aria-label="Következő hónap">${ic('next',18)}</button></div>
-  <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${total}</b><small>pipa a hónapban</small></div><div class="kpi"><b>${poss?Math.round(done/poss*100):0}%</b><small>havi teljesítés</small></div><div class="kpi"><b style="font-size:17px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${best?esc(best.n):'–'}</b><small>${best?`legjobb · ${best.pct}%`:'legjobb szokás'}</small></div></div>
-  <section class="card bj" aria-label="Havi szokáskövető táblázat"><div class="bj-scroll"><table class="bj-t"><thead>${head}</thead><tbody>${rows}${mood}${rate}</tbody></table></div></section>
-  <div class="bj-legend"><span><i class="bj-c on" style="--hc:var(--lav)"></i>kész</span><span><i class="bj-c" style="--hc:var(--lav)"></i>nincs kész</span><span><i class="bj-c off" style="--hc:var(--lav)"></i>pihenőnap</span><span><i class="sw we"></i>hétvége</span><span><i class="sw td"></i>ma</span></div>
-  <p class="muted" style="text-align:center">Koppints egy körre a nap kipipálásához, a korábbi napokat is pótolhatod. A táblázat oldalra görgethető.</p>`
+  const range=S.ui.bjr==='week'?'week':'month',hs=S.habits;
+  let days,title,sub,prevAct,nextDis;
+  if(range==='week'){const off=S.ui.bw||0,mon=addDays(now(),-wd(now())+off*7);days=[...Array(7)].map((_,i)=>addDays(mon,i));
+    title=`${fmt(keyOf(days[0]),{month:'short',day:'numeric'})} – ${fmt(keyOf(days[6]),{month:'short',day:'numeric'})}`;sub=off===0?'Ez a hét':off===-1?'Múlt hét':`${-off} héttel ezelőtt`;prevAct='bw';nextDis=off>=0}
+  else{const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),dim=new Date(b.getFullYear(),b.getMonth()+1,0).getDate();
+    days=[...Array(dim)].map((_,i)=>new Date(b.getFullYear(),b.getMonth(),i+1,12));title=(m=>m.charAt(0).toUpperCase()+m.slice(1))(b.toLocaleDateString("hu-HU",{month:"long"}))+" "+b.getFullYear();sub=off===0?'Ez a hónap':'';prevAct='bm';nextDis=off>=0}
+  const D=days.map(dt=>{const k=keyOf(dt);return{d:dt.getDate(),dt,k,w:wd(dt),fut:k>TODAY}});
+  const cc=x=>`${x.w>=5?'we':''} ${x.k===TODAY?'td':''} ${x.w===0&&x!==D[0]?'wk':''}`;
+  let pips=0,done=0,poss=0,best=null;
+  const row=h=>{let c=0,p=0;
+    const cells=D.map(x=>{const sc=scheduledOn(h,x.dt),on=isDone(h,x.k);if(on)c++;if(!isT(h)&&sc&&!x.fut){p++;if(on)done++}
+      const st=on?'on':x.fut?'fut':!sc?'off':isT(h)?'opt':'miss';
+      const lbl=`${esc(h.name)}, ${fmt(x.k,{month:'long',day:'numeric'})}: ${{on:'kész',fut:'még előtted',off:'pihenőnap',opt:'nincs rögzítve',miss:'kimaradt'}[st]}`;
+      return`<td class="${cc(x)}"><button class="bj-c ${st}" style="--hc:${COLORS[h.color]}" data-a="bjt" data-id="${h.id}" data-k="${x.k}" ${x.fut?'disabled':''} aria-pressed="${on}" aria-label="${lbl}" title="${lbl}">${on?ic('check',13):''}</button></td>`}).join('');
+    pips+=c;poss+=p;const pct=p?Math.round(c/p*100):null;if(!isT(h)&&p&&(!best||pct>best.pct))best={n:h.name,pct};
+    const meta=isT(h)?`${c} alkalom · ${freqLabel(h).toLowerCase()}`:`${c}/${p} nap`;
+    return`<tr><th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:${COLORS[h.color]}">${ic(h.icon,14)}</span><span class="bj-lbl"><b title="${esc(h.name)}">${esc(h.name)}</b><span class="bj-meta"><span class="bj-mini"><i style="width:${isT(h)?Math.min(100,c/Math.max(1,h.target)*100):pct||0}%;background:${COLORS[h.color]}"></i></span><small>${meta}</small></span></span></div></th>${cells}</tr>`};
+  const groups=AREAS.map(a=>({a,list:hs.filter(h=>areaOf(h)===a.id)})).filter(g=>g.list.length);
+  const body=groups.map(g=>`<tr class="bj-grp"><th scope="rowgroup"><span class="bj-gdot" style="background:${g.a.c}"></span>${g.a.n}</th><td colspan="${D.length}"></td></tr>${g.list.map(row).join('')}`).join('');
+  const rate=`<tr class="bj-sum"><th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:var(--lav-soft);color:var(--lav-deep)">${ic('chart',14)}</span><span class="bj-lbl"><b>Napi teljesítés</b><small>ütemezett szokások</small></span></div></th>${D.map(x=>{const r=x.fut?null:dayRate(x.k);return`<td class="${cc(x)}"><span class="bj-pct ${r==null?'':r>=1?'full':r>=.5?'mid':'low'}" title="${r==null?'':Math.round(r*100)+'%'}">${r==null?'':Math.round(r*100)}</span></td>`}).join('')}</tr>`;
+  const mood=`<tr class="bj-sum"><th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:var(--peach)">${ic('smile',14)}</span><span class="bj-lbl"><b>Hangulat</b><small>napi bejegyzés</small></span></div></th>${D.map(x=>`<td class="${cc(x)} bj-mood">${S.moods[x.k]?MOODS[S.moods[x.k].m].e:''}</td>`).join('')}</tr>`;
+  const head=`<tr><th class="bj-corner" scope="col">Szokás</th>${D.map(x=>`<th scope="col" class="bj-day ${cc(x)}"><small>${WD[x.w]}</small><b>${x.d}</b></th>`).join('')}</tr>`;
+  const pct=poss?Math.round(done/poss*100):0;
+  return`<div class="bj-h"><button class="iconbtn" data-a="${prevAct}" data-v="-1" aria-label="Előző">${ic('back',18)}</button><div class="grow" style="text-align:center"><div class="eyebrow">${sub||'Szokáskövető'}</div><h2 class="bj-month">${title}</h2></div><button class="iconbtn" data-a="${prevAct}" data-v="1" ${nextDis?'disabled':''} aria-label="Következő">${ic('next',18)}</button></div>
+  <div class="seg bj-range">${[['week','Hét'],['month','Hónap']].map(([v,n])=>`<button class="${range===v?'on':''}" data-a="bjr" data-v="${v}">${n}</button>`).join('')}</div>
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${pips}</b><small>pipa ${range==='week'?'a héten':'a hónapban'}</small></div><div class="kpi"><b>${pct}%</b><small>teljesítés eddig</small><div class="bar" style="margin-top:6px"><i style="width:${pct}%"></i></div></div><div class="kpi"><b class="bj-best">${best?esc(best.n):'–'}</b><small>${best?`legjobb · ${best.pct}%`:'legjobb szokás'}</small></div></div>
+  ${hs.length?`<section class="card bj bj-${range}" aria-label="Szokáskövető táblázat"><div class="bj-scroll"><table class="bj-t"><thead>${head}</thead><tbody>${body}${rate}${mood}</tbody></table></div></section>
+  <div class="bj-legend"><span><i class="bj-c on" style="--hc:#CBB7F7">${ic('check',10)}</i>kész</span><span><i class="bj-c miss"></i>kimaradt</span><span><i class="bj-c off"></i>pihenőnap</span><span><i class="bj-c fut"></i>még előtted</span></div>
+  <p class="muted" style="text-align:center">Koppints egy cellára a kipipáláshoz. Korábbi napokat is pótolhatsz.</p>`
+  :`<div class="card empty-note">Még nincs szokásod. Válaszd ki őket az Életterületek fülön.</div>`}`
 }
 Object.assign(SCREENS,{
 life(){
@@ -1580,6 +1610,8 @@ const EXTRA_A={
  delCat(el){syncDraft();const v=el.dataset.v;S.customCats=(S.customCats||[]).filter(c=>c!==v);if(draft.cat===v)draft.cat=CATS[0];save();habitSheet();toast(`„${v}” kategória törölve`)},
  hv(el){S.ui.hv=el.dataset.v;save();render(true)},
  bm(el){S.ui.bm=Math.min(0,(S.ui.bm||0)+ +el.dataset.v);render(true)},
+ bw(el){S.ui.bw=Math.min(0,(S.ui.bw||0)+ +el.dataset.v);render(true)},
+ bjr(el){S.ui.bjr=el.dataset.v;save();render(true)},
  bjt(el){const id=el.dataset.id,k=el.dataset.k,sc=$('.bj-scroll'),sl=sc?sc.scrollLeft:0;const cur=S.log[k]||[],was=cur.includes(id);
   S.log[k]=was?cur.filter(x=>x!==id):[...cur,id];if(!S.log[k].length)delete S.log[k];if(!was&&k===TODAY)S.lastBloom=Date.now();save();render(true);
   const sc2=$('.bj-scroll');if(sc2)sc2.scrollLeft=sl;if(!was){const c=view.querySelector(`.bj-c[data-id="${id}"][data-k="${k}"]`);if(c)c.classList.add('pop');checkBadges()}},
