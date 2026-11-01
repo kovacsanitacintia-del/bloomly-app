@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101221823">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101221823">
+<meta name="bloomly-version" content="20261101222149">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101222149">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -834,6 +834,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .hm-prev b{font-size:15px;color:var(--ink);min-width:0;overflow-wrap:anywhere}
 .hm-ig{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin:10px 0 6px}
 .hm-sticky{position:sticky;bottom:-28px;margin:18px -4px -28px;padding:14px 4px 28px;background:linear-gradient(transparent,var(--bg) 30%);z-index:2}
+.hm-svg{width:1.1em;height:1.1em;display:inline-block;vertical-align:-.15em}
 .hm-emo{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
 .hm-emo button{aspect-ratio:1;border-radius:12px;background:var(--bg2);font-size:20px;border:1.5px solid transparent}
 .hm-emo button.on{border-color:var(--lav-deep);background:var(--lav-soft)}
@@ -3332,8 +3333,11 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest
    A pipák hetente maguktól újraindulnak (a hét hétfői dátuma a kulcs). */
 const HM_DAYS=[['Hétfő','H','#CFE2F6','🧽'],['Kedd','K','#F5D3DC','❄️'],['Szerda','Sz','#FFD6C2','👟'],['Csütörtök','Cs','#CDECCF','🪜'],['Péntek','P','#E9D6A7','🛏️'],['Szombat','Sz','#E6DDF7','🪣'],['Vasárnap','V','#F7D9E6','✨']];
 /* Ikontár a saját feladatokhoz, kategóriánként */
+/* Saját rajzolt ikonok azokhoz, amelyekhez nincs emoji (pl. porszívó). Az ikon értéke ilyenkor "svg:név". */
+const HM_SVG={vacuum:'<svg class="hm-svg" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 15.5c0-6 4-9.5 8-9.5" fill="none" stroke="#B9A3EE" stroke-width="2.6" stroke-linecap="round"/><path d="M21 6l6.2 18.5" stroke="#6E5BA8" stroke-width="2.4" stroke-linecap="round"/><rect x="22.5" y="23.5" width="8.5" height="3.6" rx="1.8" fill="#6E5BA8"/><rect x="1.5" y="14" width="15" height="11.5" rx="5.6" fill="#F2A7C0"/><rect x="3.6" y="16.2" width="7.2" height="4.4" rx="2.2" fill="#FCDDE8"/><circle cx="12.6" cy="18.4" r="1.4" fill="#E08AAA"/><circle cx="5.2" cy="26.2" r="2.7" fill="#6E5BA8"/><circle cx="12.8" cy="26.2" r="2.7" fill="#6E5BA8"/><circle cx="5.2" cy="26.2" r="1" fill="#E6DDF7"/><circle cx="12.8" cy="26.2" r="1" fill="#E6DDF7"/></svg>'};
+const hmIco=v=>String(v||'').startsWith('svg:')?(HM_SVG[v.slice(4)]||'🧹'):esc(v||'🧹');
 const HM_ICONS=[
- ['Takarítás',['🧹','🧽','🪣','🧼','🫧','🧴','🪶','🪠','🗑️','🚮','♻️','🧯','✨','🪟','🚪','🪞']],
+ ['Takarítás',['🧹','svg:vacuum','🧽','🪣','🧼','🫧','🧴','🪶','🪠','🗑️','🚮','♻️','🧯','✨','🪟','🚪','🪞']],
  ['Mosás és ruhák',['🧺','👕','👚','👗','👖','🧦','🩲','🧥','🧣','🧤','👟','🩴','👠','🥾','🎒','👜','🛏️','🧵','🪡','🔌']],
  ['Konyha',['🍳','🥗','🍲','🍝','🥘','🍽️','🥄','🔪','🫖','☕','🥛','🍞','🥕','🍎','🧊','🧂','🥫','🍰','🧁','🥣']],
  ['Fürdő és szépség',['🛁','🚿','🪥','🧻','🧴','💅','💄','💆‍♀️','🪮','🧖‍♀️','🌸','🕯️']],
@@ -3366,7 +3370,7 @@ function otthonView(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[
   ${ed?`<div class="insight">${ic('pen')}<p>Szerkesztés mód: a ✕ gombbal törölhetsz, a napokhoz is adhatsz új feladatot. Bármelyik feladat nevére koppintva átírhatod a nevét és az ikonját. Ha kész vagy, koppints a pipára fent.</p></div>`:''}
   <section class="card hm-box hm-daily"><div class="hm-head"><b>Napi feladatok</b><span class="hm-badge">✅</span></div>
    <div class="hm-grid"><span></span>${HM_DAYS.map(([n,s,c],i)=>`<span class="hm-dh ${i===td?'td':''}" style="--dc:${c}" title="${n}">${s}</span>`).join('')}</div>
-   ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><button class="hm-tb" data-a="hmOpen" data-k="daily" data-id="${x.id}" aria-label="${esc(x.t)} szerkesztése"><i aria-hidden="true">${x.i||'🧹'}</i><span>${esc(x.t)}</span></button>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
+   ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><button class="hm-tb" data-a="hmOpen" data-k="daily" data-id="${x.id}" aria-label="${esc(x.t)} szerkesztése"><i aria-hidden="true">${hmIco(x.i)}</i><span>${esc(x.t)}</span></button>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
    ${add('daily')}</section>
   <div class="hm-days">${HM_DAYS.map(([n,,c,e],i)=>{const l=h.days[i]||[],dn=l.filter(x=>W[x.id]).length;return`<section class="hm-day ${i===td?'td':''}" style="--dc:${c}"><div class="hm-dhead"><b>${n}</b>${i===td?'<small>ma</small>':''}<span aria-hidden="true">${e}</span></div>
     <div class="hm-list">${l.map(x=>`<div class="hm-li"><button class="hm-cb ${W[x.id]?'on':''}" data-a="hmW" data-id="${x.id}" aria-pressed="${!!W[x.id]}">${W[x.id]?ic('check',11):''}</button><span class="hm-lt" data-a="hmOpen" data-k="day" data-d="${i}" data-id="${x.id}" role="button" tabindex="0">${esc(x.t)}</span>${del('day',x.id,i)}</div>`).join('')||'<p class="muted" style="font-size:12px">Nincs feladat</p>'}</div>
@@ -3378,9 +3382,9 @@ function hmSheet(k,d,id){const h=ensureHome(),list=k==='daily'?h.daily:k==='time
 document.addEventListener('input',e=>{if(e.target.id!=='hmt')return;const b=$('#sheet .hm-prev b');if(b)b.textContent=e.target.value.trim()||'A feladatod neve'});
 function hmSheetDraw(){const{k,d,id}=fd;
   openSheet(`<h2>${id?'Feladat szerkesztése':k==='daily'?'Saját napi feladat':`Új feladat · ${HM_DAYS[d][0]}`}</h2>
-  ${k==='daily'?`<div class="hm-prev"><span>${fd.i}</span><b>${esc(fd.t)||'A feladatod neve'}</b></div>`:''}
+  ${k==='daily'?`<div class="hm-prev"><span>${hmIco(fd.i)}</span><b>${esc(fd.t)||'A feladatod neve'}</b></div>`:''}
   <div class="field"><label for="hmt">Megnevezés</label><input class="inp" id="hmt" maxlength="60" value="${esc(fd.t||'')}" placeholder="${k==='daily'?'pl. Virágok locsolása':'pl. Sütő kitakarítása'}"></div>
-  ${k==='daily'?`<div class="field"><span class="lbl">Ikon</span>${HM_ICONS.map(([g,l])=>`<div class="hm-ig">${g}</div><div class="hm-emo">${l.map(e=>`<button data-a="hmEmo" data-v="${e}" class="${fd.i===e?'on':''}" aria-label="Ikon ${e}" aria-pressed="${fd.i===e}">${e}</button>`).join('')}</div>`).join('')}</div>`:''}
+  ${k==='daily'?`<div class="field"><span class="lbl">Ikon</span>${HM_ICONS.map(([g,l])=>`<div class="hm-ig">${g}</div><div class="hm-emo">${l.map(e=>`<button data-a="hmEmo" data-v="${e}" class="${fd.i===e?'on':''}" aria-label="Ikon ${e.startsWith('svg:')?'porszívó':e}" aria-pressed="${fd.i===e}">${hmIco(e)}</button>`).join('')}</div>`).join('')}</div>`:''}
   <div class="btns hm-sticky">${id?`<button class="btn danger" data-a="hmDelSheet">Törlés</button>`:''}<button class="btn" data-a="hmSave">${id?'Mentés':'Hozzáadás'}</button></div>`);
   if(!id)setTimeout(()=>{const i=$('#hmt');if(i&&!i.value)i.focus()},320)}
 const HOME_A={
@@ -3389,7 +3393,7 @@ const HOME_A={
  hmW(el){const h=ensureHome(),wk=hmWeek(),W=h.wlog[wk]=h.wlog[wk]||{},id=el.dataset.id;if(W[id])delete W[id];else W[id]=true;save();render(true);if(W[id])hmCheer()},
  hmAdd(el){hmSheet(el.dataset.k,el.dataset.d!=null?+el.dataset.d:null)},
  hmOpen(el){hmSheet(el.dataset.k,el.dataset.d!=null?+el.dataset.d:null,el.dataset.id)},
- hmEmo(el){fd.i=el.dataset.v;document.querySelectorAll('#sheet .hm-emo button').forEach(b=>{b.classList.toggle('on',b===el);b.setAttribute('aria-pressed',b===el)});const p=$('#sheet .hm-prev span');if(p)p.textContent=fd.i},
+ hmEmo(el){fd.i=el.dataset.v;document.querySelectorAll('#sheet .hm-emo button').forEach(b=>{b.classList.toggle('on',b===el);b.setAttribute('aria-pressed',b===el)});const p=$('#sheet .hm-prev span');if(p)p.innerHTML=hmIco(fd.i)},
  hmSave(){const t=($('#hmt')||{}).value.trim();if(!t){toast('Add meg a megnevezést');return}const h=ensureHome(),list=fd.k==='daily'?h.daily:fd.k==='time'?h.time:h.days[fd.d];
   if(fd.id){const x=list.find(y=>y.id===fd.id);if(x){x.t=t;if(fd.k!=='day')x.i=fd.i}save();closeSheet();render(true);toast('Mentve');return}
   const x={id:'hm'+uid(),t};if(fd.k==='day')list.push(x);else list.push({...x,i:fd.i});save();closeSheet();render(true);toast('Hozzáadva 🌸')},
