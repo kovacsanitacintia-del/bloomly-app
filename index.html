@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101102742">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101102742">
+<meta name="bloomly-version" content="20261101122936">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101122936">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -226,6 +226,8 @@ textarea.inp{min-height:92px;resize:vertical}
 .bloom-new .head{transform-box:fill-box;transform-origin:50% 50%;animation:bloomIn 1.6s var(--ease) both}
 @keyframes bloomIn{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:none;opacity:1}}
 .fly{animation:fly 9s ease-in-out infinite}
+.swim{animation:swim 11s ease-in-out infinite}
+@keyframes swim{0%,100%{transform:translate(0,0)}50%{transform:translate(-24px,2px)}}
 @keyframes fly{0%{transform:translate(0,0)}25%{transform:translate(30px,-14px)}50%{transform:translate(60px,4px)}75%{transform:translate(26px,12px)}100%{transform:translate(0,0)}}
 .wing{transform-box:fill-box;transform-origin:50% 50%;animation:flap .35s ease-in-out infinite alternate}
 @keyframes flap{to{transform:scaleX(.35)}}
@@ -373,6 +375,17 @@ textarea.inp{min-height:92px;resize:vertical}
 .badge b{font-size:12.5px;color:var(--ink);line-height:1.2}
 .badge small{font-size:10.5px;color:var(--text2)}
 .badge.locked svg{filter:grayscale(1);opacity:.35}
+.blist{display:flex;flex-direction:column;gap:8px}
+.brow{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-align:left;width:100%;transition:transform .3s var(--ease)}
+.brow:hover{transform:translateY(-1px)}
+.brow .bmed{width:52px;height:52px;flex:none;border-radius:50%;display:block}
+.brow .bmed svg{width:52px;height:52px;display:block}
+.brow.locked .bmed svg{filter:grayscale(1);opacity:.4}
+.brow .grow{min-width:0;display:flex;flex-direction:column;gap:2px}
+.brow b{font-size:14px;color:var(--ink);line-height:1.25}
+.brow small{font-size:12px;color:var(--text2);line-height:1.3}
+.brow .bst{flex:none;font-size:12px;font-weight:700;color:var(--text2);font-variant-numeric:tabular-nums}
+.brow.got .bst{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#DDF2DE;color:#4F8A5B}
 .shine{position:relative;overflow:hidden}
 .shine::after{content:"";position:absolute;inset:-50%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.75) 50%,transparent 60%);transform:translateX(-100%);animation:shine 3.2s ease-in-out infinite}
 @keyframes shine{60%,100%{transform:translateX(100%)}}
@@ -748,7 +761,7 @@ const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
 const parseK=k=>{const[y,m,dd]=k.split('-').map(Number);return new Date(y,m-1,dd,12)};
 const dayDiff=(a,b)=>Math.round((parseK(a)-parseK(b))/864e5);
 const wd=d=>(d.getDay()+6)%7;
-const TODAY=keyOf(now());
+let TODAY=keyOf(now());
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,9);
 function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -1140,7 +1153,27 @@ function allBadges(s=S){
    {g:'Különleges',id:'vision10',n:'Álmodozó',d:'10 elem a Vision Boardon',tier:'peach',icon:'image',v:(s.vision||[]).length,goal:10},
    {g:'Különleges',id:'contacts5',n:'Szeretetháló',d:'5 fontos ember a kapcsolataid között',tier:'coral',icon:'heart',v:(s.contacts||[]).length,goal:5},
    {g:'Különleges',id:'therapy5',n:'Bátor szív',d:'5 terápiás jegyzet',tier:'lav',icon:'chat',v:((s.therapy||{}).sessions||[]).length,goal:5},
-   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (3200 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:3200,rare:true}
+   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (3200 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:3200,rare:true},
+   {g:'Sorozatok',id:'b21',n:'Három hét',d:'21 napos sorozat',tier:'sky',icon:'leaf',v:L,goal:21},
+   {g:'Sorozatok',id:'b180',n:'Fél év virágzás',d:'180 napos sorozat',tier:'orchid',icon:'sun',v:L,goal:180,rare:true},
+   {g:'Szokások',id:'t10',n:'Tíz bimbó',d:'10 teljesített szokás',tier:'mint',icon:'sprout',v:T,goal:10},
+   {g:'Szokások',id:'t2000',n:'Örök kert',d:'2000 teljesített szokás',tier:'arany',icon:'flower',v:T,goal:2000,rare:true},
+   {g:'Szokások',id:'perfect1',n:'Tökéletes nap',d:'Egy nap 100%-os teljesítéssel',tier:'peach',icon:'check',v:PD,goal:1},
+   {g:'Szokások',id:'perfect100',n:'Száz tökéletes nap',d:'100 nap 100%-os teljesítés',tier:'arany',icon:'medal',v:PD,goal:100,rare:true},
+   {g:'Szokások',id:'habits10',n:'Szokásgyűjtő',d:'10 szokás a listádon',tier:'mint',icon:'star',v:s.habits.length,goal:10},
+   {g:'Napló és hangulat',id:'ci7',n:'Korán kelő',d:'7 reggeli check-in',tier:'peach',icon:'sun',v:C,goal:7},
+   {g:'Napló és hangulat',id:'rf7',n:'Esti csend',d:'7 esti reflexió',tier:'lav',icon:'moon',v:R,goal:7},
+   {g:'Napló és hangulat',id:'mood10',n:'Érzelmi napló',d:'10 hangulatbejegyzés',tier:'rose',icon:'smile',v:M,goal:10},
+   {g:'Napló és hangulat',id:'mood200',n:'Szívem térképe',d:'200 hangulatbejegyzés',tier:'coral',icon:'heart',v:M,goal:200,rare:true},
+   {g:'Öngondoskodás',id:'med50',n:'Meditációs mester',d:'50 meditáció',tier:'lav',icon:'lotus',v:med.length,goal:50,rare:true},
+   {g:'Öngondoskodás',id:'med1000',n:'Ezer perc csend',d:'1000 perc meditáció',tier:'aqua',icon:'moon',v:medMin,goal:1000,rare:true},
+   {g:'Öngondoskodás',id:'fit5',n:'Első lépések',d:'5 elvégzett edzés',tier:'mint',icon:'steps',v:fit,goal:5},
+   {g:'Öngondoskodás',id:'fit50',n:'Erőművész',d:'50 elvégzett edzés',tier:'coral',icon:'flame',v:fit,goal:50,rare:true},
+   {g:'Öngondoskodás',id:'sleep30',n:'Pihentető hónap',d:'30 alvásnapló-bejegyzés',tier:'sky',icon:'bed',v:Object.keys(s.sleep||{}).length,goal:30},
+   {g:'Öngondoskodás',id:'skin7',n:'Ragyogó hét',d:'7 nap teljes bőrápolás',tier:'rose',icon:'sparkle',v:skinFull,goal:7},
+   {g:'Különleges',id:'dream1',n:'Valóra vált álom',d:'Egy elért cél a Vision Boardon',tier:'peach',icon:'target',v:(s.vision||[]).filter(v=>v.done).length,goal:1},
+   {g:'Különleges',id:'vision20',n:'Álomtérkép',d:'20 elem a Vision Boardon',tier:'orchid',icon:'image',v:(s.vision||[]).length,goal:20,rare:true},
+   {g:'Különleges',id:'coll30',n:'Kertgyűjtő',d:'30 feloldott elem a Bloom Kertben',tier:'mint',icon:'leaf',v:unlocks(s).filter(u=>u.got&&u.c!=='Szezonális').length,goal:30},
   ].map(b=>({...b,got:b.v>=b.goal}))
 }
 const TIER={bronz:['#E8C3A0','#C99872'],ezust:['#EEF0F5','#BFC5D2'],arany:['#F4E3B5','#D4B373'],lav:['#E3D7FC','#B9A2EE'],peach:['#FFE3D6','#F2B79C'],mint:['#DDF2DE','#9FD0A5'],rose:['#FBE3EA','#EDB3C3'],
@@ -1155,6 +1188,7 @@ function unlocks(s=S){
   const L=longestStreak(s),T=totalDone(s),R=Object.keys(s.reflections).length,C=Object.keys(s.checkins).length,PD=perfectDays(s);const mo=now().getMonth();
   const med=(s.med||[]).length,fit=Object.values((s.fitness||{}).log||{}).filter(x=>x.done).length,M=Object.keys(s.moods).length;
   const season=(a,b)=>(a<=b?mo>=a&&mo<=b:mo>=a||mo<=b)?1:0;
+  const md=(mo+1)*100+now().getDate(),sleepN=Object.keys(s.sleep||{}).length;
   return[
    {c:'Virágok',id:'lav',n:'Levendula',r:'k',d:'Kezdő növény',v:1,g:1,col:'#CBB7F7'},
    {c:'Virágok',id:'tulip',n:'Pasztell tulipán',r:'k',d:'10 teljesítés',v:T,g:10,col:'#F5D3DC'},
@@ -1187,7 +1221,43 @@ function unlocks(s=S){
    {c:'Szezonális',id:'tulipfield',n:'Tavaszi tulipánmező',r:'s',d:'Szezonális · tavasz',v:season(2,4),g:1,col:'#FBE0E8'},
    {c:'Szezonális',id:'lavfield',n:'Nyári levendulamező',r:'s',d:'Szezonális · nyár',v:season(5,7),g:1,col:'#E6DFFB'},
    {c:'Szezonális',id:'lantern',n:'Őszi lampionok',r:'s',d:'Szezonális · ősz',v:season(8,10),g:1,col:'#FFD6C2'},
-   {c:'Szezonális',id:'snowdrop',n:'Téli hóvirág',r:'s',d:'Szezonális · tél',v:season(11,1),g:1,col:'#EEF3FA'}
+   {c:'Szezonális',id:'snowdrop',n:'Téli hóvirág',r:'s',d:'Szezonális · tél',v:season(11,1),g:1,col:'#EEF3FA'},
+   {c:'Virágok',id:'violet',n:'Illatos ibolya',r:'k',d:'15 teljesítés',v:T,g:15,col:'#E6DFFB'},
+   {c:'Virágok',id:'crocus',n:'Sáfrányvirág',r:'k',d:'3 reggeli check-in',v:C,g:3,col:'#EFE6FD'},
+   {c:'Virágok',id:'cosmos',n:'Pillangóvirág',r:'k',d:'35 teljesítés',v:T,g:35,col:'#FBE3EA'},
+   {c:'Virágok',id:'iris',n:'Kék írisz',r:'r',d:'21 napos sorozat',v:L,g:21,col:'#DCE8FA'},
+   {c:'Virágok',id:'lilyvalley',n:'Gyöngyvirág',r:'r',d:'15 esti reflexió',v:R,g:15,col:'#E6F6E7'},
+   {c:'Virágok',id:'dahlia',n:'Korall dália',r:'r',d:'75 teljesítés',v:T,g:75,col:'#FCE0D8'},
+   {c:'Virágok',id:'lily',n:'Barack liliom',r:'s',d:'60 hangulatbejegyzés',v:M,g:60,col:'#FFE7DB'},
+   {c:'Virágok',id:'orchid',n:'Orchidea',r:'s',d:'25 meditáció',v:med,g:25,col:'#F5E1F7'},
+   {c:'Fák és bokrok',id:'lavbush',n:'Levendulabokor',r:'k',d:'40 teljesítés',v:T,g:40,col:'#E6DFFB'},
+   {c:'Fák és bokrok',id:'rosebush',n:'Rózsabokor',r:'r',d:'10 napos sorozat',v:L,g:10,col:'#FBE0E8'},
+   {c:'Fák és bokrok',id:'lemontree',n:'Citromfa cserépben',r:'r',d:'10 elvégzett edzés',v:fit,g:10,col:'#FBF3D6'},
+   {c:'Fák és bokrok',id:'birch',n:'Nyírfa',r:'r',d:'120 teljesítés',v:T,g:120,col:'#EEF0F5'},
+   {c:'Fák és bokrok',id:'maple',n:'Japán juhar',r:'s',d:'250 teljesítés',v:T,g:250,col:'#FCE0D8'},
+   {c:'Fák és bokrok',id:'willow',n:'Szomorúfűz',r:'s',d:'50 esti reflexió',v:R,g:50,col:'#DDF0D9'},
+   {c:'Élőlények',id:'snail',n:'Csiga',r:'k',d:'3 szokás a listádon',v:s.habits.length,g:3,col:'#F2E6D8'},
+   {c:'Élőlények',id:'kitten',n:'Kiscica',r:'k',d:'15 hangulatbejegyzés',v:M,g:15,col:'#F7E2C6'},
+   {c:'Élőlények',id:'bunny',n:'Nyuszi',r:'r',d:'5 tökéletes nap',v:PD,g:5,col:'#F1ECF6'},
+   {c:'Élőlények',id:'dragonfly',n:'Szitakötő',r:'r',d:'5 meditáció',v:med,g:5,col:'#DDF3F1'},
+   {c:'Élőlények',id:'fireflies',n:'Szentjánosbogarak',r:'r',d:'20 esti reflexió',v:R,g:20,col:'#FBF3D6'},
+   {c:'Élőlények',id:'squirrel',n:'Mókus',r:'s',d:'45 napos sorozat',v:L,g:45,col:'#F7E2C6'},
+   {c:'Élőlények',id:'koi',n:'Aranyhalak',r:'s',d:'40 napos sorozat (a tóban úsznak)',v:L,g:40,col:'#FFE7DB'},
+   {c:'Díszek',id:'mushrooms',n:'Tündérgombák',r:'k',d:'7 alvásnapló-bejegyzés',v:sleepN,g:7,col:'#FBE3EA'},
+   {c:'Díszek',id:'pots',n:'Virágcserepek',r:'k',d:'8 szokás a listádon',v:s.habits.length,g:8,col:'#F7E2C6'},
+   {c:'Díszek',id:'picnic',n:'Piknikpléd',r:'r',d:'3 fontos ember a kapcsolataid között',v:(s.contacts||[]).length,g:3,col:'#FBE0E8'},
+   {c:'Díszek',id:'birdbath',n:'Madárfürdő',r:'r',d:'45 hangulatbejegyzés',v:M,g:45,col:'#E3EEFB'},
+   {c:'Díszek',id:'sundial',n:'Napóra',r:'r',d:'60 reggeli check-in',v:C,g:60,col:'#ECE8E4'},
+   {c:'Díszek',id:'lamp',n:'Kerti lámpás',r:'s',d:'40 esti reflexió',v:R,g:40,col:'#FBF3D6'},
+   {c:'Díszek',id:'arch',n:'Rózsalugas',r:'s',d:'175 teljesítés',v:T,g:175,col:'#FBE3EA'},
+   {c:'Szezonális',id:'valentine',n:'Valentin-napi szívek',r:'s',d:'Szezonális · február 1–14.',v:md>=201&&md<=214?1:0,g:1,col:'#FBE0E8'},
+   {c:'Szezonális',id:'easter',n:'Húsvéti tojások',r:'s',d:'Szezonális · március–április',v:season(2,3),g:1,col:'#E6F6E7'},
+   {c:'Szezonális',id:'strawberry',n:'Eperágyás',r:'s',d:'Szezonális · május–június',v:season(4,5),g:1,col:'#FCE0D8'},
+   {c:'Szezonális',id:'leaves',n:'Őszi falevelek',r:'s',d:'Szezonális · szeptember–november',v:season(8,10),g:1,col:'#F7E2C6'},
+   {c:'Szezonális',id:'pumpkin',n:'Tökök',r:'s',d:'Szezonális · október',v:mo===9?1:0,g:1,col:'#FFE0C8'},
+   {c:'Szezonális',id:'candles',n:'Mindenszenteki mécsesek',r:'s',d:'Szezonális · október 25. – november 5.',v:md>=1025&&md<=1105?1:0,g:1,col:'#FBF3D6'},
+   {c:'Szezonális',id:'xmas',n:'Karácsonyfa',r:'s',d:'Szezonális · december',v:mo===11?1:0,g:1,col:'#DDF0D9'},
+   {c:'Szezonális',id:'snowman',n:'Hóember',r:'s',d:'Szezonális · december–február',v:season(11,1),g:1,col:'#EEF3FA'},
   ].map(u=>({...u,got:u.v>=u.g}))
 }
 function flower(x,y,s,type,col,delay=0,isNew){
@@ -1202,6 +1272,14 @@ function flower(x,y,s,type,col,delay=0,isNew){
   else if(type==='peony'){head=`<circle cy="${-H}" r="6.4" fill="#F7C6D3"/><circle cy="${-H-.5}" r="4.6" fill="#F3B0C4"/><circle cy="${-H-1}" r="2.6" fill="#FBE1E8"/>`}
   else if(type==='bell'){head=`<path d="M-1 ${-H-4}q4-3 7 2l-1 5h-6z" fill="#C3B5F0" transform="rotate(-15 0 ${-H})"/><path d="M-6 ${-H+1}q3-4 6-1l-.5 4.5h-5z" fill="#D5CAF6"/>`}
   else if(type==='snowdrop'){head=`<path d="M0 ${-H-2}c-3 0-4 4-3.5 7 1.2-1 2.3-1.5 3.5-1.5s2.3.5 3.5 1.5c.5-3-.5-7-3.5-7z" fill="#FFFFFF" stroke="#DCE4EE" stroke-width=".5"/><circle cy="${-H-2.5}" r="1" fill="#A9D6AE"/>`}
+  else if(type==='violet'){for(let i=0;i<5;i++)head+=`<ellipse cx="0" cy="${-H-3}" rx="2.6" ry="3.6" fill="${i<2?'#C9B6F2':'#A88FE3'}" transform="rotate(${i*72} 0 ${-H})"/>`;head+=`<circle cy="${-H}" r="1.4" fill="#F6D77A"/>`}
+  else if(type==='crocus'){head=`<path d="M-4.5 ${-H-6}c-.5 5 1.5 7.5 4.5 7.5s5-2.5 4.5-7.5c-1.5 1.5-2.5 1.5-4.5-1.5-2 3-3 3-4.5 1.5z" fill="#D7C3F5"/><path d="M0 ${-H-4}v4" stroke="#F2A65A" stroke-width="1.1"/>`}
+  else if(type==='cosmos'){for(let i=0;i<8;i++)head+=`<path d="M0 ${-H}l-2.4 -5.2q2.4 -1.6 4.8 0z" fill="${i%2?'#F7B5CB':'#FBCFDC'}" transform="rotate(${i*45} 0 ${-H})"/>`;head+=`<circle cy="${-H}" r="1.8" fill="#F2C35E"/>`}
+  else if(type==='iris'){head=`<path d="M0 ${-H}c-2-4-2-8 0-10 2 2 2 6 0 10z" fill="#9DB4EE"/><path d="M0 ${-H}c-3-1-7 0-8 3 3 1 6 0 8-3zM0 ${-H}c3-1 7 0 8 3-3 1-6 0-8-3z" fill="#7F9BE0"/><path d="M-1 ${-H+.5}h2" stroke="#F6D77A" stroke-width="1.2"/>`}
+  else if(type==='lilyvalley'){head=`<path d="M0 ${-H+2}q6-4 9 2" stroke="#8DBE95" stroke-width="1" fill="none"/>`+[[2.5,-H-.5],[5.5,-H-.8],[8.4,-H+2.6]].map(([x,y])=>`<path d="M${x-1.9} ${y+1}q1.9-4 3.8 0q-.6 1.3-1.9 .8q-1.3 .5-1.9-.8z" fill="#FFFFFF" stroke="#DCE4EE" stroke-width=".4"/>`).join('')}
+  else if(type==='dahlia'){for(let k=0;k<3;k++)for(let i=0;i<10;i++)head+=`<ellipse cx="0" cy="${-H-(5-k*1.5)}" rx="${1.6-k*.3}" ry="${3-k*.7}" fill="${['#F4A9A0','#F7BDB4','#FBD3CC'][k]}" transform="rotate(${i*36+k*18} 0 ${-H})"/>`;head+=`<circle cy="${-H}" r="1.2" fill="#F2C35E"/>`}
+  else if(type==='lily'){for(let i=0;i<6;i++)head+=`<path d="M0 ${-H}l-1.8 -3.5 1.8 -3.5 1.8 3.5z" fill="${i%2?'#FBC8B4':'#FFDCCB'}" transform="rotate(${i*60} 0 ${-H})"/>`;head+=`<circle cy="${-H}" r="1.3" fill="#E58C6F"/>`}
+  else if(type==='orchid'){head=[0,72,144,216,288].map((a,i)=>`<ellipse cx="0" cy="${-H-3.4}" rx="${i===0?3.4:2.6}" ry="3.6" fill="${i===0?'#F3C6E2':'#FBE6F2'}" transform="rotate(${a+180} 0 ${-H})"/>`).join('')+`<circle cy="${-H}" r="1.6" fill="#D46AA9"/>`}
   else{for(let i=0;i<5;i++)head+=`<ellipse cx="0" cy="${-H-4}" rx="3.3" ry="4.8" fill="${col}" transform="rotate(${i*72} 0 ${-H})"/>`;head+=`<circle cy="${-H}" r="2.2" fill="#E2C27F"/>`}
   return`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s.toFixed(2)})" class="${isNew?'bloom-new':''}"><g class="sway" style="animation-delay:-${delay.toFixed(1)}s"><path d="M0 0C1 -8 -1 -16 0 ${-H}" stroke="#8DBE95" stroke-width="1.6" fill="none"/><path d="M0 -8c4-1 6-4 7-7-4 0-6 2-7 7z" fill="#A9D6AE"/><g class="head">${head}</g></g></g>`
 }
@@ -1224,11 +1302,27 @@ function gardenSVG(compact){
   if(u.birdhouse&&!compact)o+=`<g transform="translate(345 ${gy+28})"><rect x="-1" y="-26" width="2" height="26" fill="#B9A08C"/><rect x="-6" y="-26" width="12" height="10" fill="#F2E6D8"/><path d="M-7.5 -25.5l7.5-7.5 7.5 7.5z" fill="#D9A08C"/><circle cy="-21" r="2" fill="#8D7B9E"/></g>`;
   if(u.stones&&!compact)o+=[[175,Hh-8,9],[186,Hh-26,8],[198,Hh-42,7],[206,Hh-56,6]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${(r*.45).toFixed(1)}" fill="#E4DED8" stroke="#D2CAC2" stroke-width=".6"/>`).join('');
   if(u.fountain&&!compact)o+=`<g transform="translate(40 ${gy+60})"><ellipse rx="18" ry="5" fill="#CFE0EA"/><ellipse cy="-1" rx="14" ry="3.5" style="fill:var(--pond)" class="ripple"/><rect x="-2" y="-16" width="4" height="15" fill="#E4DED8"/><ellipse cy="-16" rx="7" ry="2" fill="#E4DED8"/><path d="M0 -17c-3-6-8-6-10 0M0 -17c3-6 8-6 10 0" stroke="#BFE0F2" stroke-width="1.2" fill="none" class="ripple"/></g>`;
+  /* További háttérelemek: fák, bokrok, díszek */
+  if(!compact){
+  if(u.willow)o+=`<g transform="translate(250 ${gy-2})"><g class="sway" style="animation-duration:10s"><path d="M-2.5 0l1-30h3l1 30z" style="fill:var(--trunk)"/><ellipse cy="-34" rx="18" ry="10" fill="#C6E6C8"/>${[-14,-8,-2,4,10,15].map((x,i)=>`<path d="M${x} -34q${i%2?2:-2} 14 ${i%2?1:-1} 26" stroke="#A9D6AE" stroke-width="3" fill="none" stroke-linecap="round"/>`).join('')}</g></g>`;
+  if(u.birch)o+=`<g transform="translate(92 ${gy+2})"><g class="sway" style="animation-duration:8s"><rect x="-1.8" y="-36" width="3.6" height="36" fill="#F4F2EE"/>${[-30,-22,-13,-6].map((y,i)=>`<rect x="-1.8" y="${y}" width="${i%2?2:3.6}" height="1.2" fill="#6B6470"/>`).join('')}<ellipse cy="-40" rx="9" ry="13" fill="#D8EDB8"/><ellipse cx="-5" cy="-33" rx="6" ry="8" fill="#CBE6AE"/></g></g>`;
+  if(u.maple)o+=`<g transform="translate(172 ${gy+2})"><g class="sway" style="animation-duration:9s"><path d="M-2 0l1-18h2l1 18z" style="fill:var(--trunk)"/><ellipse cy="-24" rx="15" ry="9" fill="#F4A9A0"/><ellipse cx="-8" cy="-19" rx="8" ry="5" fill="#F7BDB4"/><ellipse cx="9" cy="-20" rx="8" ry="5" fill="#EE9488"/></g></g>`;
+  if(u.xmas)o+=`<g transform="translate(336 ${gy+16})"><rect x="-1.5" y="-5" width="3" height="5" fill="#B9A08C"/><path d="M-12 -4L0 -22 12 -4z" fill="#9FD0A5"/><path d="M-9.5 -14L0 -30 9.5 -14z" fill="#A9D6AE"/><path d="M-7 -23L0 -37 7 -23z" fill="#B9DDBE"/><path d="M0 -41l1.2 2.6 2.8.3-2.1 1.9.6 2.8L0 -34.8l-2.5 1.4.6-2.8-2.1-1.9 2.8-.3z" fill="#F6D77A"/>${[[-6,-8,'#F7CBD6'],[5,-10,'#F6D77A'],[-3,-17,'#CFE2F6'],[4,-21,'#F7CBD6'],[-2,-28,'#F6D77A'],[7,-6,'#CFE2F6']].map(([x,y,c],i)=>`<circle cx="${x}" cy="${y}" r="1.3" fill="${c}" class="glow" style="animation-delay:-${i*.5}s"/>`).join('')}</g>`;
+  if(u.rosebush)o+=`<g transform="translate(86 ${gy+22})"><circle cx="-7" cy="-5" r="8" fill="#A9D6AE"/><circle cx="7" cy="-5" r="8" fill="#B9DDBE"/><circle cy="-10" r="8" fill="#C6E6C8"/>${[[-8,-8],[0,-14],[8,-7],[-2,-4],[5,-12]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="2.4" fill="#EFA2B5"/>`).join('')}</g>`;
+  if(u.lavbush)o+=`<g transform="translate(292 ${gy+20})"><ellipse cy="-2" rx="14" ry="4" fill="#A9C9A8"/>${[...Array(9)].map((_,i)=>`<path d="M${-12+i*3} -2q${i%2?1:-1} -8 ${i%2?.5:-.5} -14" stroke="#9FBF9C" stroke-width=".7" fill="none"/><ellipse cx="${-12+i*3+(i%2?.5:-.5)}" cy="-14" rx="1.3" ry="3.4" fill="${i%3?'#B9A3EE':'#CBB7F7'}"/>`).join('')}</g>`;
+  if(u.arch)o+=`<g transform="translate(196 ${gy+30})"><path d="M-14 0V-20a14 14 0 0 1 28 0V0" stroke="#D9C4AE" stroke-width="2.2" fill="none"/>${[...Array(11)].map((_,i)=>{const a=Math.PI*(i/10),x=-14*Math.cos(a),y=-20-14*Math.sin(a);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${i%2?'#A9D6AE':'#F5BCCB'}"/>`}).join('')}<circle cx="-14" cy="-8" r="2.2" fill="#F5BCCB"/><circle cx="14" cy="-10" r="2.2" fill="#F5BCCB"/></g>`;
+  if(u.lamp)o+=`<g transform="translate(226 ${gy+24})"><rect x="-.8" y="-26" width="1.6" height="26" fill="#8D7B9E"/><circle cy="-30" r="8" fill="#FBEFC4" opacity=".35" class="glow"/><rect x="-3.5" y="-34" width="7" height="8" rx="1.5" fill="#FBEFC4" stroke="#8D7B9E" stroke-width=".8"/><path d="M-4.5 -34l4.5-3 4.5 3z" fill="#8D7B9E"/></g>`;
+  if(u.lemontree)o+=`<g transform="translate(30 ${gy+40})"><path d="M-6 0l1.5 9h9l1.5-9z" fill="#E8B9A0"/><rect x="-.8" y="-12" width="1.6" height="12" fill="#B9A08C"/><circle cy="-16" r="8" fill="#B9DDBE"/>${[[-4,-17],[3,-13],[2,-20]].map(([a,b])=>`<ellipse cx="${a}" cy="${b}" rx="1.8" ry="1.4" fill="#F6D77A"/>`).join('')}</g>`;
+  if(u.birdbath)o+=`<g transform="translate(142 ${gy+50})"><path d="M-2 0l-1 -12h6l-1 12z" fill="#E4DED8"/><rect x="-6" y="0" width="12" height="2" rx="1" fill="#D2CAC2"/><ellipse cy="-13" rx="10" ry="3" fill="#E4DED8"/><ellipse cy="-13.6" rx="7.5" ry="1.8" style="fill:var(--pond)" class="ripple"/></g>`;
+  if(u.picnic)o+=`<g transform="translate(78 ${gy+66})"><path d="M-20 6L-12 -6H20L12 6z" fill="#FBE0E8"/><path d="M-16 0H16M-4 -6L-8 6M4 -6L0 6M12 -6L8 6M-12 -6L-16 6" stroke="#F2B8C9" stroke-width="1.6"/><rect x="2" y="-12" width="10" height="7" rx="1.5" fill="#D9C4AE"/><path d="M3.5 -12q3.5 -5 7 0" stroke="#B9A08C" stroke-width="1" fill="none"/></g>`;
+  if(u.sundial)o+=`<g transform="translate(330 ${gy+74})"><rect x="-3" y="-12" width="6" height="12" fill="#E4DED8"/><rect x="-5" y="0" width="10" height="2" rx="1" fill="#D2CAC2"/><ellipse cy="-13" rx="9" ry="3" fill="#ECE8E4" stroke="#D2CAC2" stroke-width=".6"/><path d="M0 -13l5 -6v6z" fill="#D4B373"/></g>`;
+  }
   let pond=null;
   if(u.pond&&!compact){pond={x:238,y:gy+56,rx:58,ry:15};o+=`<ellipse cx="${pond.x}" cy="${pond.y}" rx="${pond.rx}" ry="${pond.ry}" style="fill:var(--pond)"/><ellipse cx="${pond.x}" cy="${pond.y}" rx="${pond.rx-14}" ry="${pond.ry-6}" fill="#fff" opacity=".25" class="ripple"/><ellipse cx="${pond.x-24}" cy="${pond.y+2}" rx="9" ry="3.5" fill="#A9D6AE"/><ellipse cx="${pond.x+20}" cy="${pond.y-3}" rx="8" ry="3" fill="#A9D6AE"/><g transform="translate(${pond.x+20} ${pond.y-4})">${[0,60,120,180,240,300].map(a=>`<ellipse cy="-3" rx="2" ry="4" fill="${u.gl?'#E9D6A7':'#F7E5EA'}" transform="rotate(${a})"/>`).join('')}<circle r="1.6" fill="#E2C27F"/></g>`}
   if(u.bush)o+=[[150,gy+6],[24,gy+12]].map(([x,y])=>`<g transform="translate(${x} ${y})"><circle cx="-9" cy="-6" r="10" fill="#B9DDBE"/><circle cx="8" cy="-7" r="11" fill="#A9D6AE"/><circle cy="-13" r="10" fill="#C6E6C8"/>${[[-10,-12],[2,-18],[10,-9],[-3,-6]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="3.4" fill="#CFE2F6"/>`).join('')}</g>`).join('');
   if(u.bench&&!compact)o+=`<g transform="translate(118 ${gy+30})"><rect x="-18" y="-9" width="36" height="3" rx="1.5" fill="#D9C4AE"/><rect x="-18" y="-15" width="36" height="3" rx="1.5" fill="#E8D9C8"/><rect x="-15" y="-6" width="2" height="7" fill="#C2AA93"/><rect x="13" y="-6" width="2" height="7" fill="#C2AA93"/></g>`;
   const types=['lav','rose'];if(u.tulip)types.push('tulip');if(u.poppy)types.push('poppy');if(u.daisy)types.push('daisy');if(u.sunflower)types.push('sunflower');if(u.forget)types.push('forget');if(u.rose)types.push('gardenrose');if(u.peony)types.push('peony');if(u.bell)types.push('bell');if(u.snowdrop)types.push('snowdrop');if(u.tulipfield)types.push('tulip','tulip');if(u.lavfield)types.push('lav','lav');
+  for(const k of ["violet","crocus","cosmos","iris","lilyvalley","dahlia","lily","orchid"])if(u[k])types.push(k);
   const cols=S.habits.map(h=>COLORS[h.color]);const n=Math.min(T,compact?34:80);const pts=[];
   for(let i=0;i<n;i++){let x,y,t=0;do{x=10+r()*340;y=gy+22+r()*(Hh-gy-30);t++}while(pond&&((x-pond.x)**2/(pond.rx+8)**2+(y-pond.y)**2/(pond.ry+10)**2)<1&&t<20);pts.push({x,y,i})}
   pts.sort((a,b)=>a.y-b.y).forEach(p=>{const s=.55+(p.y-gy)/(Hh-gy)*.6;const ty=types[p.i%types.length];o+=flower(p.x,p.y,s,ty==='rose'?'bloom':ty==='gardenrose'?'rose':ty,cols[p.i%cols.length]||'#CBB7F7',r()*5,S.lastBloom&&p.i===n-1&&Date.now()-S.lastBloom<4000)});
@@ -1238,6 +1332,26 @@ function gardenSVG(compact){
   if(u.bird)o+=`<g transform="translate(${u.oak?306:300} ${u.oak?gy-36:gy-6})"><ellipse rx="5" ry="4" fill="#9EC3E8"/><ellipse cy="1" rx="3" ry="2.2" fill="#F6E7A8"/><circle cx="4" cy="-3" r="2.6" fill="#5A6E8A"/><circle cx="4.6" cy="-3.2" r=".6" fill="#fff"/><path d="M6.4 -3l2 .6-2 .6z" fill="#E9C97E"/><path d="M-5 0l-4 2" stroke="#5A6E8A" stroke-width="1.6" stroke-linecap="round"/></g>`;
   if(u.hedgehog&&!compact)o+=`<g transform="translate(330 ${Hh-12})"><path d="M-9 0c0-7 5-10 10-10s8 4 8 10z" fill="#B49A82"/>${[...Array(6)].map((_,i)=>`<path d="M${-7+i*2.6} -${4+((i*3)%4)}l1.3-4 1.3 4" fill="#9C8068"/>`).join('')}<circle cx="8" cy="-2" r="2.4" fill="#E8D6C4"/><circle cx="9.6" cy="-2.4" r=".5" fill="#3A2E28"/></g>`;
   if(u.chime&&u.tree)o+=`<g transform="translate(46 ${gy-8})"><line y1="-14" y2="-6" stroke="#C9B9A6" stroke-width=".6"/><rect x="-5" y="-6" width="10" height="1.4" rx=".7" fill="#D4B373"/><g class="sway" style="animation-duration:2.6s;transform-origin:50% 0">${[-3.5,-1,1.5,4].map((x,i)=>`<rect x="${x-.5}" y="-4.6" width="1" height="${5+i%2*2}" rx=".5" fill="#BFD3E8"/>`).join('')}</g></g>`;
+  /* További élőlények, díszek és szezonális elemek (a virágok előtt) */
+  const HEART='M0 2c-3-2.5-5-4-5-6a2.5 2.5 0 0 1 5-1 2.5 2.5 0 0 1 5 1c0 2-2 3.5-5 6z';
+  if(!compact){
+  if(u.koi&&pond)o+=[[-14,1,'#F2A65A',11],[16,4,'#F7CBD6',14]].map(([dx,dy,c,d],i)=>`<g transform="translate(${pond.x+dx} ${pond.y+dy})"><g class="swim" style="animation-duration:${d}s;animation-delay:-${i*4}s"><ellipse rx="4" ry="1.8" fill="${c}"/><path d="M3.6 0l3 -2v4z" fill="${c}"/></g></g>`).join('');
+  if(u.dragonfly)o+=`<g transform="translate(${pond?pond.x-50:150} ${pond?pond.y-28:gy+14})"><g class="fly" style="animation-duration:7s"><g class="wing"><ellipse cx="-3.4" cy="-1.5" rx="4" ry="1.3" fill="#DDF3F1" opacity=".9"/><ellipse cx="3.4" cy="-1.5" rx="4" ry="1.3" fill="#DDF3F1" opacity=".9"/><ellipse cx="-3" cy=".8" rx="3.4" ry="1.1" fill="#CDEBEA" opacity=".9"/><ellipse cx="3" cy=".8" rx="3.4" ry="1.1" fill="#CDEBEA" opacity=".9"/></g><rect x="-.6" y="-3" width="1.2" height="9" rx=".6" fill="#6FB5C2"/></g></g>`;
+  if(u.squirrel)o+=`<g transform="translate(${u.oak?296:300} ${u.oak?gy+8:gy+40})"><path d="M4 0c6-2 8-8 5-13-2-3-6-2-6 2 0 3 2 4 1 7z" fill="#D59A6A"/><ellipse rx="4" ry="5" fill="#C98B5B"/><circle cx="-2" cy="-6" r="3" fill="#C98B5B"/><path d="M-3.5 -8.5l.5-2 1.2 1.6z" fill="#C98B5B"/><circle cx="-3" cy="-6.4" r=".5" fill="#3A2E28"/></g>`;
+  if(u.bunny)o+=`<g transform="translate(104 ${Hh-24})"><ellipse rx="7" ry="5.5" fill="#F4F0F6"/><circle cx="6" cy="-4" r="3.8" fill="#F4F0F6"/><ellipse cx="5" cy="-10" rx="1.3" ry="4" fill="#F4F0F6"/><ellipse cx="7.6" cy="-10" rx="1.3" ry="4" fill="#F4F0F6"/><ellipse cx="5" cy="-10" rx=".6" ry="2.8" fill="#F5D3DC"/><ellipse cx="7.6" cy="-10" rx=".6" ry="2.8" fill="#F5D3DC"/><circle cx="7.5" cy="-4.5" r=".6" fill="#3A2E28"/><circle cx="-7" cy="-1" r="2" fill="#fff"/></g>`;
+  if(u.snail)o+=`<g transform="translate(62 ${Hh-8})"><path d="M-6 0h12c1 0 2-1 2-2l1-3" stroke="#D9C4AE" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="-1" cy="-5" r="5" fill="#E8B9A0"/><path d="M-3.5 -5a2.5 2.5 0 1 1 2.5 2.5" stroke="#C99872" stroke-width=".9" fill="none"/></g>`;
+  if(u.kitten)o+=`<g transform="translate(150 ${Hh-12})"><ellipse rx="9" ry="5" fill="#F2C9A0"/><circle cx="-7" cy="-3" r="4.2" fill="#F2C9A0"/><path d="M-10.5 -5.5l.8 -3.6 2.4 2.2zM-5.6 -6.4l1.6-3 1 3.4z" fill="#F2C9A0"/><path d="M-8.6 -3.2q.8 .6 1.6 0M-6.2 -3.2q.8 .6 1.6 0" stroke="#8A6A50" stroke-width=".5" fill="none"/><path d="M8 1q4 -1 2 -5" stroke="#F2C9A0" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M-2 -4.6q3 -1 6 0" stroke="#E2AE80" stroke-width=".8" fill="none"/></g>`;
+  if(u.mushrooms)o+=[[312,Hh-34,1],[321,Hh-30,.75]].map(([x,y,s])=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-1.6" y="-6" width="3.2" height="6" rx="1.2" fill="#F4F0F6"/><path d="M-6 -5a6 5 0 0 1 12 0z" fill="#F2A3B5"/><circle cx="-2.5" cy="-7" r=".9" fill="#fff"/><circle cx="2" cy="-8" r=".8" fill="#fff"/></g>`).join('');
+  if(u.pots)o+=[[14,'#F5BCCB'],[26,'#CBB7F7'],[38,'#F6D77A']].map(([x,c],i)=>`<g transform="translate(${x} ${Hh-8-(i%2)*2})"><path d="M-4.5 -6l1 6h7l1-6z" fill="#E8B9A0"/><rect x="-5" y="-7.5" width="10" height="2" rx=".8" fill="#DDA488"/><circle cy="-11" r="3.4" fill="#A9D6AE"/><circle cx="-1.5" cy="-12" r="1.6" fill="${c}"/><circle cx="1.8" cy="-10.5" r="1.4" fill="${c}"/></g>`).join('');
+  if(u.fireflies)o+=[...Array(10)].map((_,i)=>{const x=20+(i*37)%320,y=gy-20+(i*23)%70;return`<circle cx="${x}" cy="${y}" r="4" fill="#F9EFA0" opacity=".22" class="glow" style="animation-delay:-${(i*.7).toFixed(1)}s"/><circle cx="${x}" cy="${y}" r="1.3" fill="#F9EFA0" class="glow" style="animation-delay:-${(i*.7).toFixed(1)}s"/>`}).join('');
+  if(u.strawberry)o+=`<g transform="translate(48 ${Hh-30})">${[[-8,0],[0,-3],[8,0],[-3,4],[5,5]].map(([x,y])=>`<path d="M${x-4} ${y}q4-5 8 0q-4 2-8 0z" fill="#A9D6AE"/>`).join('')}${[[-6,2],[2,-1],[9,3],[-1,6],[6,7]].map(([x,y])=>`<path d="M${x} ${y+3.5}c-2.5-1-3-4-1.5-5 1-.6 1.5 0 1.5 0s.5-.6 1.5 0c1.5 1 1 4-1.5 5z" fill="#EE7F8E"/>`).join('')}</g>`;
+  if(u.easter)o+=[[70,Hh-10,'#F5BCCB'],[128,Hh-36,'#CFE2F6'],[214,Hh-14,'#F6D77A'],[262,Hh-38,'#CBB7F7'],[300,Hh-10,'#A9D6AE']].map(([x,y,c])=>`<g transform="translate(${x} ${y})"><ellipse rx="3.2" ry="4.2" fill="${c}"/><path d="M-3 -.5q1.5 -1.2 3 0t3 0" stroke="#fff" stroke-width=".8" fill="none"/></g>`).join('');
+  if(u.pumpkin)o+=[[252,Hh-10,1],[268,Hh-7,.75]].map(([x,y,s])=>`<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="-3" rx="4" ry="5" fill="#F2A66A"/><ellipse cx="3" rx="4" ry="5" fill="#F2A66A"/><ellipse rx="3.6" ry="5.2" fill="#F7B67E"/><path d="M0 -5q1 -3 3 -3.5" stroke="#8DBE95" stroke-width="1.4" fill="none"/></g>`).join('');
+  if(u.leaves)o+=[...Array(12)].map((_,i)=>{const x=12+(i*29)%336,y=gy+30+(i*17)%(Hh-gy-36);return`<path d="M${x} ${y}q3 -4 6 0q-3 3 -6 0z" fill="${['#F2A66A','#F4C27A','#E8907A'][i%3]}" transform="rotate(${i*40} ${x+3} ${y})"/>`}).join('')+[[60,gy-30],[190,gy-50],[300,gy-24]].map(([x,y],i)=>`<g transform="translate(${x} ${y})"><g class="fly" style="animation-duration:${8+i*2}s;animation-delay:-${i*2}s"><path d="M0 0q3 -4 6 0q-3 3 -6 0z" fill="${['#F2A66A','#E8907A','#F4C27A'][i]}"/></g></g>`).join('');
+  if(u.candles)o+=[112,126,140,154,168].map((x,i)=>`<g transform="translate(${x} ${Hh-6-(i%2)*3})"><circle cy="-9" r="5" fill="#F9E3A6" opacity=".3" class="glow" style="animation-delay:-${i*.6}s"/><rect x="-2.5" y="-6" width="5" height="6" rx="1" fill="${['#F7CBD6','#FBF3D6','#E6DFFB'][i%3]}"/><path d="M0 -10c-1.2 1.5-1.2 2.6 0 3.4 1.2-.8 1.2-1.9 0-3.4z" fill="#F2B45A"/></g>`).join('');
+  if(u.snowman)o+=`<g transform="translate(300 ${gy+46})"><circle r="8" fill="#FFFFFF" stroke="#DCE4EE" stroke-width=".6"/><circle cy="-12" r="5.5" fill="#FFFFFF" stroke="#DCE4EE" stroke-width=".6"/><path d="M-4.5 -16.5h9M-3 -16.5v-4.5h6v4.5" fill="#8D7B9E" stroke="#8D7B9E" stroke-width="1.4"/><path d="M0 -12l4 1-4 1z" fill="#F2A66A"/><circle cx="-2" cy="-13.5" r=".6" fill="#3A2E28"/><circle cx="2" cy="-13.5" r=".6" fill="#3A2E28"/><path d="M-5 -7q5 3 10 0" stroke="#EFA2B5" stroke-width="2" fill="none"/></g>`+[...Array(14)].map((_,i)=>`<circle cx="${10+(i*41)%340}" cy="${gy-60+(i*19)%110}" r="${1+(i%3)*.4}" fill="#fff" opacity=".9"/>`).join('');
+  if(u.valentine)o+=[[40,gy-40,'#F5BCCB'],[150,gy-62,'#EFA2B5'],[260,gy-48,'#F7CBD6']].map(([x,y,c],i)=>`<g transform="translate(${x} ${y})"><g class="fly" style="animation-duration:${9+i}s;animation-delay:-${i*3}s"><path d="${HEART}" fill="${c}" transform="scale(1.2)"/></g></g>`).join('');
+  }
   if(S.firstFlower){const ff=S.firstFlower;o+=`<ellipse cx="180" cy="${Hh-6}" rx="16" ry="3.5" fill="#5A4A6A" opacity=".1"/>`+flower(180,Hh-6,compact?1.55:1.9,ff.type,ff.col,0,false)}
   if(u.bfly)o+=[[60,gy-10,'#E9D6A7',0],[200,gy-30,'#CBB7F7',3]].map(([x,y,c,dl])=>`<g transform="translate(${x} ${y})"><g class="fly" style="animation-delay:-${dl}s"><g class="wing"><ellipse cx="-3" rx="3.2" ry="2.4" fill="${c}"/><ellipse cx="3" rx="3.2" ry="2.4" fill="${c}"/></g><rect x="-.5" y="-2" width="1" height="4" fill="#8D7B9E"/></g></g>`).join('');
   return o+'</svg>'
@@ -1298,7 +1412,7 @@ garden(){
   return`<div class="top">${backBtn()}<div class="grow"><div class="eyebrow">Bloom Kert</div><h1>${esc(S.name)} kertje</h1></div><span class="rar l" style="font-size:11px;padding:6px 10px">${lv.name}</span></div>
   <section class="card garden" style="padding:0;overflow:hidden">${gardenSVG(false)}<div style="padding:16px 18px"><div class="row"><div class="grow"><b style="color:var(--ink)">${pt.toLocaleString('hu-HU')} szirom</b><div class="muted">${lv.next?`Következő szint: ${lv.next} (${lv.to.toLocaleString('hu-HU')})`:'Legmagasabb szint'}</div></div></div><div class="bar" style="margin-top:10px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div></div></section>
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${Math.min(T,80)}</b><small>virág nyílik</small></div><div class="kpi"><b>${got}/${us.length}</b><small>gyűjtemény</small></div><div class="kpi"><b>${curStreak()}</b><small>napos sorozat</small></div></div>
-  <section class="insight">${ic('leaf')}<div><b>${season} szezon</b><br>${mo>=8&&mo<=10?'Őszi lampionok világítanak a kertedben november 30-ig. Mindenszentek hetében gyertyafény-dekoráció is nyílik.':'A szezonális dekorációk minden évszakban megújulnak.'}</div></section>
+  <section class="insight">${ic('leaf')}<div><b>${season} szezon</b><br>${(()=>{const now_=us.filter(u=>u.c==='Szezonális'&&u.got).map(u=>u.n);return now_.length?`Most a kertedben: ${now_.join(', ')}. A szezonális elemek maguktól jelennek meg és tűnnek el, ahogy az évszakok változnak.`:'A szezonális elemek maguktól jelennek meg és tűnnek el, ahogy az évszakok változnak.'})()}</div></section>
   <div class="sec-h"><h2>Gyűjtemény</h2><span class="muted">${got} feloldva</span></div>
   ${[...new Set(us.map(x=>x.c))].map(c=>{const list=us.filter(x=>x.c===c);return`<div class="lbl" style="margin-top:6px">${c} · ${list.filter(x=>x.got).length}/${list.length}</div><div class="coll">${list.map(u=>`<div class="item ${u.got?'':'locked'}"><span class="art" style="background:${u.col}">${unlockArt(u.id)}</span><b>${u.n}</b><span class="rar ${u.r}">${{k:'Gyakori',r:'Ritka',s:'Különleges',l:'Legendás'}[u.r]}</span><small>${u.got?'Feloldva':`${u.d} · ${Math.min(u.v,u.g)}/${u.g}`}</small></div>`).join('')}</div>`}).join('')}
   <div class="sec-h"><h2>Így nő a kerted</h2></div>
@@ -1375,9 +1489,9 @@ badges(){
   const bs=allBadges(),got=bs.filter(b=>b.got).length,next=bs.filter(b=>!b.got).sort((a,b)=>b.v/b.goal-a.v/a.goal)[0];
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Jelvények</h1><span class="rar l" style="font-size:11px;padding:6px 10px">${got}/${bs.length}</span></div>
   ${next?`<section class="glass shine" style="padding:20px;text-align:center"><div class="eyebrow">Következő jelvényed</div><div style="width:90px;margin:10px auto 0">${medal(next.tier,'hero',next.icon)}</div><h2 style="font-size:20px;margin-top:8px">${next.n}</h2><p class="muted">${next.d} · még ${next.goal-next.v} hiányzik</p><div class="bar gold" style="margin-top:12px"><i style="width:${Math.min(100,next.v/next.goal*100)}%"></i></div></section>`:`<section class="glass shine" style="padding:20px;text-align:center"><h2 style="font-size:20px">Minden jelvényt megszereztél</h2><p class="muted">Igazi Bloom mester vagy.</p></section>`}
-  ${BADGE_GROUPS.map(g=>{const list=bs.filter(b=>b.g===g);return`<div class="sec-h"><h2>${g}</h2><span class="muted">${list.filter(b=>b.got).length}/${list.length}</span></div><div class="badges">${list.map(b=>`<button class="badge ${b.got?'':'locked'}" data-a="showBadge" data-id="${b.id}"><span class="${b.got&&b.rare?'shine':''}" style="border-radius:50%">${medal(b.tier,b.id,b.icon)}</span><b>${b.n}</b><small>${b.got?'Megszerezve':`${Math.min(b.v,b.goal)}/${b.goal}`}</small>${b.rare?'<span class="rar l">Ritka</span>':''}</button>`).join('')}</div>`}).join('')}
-  <div class="sec-h"><h2>Különleges jutalmak</h2></div>
-  <section class="card tips">${[['sprout','Exkluzív növények','Minden jelvény új növényt ültet a Bloom Kertbe.'],['sparkle','Prémium témák','A Holdvirág jelvény feloldja az „Éjszakai kert” témát.'],['star','Harmatcsepp','Minden 7. nap után kapsz egyet: megvédi a sorozatodat egy kihagyott napon.']].map(([i,t,d])=>`<div class="tip"><span class="ic" style="background:var(--gold)">${ic(i,18)}</span><div><b style="color:var(--ink)">${t}</b><p class="muted">${d}</p></div></div>`).join('')}</section>`
+  <div class="sec-h"><h2>Összes jelvény</h2><span class="muted">${got} megszerezve</span></div>
+  <div class="blist">${bs.map((b,i)=>({b,i,o:BADGE_GROUPS.indexOf(b.g)})).sort((x,y)=>x.o-y.o||x.b.goal-y.b.goal||x.i-y.i).map(({b})=>{const p=Math.min(100,b.v/b.goal*100);return`<button class="brow ${b.got?'got':'locked'}" data-a="showBadge" data-id="${b.id}"><span class="bmed ${b.got&&b.rare?'shine':''}">${medal(b.tier,b.id,b.icon)}</span><span class="grow"><span class="row" style="gap:6px"><b>${b.n}</b>${b.rare?'<span class="rar l">Ritka</span>':''}</span><small>${b.d}</small>${b.got?'':`<span class="bar" style="height:5px;margin-top:6px"><i style="width:${p}%"></i></span>`}</span><span class="bst">${b.got?ic('check',16):`${Math.min(b.v,b.goal).toLocaleString('hu-HU')}/${b.goal.toLocaleString('hu-HU')}`}</span></button>`}).join('')}</div>
+  <section class="card tips">${[['sparkle','Ritka jelvények','A ritka jelvények csillogó kerettel jelennek meg, amikor megszerzed őket.'],['sprout','A kerted is nő','Ugyanezek a lépések (sorozatok, teljesítések, naplók) új növényeket, élőlényeket és díszeket oldanak fel a Bloom Kertben.']].map(([i,t,d])=>`<div class="tip"><span class="ic" style="background:var(--gold)">${ic(i,18)}</span><div><b style="color:var(--ink)">${t}</b><p class="muted">${d}</p></div></div>`).join('')}</section>`
 },
 notifs(){
   const n=S.notif;const T=[['morning','Reggeli check-in','mt',NOTIFS[4]],['evening','Esti reflexió','et',NOTIFS[5]],['streak','Sorozatvédelem','',NOTIFS[2]],['garden','Kerthírek','',NOTIFS[3]]];
@@ -1421,7 +1535,42 @@ function unlockArt(id){const m={sunflower:flower(28,47,1.2,'sunflower'),forget:f
   fairy:'<path d="M6 18Q28 38 50 18" stroke="#C9B9A6" stroke-width="1" fill="none"/>'+[[10,22,'#F6D77A'],[18,27,'#F7CBD6'],[28,29,'#CFE2F6'],[38,27,'#F6D77A'],[46,22,'#F7CBD6']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="5" fill="${c}" opacity=".35"/><circle cx="${x}" cy="${y}" r="2.6" fill="${c}"/>`).join(''),
   swing:'<path d="M12 50l5-38h22l5 38" stroke="#B9A08C" stroke-width="2.4" fill="none"/><path d="M23 12v22M33 12v22" stroke="#C9B9A6" stroke-width="1.2"/><rect x="20" y="34" width="16" height="3.5" rx="1.5" fill="#D9C4AE"/>',
   fountain:'<g transform="translate(28 40) scale(1.4)"><ellipse rx="18" ry="5" fill="#CFE0EA"/><ellipse cy="-1" rx="14" ry="3.5" fill="#D8E8F6"/><rect x="-2" y="-16" width="4" height="15" fill="#E4DED8"/><ellipse cy="-16" rx="7" ry="2" fill="#E4DED8"/><path d="M0 -17c-3-6-8-6-10 0M0 -17c3-6 8-6 10 0" stroke="#9FC9E6" stroke-width="1.4" fill="none"/></g>',lav:flower(28,48,1.25,'lav'),tulip:flower(28,46,1.25,'tulip','#E9A8B8',0),poppy:flower(28,46,1.25,'poppy'),daisy:flower(28,46,1.25,'daisy'),bush:'<circle cx="20" cy="32" r="10" fill="#A9D6AE"/><circle cx="36" cy="32" r="11" fill="#B9DDBE"/><circle cx="28" cy="24" r="10" fill="#C6E6C8"/><circle cx="22" cy="24" r="3.5" fill="#fff"/><circle cx="33" cy="22" r="3.5" fill="#E6F0FA"/>',pond:'<ellipse cx="28" cy="34" rx="22" ry="8" fill="#B8D3EC"/><ellipse cx="22" cy="34" rx="6" ry="2.5" fill="#A9D6AE"/><circle cx="34" cy="31" r="4" fill="#fff"/>',tree:'<rect x="26" y="30" width="4" height="16" fill="#B9A08C"/><circle cx="22" cy="24" r="10" fill="#F2C6D3"/><circle cx="34" cy="22" r="11" fill="#FBE3EA"/>',bfly:'<g transform="translate(28 28)"><ellipse cx="-6" rx="7" ry="5" fill="#CBB7F7"/><ellipse cx="6" rx="7" ry="5" fill="#CBB7F7"/><rect x="-1" y="-5" width="2" height="10" fill="#8D7B9E"/></g>',bench:'<rect x="12" y="24" width="32" height="4" rx="2" fill="#C2AA93"/><rect x="12" y="31" width="32" height="4" rx="2" fill="#B39A82"/><rect x="15" y="35" width="3" height="8" fill="#9F8670"/><rect x="38" y="35" width="3" height="8" fill="#9F8670"/>',lantern:'<line x1="28" y1="10" x2="28" y2="18" stroke="#B9A08C"/><rect x="21" y="18" width="14" height="20" rx="7" fill="#F7CBD6"/><circle cx="28" cy="28" r="12" fill="#FFE3D6" opacity=".5"/>',oak:'<rect x="25" y="30" width="6" height="16" fill="#9F8670"/><circle cx="28" cy="22" r="13" fill="#9FD0A5"/><circle cx="18" cy="28" r="8" fill="#B9DDBE"/><circle cx="38" cy="28" r="8" fill="#B9DDBE"/>',gl:'<g transform="translate(28 32)">'+[0,60,120,180,240,300].map(a=>`<ellipse cy="-8" rx="4.5" ry="9" fill="#F4E3B5" stroke="#D4B373" stroke-width=".6" transform="rotate(${a})"/>`).join('')+'<circle r="3.5" fill="#D4B373"/></g>'};
-  return`<svg viewBox="0 0 56 56" width="48" height="48" aria-hidden="true">${m[id]||''}</svg>`}
+  return`<svg viewBox="0 0 56 56" width="48" height="48" aria-hidden="true">${m[id]||unlockArt2(id)}</svg>`}
+
+/* A további kertelemek ikonjai a Gyűjteményben */
+function unlockArt2(id){
+  const fl=['violet','crocus','cosmos','iris','lilyvalley','dahlia','lily','orchid'];if(fl.includes(id))return flower(id==='lilyvalley'?24:28,47,1.3,id);
+  const HEART='M0 2c-3-2.5-5-4-5-6a2.5 2.5 0 0 1 5-1 2.5 2.5 0 0 1 5 1c0 2-2 3.5-5 6z';
+  return({
+  lavbush:'<ellipse cx="28" cy="46" rx="18" ry="4" fill="#A9C9A8"/>'+[...Array(8)].map((_,i)=>`<path d="M${14+i*4} 46q${i%2?1:-1} -12 0 -22" stroke="#9FBF9C" stroke-width="1" fill="none"/><ellipse cx="${14+i*4}" cy="${22+(i%2)*3}" rx="1.8" ry="5" fill="${i%3?'#B9A3EE':'#CBB7F7'}"/>`).join(''),
+  rosebush:'<circle cx="20" cy="34" r="11" fill="#A9D6AE"/><circle cx="36" cy="34" r="11" fill="#B9DDBE"/><circle cx="28" cy="25" r="11" fill="#C6E6C8"/>'+[[18,28],[28,20],[38,30],[26,34],[33,23]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="3.6" fill="#EFA2B5"/>`).join(''),
+  lemontree:'<path d="M20 38l2 12h12l2-12z" fill="#E8B9A0"/><rect x="27" y="22" width="2" height="16" fill="#B9A08C"/><circle cx="28" cy="18" r="11" fill="#B9DDBE"/><ellipse cx="23" cy="17" rx="2.6" ry="2" fill="#F6D77A"/><ellipse cx="33" cy="21" rx="2.6" ry="2" fill="#F6D77A"/><ellipse cx="31" cy="12" rx="2.6" ry="2" fill="#F6D77A"/>',
+  birch:'<rect x="26" y="20" width="4.5" height="30" fill="#F4F2EE" stroke="#D9D4CE" stroke-width=".5"/><rect x="26" y="30" width="3" height="1.4" fill="#6B6470"/><rect x="27" y="38" width="3.5" height="1.4" fill="#6B6470"/><ellipse cx="28" cy="18" rx="12" ry="14" fill="#D8EDB8"/><ellipse cx="21" cy="25" rx="7" ry="8" fill="#CBE6AE"/>',
+  maple:'<rect x="26" y="30" width="4" height="18" fill="#B9A08C"/><ellipse cx="28" cy="24" rx="18" ry="11" fill="#F4A9A0"/><ellipse cx="19" cy="29" rx="9" ry="6" fill="#F7BDB4"/><ellipse cx="38" cy="28" rx="9" ry="6" fill="#EE9488"/>',
+  willow:'<rect x="26" y="22" width="4" height="28" fill="#B9A08C"/><ellipse cx="28" cy="18" rx="18" ry="9" fill="#C6E6C8"/>'+[12,18,24,30,36,42].map((x,i)=>`<path d="M${x} 18q${i%2?2:-2} 14 ${i%2?1:-1} 26" stroke="#A9D6AE" stroke-width="3" fill="none" stroke-linecap="round"/>`).join(''),
+  snail:'<g transform="translate(28 40) scale(2.2)"><path d="M-6 0h12c1 0 2-1 2-2l1-3" stroke="#D9C4AE" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="-1" cy="-5" r="5" fill="#E8B9A0"/><path d="M-3.5 -5a2.5 2.5 0 1 1 2.5 2.5" stroke="#C99872" stroke-width=".9" fill="none"/></g>',
+  kitten:'<g transform="translate(30 36) scale(2)"><ellipse rx="9" ry="5" fill="#F2C9A0"/><circle cx="-7" cy="-3" r="4.2" fill="#F2C9A0"/><path d="M-10.5 -5.5l.8 -3.6 2.4 2.2zM-5.6 -6.4l1.6-3 1 3.4z" fill="#F2C9A0"/><path d="M-8.6 -3.2q.8 .6 1.6 0M-6.2 -3.2q.8 .6 1.6 0" stroke="#8A6A50" stroke-width=".5" fill="none"/><path d="M8 1q4 -1 2 -5" stroke="#F2C9A0" stroke-width="2" fill="none" stroke-linecap="round"/></g>',
+  bunny:'<g transform="translate(24 38) scale(2.2)"><ellipse rx="7" ry="5.5" fill="#FFFFFF" stroke="#E6DFEC" stroke-width=".4"/><circle cx="6" cy="-4" r="3.8" fill="#FFFFFF"/><ellipse cx="5" cy="-10" rx="1.3" ry="4" fill="#FFFFFF"/><ellipse cx="7.6" cy="-10" rx="1.3" ry="4" fill="#FFFFFF"/><ellipse cx="5" cy="-10" rx=".6" ry="2.8" fill="#F5D3DC"/><ellipse cx="7.6" cy="-10" rx=".6" ry="2.8" fill="#F5D3DC"/><circle cx="7.5" cy="-4.5" r=".6" fill="#3A2E28"/></g>',
+  dragonfly:'<g transform="translate(28 28) scale(3)"><ellipse cx="-3.4" cy="-1.5" rx="4" ry="1.3" fill="#BFE3E6"/><ellipse cx="3.4" cy="-1.5" rx="4" ry="1.3" fill="#BFE3E6"/><ellipse cx="-3" cy=".8" rx="3.4" ry="1.1" fill="#A9D6DA"/><ellipse cx="3" cy=".8" rx="3.4" ry="1.1" fill="#A9D6DA"/><rect x="-.6" y="-3" width="1.2" height="9" rx=".6" fill="#6FB5C2"/></g>',
+  fireflies:[[16,20],[34,14],[24,34],[40,32],[14,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="6" fill="#F6D77A" opacity=".3"/><circle cx="${x}" cy="${y}" r="2.2" fill="#E9C25A"/>`).join(''),
+  squirrel:'<g transform="translate(26 36) scale(2.2)"><path d="M4 0c6-2 8-8 5-13-2-3-6-2-6 2 0 3 2 4 1 7z" fill="#D59A6A"/><ellipse rx="4" ry="5" fill="#C98B5B"/><circle cx="-2" cy="-6" r="3" fill="#C98B5B"/><path d="M-3.5 -8.5l.5-2 1.2 1.6z" fill="#C98B5B"/><circle cx="-3" cy="-6.4" r=".5" fill="#3A2E28"/></g>',
+  koi:'<ellipse cx="28" cy="30" rx="22" ry="12" fill="#CFE2F6"/><g transform="translate(22 27) scale(2)"><ellipse rx="4" ry="1.8" fill="#F2A65A"/><path d="M3.6 0l3 -2v4z" fill="#F2A65A"/></g><g transform="translate(34 34) scale(1.6) rotate(180)"><ellipse rx="4" ry="1.8" fill="#F7CBD6"/><path d="M3.6 0l3 -2v4z" fill="#F7CBD6"/></g>',
+  mushrooms:'<g transform="translate(22 44) scale(2.4)"><rect x="-1.6" y="-6" width="3.2" height="6" rx="1.2" fill="#F4F0F6"/><path d="M-6 -5a6 5 0 0 1 12 0z" fill="#F2A3B5"/><circle cx="-2.5" cy="-7" r=".9" fill="#fff"/><circle cx="2" cy="-8" r=".8" fill="#fff"/></g><g transform="translate(38 46) scale(1.6)"><rect x="-1.6" y="-6" width="3.2" height="6" rx="1.2" fill="#F4F0F6"/><path d="M-6 -5a6 5 0 0 1 12 0z" fill="#F2A3B5"/><circle cx="-2" cy="-7" r=".9" fill="#fff"/></g>',
+  pots:[[14,'#F5BCCB'],[28,'#CBB7F7'],[42,'#F6D77A']].map(([x,c])=>`<g transform="translate(${x} 46) scale(1.5)"><path d="M-4.5 -6l1 6h7l1-6z" fill="#E8B9A0"/><rect x="-5" y="-7.5" width="10" height="2" rx=".8" fill="#DDA488"/><circle cy="-11" r="3.4" fill="#A9D6AE"/><circle cx="-1.5" cy="-12" r="1.6" fill="${c}"/><circle cx="1.8" cy="-10.5" r="1.4" fill="${c}"/></g>`).join(''),
+  picnic:'<path d="M6 44L16 28H50L40 44z" fill="#FBE0E8"/><path d="M11 36H45M22 28L16 44M32 28L26 44M42 28L36 44" stroke="#F2B8C9" stroke-width="2.4"/><rect x="28" y="18" width="14" height="10" rx="2" fill="#D9C4AE"/><path d="M30 18q5 -7 10 0" stroke="#B9A08C" stroke-width="1.4" fill="none"/>',
+  birdbath:'<path d="M25 48l-1.5-16h9l-1.5 16z" fill="#E4DED8"/><rect x="18" y="47" width="20" height="3" rx="1.5" fill="#D2CAC2"/><ellipse cx="28" cy="30" rx="16" ry="5" fill="#E4DED8"/><ellipse cx="28" cy="29" rx="12" ry="3" fill="#CFE2F6"/><g transform="translate(36 22) scale(1.4)"><ellipse rx="5" ry="4" fill="#9EC3E8"/><circle cx="4" cy="-3" r="2.6" fill="#5A6E8A"/><path d="M6.4 -3l2 .6-2 .6z" fill="#E9C97E"/></g>',
+  sundial:'<rect x="24" y="30" width="8" height="18" fill="#E4DED8"/><rect x="20" y="47" width="16" height="3" rx="1.5" fill="#D2CAC2"/><ellipse cx="28" cy="29" rx="15" ry="5" fill="#ECE8E4" stroke="#D2CAC2"/><path d="M28 29l9-11v11z" fill="#D4B373"/>',
+  lamp:'<rect x="27" y="22" width="2" height="28" fill="#8D7B9E"/><circle cx="28" cy="16" r="12" fill="#FBEFC4" opacity=".45"/><rect x="22" y="10" width="12" height="12" rx="2" fill="#FBEFC4" stroke="#8D7B9E" stroke-width="1.2"/><path d="M20 10l8-5 8 5z" fill="#8D7B9E"/>',
+  arch:'<path d="M12 50V26a16 16 0 0 1 32 0v24" stroke="#D9C4AE" stroke-width="3" fill="none"/>'+[...Array(9)].map((_,i)=>{const a=Math.PI*(i/8),x=28-16*Math.cos(a),y=26-16*Math.sin(a);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.6" fill="${i%2?'#A9D6AE':'#F5BCCB'}"/>`}).join(''),
+  valentine:[[18,26,1.8,'#F5BCCB'],[36,20,2.2,'#EFA2B5'],[32,40,1.5,'#F7CBD6']].map(([x,y,s,c])=>`<path d="${HEART}" fill="${c}" transform="translate(${x} ${y}) scale(${s})"/>`).join(''),
+  easter:[[16,40,'#F5BCCB'],[28,36,'#CFE2F6'],[40,40,'#F6D77A']].map(([x,y,c])=>`<g transform="translate(${x} ${y}) scale(2)"><ellipse rx="3.2" ry="4.2" fill="${c}"/><path d="M-3 -.5q1.5 -1.2 3 0t3 0" stroke="#fff" stroke-width=".8" fill="none"/></g>`).join('')+'<path d="M6 48q22-8 44 0" stroke="#A9D6AE" stroke-width="3" fill="none"/>',
+  strawberry:'<path d="M14 30q8-10 16 0q-8 4-16 0zM28 26q8-10 16 0q-8 4-16 0z" fill="#A9D6AE"/>'+[[20,38],[34,36],[27,46]].map(([x,y])=>`<path d="M${x} ${y+7}c-5-2-6-8-3-10 2-1.2 3 0 3 0s1-1.2 3 0c3 2 2 8-3 10z" fill="#EE7F8E"/><path d="M${x-2} ${y-3}l2 2 2-2" stroke="#8DBE95" stroke-width="1.2" fill="none"/>`).join(''),
+  leaves:[[14,18,'#F2A66A',20],[30,30,'#E8907A',-30],[20,40,'#F4C27A',60],[38,16,'#F4C27A',-10],[40,40,'#F2A66A',40]].map(([x,y,c,r])=>`<path d="M${x-6} ${y}q6-8 12 0q-6 6-12 0z" fill="${c}" transform="rotate(${r} ${x} ${y})"/>`).join(''),
+  pumpkin:'<g transform="translate(28 34) scale(2.4)"><ellipse cx="-3" rx="4" ry="5" fill="#F2A66A"/><ellipse cx="3" rx="4" ry="5" fill="#F2A66A"/><ellipse rx="3.6" ry="5.2" fill="#F7B67E"/><path d="M0 -5q1 -3 3 -3.5" stroke="#8DBE95" stroke-width="1.4" fill="none"/></g>',
+  candles:[16,28,40].map((x,i)=>`<circle cx="${x}" cy="${24+(i%2)*4}" r="7" fill="#F9E3A6" opacity=".4"/><rect x="${x-4}" y="${30+(i%2)*4}" width="8" height="${16-(i%2)*4}" rx="1.5" fill="${['#F7CBD6','#FBF3D6','#E6DFFB'][i]}"/><path d="M${x} ${21+(i%2)*4}c-2 2.4-2 4.2 0 5.4 2-1.2 2-3 0-5.4z" fill="#F2B45A"/>`).join(''),
+  xmas:'<rect x="26" y="44" width="4" height="6" fill="#B9A08C"/><path d="M10 45L28 22 46 45z" fill="#9FD0A5"/><path d="M14 33L28 12 42 33z" fill="#A9D6AE"/><path d="M28 3l1.6 3.4 3.7.4-2.8 2.5.8 3.7L28 11.2l-3.3 1.8.8-3.7-2.8-2.5 3.7-.4z" fill="#F6D77A"/>'+[[20,38,'#F7CBD6'],[34,36,'#F6D77A'],[26,28,'#CFE2F6'],[32,22,'#F7CBD6']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="2" fill="${c}"/>`).join(''),
+  snowman:'<circle cx="28" cy="38" r="11" fill="#FFFFFF" stroke="#DCE4EE"/><circle cx="28" cy="21" r="8" fill="#FFFFFF" stroke="#DCE4EE"/><path d="M21 14h14M23 14V8h10v6" fill="#8D7B9E" stroke="#8D7B9E" stroke-width="2"/><path d="M28 21l6 1.5-6 1.5z" fill="#F2A66A"/><circle cx="25" cy="19" r="1" fill="#3A2E28"/><circle cx="31" cy="19" r="1" fill="#3A2E28"/><path d="M20 28q8 4 16 0" stroke="#EFA2B5" stroke-width="3" fill="none"/>'
+  })[id]||''}
 
 /* ───────── Szokáskövető összesítők: a Kezdőlap és a Statisztikák ezekből dolgoznak ───────── */
 function trackerSummary(N){
@@ -2153,7 +2302,7 @@ function vpShow(){clearTimeout(vpT);const v=vpL[vpI];if(!v){vpClose();return}con
   $('#modal').innerHTML=`<div class="modal vplay" role="dialog" aria-label="Vizualizáció"><div class="vp-bars">${vpL.map((_,j)=>`<i class="${j<vpI?'on':j===vpI?'cur':''}"></i>`).join('')}</div><button class="iconbtn vp-x" data-a="vpClose" aria-label="Bezárás">${ic('close')}</button>
   <div class="vp-card ${t==='img'?'img':''} ${bgk==='night'&&t!=='img'?'night':''}" style="background:${t==='img'?'#CBB7F7':VBG[bgk]||VBG.lav}">${v.img?`<img src="${v.img}" alt="">`:''}<div class="eyebrow" style="color:inherit;opacity:.75">${VT[t].n} · ${esc(v.cat||'')}</div><p class="t">${t==='quote'?'„'+esc(v.text)+'”':esc(v.text)}</p>${v.note?`<p style="opacity:.8">${esc(v.note)}</p>`:''}</div>
   <div class="vp-nav"><button data-a="vpGo" data-v="-1" aria-label="Előző">${ic('back',20)}</button><p>Lélegezz mélyet, és képzeld el, hogy már a tiéd.</p><button data-a="vpGo" data-v="1" aria-label="Következő">${ic('next',20)}</button></div></div>`;
-  vpT=setTimeout(()=>{if(vpI<vpL.length-1){vpI++;vpShow()}else vpEnd()},7000)}
+  vpT=setTimeout(()=>{if(!$('#modal .vplay'))return;if(vpI<vpL.length-1){vpI++;vpShow()}else vpEnd()},7000)}
 function vpEnd(){clearTimeout(vpT);$('#modal').innerHTML='';toast('Szép munka. Az álmaid egy lépéssel közelebb kerültek 🌸')}
 function vpClose(){clearTimeout(vpT);$('#modal').innerHTML=''}
 const VISION_A={
@@ -2214,6 +2363,9 @@ Object.assign(A,{
 });
 
 /* Az Android vissza gombja ezt hívja: true, ha az app maga kezelte a visszalépést */
+/* Éjfél után, vagy amikor az app a háttérből visszatér, frissül a mai nap */
+function dayRoll(){const k=keyOf(now());if(k===TODAY)return;TODAY=k;if(!$('#sheet').classList.contains('on')&&!$('#modal').innerHTML)render(true)}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)dayRoll()});window.addEventListener('focus',dayRoll);setInterval(dayRoll,60000);
 window.bloomlyBack=()=>{
   if($('#sheet').classList.contains('on')){closeSheet();return true}
   if($('#modal').innerHTML){clearTimeout(vpT);$('#modal').innerHTML='';return true}
@@ -2222,6 +2374,8 @@ window.bloomlyBack=()=>{
   return false};
 if(!S.fitness)seedExtras(S,true);
 S.habits.forEach(h=>{if(!h.area)h.area=areaOf(h)});if(!S.weight)S.weight={log:{}};
+/* Az új jelvényeket a meglévő felhasználóknál csendben megszerzettnek jelöljük, hogy ne ugorjon fel egyszerre sok ablak */
+if(S.onboarded&&!S.badgeV2){allBadges().filter(b=>b.got&&!S.seen.includes(b.id)).forEach(b=>S.seen.push(b.id));S.badgeV2=1;save()}
 TEMPLATES.forEach(t=>{if(!LIBRARY.some(x=>x.name===t.name))LIBRARY.push({...t})});
 S.habits.forEach(h=>{if(!LIBRARY.some(t=>t.name===h.name))toMyLib(h)});
 /* Új jelvénycsomag: a már teljesített új jelvények csendben kerülnek a gyűjteménybe, ne egyszerre ugorjon fel mind */
