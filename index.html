@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101222838">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101222838">
+<meta name="bloomly-version" content="20261101223015">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101223015">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -772,9 +772,11 @@ textarea.inp{min-height:92px;resize:vertical}
 @media (prefers-reduced-motion:reduce){.vh-aur,.vh-sp i,.vword.shim,.vb .vc,.vp-aur,.vp-sp i,.vp-card img,.vp-card .vw,.vp-note{animation:none!important}.vp-card .vw,.vp-note{opacity:1!important;transform:none;filter:none}.vh-sp i{opacity:.6}}
 /* Otthon: takarítási terv */
 .hm-hero{position:relative;text-align:center;padding:18px 16px 16px;border-radius:26px;background:linear-gradient(160deg,color-mix(in srgb,var(--peach) 22%,var(--card)),color-mix(in srgb,var(--lav) 26%,var(--card)));box-shadow:var(--shadow)}
-.hm-hero h2{font-family:var(--f-display);font-size:30px;font-weight:700;color:var(--lav-deep);letter-spacing:.01em}
-.hm-hero p{font-size:12.5px;color:var(--text2);font-style:italic;margin-top:2px}
-.hm-deco{position:absolute;left:14px;top:12px;font-size:22px}.hm-deco.r{left:auto;right:14px}
+.hm-hero h2{font-family:var(--f-display);font-size:30px;font-weight:500;line-height:1.1;color:var(--ink);margin:6px 0 4px;letter-spacing:.01em}
+.hm-hero p{font-size:13px;color:var(--text2)}
+.hm-hero{overflow:hidden}
+.hm-hero::before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-90px;border-radius:50%;background:radial-gradient(color-mix(in srgb,var(--rose) 70%,transparent),transparent 70%);pointer-events:none}
+.hm-hero>*{position:relative}
 .hm-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 .hm-hero-stats div{background:color-mix(in srgb,var(--card) 75%,transparent);border-radius:14px;padding:8px 4px;display:flex;flex-direction:column}
 .hm-hero-stats b{font-size:17px;color:var(--ink)}.hm-hero-stats small{font-size:10.5px;color:var(--text2)}
@@ -3368,8 +3370,8 @@ function otthonView(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[
   const del=(k,id,d)=>ed?`<button class="hm-x" data-a="hmDel" data-k="${k}" data-id="${id}" ${d!=null?`data-d="${d}"`:''} aria-label="Törlés">${ic('close',14)}</button>`:'';
   const add=(k,d)=>ed||k==='daily'||k==='day'?`<button class="hm-add ${k==='daily'?'wide':''}" data-a="hmAdd" data-k="${k}" ${d!=null?`data-d="${d}"`:''}>${ic('plus',14)} ${k==='daily'?'Saját feladat hozzáadása':'Feladat'}</button>`:'';
   return`${subTop('Otthon',`<button class="iconbtn ${ed?'on':''}" data-a="hmEdit" aria-label="${ed?'Szerkesztés kész':'Szerkesztés'}" aria-pressed="${ed}">${ic(ed?'check':'pen')}</button>`)}
-  <section class="hm-hero"><div class="hm-deco" aria-hidden="true">✨🧼</div><h2>Takarítási terv</h2><p>Kis lépések, nagy eredmények</p><div class="hm-deco r" aria-hidden="true">🌿🧹</div>
-   <div class="hm-hero-stats"><div><b>${st.today}/${st.todayTot}</b><small>mai feladat</small></div><div><b>${st.pct}%</b><small>a hét kész</small></div><div><b>${fmt(wk,{month:'short',day:'numeric'})}</b><small>a hét kezdete</small></div></div></section>
+  <section class="hm-hero"><div class="eyebrow">Otthon · ${fmt(wk,{month:'short',day:'numeric'})} – ${fmt(keyOf(addDays(parseK(wk),6)),{month:'short',day:'numeric'})}</div><h2>Takarítási terv</h2><p>Kis lépések, nagy eredmények</p>
+   <div class="hm-hero-stats"><div><b>${st.today}/${st.todayTot}</b><small>mai feladat</small></div><div><b>${st.pct}%</b><small>a hét kész</small></div><div><b>${st.dDone+st.wDone}</b><small>pipa a héten</small></div></div></section>
   ${ed?`<div class="insight">${ic('pen')}<p>Szerkesztés mód: a ✕ gombbal törölhetsz, a napokhoz is adhatsz új feladatot. Bármelyik feladat nevére koppintva átírhatod a nevét és az ikonját. Ha kész vagy, koppints a pipára fent.</p></div>`:''}
   <section class="card hm-box hm-daily"><div class="hm-head"><b>Napi feladatok</b><span class="hm-badge">✅</span></div>
    <div class="hm-grid"><span></span>${HM_DAYS.map(([n,s,c],i)=>`<span class="hm-dh ${i===td?'td':''}" style="--dc:${c}" title="${n}">${s}</span>`).join('')}</div>
