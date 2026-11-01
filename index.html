@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101082301">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101082301">
+<meta name="bloomly-version" content="20261101102742">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101102742">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,6 +145,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .fab{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:100px;width:58px;height:58px;border-radius:22px;background:linear-gradient(145deg,var(--btn1),var(--btn2));color:#fff;display:grid;place-items:center;box-shadow:0 16px 30px -12px var(--btn-shadow);z-index:5;transition:transform .3s var(--ease)}
 .fab:hover{transform:translateY(-2px) rotate(90deg)}
 .fab svg{width:26px;height:26px;stroke-width:2}
+.fab[hidden]{display:none}
 
 .tabbar{position:absolute;left:12px;right:12px;bottom:14px;height:70px;display:flex;justify-content:space-around;align-items:center;z-index:6;padding-inline:max(6px,env(safe-area-inset-left,0px)) max(6px,env(safe-area-inset-right,0px))}
 .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--text2);padding:8px 10px;border-radius:18px;transition:color .3s}
@@ -275,19 +276,95 @@ textarea.inp{min-height:92px;resize:vertical}
 .insight{display:flex;gap:12px;padding:14px;border-radius:20px;background:var(--lav-soft);color:var(--ink);font-size:13.5px}
 
 /* Vision board */
-.vb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.vc{position:relative;border-radius:24px;padding:16px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);color:var(--on-pastel);overflow:hidden;isolation:isolate;touch-action:pan-y;transition:transform .3s var(--ease)}
+.vhero{position:relative;overflow:hidden;padding:22px 20px 18px;text-align:center;background:linear-gradient(155deg,color-mix(in srgb,var(--lav) 30%,var(--card)),color-mix(in srgb,var(--peach) 26%,var(--card)));cursor:pointer;width:100%;display:block}
+.vhero::before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-90px;border-radius:50%;background:radial-gradient(color-mix(in srgb,var(--rose) 70%,transparent),transparent 70%);pointer-events:none}
+.vword{font-family:var(--f-display);font-size:34px;font-weight:500;line-height:1.1;margin:6px 0 4px;color:var(--ink);letter-spacing:.01em}
+.vword.ph{font-size:22px;color:var(--text2)}
+.vhero .muted{max-width:300px;margin:0 auto}
+.vstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 12px}
+.vstats div{padding:10px 4px;border-radius:16px;background:color-mix(in srgb,var(--card) 70%,transparent);display:flex;flex-direction:column;gap:2px}
+.vstats b{font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+.vstats small{font-size:11px;color:var(--text2)}
+.vb{display:grid;grid-template-columns:1fr 1fr;gap:12px;grid-auto-flow:dense;grid-auto-rows:minmax(150px,auto)}
+.vc{position:relative;border-radius:24px;padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);color:var(--on-pastel);overflow:hidden;isolation:isolate;touch-action:pan-y;transition:transform .3s var(--ease),box-shadow .3s;cursor:pointer;text-align:left}
+.vc:hover{transform:translateY(-2px)}
 .vc.dragging{opacity:.85;transform:scale(1.04);z-index:3;box-shadow:0 30px 50px -20px rgba(80,60,120,.6)}
 .vc.tall{grid-row:span 2}
-.vc .t{font-family:var(--f-display);font-size:18px;line-height:1.3;font-weight:500}
-.vc .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.7}
-.vc .tools{display:flex;justify-content:space-between;align-items:center}
-.vc .tools button{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.5);color:var(--on-pastel)}
+.vc.wide{grid-column:span 2}
+.vc .t{font-family:var(--f-display);font-size:18px;line-height:1.3;font-weight:500;margin-top:auto;overflow-wrap:anywhere}
+.vc .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.72;display:flex;align-items:center;gap:5px}
+.vc .tools{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.vc .tools button{width:24px;height:28px;border-radius:9px;display:grid;place-items:center;background:transparent;color:var(--on-pastel);flex:none}
+.vtag{display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 8px;border-radius:999px;background:rgba(255,255,255,.55);font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.vtag svg.i{width:12px;height:12px;flex:none}
 .vc .grip{cursor:grab;touch-action:none}
 .vc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
 .vc.img{color:#fff}
-.vc.img::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(30,20,40,.55));z-index:-1}
+.vc.img .vtag{background:rgba(255,255,255,.25);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.vc.img::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(30,20,40,.6));z-index:-1}
+.vc.night{color:#F5EFFF}
+.vc.night .vtag{background:rgba(255,255,255,.14);color:#F5EFFF}
+.vc.img .tools button,.vc.night .tools button{color:inherit}
+.vq{font-family:var(--f-display);font-size:54px;line-height:.6;height:22px;opacity:.35;margin-top:6px}
+.vc.quote .t{font-style:italic}
+.vc.affirm{align-items:center;text-align:center}
+.vc.affirm .tools{align-self:stretch}
+.vc.affirm .t{margin:auto 0;font-size:19px}
+.vc.goal .t,.vc.dream .t{font-family:inherit;font-size:15.5px;font-weight:700;line-height:1.35}
+.vprog{display:flex;flex-direction:column;gap:5px}
+.vprog .bar{height:6px;background:rgba(255,255,255,.6)}
+.vprog .bar i{background:color-mix(in srgb,var(--on-pastel) 55%,transparent)}
+.vprog small,.vdue{font-size:11px;font-weight:600;opacity:.8;display:flex;align-items:center;gap:5px}
+.vdue.late{color:#B4546C;opacity:1}
+.vc.done::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.2) 0 10px,transparent 10px 20px);z-index:-1}
+.vbadge{display:inline-flex;align-items:center;gap:5px;align-self:flex-start;padding:4px 10px;border-radius:999px;background:#6FAE7B;color:#fff;font-size:11px;font-weight:700}
 .vc.empty{border:2px dashed color-mix(in srgb,var(--lav) 70%,transparent);background:var(--card);box-shadow:none;color:var(--text2);align-items:center;justify-content:center;text-align:center;gap:8px}
+.vtypes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.vtypes button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:16px;background:var(--bg2);border:1.5px solid transparent;font-size:12px;font-weight:700;color:var(--ink)}
+.vtypes button.on{border-color:var(--lav);background:var(--lav-soft);color:var(--lav-deep)}
+.vbgs button{width:42px;height:42px;border-radius:14px}
+.cdot{display:inline-block;flex:none;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:0}
+.vlist{display:flex;flex-direction:column;gap:10px}
+.vrow{display:flex;align-items:center;gap:12px;padding:14px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-align:left;width:100%}
+.vrow .tile{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:var(--on-pastel);flex:none}
+.vrow .grow{min-width:0;display:flex;flex-direction:column;gap:5px}
+.vrow b{font-size:14px;color:var(--ink);line-height:1.3}
+.vrow small{font-size:11.5px;color:var(--text2)}
+.vrow .pct{font-weight:700;color:var(--lav-deep);font-variant-numeric:tabular-nums;font-size:14px}
+.vrow.done b{text-decoration:line-through;color:var(--text2)}
+.vsec{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-weight:700;margin-top:6px}
+.videa{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.videa p{flex:1;font-size:13.5px;color:var(--ink);line-height:1.35}
+.videa small{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);font-weight:700;margin-bottom:3px}
+.videa button{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--lav-soft);color:var(--lav-deep);flex:none}
+.vd-img{width:100%;max-height:240px;object-fit:cover;border-radius:20px;margin-top:12px}
+.vd-note{margin-top:10px;padding:12px 14px;border-radius:16px;background:var(--bg2);font-size:13.5px;color:var(--ink)}
+.vd-prog{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.vd-prog .row{justify-content:space-between}
+.vd-prog b{font-size:22px;color:var(--ink)}
+.vsteps{display:flex;flex-direction:column;gap:6px}
+.vstep{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:14px;background:var(--bg2);text-align:left;font-size:14px;color:var(--ink);width:100%}
+.vstep.on{color:var(--text2);text-decoration:line-through}
+.vbox{width:22px;height:22px;border-radius:7px;border:1.5px solid color-mix(in srgb,var(--text2) 40%,transparent);display:grid;place-items:center;flex:none;color:#fff}
+.vstep.on .vbox{background:#6FAE7B;border-color:#6FAE7B}
+.vd-habit{margin-top:14px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;background:var(--lav-soft);font-size:13px;color:var(--ink)}
+.btn.danger{background:#F3D3D9;color:#9A3B52}
+.modal.vplay{padding:0;background:rgba(25,18,40,.88);display:flex;flex-direction:column;justify-content:center;align-items:stretch}
+.vp-bars{position:absolute;top:max(22px,env(safe-area-inset-top,0px));left:18px;right:66px;display:flex;gap:4px}
+.vp-bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden;position:relative}
+.vp-bars i.on{background:rgba(255,255,255,.85)}
+.vp-bars i.cur::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:left;animation:vpfill 7s linear forwards}
+@keyframes vpfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.vp-x{position:absolute;top:max(8px,env(safe-area-inset-top,0px));right:12px;background:rgba(255,255,255,.14)!important;color:#fff!important}
+.vp-card{margin:0 22px;border-radius:32px;min-height:56%;padding:30px 26px;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center;color:var(--on-pastel);position:relative;overflow:hidden;isolation:isolate;animation:rise .7s var(--ease);box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+.vp-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+.vp-card.img,.vp-card.night{color:#fff}
+.vp-card.img::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(20,14,30,.7));z-index:-1}
+.vp-card.img{justify-content:flex-end}
+.vp-card .t{font-family:var(--f-display);font-size:28px;line-height:1.25;font-weight:500;overflow-wrap:anywhere}
+.vp-nav{display:flex;justify-content:space-between;align-items:center;margin:20px 22px 0;color:#fff}
+.vp-nav button{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#fff;flex:none}
+.vp-nav p{font-size:13px;opacity:.75;text-align:center;flex:1;padding:0 10px}
 
 /* Jelvények */
 .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -705,7 +782,7 @@ gear:'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3
 flame:'M12 21c-3.6 0-6-2.4-6-5.6 0-3.4 2.6-5.2 3.6-8.4 1.6 1.2 2.4 2.8 2.4 4.2 1-.6 1.8-2 1.8-3.6 2.6 2 4.2 4.8 4.2 7.8 0 3.2-2.4 5.6-6 5.6z',
 calendar:'M4.5 7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11.5a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z M4.5 10h15 M8.5 3v4 M15.5 3v4',
 journal:'M6 3.5h10.5A1.5 1.5 0 0 1 18 5v14a1.5 1.5 0 0 1-1.5 1.5H6z M6 3.5v17 M9.5 8h5 M9.5 11.5h5',
-back:'M15 6l-6 6 6 6', next:'M9 6l6 6-6 6', close:'M6 6l12 12 M18 6L6 18',
+back:'M15 6l-6 6 6 6', next:'M9 6l6 6-6 6', close:'M6 6l12 12 M18 6L6 18', play:'M8 5.5v13l10.5-6.5z',
 grip:'M9 6h.01 M15 6h.01 M9 12h.01 M15 12h.01 M9 18h.01 M15 18h.01',
 quote:'M10 7C7 8 5.5 10.5 5.5 14v3h4.5v-4.5H7.8c0-2 .9-3.4 2.2-4.1z M18.5 7c-3 1-4.5 3.5-4.5 7v3h4.5v-4.5h-2.2c0-2 .9-3.4 2.2-4.1z',
 target:'M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 12h.01',
@@ -1293,16 +1370,7 @@ stats(){
   <section class="card chart"><b style="color:var(--ink)">Hangulat és szokások</b>${bars([{l:'80% felett',v:av(hi)/5,t:av(hi).toFixed(1).replace('.',',')},{l:'80% alatt',v:av(lo)/5,t:av(lo).toFixed(1).replace('.',',')}],'m')}<div class="insight" style="margin-top:12px">${ic('sparkle')}<p>Azokon a napokon, amikor a szokásaid legalább 80%-át teljesíted, a hangulatod átlagosan <b>${Math.abs(av(hi)-av(lo)).toFixed(1).replace('.',',')} ponttal</b> ${av(hi)>=av(lo)?'jobb':'alacsonyabb'}, mint a többi napon.</p></div></section>
   ${S.cycleOn?`<section class="card chart"><b style="color:var(--ink)">Ciklus és hangulat</b>${bars(Object.keys(ph).map(p=>({l:PHASES[p].n.split(' ')[0],v:av(ph[p])/5,t:av(ph[p]).toFixed(1).replace('.',','),c:PHASES[p].c})),'c')}<p class="muted" style="margin-top:8px">Átlagos hangulat (1–5) ciklusfázisonként</p></section>`:''}`
 },
-vision(){
-  const f=S.ui.vf;const items=S.vision.filter(v=>f==='Mind'||(f==='Kedvencek'?v.fav:v.cat===f));
-  const BG={quote:'linear-gradient(150deg,#EFE6FD,#F7E5EA)',goal:'linear-gradient(150deg,#FFE7DB,#FBEFD9)',reminder:'linear-gradient(150deg,#E1F3E2,#E6F0FA)',img:'#CBB7F7'};
-  const K={quote:'Idézet',goal:'Cél',reminder:'Emlékeztető',img:'Kép'};
-  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Vision Board</h1><button class="iconbtn" data-a="addVision" aria-label="Új elem">${ic('plus')}</button></div>
-  <div class="chips">${['Mind','Kedvencek','Önszeretet','Karrier','Egészség','Utazás','Kapcsolatok'].map(c=>`<button class="chip ${f===c?'on':''}" data-a="vf" data-v="${c}">${c}</button>`).join('')}</div>
-  <p class="muted">Húzd a kártyákat a ${ic('grip',14)} fogantyúnál az átrendezéshez.</p>
-  <div class="vb" id="vb">${items.map((v,i)=>`<article class="vc ${v.type==='img'?'img':''} ${v.type==='img'||i%3===0?'tall':''}" data-id="${v.id}" style="background:${BG[v.type]}">${v.img?`<img src="${v.img}" alt="${esc(v.text)}">`:''}<div class="tools"><span class="k">${K[v.type]} · ${esc(v.cat)}</span><span class="row" style="gap:4px"><button data-a="vfav" data-id="${v.id}" aria-label="Kedvenc" aria-pressed="${!!v.fav}" style="color:${v.fav?'#D97A95':'inherit'}"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;${v.fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button><button class="grip" aria-label="Áthelyezés">${ic('grip',16)}</button></span></div><p class="t">${v.type==='quote'?'„'+esc(v.text)+'”':esc(v.text)}</p>${v.type==='reminder'?`<span class="k">${ic('bell',13)} ${esc(v.when||'Minden reggel')}</span>`:''}</article>`).join('')}
-   <button class="vc empty" data-a="addVision">${ic('image',26)}<b>Kép feltöltése</b><small>vagy idézet, cél, emlékeztető</small></button></div>`
-},
+vision(){return visionView()},
 badges(){
   const bs=allBadges(),got=bs.filter(b=>b.got).length,next=bs.filter(b=>!b.got).sort((a,b)=>b.v/b.goal-a.v/a.goal)[0];
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Jelvények</h1><span class="rar l" style="font-size:11px;padding:6px 10px">${got}/${bs.length}</span></div>
@@ -1657,7 +1725,7 @@ document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={sknew
 
 function renderTabs(){const T=[['home','home','Kezdőlap'],['habits','check','Szokások'],['garden','sprout','Kert'],['cycle','cycle','Ciklus'],['me','user','Profilom']];
   $('#tabbar').innerHTML=T.map(([k,i,n])=>`<button class="tab ${S.ui.tab===k&&!S.ui.sub?'on':''}" data-a="tab" data-t="${k}" aria-current="${S.ui.tab===k?'page':'false'}">${ic(i)}<span>${n}</span><span class="dot"></span></button>`).join('')}
-function render(keepScroll){if(!S.life)ensureLife();const st=scroll.scrollTop;const key=S.ui.sub||S.ui.tab;if(key!=='meditation'&&medT)stopMed();if(key!=='sleep')slDraft=null;view.innerHTML=`<div class="wrap ${keepScroll?'':'screen-in'}">${SCREENS[key]()}</div>`;renderTabs();$('#fab').hidden=S.ui.sub?S.ui.sub!=='vision':S.ui.tab==='me';if(keepScroll)scroll.scrollTop=st;else scroll.scrollTop=0;
+function render(keepScroll){if(!S.life)ensureLife();const st=scroll.scrollTop;const key=S.ui.sub||S.ui.tab;if(key!=='meditation'&&medT)stopMed();if(key!=='sleep')slDraft=null;view.innerHTML=`<div class="wrap ${keepScroll?'':'screen-in'}">${SCREENS[key]()}</div>`;renderTabs();$('#fab').hidden=!!S.ui.sub||S.ui.tab==='me';if(keepScroll)scroll.scrollTop=st;else scroll.scrollTop=0;
   const bs=$('.bj-scroll'),tc=bs&&bs.querySelector('th.td');if(tc)bs.scrollLeft=Math.max(0,tc.offsetLeft-152-(bs.clientWidth-152)/2+14);if(key==='vision')initDrag()}
 $('#fab').innerHTML=ic('plus');$('#asideLogo').innerHTML=`<span style="display:block;width:40px;height:40px">${LOTUS('as')}</span>`;
 
@@ -1889,9 +1957,6 @@ const A={
  sym(el){const d=S.cycle.days[TODAY]||{sym:[],energy:0};const v=el.dataset.v;d.sym=d.sym.includes(v)?d.sym.filter(x=>x!==v):[...d.sym,v];S.cycle.days[TODAY]=d;save();render(true)},
  vf(el){S.ui.vf=el.dataset.v;render(true)},
  vfav(el){const v=S.vision.find(x=>x.id===el.dataset.id);v.fav=!v.fav;save();render(true)},
- addVision(){draft={type:'quote',text:'',cat:'Önszeretet',img:null};visionSheet()},
- vset(el){const t=$('#vt');if(t)draft.text=t.value;draft[el.dataset.k]=el.dataset.v;visionSheet()},
- saveVision(){const t=$('#vt');draft.text=(t?t.value:draft.text).trim();if(draft.type==='img'&&!draft.img){toast('Válassz egy képet');return}if(!draft.text&&draft.type!=='img'){toast('Írd be a szöveget');return}if(!draft.text)draft.text='Álmaim';S.vision.unshift({...draft,id:uid(),when:draft.type==='reminder'?'Minden reggel 7:00':undefined});S.ui.vf='Mind';save();closeSheet();if(S.ui.sub!=='vision'){pushNav();S.ui.sub='vision'}render();toast('Felkerült a Vision Boardra ✨')},
  showBadge(el){badgeModal(allBadges().find(b=>b.id===el.dataset.id))},
  closeModal(el,e){if(e.target===el||el.classList.contains('btn'))$('#modal').innerHTML=''},
  ntog(el){S.notif[el.dataset.k]=!S.notif[el.dataset.k];save();render(true)},
@@ -1979,13 +2044,149 @@ Object.assign(EXTRA_A,{
   S.weight=S.weight||{log:{}};S.weight.log[TODAY]=Math.round(v*10)/10;const hb=markHabit('Testsúly mérése')|markHabit('Testsúly követése');save();render(true);toast(hb?'Mérés mentve · +10 szirom':'Mérés mentve')}
 });
 Object.assign(A,EXTRA_A);
-function visionSheet(){const d=draft;openSheet(`<h2>Új elem a Vision Boardra</h2><p class="muted">Ami szem előtt van, az valósággá válik.</p>
- <div class="field"><span class="lbl">Típus</span><div class="seg">${[['img','Kép'],['quote','Idézet'],['goal','Cél'],['reminder','Emlékeztető']].map(([v,n])=>`<button class="${d.type===v?'on':''}" data-a="vset" data-k="type" data-v="${v}">${n}</button>`).join('')}</div></div>
- ${d.type==='img'?`<div class="field"><label for="vimg">Kép feltöltése</label><input class="inp" type="file" id="vimg" accept="image/*">${d.img?`<img src="${d.img}" alt="Előnézet" style="border-radius:18px;margin-top:8px;max-height:180px;object-fit:cover">`:''}</div>`:''}
- <div class="field"><label for="vt">${d.type==='img'?'Felirat':d.type==='quote'?'Idézet':d.type==='goal'?'Cél':'Emlékeztető'}</label><textarea class="inp" id="vt" maxlength="120" placeholder="${d.type==='goal'?'pl. Megtanulok olaszul':'Írd ide…'}">${esc(d.text)}</textarea></div>
- <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${['Önszeretet','Karrier','Egészség','Utazás','Kapcsolatok'].map(c=>`<button class="chip ${d.cat===c?'on':''}" data-a="vset" data-k="cat" data-v="${c}">${c}</button>`).join('')}</div></div>
- <div class="btns"><button class="btn" data-a="saveVision">Hozzáadás</button></div>`);
- const f=$('#vimg');if(f)f.addEventListener('change',()=>{const file=f.files[0];if(!file)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),sc=Math.min(1,640/Math.max(im.width,im.height));c.width=im.width*sc;c.height=im.height*sc;c.getContext('2d').drawImage(im,0,0,c.width,c.height);const t=$('#vt');if(t)draft.text=t.value;draft.img=c.toDataURL('image/jpeg',.8);visionSheet()};im.src=rd.result};rd.readAsDataURL(file)})}
+/* ───────── Vision Board ───────── */
+const VT={img:{n:'Kép',i:'image'},quote:{n:'Idézet',i:'quote'},affirm:{n:'Megerősítés',i:'sparkle'},goal:{n:'Cél',i:'target'},dream:{n:'Bakancslista',i:'star'},reminder:{n:'Emlékeztető',i:'bell'}};
+const VCATS=[['Önszeretet','#F5D3DC'],['Egészség','#CDECCF'],['Kapcsolatok','#FFD6C2'],['Karrier','#E9D6A7'],['Tanulás','#CFE2F6'],['Pénzügyek','#DCEFC9'],['Utazás','#CFEAEC'],['Otthon','#F1D7F2'],['Hobbik','#F7E2C6'],['Lelki béke','#CBB7F7']];
+const VBG={lav:'linear-gradient(150deg,#EFE6FD,#E2D5FA)',rose:'linear-gradient(150deg,#FBE9EE,#F5D3DC)',peach:'linear-gradient(150deg,#FFEDE3,#FFD9C6)',mint:'linear-gradient(150deg,#E6F6E7,#D3EDD6)',sky:'linear-gradient(150deg,#E8F1FB,#D3E4F6)',gold:'linear-gradient(150deg,#FBF3E1,#EEDDB3)',pearl:'linear-gradient(150deg,#FFFFFF,#F1ECF6)',night:'linear-gradient(150deg,#3F3658,#6E5C92)'};
+const VDEF={quote:'lav',affirm:'rose',goal:'peach',dream:'sky',reminder:'mint',img:'lav'};
+const VSIZE=[['auto','Automatikus'],['sq','Kicsi'],['tall','Magas'],['wide','Széles']];
+const VPH={img:'pl. Az álomotthonom',quote:'pl. A virág sem siet, mégis kinyílik.',affirm:'pl. Méltó vagyok minden jóra.',goal:'pl. Lefutom az első félmaratonomat',dream:'pl. Megnézem az északi fényt',reminder:'pl. Igyál egy pohár vizet ébredés után'};
+/* Ötlettár: típus, szöveg, kategória (+ lépések a célokhoz) */
+const VIDEAS=[
+ ['affirm','Méltó vagyok minden jóra, ami az életembe érkezik.','Önszeretet'],
+ ['affirm','A testem az otthonom, szeretettel bánok vele.','Egészség'],
+ ['affirm','Bőség és nyugalom áramlik az életembe.','Pénzügyek'],
+ ['affirm','Bátran lépek ki a komfortzónámból.','Karrier'],
+ ['affirm','Szeretet vesz körül, és én is szeretetet adok.','Kapcsolatok'],
+ ['affirm','Megengedem magamnak, hogy lassítsak.','Lelki béke'],
+ ['affirm','Minden nap egy kicsit többet tudok, mint tegnap.','Tanulás'],
+ ['quote','Ahol a figyelmed, ott virágzik az életed.','Lelki béke'],
+ ['quote','Kis lépések, nagy változások.','Karrier'],
+ ['quote','Légy önmagad legjobb barátnője.','Önszeretet'],
+ ['quote','Az otthon nem hely, hanem érzés.','Otthon'],
+ ['goal','Lefutom az első félmaratonomat','Egészség',['Futócipő beszerzése','Heti 3 edzés','10 km lefutása','Nevezés a versenyre']],
+ ['goal','3 havi vésztartalék összegyűjtése','Pénzügyek',['Havi költségvetés','Külön megtakarítási számla','Automatikus utalás beállítása']],
+ ['goal','Elolvasok 12 könyvet az évben','Tanulás',['Olvasólista összeírása','Napi 10 oldal','Olvasónapló vezetése']],
+ ['goal','Előrelépés a munkámban','Karrier',['Célok átbeszélése a vezetőmmel','Egy új képzés elvégzése','Portfólió frissítése']],
+ ['goal','Havonta egy minőségi baráti este','Kapcsolatok',['Időpontok egyeztetése','Közös programlista']],
+ ['goal','Saját kreatív projekt elindítása','Hobbik',['Ötletek összegyűjtése','Eszközök beszerzése','Első darab elkészítése']],
+ ['dream','Megnézem az északi fényt Norvégiában','Utazás'],
+ ['dream','Egy hét a görög tengerparton','Utazás'],
+ ['dream','Saját, fényes dolgozósarok növényekkel','Otthon'],
+ ['dream','Megtanulok folyékonyan olaszul','Tanulás'],
+ ['dream','Részt veszek egy csendes elvonuláson','Lelki béke'],
+ ['reminder','Mosolyogj a tükörbe, és mondj magadnak valami kedveset','Önszeretet','07:30'],
+ ['reminder','Nézd meg a Vision Boardodat, és képzeld el, hogy már a tiéd','Lelki béke','21:00']];
+const vcol=c=>(VCATS.find(x=>x[0]===c)||['',`#E6DFFB`])[1];
+const vWhen=v=>/^\d{1,2}:\d\d$/.test(v.when||'')?`Minden nap ${v.when}`:(v.when||'Minden reggel');
+const vIsGoal=v=>v.type==='goal'||v.type==='dream';
+const vProg=v=>{if(v.done)return 100;const s=v.steps||[];return s.length?Math.round(s.filter(x=>x.d).length/s.length*100):0};
+function vDue(v){if(!v.due||v.done)return'';const n=dayDiff(v.due,TODAY);return n<0?`Lejárt: ${fmt(v.due,{month:'short',day:'numeric'})}`:n===0?'Határidő: ma':n<=60?`Még ${n} nap`:`Határidő: ${fmt(v.due,{year:'numeric',month:'short',day:'numeric'})}`}
+const vMeta=()=>S.vmeta||(S.vmeta={word:'',intent:''});
+const vFiltered=()=>{const f=S.ui.vf||'Mind';return S.vision.filter(v=>f==='Mind'||(f==='Kedvencek'?v.fav:v.cat===f))};
+const heartBtn=v=>`<button data-a="vfav" data-id="${v.id}" aria-label="Kedvenc" aria-pressed="${!!v.fav}" style="color:${v.fav?'#D97A95':'inherit'}"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;${v.fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button>`;
+function vCard(v,i){
+  const t=VT[v.type]?v.type:'quote',bgk=v.bg||VDEF[t],night=bgk==='night'&&t!=='img';
+  const size=v.size&&v.size!=='auto'?v.size:(t==='img'||t==='affirm'||(t==='quote'&&i%3===0)?'tall':'');
+  const p=vProg(v),st=v.steps||[],due=vDue(v),late=due.startsWith('Lejárt');
+  const body=t==='quote'?`<span class="vq" aria-hidden="true">„</span><p class="t">${esc(v.text)}</p>`
+   :t==='affirm'?`<span aria-hidden="true" style="opacity:.55;margin-top:auto">${ic('sparkle',20)}</span><p class="t">${esc(v.text)}</p>`
+   :vIsGoal(v)?`${v.done?`<span class="vbadge">${ic('check',12)} Elérve</span>`:''}<p class="t">${esc(v.text)}</p>${st.length&&!v.done?`<div class="vprog"><div class="bar"><i style="width:${p}%"></i></div><small>${st.filter(x=>x.d).length}/${st.length} lépés · ${p}%</small></div>`:''}${due?`<span class="vdue ${late?'late':''}">${ic('calendar',12)} ${due}</span>`:''}`
+   :t==='reminder'?`<p class="t">${esc(v.text)}</p><span class="k">${ic('bell',13)} ${esc(vWhen(v))}</span>`
+   :`<p class="t">${esc(v.text)}</p>`;
+  return`<article class="vc ${t} ${size} ${night?'night':''} ${v.done?'done':''}" data-id="${v.id}" data-a="vopen" role="button" tabindex="0" aria-label="${VT[t].n}: ${esc(v.text)}" style="background:${t==='img'?'#CBB7F7':VBG[bgk]||VBG.lav}">${v.img?`<img src="${v.img}" alt="">`:''}
+   <div class="tools"><span class="vtag"><span class="cdot" style="background:${vcol(v.cat)};margin:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.7)"></span>${esc(v.cat||VT[t].n)}</span><span class="row" style="gap:2px">${heartBtn(v)}<button class="grip" aria-label="Áthelyezés">${ic('grip',16)}</button></span></div>${body}</article>`}
+function visionView(){
+  const M=vMeta(),mode=S.ui.vv||'board',yr=now().getFullYear(),goals=S.vision.filter(vIsGoal),ach=goals.filter(v=>v.done).length,favs=S.vision.filter(v=>v.fav).length;
+  const gp=goals.length?Math.round(goals.reduce((a,v)=>a+vProg(v),0)/goals.length):0;
+  const head=`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Vision Board</h1><button class="iconbtn" data-a="vplay" aria-label="Vizualizáció indítása" ${S.vision.length?'':'disabled'}>${ic('play')}</button><button class="iconbtn" data-a="addVision" aria-label="Új elem">${ic('plus')}</button></div>
+  <div class="card vhero" data-a="vword" role="button" tabindex="0" aria-label="Az év szavának szerkesztése"><div class="eyebrow">${yr} · Az én évem</div><h2 class="vword ${M.word?'':'ph'}">${M.word?esc(M.word):'Válaszd ki az év szavát'}</h2><p class="muted">${M.intent?esc(M.intent):'Egyetlen szó és egy szándék, ami egész évben vezet. Koppints ide.'}</p>
+   <div class="vstats"><div><b>${S.vision.length}</b><small>elem</small></div><div><b>${ach}/${goals.length}</b><small>cél elérve</small></div><div><b>${favs}</b><small>kedvenc</small></div></div>
+   <div class="bar" title="Célok átlagos haladása"><i style="width:${gp}%"></i></div></div>
+  <div class="seg">${[['board','Tábla'],['goals','Célok'],['ideas','Ötletek']].map(([v,n])=>`<button class="${mode===v?'on':''}" data-a="vview" data-v="${v}">${n}</button>`).join('')}</div>`;
+  if(mode==='goals'){
+    const row=v=>{const p=vProg(v),st=v.steps||[],due=vDue(v);return`<button class="vrow ${v.done?'done':''}" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic(v.done?'check':VT[v.type].i,20)}</span><span class="grow"><b>${esc(v.text)}</b>${v.done?`<small>Elérve${v.doneAt?' · '+fmt(v.doneAt,{year:'numeric',month:'short',day:'numeric'}):''}</small>`:`<span class="bar" style="height:6px"><i style="width:${p}%"></i></span><small>${[VT[v.type].n,esc(v.cat||''),st.length?`${st.filter(x=>x.d).length}/${st.length} lépés`:'',due].filter(Boolean).join(' · ')}</small>`}</span>${v.done?'':`<span class="pct">${p}%</span>`}</button>`};
+    const open=goals.filter(v=>!v.done).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')),done=goals.filter(v=>v.done);
+    return`${head}${goals.length?`${open.length?`<div class="vsec">Folyamatban · ${open.length}</div><div class="vlist">${open.map(row).join('')}</div>`:''}${done.length?`<div class="vsec">Elérve · ${done.length}</div><div class="vlist">${done.map(row).join('')}</div>`:''}`:`<div class="card empty-note">Még nincs célod vagy bakancslistás álmod. Adj hozzá egyet, és bontsd kis lépésekre.</div>`}
+    <button class="btn ghost" data-a="addVision" data-t="goal">${ic('plus',16)} Új cél</button>`}
+  if(mode==='ideas'){
+    const have=new Set(S.vision.map(v=>v.text)),f=S.ui.vic||'Mind',list=VIDEAS.map((x,i)=>({x,i})).filter(({x})=>!have.has(x[1])&&(f==='Mind'||x[2]===f));
+    const cats=['Mind',...VCATS.map(c=>c[0]).filter(c=>VIDEAS.some(x=>x[2]===c))];
+    return`${head}<p class="muted">Válogass a Bloomly ötleteiből. Egy koppintással felkerülnek a táblára, és később bármikor átírhatod őket.</p>
+    <div class="chips">${cats.map(c=>`<button class="chip ${f===c?'on':''}" data-a="vic" data-v="${c}">${c==='Mind'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
+    ${Object.keys(VT).filter(t=>t!=='img').map(t=>{const its=list.filter(({x})=>x[0]===t);return its.length?`<div class="vsec">${VT[t].n}</div><div class="vlist">${its.map(({x,i})=>`<div class="videa"><span class="cdot" style="background:${vcol(x[2])};width:12px;height:12px;margin:0"></span><p><small>${x[2]}${x[3]&&t==='goal'?` · ${x[3].length} lépés`:''}</small>${esc(x[1])}</p><button data-a="videa" data-i="${i}" aria-label="Hozzáadás a táblához">${ic('plus',18)}</button></div>`).join('')}</div>`:''}).join('')||`<div class="card empty-note">Minden ötletet felvettél ebből a kategóriából. 🌸</div>`}`}
+  const f=S.ui.vf||'Mind',items=vFiltered(),cats=VCATS.map(c=>c[0]).filter(c=>S.vision.some(v=>v.cat===c));
+  return`${head}<div class="chips">${['Mind','Kedvencek',...cats].map(c=>`<button class="chip ${f===c?'on':''}" data-a="vf" data-v="${c}">${c==='Mind'||c==='Kedvencek'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
+  <p class="muted">Koppints egy kártyára a részletekért, vagy rendezd át őket a jobb felső sarokban lévő fogantyúval.</p>
+  <div class="vb" id="vb">${items.map(vCard).join('')}
+   <button class="vc empty" data-a="addVision">${ic('plus',26)}<b>Új elem</b><small>kép, idézet, megerősítés, cél, álom vagy emlékeztető</small></button></div>`}
+function vDetail(v){const t=v.type,s=v.steps||[],h=v.habit&&S.habits.find(x=>x.id===v.habit),p=vProg(v);
+  const hc=h?[...Array(30)].filter((_,i)=>isDone(h,keyOf(addDays(now(),-i)))).length:0;
+  openSheet(`<div class="eyebrow"><span class="cdot" style="background:${vcol(v.cat)}"></span>${VT[t].n} · ${esc(v.cat||'')}</div><h2 style="margin-top:6px">${t==='quote'?'„'+esc(v.text)+'”':esc(v.text)}</h2>
+  ${v.img?`<img class="vd-img" src="${v.img}" alt="">`:''}
+  ${v.note?`<p class="vd-note"><b>Miért fontos:</b> ${esc(v.note)}</p>`:''}
+  ${t==='reminder'?`<p class="muted" style="margin-top:10px">${ic('bell',14)} ${esc(vWhen(v))}</p>`:''}
+  ${vIsGoal(v)?`<div class="vd-prog"><div class="row"><b>${p}%</b><span class="muted">${v.done?'Elérve 🎉':vDue(v)||'Nincs határidő'}</span></div><div class="bar"><i style="width:${p}%"></i></div></div>
+   <div class="field"><span class="lbl">Lépések</span><div class="vsteps">${s.map((x,j)=>`<button class="vstep ${x.d?'on':''}" data-a="vstep" data-id="${v.id}" data-j="${j}" aria-pressed="${!!x.d}"><span class="vbox">${x.d?ic('check',12):''}</span>${esc(x.t)}</button>`).join('')||'<p class="muted">Bontsd kis lépésekre, így könnyebb elindulni.</p>'}</div>
+   <div class="row" style="gap:8px"><input class="inp grow" id="vns" placeholder="Új lépés…" maxlength="80" aria-label="Új lépés"><button class="btn ghost" data-a="vaddstep" data-id="${v.id}" style="padding:12px 16px" aria-label="Lépés hozzáadása">${ic('plus',16)}</button></div></div>
+   ${h?`<div class="vd-habit"><span class="tile" style="width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,15)}</span><span>Kapcsolódó szokás: <b>${esc(h.name)}</b><br><small class="muted">${hc} pipa az elmúlt 30 napban</small></span></div>`:''}
+   <div class="btns"><button class="btn ${v.done?'ghost':''}" data-a="vdone" data-id="${v.id}">${v.done?'Visszaállítás folyamatban lévőre':'Elértem! 🎉'}</button></div>`:''}
+  <div class="btns" style="margin-top:${vIsGoal(v)?10:22}px"><button class="btn ghost" data-a="vedit" data-id="${v.id}">${ic('pen',16)} Szerkesztés</button><button class="btn ghost" data-a="vdel" data-id="${v.id}">${ic('trash',16)} Törlés</button></div>`)}
+function vRead(){const g=id=>document.getElementById(id);[['vt','text'],['vn','note'],['vd','due'],['vw','when'],['vs','stepsTxt'],['vh','habit']].forEach(([id,k])=>{if(g(id))draft[k]=g(id).value})}
+function visionSheet(){const d=draft,t=d.type,bgk=d.bg||VDEF[t];openSheet(`<h2>${d.id?'Elem szerkesztése':'Új elem a Vision Boardra'}</h2><p class="muted">Ami szem előtt van, az valósággá válik.</p>
+ <div class="field"><span class="lbl">Típus</span><div class="vtypes">${Object.entries(VT).map(([k,x])=>`<button class="${t===k?'on':''}" data-a="vset" data-k="type" data-v="${k}" aria-pressed="${t===k}">${ic(x.i,18)}<span>${x.n}</span></button>`).join('')}</div></div>
+ ${t==='img'?`<div class="field"><label for="vimg">Kép feltöltése</label><input class="inp" type="file" id="vimg" accept="image/*">${d.img?`<img src="${d.img}" alt="Előnézet" style="border-radius:18px;margin-top:8px;max-height:180px;object-fit:cover">`:''}</div>`:''}
+ <div class="field"><label for="vt">${t==='img'?'Felirat':VT[t].n}</label><textarea class="inp" id="vt" maxlength="140" placeholder="${VPH[t]}">${esc(d.text)}</textarea></div>
+ ${vIsGoal(d)?`<div class="field"><label for="vn">Miért fontos ez nekem?</label><textarea class="inp" id="vn" maxlength="200" placeholder="Hogyan fogod érezni magad, amikor eléred?">${esc(d.note||'')}</textarea></div>
+  <div class="field"><label for="vd">Határidő (nem kötelező)</label><input class="inp" type="date" id="vd" value="${esc(d.due||'')}"></div>
+  <div class="field"><label for="vs">Lépések, soronként egy</label><textarea class="inp" id="vs" rows="4" placeholder="pl. Futócipő beszerzése&#10;Heti 3 edzés">${esc(d.stepsTxt||'')}</textarea></div>
+  ${S.habits.length?`<div class="field"><label for="vh">Kapcsolódó szokás</label><select class="inp" id="vh"><option value="">Nincs</option>${S.habits.map(h=>`<option value="${h.id}" ${d.habit===h.id?'selected':''}>${esc(h.name)}</option>`).join('')}</select></div>`:''}`:''}
+ ${t==='reminder'?`<div class="field"><label for="vw">Időpont</label><input class="inp" type="time" id="vw" value="${/^\d{1,2}:\d\d$/.test(d.when||'')?d.when:'07:30'}"></div>`:''}
+ <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${VCATS.map(([c,col])=>`<button class="chip ${d.cat===c?'on':''}" data-a="vset" data-k="cat" data-v="${c}"><span class="cdot" style="background:${col}"></span>${c}</button>`).join('')}</div></div>
+ ${t!=='img'?`<div class="field"><span class="lbl">Háttér</span><div class="swatches vbgs">${Object.entries(VBG).map(([k,g])=>`<button class="${bgk===k?'on':''}" style="background:${g}" data-a="vset" data-k="bg" data-v="${k}" aria-label="${{lav:'Levendula',rose:'Rózsa',peach:'Barack',mint:'Menta',sky:'Égkék',gold:'Arany',pearl:'Gyöngyház',night:'Éjszaka'}[k]}" aria-pressed="${bgk===k}"></button>`).join('')}</div></div>`:''}
+ <div class="field"><span class="lbl">Kártyaméret</span><div class="seg">${VSIZE.map(([k,n])=>`<button class="${(d.size||'auto')===k?'on':''}" data-a="vset" data-k="size" data-v="${k}">${n}</button>`).join('')}</div></div>
+ <div class="btns"><button class="btn" data-a="saveVision">${d.id?'Mentés':'Hozzáadás'}</button></div>`);
+ const f=$('#vimg');if(f)f.addEventListener('change',()=>{const file=f.files[0];if(!file)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),sc=Math.min(1,900/Math.max(im.width,im.height));c.width=im.width*sc;c.height=im.height*sc;c.getContext('2d').drawImage(im,0,0,c.width,c.height);vRead();draft.img=c.toDataURL('image/jpeg',.82);visionSheet()};im.src=rd.result};rd.readAsDataURL(file)})}
+/* Vizualizáció: a tábla elemei egyenként, teljes képernyőn, 7 másodpercenként lapozva */
+let vpI=0,vpL=[],vpT=null;
+function vpShow(){clearTimeout(vpT);const v=vpL[vpI];if(!v){vpClose();return}const t=v.type,bgk=v.bg||VDEF[t];
+  $('#modal').innerHTML=`<div class="modal vplay" role="dialog" aria-label="Vizualizáció"><div class="vp-bars">${vpL.map((_,j)=>`<i class="${j<vpI?'on':j===vpI?'cur':''}"></i>`).join('')}</div><button class="iconbtn vp-x" data-a="vpClose" aria-label="Bezárás">${ic('close')}</button>
+  <div class="vp-card ${t==='img'?'img':''} ${bgk==='night'&&t!=='img'?'night':''}" style="background:${t==='img'?'#CBB7F7':VBG[bgk]||VBG.lav}">${v.img?`<img src="${v.img}" alt="">`:''}<div class="eyebrow" style="color:inherit;opacity:.75">${VT[t].n} · ${esc(v.cat||'')}</div><p class="t">${t==='quote'?'„'+esc(v.text)+'”':esc(v.text)}</p>${v.note?`<p style="opacity:.8">${esc(v.note)}</p>`:''}</div>
+  <div class="vp-nav"><button data-a="vpGo" data-v="-1" aria-label="Előző">${ic('back',20)}</button><p>Lélegezz mélyet, és képzeld el, hogy már a tiéd.</p><button data-a="vpGo" data-v="1" aria-label="Következő">${ic('next',20)}</button></div></div>`;
+  vpT=setTimeout(()=>{if(vpI<vpL.length-1){vpI++;vpShow()}else vpEnd()},7000)}
+function vpEnd(){clearTimeout(vpT);$('#modal').innerHTML='';toast('Szép munka. Az álmaid egy lépéssel közelebb kerültek 🌸')}
+function vpClose(){clearTimeout(vpT);$('#modal').innerHTML=''}
+const VISION_A={
+ vview(el){S.ui.vv=el.dataset.v;save();render(true)},
+ vic(el){S.ui.vic=el.dataset.v;render(true)},
+ vopen(el,e){if(e&&e.target.closest('.grip'))return;const v=S.vision.find(x=>x.id===el.dataset.id);if(v)vDetail(v)},
+ vstep(el){const v=S.vision.find(x=>x.id===el.dataset.id),s=v.steps[+el.dataset.j];s.d=!s.d;if(v.steps.every(x=>x.d)&&!v.done)toast('Minden lépés kész! Jelöld elértnek 🎉');save();vDetail(v);render(true)},
+ vaddstep(el){const i=$('#vns'),t=i&&i.value.trim();if(!t){toast('Írd be a lépést');return}const v=S.vision.find(x=>x.id===el.dataset.id);(v.steps=v.steps||[]).push({t,d:false});save();vDetail(v);render(true);setTimeout(()=>{const n=$('#vns');if(n)n.focus()},50)},
+ vdone(el){const v=S.vision.find(x=>x.id===el.dataset.id);v.done=!v.done;v.doneAt=v.done?TODAY:undefined;save();if(v.done){closeSheet();petalsFall(40);toast('Gratulálok! Egy álmod valóra vált 🌸')}else vDetail(v);render(true)},
+ vedit(el){const v=S.vision.find(x=>x.id===el.dataset.id);draft=JSON.parse(JSON.stringify(v));draft.stepsTxt=(v.steps||[]).map(x=>x.t).join('\n');visionSheet()},
+ vdel(el){if(!el.dataset.sure){el.dataset.sure=1;el.classList.add('danger');el.innerHTML=`${ic('trash',16)} Biztosan törlöd?`;return}S.vision=S.vision.filter(x=>x.id!==el.dataset.id);save();closeSheet();render(true);toast('Törölve a tábláról')},
+ videa(el){const x=VIDEAS[+el.dataset.i];S.vision.unshift({id:uid(),type:x[0],text:x[1],cat:x[2],steps:x[0]==='goal'&&x[3]?x[3].map(t=>({t,d:false})):undefined,when:x[0]==='reminder'?x[3]:undefined});save();render(true);toast('Felkerült a táblára ✨')},
+ vword(){const M=vMeta();openSheet(`<h2>Az év szava</h2><p class="muted">Egyetlen szó, ami ${now().getFullYear()}-ban emlékeztet arra, ki szeretnél lenni.</p>
+  <div class="field"><label for="vwd">Szó</label><input class="inp" id="vwd" maxlength="24" value="${esc(M.word)}" placeholder="pl. Virágzás"></div>
+  <div class="chips wrapchips" style="margin-top:10px">${['Virágzás','Bátorság','Nyugalom','Bőség','Egyensúly','Öröm','Szabadság','Jelenlét','Növekedés','Ragyogás'].map(w=>`<button class="chip ${M.word===w?'on':''}" data-a="vwpick" data-v="${w}">${w}</button>`).join('')}</div>
+  <div class="field"><label for="vin">Szándék</label><textarea class="inp" id="vin" maxlength="140" placeholder="pl. Idén kedvesebb leszek magamhoz, és merek nagyot álmodni.">${esc(M.intent)}</textarea></div>
+  <div class="btns"><button class="btn" data-a="vwsave">Mentés</button></div>`)},
+ vwpick(el){$('#vwd').value=el.dataset.v;document.querySelectorAll('[data-a="vwpick"]').forEach(b=>b.classList.toggle('on',b===el))},
+ vwsave(){const M=vMeta();M.word=$('#vwd').value.trim();M.intent=$('#vin').value.trim();save();closeSheet();render(true);toast('Az év szava elmentve ✨')},
+ vplay(){vpL=vFiltered();if(!vpL.length)vpL=S.vision.slice();if(!vpL.length)return;vpI=0;vpShow()},
+ vpGo(el){vpI=Math.max(0,vpI+ +el.dataset.v);if(vpI>=vpL.length){vpEnd();return}vpShow()},
+ vpClose(){vpClose()},
+ addVision(el){const t=el&&el.dataset&&el.dataset.t;draft={type:t||'quote',text:'',cat:'Önszeretet',img:null};visionSheet()},
+ vset(el){vRead();draft[el.dataset.k]=el.dataset.v;visionSheet()},
+ saveVision(){vRead();const d=draft;d.text=(d.text||'').trim();if(d.type==='img'&&!d.img){toast('Válassz egy képet');return}if(!d.text&&d.type!=='img'){toast('Írd be a szöveget');return}if(!d.text)d.text='Álmaim';
+  if(vIsGoal(d)){const old=d.steps||[];d.steps=(d.stepsTxt||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>({t:x,d:!!(old.find(o=>o.t===x)||{}).d}));d.note=(d.note||'').trim()}else{delete d.steps;delete d.due;delete d.note;delete d.habit;delete d.done}
+  if(d.type==='reminder'&&!d.when)d.when='07:30';if(d.type!=='reminder')delete d.when;if(d.type!=='img')delete d.img;
+  const {stepsTxt,...it}=d;
+  if(it.id){const i=S.vision.findIndex(x=>x.id===it.id);if(i>=0)S.vision[i]=it;toast('Mentve ✨')}else{S.vision.unshift({...it,id:uid()});S.ui.vf='Mind';S.ui.vv='board';toast('Felkerült a Vision Boardra ✨')}
+  save();closeSheet();if(S.ui.sub!=='vision'){pushNav();S.ui.sub='vision'}render(!!it.id)}
+};
+Object.assign(A,VISION_A);
+document.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Enter'&&t.id==='vns'){e.preventDefault();const b=$('[data-a="vaddstep"]');if(b)b.click()}else if((e.key==='Enter'||e.key===' ')&&t.matches('[role="button"][data-a]')){e.preventDefault();t.click()}});
 
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const fn=A[el.dataset.a];if(fn){if(el.dataset.a!=='closeModal')e.stopPropagation();fn(el,e)}});
 document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.a==='time'){S.notif[e.target.dataset.k]=e.target.value;save();toast('Időpont mentve')}});
@@ -2015,7 +2216,7 @@ Object.assign(A,{
 /* Az Android vissza gombja ezt hívja: true, ha az app maga kezelte a visszalépést */
 window.bloomlyBack=()=>{
   if($('#sheet').classList.contains('on')){closeSheet();return true}
-  if($('#modal').innerHTML){$('#modal').innerHTML='';return true}
+  if($('#modal').innerHTML){clearTimeout(vpT);$('#modal').innerHTML='';return true}
   if($('#ob').innerHTML){if(ob.step>0||S.onboarded){A.obBack();return true}return false}
   if(NAV.length||S.ui.sub||S.ui.tab!=='home'){A.back();return true}
   return false};
