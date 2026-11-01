@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101153819">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101153819">
+<meta name="bloomly-version" content="20261101154028">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101154028">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1481,7 +1481,7 @@ home(){
    <button class="chip-stat" data-a="openCheckin" style="text-align:left"><span class="ic" style="background:var(--lav)">${mood?`<span style="font-size:18px">${MOODS[mood.m].e}</span>`:ic('smile',18)}</span><div><b>${mood?MOODS[mood.m].n:'Hangulat'}</b><small>${mood?'mai hangulatod':'rögzítsd most'}</small></div></button></div></section>
   ${!ci?`<section class="checkin" aria-label="Reggeli check-in"><div class="eyebrow" style="color:inherit;opacity:.7">Reggeli check-in</div><h3 style="margin-top:6px">Hogy érzed magad ma?</h3><p>Három rövid kérdés, hogy tudatosan indítsd a napot.</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood-b ${mood&&mood.m===i?'on':''}" data-a="openCheckin" data-m="${i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div></section>`:
    `<section class="card" aria-label="Mai szándék"><div class="eyebrow">Mai célod</div><p style="font-family:var(--f-display);font-size:19px;color:var(--ink);margin-top:6px">${esc(ci.goal)}</p><p class="muted" style="margin-top:6px">Hálás vagy: ${esc(ci.grateful)}</p></section>`}
-  ${c?`<button class="card row" data-a="tab" data-t="cycle" style="text-align:left;width:100%"><span class="ic" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:${PHASES[c.ph].c};color:var(--on-pastel)">${ic('cycle')}</span><div class="grow"><b style="color:var(--ink)">${PHASES[c.ph].n} · ${c.day}. nap</b><div class="muted">${PHASES[c.ph].rec[0]}</div></div>${ic('next',18)}</button>`:''}
+  ${c?`<button class="card row" data-a="go" data-s="cycle" style="text-align:left;width:100%"><span class="ic" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:${PHASES[c.ph].c};color:var(--on-pastel)">${ic('cycle')}</span><div class="grow"><b style="color:var(--ink)">${PHASES[c.ph].n} · ${c.day}. nap</b><div class="muted">${PHASES[c.ph].rec[0]}</div></div>${ic('next',18)}</button>`:''}
   ${homeExtras()}
   <div class="sec-h"><h2>Mai szokások</h2><button class="link" data-a="habitsList">Mind</button></div>
   <div class="habits">${hs.length?hs.map(habitRow).join(''):S.habits.length?`<div class="card empty-note">Ma nincs ütemezett szokásod. Pihenj, vagy adj hozzá egy újat.</div>`:`<div class="card empty-note" style="display:flex;flex-direction:column;gap:12px;align-items:center">Még nincs szokásod. Válaszd ki azokat, amelyeket vezetni szeretnél, az életterületeken.<button class="btn" data-a="tab" data-t="habits">${ic('plus',18)} Szokások kiválasztása</button></div>`}</div>
@@ -1543,7 +1543,7 @@ cycle(){
 },
 me(){
   const lv=level(),b=allBadges().filter(x=>x.got).length;
-  const T2=[['chart','Statisztikák','#6FAE7B','stats',''],['image','Vision Board','#E39A6C','vision',`${S.vision.length} elem`],['target','Kihívások','#D9809A','challenges',chInfo()?`${chInfo().day}. nap`:''],['calendar','Heti visszatekintő','#9C86D6','review',''],['flame','Fókusz időzítő','#D3A55A','pomo',''],['gift','Születésnapok és fontos dátumok','#6FAE7B','dates',(()=>{const x=allDates().find(d=>d.n>=0);return x?`${esc(x.name)} · ${x.n===0?'ma':x.n===1?'holnap':x.n+' nap'}`:''})()],['medal','Jelvények','#D3A55A','badges',`${b} megszerezve`],['bell','Értesítések','#D9809A','notifs',''],['gear','Beállítások','#6E9CCB','settings','']];
+  const T2=[['chart','Statisztikák','#6FAE7B','stats',''],['cycle','Ciklusom','#9C86D6','cycle',(()=>{const c=S.cycleOn&&cycInfo();return c?`${PHASES[c.ph].n} · ${c.day}. nap`:'Kikapcsolva'})()],['image','Vision Board','#E39A6C','vision',`${S.vision.length} elem`],['target','Kihívások','#D9809A','challenges',chInfo()?`${chInfo().day}. nap`:''],['calendar','Heti visszatekintő','#9C86D6','review',''],['flame','Fókusz időzítő','#D3A55A','pomo',''],['gift','Születésnapok és fontos dátumok','#6FAE7B','dates',(()=>{const x=allDates().find(d=>d.n>=0);return x?`${esc(x.name)} · ${x.n===0?'ma':x.n===1?'holnap':x.n+' nap'}`:''})()],['medal','Jelvények','#D3A55A','badges',`${b} megszerezve`],['bell','Értesítések','#D9809A','notifs',''],['gear','Beállítások','#6E9CCB','settings','']];
   return`<div class="top">${backBtn()}<h1 class="grow">Profilom</h1></div><section class="glass" style="padding:22px;display:flex;align-items:center;gap:16px"><span class="avatar" style="width:64px;height:64px;font-size:26px">${esc(S.name[0]||'B')}</span><div class="grow"><h1 style="font-size:24px">${esc(S.name)}</h1><div class="muted">${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom</div><div class="muted">Fő célod: ${esc(S.goal)}</div></div></section>
   <div class="eyebrow">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(menuRow).join('')}</nav>`
 },
@@ -1728,7 +1728,7 @@ function trackerDefs(){
   return{
    fitness:['dumbbell','Edzéstervező','#E39A6C','fitness',S.fitness.plan[wd(now())]],
    sleep:['moon','Alvás és álomnapló','#6E9CCB','sleep',sl?num1(sHrs(sl))+' óra':''],
-   cycle:['calDrop','Cikluskövetés','#9C86D6','tab:cycle',c?`${c.day}. nap`:'Kikapcsolva'],
+   cycle:['calDrop','Cikluskövetés','#9C86D6','cycle',c?`${c.day}. nap`:'Kikapcsolva'],
    symptoms:['shield','Tünetnapló','#6E9CCB','symptoms',sd&&sd.sym&&sd.sym.length?`${sd.sym.length} tünet ma`:''],
    weight:['scale','Testsúly','#6FAE7B','weight',lastW?num1(lastW)+' kg':''],
    morning:['sun','Reggeli rutin','#D3A55A','act:openCheckin',ci?'Ma kész':'Még nincs'],
@@ -1973,7 +1973,7 @@ document.addEventListener('input',e=>{if(e.target.id!=='lfr')return;const id=e.t
 document.addEventListener('input',e=>{if(e.target.id!=='lq')return;S.ui.lq=e.target.value;render(true);const i=$('#lq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}});
 document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={sknew:'skadd',thqn:'thqAdd',obgc:'obGoalAdd',hcat:'addCat'}[e.target.id];if(m){e.preventDefault();A[m]()}});
 
-function renderTabs(){const T=[['home','home','Kezdőlap'],['habits','check','Szokások'],['garden','sprout','Kert'],['cycle','cycle','Ciklus'],['me','user','Profilom']];
+function renderTabs(){const T=[['home','home','Kezdőlap'],['habits','check','Szokások'],['garden','sprout','Kert'],['me','user','Profilom']];
   $('#tabbar').innerHTML=T.map(([k,i,n])=>`<button class="tab ${S.ui.tab===k&&!S.ui.sub?'on':''}" data-a="tab" data-t="${k}" aria-current="${S.ui.tab===k?'page':'false'}">${ic(i)}<span>${n}</span><span class="dot"></span></button>`).join('')}
 function render(keepScroll){if(!S.life)ensureLife();ensureF();const st=scroll.scrollTop;const key=S.ui.sub||S.ui.tab;if(key!=='meditation'&&medT)stopMed();if(key!=='sleep')slDraft=null;view.innerHTML=`<div class="wrap ${keepScroll?'':'screen-in'}">${SCREENS[key]()}</div>`;renderTabs();$('#fab').hidden=!!S.ui.sub||S.ui.tab==='me';if(keepScroll)scroll.scrollTop=st;else scroll.scrollTop=0;
   const bs=$('.bj-scroll'),tc=bs&&bs.querySelector('th.td');if(tc)bs.scrollLeft=Math.max(0,tc.offsetLeft-152-(bs.clientWidth-152)/2+14);if(key==='vision')initDrag()}
@@ -2895,6 +2895,7 @@ S.habits.forEach(h=>{if(!LIBRARY.some(t=>t.name===h.name))toMyLib(h)});
 if((S.badgesV||0)<2){S.seen=[...new Set([...(S.seen||[]),...allBadges().filter(b=>b.got).map(b=>b.id)])];S.badgesV=2;save()}
 window.bloomlyNotifChanged=()=>{if(S.ui.sub==='notifs')render(true)};
 {const pd=natCall('takePending');if(pd&&pd!=='[]')setTimeout(()=>bloomlyPending(pd),0)}
+if(S.ui.tab==='cycle'){S.ui.tab='me';S.ui.sub=S.ui.sub||'cycle'}
 applyTheme();if(!S.vision.length)seedVision();render();if(!S.onboarded)renderOb();if(S.pin)showLock();scheduleSync();
 </script>
 
