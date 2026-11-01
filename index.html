@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101220914">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101220914">
+<meta name="bloomly-version" content="20261101221416">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101221416">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -824,6 +824,16 @@ textarea.inp{min-height:92px;resize:vertical}
 .hm-house{font-size:46px;margin-top:8px;filter:drop-shadow(0 6px 10px rgba(200,140,80,.3))}
 .hm-ring{display:flex;flex-direction:column;margin-top:2px}.hm-ring b{font-family:var(--f-display);font-size:22px;color:var(--ink)}.hm-ring small{font-size:10.5px;color:var(--text2)}
 .hm-done p{font-size:12px;font-weight:700;color:var(--ink);margin-top:6px;line-height:1.35}
+.hm-add.wide{display:flex;justify-content:center;margin:10px 12px 0;padding:10px 14px;border-radius:14px;border:1.5px dashed color-mix(in srgb,var(--lav-deep) 45%,transparent);background:color-mix(in srgb,var(--lav-soft) 70%,transparent);font-size:13px}
+.hm-tb{display:flex;align-items:center;gap:7px;min-width:0;background:none;border:0;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.hm-tb i{font-style:normal;font-size:15px;flex:none}
+.hm-tb span{min-width:0;overflow-wrap:anywhere}
+.hm-lt{cursor:pointer}
+.hm-prev{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 14px;border-radius:16px;background:var(--bg2)}
+.hm-prev span{font-size:26px;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--card);flex:none}
+.hm-prev b{font-size:15px;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.hm-ig{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin:10px 0 6px}
+.hm-sticky{position:sticky;bottom:-28px;margin:18px -4px -28px;padding:14px 4px 28px;background:linear-gradient(transparent,var(--bg) 30%);z-index:2}
 .hm-emo{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
 .hm-emo button{aspect-ratio:1;border-radius:12px;background:var(--bg2);font-size:20px;border:1.5px solid transparent}
 .hm-emo button.on{border-color:var(--lav-deep);background:var(--lav-soft)}
@@ -3321,7 +3331,18 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest
    Adatok: S.home = {daily:[{id,t,i}], time:[{id,at,t,i}], days:[7 × [{id,t}]], log:{hétfőKulcs:{feladatId:[napok]}}, wlog:{hétfőKulcs:{feladatId:true}}}.
    A pipák hetente maguktól újraindulnak (a hét hétfői dátuma a kulcs). */
 const HM_DAYS=[['Hétfő','H','#CFE2F6','🧽'],['Kedd','K','#F5D3DC','❄️'],['Szerda','Sz','#FFD6C2','👟'],['Csütörtök','Cs','#CDECCF','🪜'],['Péntek','P','#E9D6A7','🛏️'],['Szombat','Sz','#E6DDF7','🪣'],['Vasárnap','V','#F7D9E6','✨']];
-const HM_EMOJI=['🧹','🧺','🗑️','📝','🪶','🧽','🍃','👕','🎒','👟','🚮','🩴','🍳','🥗','🍲','🍽️','😴','👚','🍝','✨','🌙','🛏️','🪟','🚗','🪴','🐾','🛁','🧴','🔥','🛒'];
+/* Ikontár a saját feladatokhoz, kategóriánként */
+const HM_ICONS=[
+ ['Takarítás',['🧹','🧽','🪣','🧼','🫧','🧴','🪶','🪠','🗑️','🚮','♻️','🧯','✨','🪟','🚪','🪞']],
+ ['Mosás és ruhák',['🧺','👕','👚','👗','👖','🧦','🩲','🧥','🧣','🧤','👟','🩴','👠','🥾','🎒','👜','🛏️','🧵','🪡','🔌']],
+ ['Konyha',['🍳','🥗','🍲','🍝','🥘','🍽️','🥄','🔪','🫖','☕','🥛','🍞','🥕','🍎','🧊','🧂','🥫','🍰','🧁','🥣']],
+ ['Fürdő és szépség',['🛁','🚿','🪥','🧻','🧴','💅','💄','💆‍♀️','🪮','🧖‍♀️','🌸','🕯️']],
+ ['Kert és növények',['🪴','🌱','🌿','🍃','🌷','🌻','🌹','🍂','🌳','💧','🚿','🐝']],
+ ['Háziállat',['🐾','🐶','🐱','🐰','🐹','🐦','🐠','🦴','🥩','🧸']],
+ ['Család és gyerekek',['👶','🍼','🧸','🎨','📚','✏️','🎒','🚸','🏫','🧩','⚽','🎈']],
+ ['Bevásárlás és pénz',['🛒','🛍️','📝','🧾','💳','💰','🏦','📦','📮','🏷️']],
+ ['Önmagam',['😴','🧘‍♀️','🏃‍♀️','💪','🚶‍♀️','💊','📖','📓','🎧','🙏','💖','☀️','🌙','💤','🥤','🍵']],
+ ['Egyéb',['🚗','⛽','🔧','🪛','💡','🔋','📱','💻','📞','✉️','📅','⏰','🔑','🏠','🧳','🎁']]];
 function hmSeed(){let n=0;const id=()=>'hm'+(n++)+uid();
   return{daily:[['🩴','Papucsok letörlése'],['🧺','Szennyes összegyűjtése'],['🗑️','Szemét kivitele'],['📝','Bevásárlólista megírása'],['🪶','Portalanítás'],['🧹','Söprés, porszívózás, felmosás'],['🍃','Bejárat felsöprése'],['👕','Mosás'],['👟','Cipők letörlése'],['🍽️','Mosogatás']].map(([i,t])=>({id:id(),i,t})),
    time:[['07:30','🍳','Reggeli'],['08:30','🧹','Földszint takarítása'],['10:00','🥗','Ebéd előkészítése'],['11:00','🧽','Emelet takarítása'],['12:30','🍲','Ebéd'],['13:30','🍽️','Mosogatás, konyha rendbetétele'],['14:00','😴','Pihenő'],['16:00','👚','Vasalás, ruhák elpakolása'],['18:30','🍝','Vacsora'],['19:30','✨','Konyha és pult letörlése'],['22:00','🌙','Alvás']].map(([at,i,t])=>({id:id(),at,i,t})),
@@ -3335,33 +3356,41 @@ function hmStats(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[wk]
   return{dTot,dDone,wTot,wDone,today,todayTot,pct:dTot+wTot?Math.round((dDone+wDone)/(dTot+wTot)*100):0}}
 function otthonView(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[wk]||{},td=wd(now()),ed=!!S.ui.hme,st=hmStats();
   const del=(k,id,d)=>ed?`<button class="hm-x" data-a="hmDel" data-k="${k}" data-id="${id}" ${d!=null?`data-d="${d}"`:''} aria-label="Törlés">${ic('close',14)}</button>`:'';
-  const add=(k,d)=>ed?`<button class="hm-add" data-a="hmAdd" data-k="${k}" ${d!=null?`data-d="${d}"`:''}>${ic('plus',14)} Új</button>`:'';
+  const add=(k,d)=>ed||k==='daily'?`<button class="hm-add ${k==='daily'?'wide':''}" data-a="hmAdd" data-k="${k}" ${d!=null?`data-d="${d}"`:''}>${ic('plus',14)} ${k==='daily'?'Saját feladat hozzáadása':'Új'}</button>`:'';
   return`${subTop('Otthon',`<button class="iconbtn ${ed?'on':''}" data-a="hmEdit" aria-label="${ed?'Szerkesztés kész':'Szerkesztés'}" aria-pressed="${ed}">${ic(ed?'check':'pen')}</button>`)}
   <section class="hm-hero"><div class="hm-deco" aria-hidden="true">✨🧼</div><h2>Takarítási terv</h2><p>Kis lépések, nagy eredmények</p><div class="hm-deco r" aria-hidden="true">🌿🧹</div>
    <div class="hm-hero-stats"><div><b>${st.today}/${st.todayTot}</b><small>mai feladat</small></div><div><b>${st.pct}%</b><small>a hét kész</small></div><div><b>${fmt(wk,{month:'short',day:'numeric'})}</b><small>a hét kezdete</small></div></div></section>
-  ${ed?`<div class="insight">${ic('pen')}<p>Szerkesztés mód: töröld a felesleges feladatokat a ✕ gombbal, vagy adj hozzá újat. Ha kész vagy, koppints a pipára fent.</p></div>`:''}
+  ${ed?`<div class="insight">${ic('pen')}<p>Szerkesztés mód: a ✕ gombbal törölhetsz, a napokhoz is adhatsz új feladatot. Bármelyik feladat nevére koppintva átírhatod a nevét és az ikonját. Ha kész vagy, koppints a pipára fent.</p></div>`:''}
   <section class="card hm-box hm-daily"><div class="hm-head"><b>Napi feladatok</b><span class="hm-badge">✅</span></div>
    <div class="hm-grid"><span></span>${HM_DAYS.map(([n,s,c],i)=>`<span class="hm-dh ${i===td?'td':''}" style="--dc:${c}" title="${n}">${s}</span>`).join('')}</div>
-   ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><i aria-hidden="true">${x.i||'🧹'}</i><span>${esc(x.t)}</span>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
+   ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><button class="hm-tb" data-a="hmOpen" data-k="daily" data-id="${x.id}" aria-label="${esc(x.t)} szerkesztése"><i aria-hidden="true">${x.i||'🧹'}</i><span>${esc(x.t)}</span></button>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
    ${add('daily')}</section>
   <div class="hm-days">${HM_DAYS.map(([n,,c,e],i)=>{const l=h.days[i]||[],dn=l.filter(x=>W[x.id]).length;return`<section class="hm-day ${i===td?'td':''}" style="--dc:${c}"><div class="hm-dhead"><b>${n}</b>${i===td?'<small>ma</small>':''}<span aria-hidden="true">${e}</span></div>
-    <div class="hm-list">${l.map(x=>`<div class="hm-li"><button class="hm-cb ${W[x.id]?'on':''}" data-a="hmW" data-id="${x.id}" aria-pressed="${!!W[x.id]}">${W[x.id]?ic('check',11):''}</button><span>${esc(x.t)}</span>${del('day',x.id,i)}</div>`).join('')||'<p class="muted" style="font-size:12px">Nincs feladat</p>'}</div>
+    <div class="hm-list">${l.map(x=>`<div class="hm-li"><button class="hm-cb ${W[x.id]?'on':''}" data-a="hmW" data-id="${x.id}" aria-pressed="${!!W[x.id]}">${W[x.id]?ic('check',11):''}</button><span class="hm-lt" data-a="hmOpen" data-k="day" data-d="${i}" data-id="${x.id}" role="button" tabindex="0">${esc(x.t)}</span>${del('day',x.id,i)}</div>`).join('')||'<p class="muted" style="font-size:12px">Nincs feladat</p>'}</div>
     ${l.length?`<div class="hm-dbar"><i style="width:${Math.round(dn/l.length*100)}%"></i></div>`:''}${add('day',i)}<span class="hm-wm" aria-hidden="true">${e}</span></section>`}).join('')}
    <section class="hm-day hm-done" style="--dc:#F5C6CF"><div class="hm-dhead"><b>Megcsináltad!</b><span aria-hidden="true">🌞</span></div><div class="hm-house" aria-hidden="true">🏡</div><div class="hm-ring"><b>${st.pct}%</b><small>a heti tervből</small></div><p>Pipálj ki mindent,<br>ragyogjon minden nap.</p></section></div>`}
-function hmSheet(k,d){const time=k==='time';fd={k,d,i:time?'🕒':k==='daily'?'🧹':'',t:'',at:'08:00'};
-  openSheet(`<h2>${k==='daily'?'Új napi feladat':time?'Új időpont':`Új feladat · ${HM_DAYS[d][0]}`}</h2>
-  <div class="field"><label for="hmt">Megnevezés</label><input class="inp" id="hmt" maxlength="60" placeholder="${time?'pl. Délutáni séta':k==='daily'?'pl. Virágok locsolása':'pl. Sütő kitakarítása'}"></div>
-  ${time?`<div class="field"><label for="hma">Időpont</label><input class="inp" type="time" id="hma" value="08:00"></div>`:''}
-  ${k!=='day'?`<div class="field"><span class="lbl">Ikon</span><div class="hm-emo">${HM_EMOJI.map(e=>`<button data-a="hmEmo" data-v="${e}" class="${fd.i===e?'on':''}">${e}</button>`).join('')}</div></div>`:''}
-  <div class="btns"><button class="btn" data-a="hmSave">Hozzáadás</button></div>`);setTimeout(()=>{const i=$('#hmt');if(i)i.focus()},320)}
+/* Feladat felvétele vagy szerkesztése: megnevezés és (a napi feladatoknál) ikon a nagy ikontárból */
+function hmSheet(k,d,id){const h=ensureHome(),list=k==='daily'?h.daily:k==='time'?h.time:h.days[d],old=id&&list.find(x=>x.id===id);
+  fd=old?{k,d,id,i:old.i||'🧹',t:old.t,at:old.at}:{k,d,i:k==='daily'?'🧹':'',t:'',at:'08:00'};hmSheetDraw()}
+document.addEventListener('input',e=>{if(e.target.id!=='hmt')return;const b=$('#sheet .hm-prev b');if(b)b.textContent=e.target.value.trim()||'A feladatod neve'});
+function hmSheetDraw(){const{k,d,id}=fd;
+  openSheet(`<h2>${id?'Feladat szerkesztése':k==='daily'?'Saját napi feladat':`Új feladat · ${HM_DAYS[d][0]}`}</h2>
+  ${k==='daily'?`<div class="hm-prev"><span>${fd.i}</span><b>${esc(fd.t)||'A feladatod neve'}</b></div>`:''}
+  <div class="field"><label for="hmt">Megnevezés</label><input class="inp" id="hmt" maxlength="60" value="${esc(fd.t||'')}" placeholder="${k==='daily'?'pl. Virágok locsolása':'pl. Sütő kitakarítása'}"></div>
+  ${k==='daily'?`<div class="field"><span class="lbl">Ikon</span>${HM_ICONS.map(([g,l])=>`<div class="hm-ig">${g}</div><div class="hm-emo">${l.map(e=>`<button data-a="hmEmo" data-v="${e}" class="${fd.i===e?'on':''}" aria-label="Ikon ${e}" aria-pressed="${fd.i===e}">${e}</button>`).join('')}</div>`).join('')}</div>`:''}
+  <div class="btns hm-sticky">${id?`<button class="btn danger" data-a="hmDelSheet">Törlés</button>`:''}<button class="btn" data-a="hmSave">${id?'Mentés':'Hozzáadás'}</button></div>`);
+  if(!id)setTimeout(()=>{const i=$('#hmt');if(i&&!i.value)i.focus()},320)}
 const HOME_A={
  hmEdit(){S.ui.hme=!S.ui.hme;render(true)},
  hmD(el){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]=h.log[wk]||{},id=el.dataset.id,d=+el.dataset.d,a=L[id]=L[id]||[];const was=a.includes(d);L[id]=was?a.filter(x=>x!==d):[...a,d];save();render(true);if(!was)hmCheer()},
  hmW(el){const h=ensureHome(),wk=hmWeek(),W=h.wlog[wk]=h.wlog[wk]||{},id=el.dataset.id;if(W[id])delete W[id];else W[id]=true;save();render(true);if(W[id])hmCheer()},
  hmAdd(el){hmSheet(el.dataset.k,el.dataset.d!=null?+el.dataset.d:null)},
- hmEmo(el){fd.i=el.dataset.v;document.querySelectorAll('#sheet .hm-emo button').forEach(b=>b.classList.toggle('on',b===el))},
- hmSave(){const t=($('#hmt')||{}).value.trim();if(!t){toast('Add meg a megnevezést');return}const h=ensureHome(),x={id:'hm'+uid(),t};
-  if(fd.k==='daily')h.daily.push({...x,i:fd.i});else if(fd.k==='time')h.time.push({...x,i:fd.i,at:($('#hma')||{}).value||''});else h.days[fd.d].push(x);save();closeSheet();render(true);toast('Hozzáadva 🌸')},
+ hmOpen(el){hmSheet(el.dataset.k,el.dataset.d!=null?+el.dataset.d:null,el.dataset.id)},
+ hmEmo(el){fd.i=el.dataset.v;document.querySelectorAll('#sheet .hm-emo button').forEach(b=>{b.classList.toggle('on',b===el);b.setAttribute('aria-pressed',b===el)});const p=$('#sheet .hm-prev span');if(p)p.textContent=fd.i},
+ hmSave(){const t=($('#hmt')||{}).value.trim();if(!t){toast('Add meg a megnevezést');return}const h=ensureHome(),list=fd.k==='daily'?h.daily:fd.k==='time'?h.time:h.days[fd.d];
+  if(fd.id){const x=list.find(y=>y.id===fd.id);if(x){x.t=t;if(fd.k!=='day')x.i=fd.i}save();closeSheet();render(true);toast('Mentve');return}
+  const x={id:'hm'+uid(),t};if(fd.k==='day')list.push(x);else list.push({...x,i:fd.i});save();closeSheet();render(true);toast('Hozzáadva 🌸')},
+ hmDelSheet(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}A.hmDel({dataset:{k:fd.k,id:fd.id,d:fd.d!=null?String(fd.d):undefined}});closeSheet()},
  hmDel(el){const h=ensureHome(),id=el.dataset.id,k=el.dataset.k;if(k==='daily')h.daily=h.daily.filter(x=>x.id!==id);else if(k==='time')h.time=h.time.filter(x=>x.id!==id);else h.days[+el.dataset.d]=h.days[+el.dataset.d].filter(x=>x.id!==id);save();render(true)}
 };
 /* Ha a mai összes feladat kész, kis ünneplés */
