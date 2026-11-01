@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101122936">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101122936">
+<meta name="bloomly-version" content="20261101125143">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101125143">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -539,6 +539,65 @@ textarea.inp{min-height:92px;resize:vertical}
 .sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .empty-note{padding:22px;text-align:center;color:var(--text2);font-size:13.5px}
 
+/* Bloomly 2.0 */
+.chk.on,.ch-today.on .chk{background:var(--mint);border-color:var(--mint);color:#3F6B48}
+.pause-card,.review-card,.kind-card,.ch-home{display:flex;align-items:center;gap:12px;text-align:left;width:100%}
+.pause-card .ic,.review-card .ic,.kind-card .ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--on-pastel)}
+.pause-card{background:color-mix(in srgb,var(--sky) 45%,var(--card))}
+.pause-card .ic{background:var(--sky)}
+.pause-card b,.review-card b,.ch-home b{color:var(--ink)}
+.review-card{background:linear-gradient(135deg,color-mix(in srgb,var(--lav) 35%,var(--card)),color-mix(in srgb,var(--peach) 30%,var(--card)))}
+.review-card .ic{background:var(--lav)}
+.kind-card .ic{background:var(--gold)}
+.kind-card p{font-size:14.5px;color:var(--ink);line-height:1.4;margin-top:3px}
+.kind-card.on p{color:var(--text2)}
+.ch-home{background:color-mix(in srgb,var(--cc) 30%,var(--card))}
+.ch-home .tile,.vrow .tile,.ch-act .tile{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:var(--on-pastel);flex:none}
+.ch-home b{display:block;font-size:14px;line-height:1.35;margin-top:2px}
+.ch-home .eyebrow{display:block}
+.ch-act .ch-pct{font-size:22px;color:var(--ink)}
+.ch-today{display:flex;align-items:center;gap:12px;margin-top:14px;padding:14px;border-radius:18px;background:color-mix(in srgb,var(--cc) 28%,var(--card))}
+.ch-today small{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);font-weight:700}
+.ch-today p{font-size:15px;color:var(--ink);margin-top:3px;line-height:1.4}
+.ch-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:14px}
+.ch-d{aspect-ratio:1;border-radius:10px;background:var(--bg2);font-size:12px;font-weight:700;color:var(--text2);display:grid;place-items:center}
+.ch-d.on{background:var(--cc);color:var(--on-pastel)}
+.ch-d.td{box-shadow:inset 0 0 0 2px var(--lav-deep)}
+.ch-d.fut{opacity:.45}
+.water .glasses{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.gl{width:24px;height:30px;border-radius:4px 4px 9px 9px;border:1.8px solid #A9C6EA;background:transparent;position:relative;overflow:hidden;transition:background .3s}
+.gl.on{background:linear-gradient(transparent 22%,#BFD7F2 22%)}
+.rv-hero{text-align:center;background:linear-gradient(150deg,color-mix(in srgb,var(--lav) 30%,var(--card)),color-mix(in srgb,var(--mint) 30%,var(--card)))}
+.rv-big{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--ink);margin-top:6px}
+.rv-hero p{color:var(--text2)}
+.rv-delta{display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.rv-delta.up{background:#DDF2DE;color:#4F8A5B}
+.rv-delta.down{background:#FBE3EA;color:#A0506A}
+.rv-a+.rv-a{margin-top:14px}
+.rv-a small{font-size:11.5px;color:var(--text2);font-weight:700}
+.rv-a p{color:var(--ink);margin-top:3px;white-space:pre-wrap}
+.fz{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.fz-ring{position:relative;width:220px;height:220px;margin:6px auto}
+.fz-ring svg{width:100%;height:100%}
+.fz-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-size:48px;color:var(--ink);font-variant-numeric:tabular-nums}
+.fz .btns{width:100%}
+.ins-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.hn{display:block;font-size:12px;color:var(--text2);margin-top:2px}
+.lock{position:absolute;inset:0;z-index:80;display:none;background:linear-gradient(160deg,color-mix(in srgb,var(--lav) 35%,var(--bg)),color-mix(in srgb,var(--peach) 28%,var(--bg)));align-items:center;justify-content:center;padding:24px}
+.lock.on{display:flex}
+.lock-in{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:320px}
+.lock-logo{width:64px;height:64px;display:block;margin-bottom:10px}
+.lock h2{font-size:22px;color:var(--ink)}
+.lock-msg{min-height:20px;margin-top:6px}
+.pin-dots{display:flex;gap:14px;margin:18px 0 22px}
+.pin-dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--lav-deep);transition:background .2s}
+.pin-dots i.on{background:var(--lav-deep)}
+.pin-dots.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:14px}
+.pin-k{width:72px;height:72px;border-radius:50%;background:color-mix(in srgb,var(--card) 80%,transparent);font-size:26px;font-weight:600;color:var(--ink);box-shadow:var(--shadow)}
+.pin-k.sm{font-size:13px;box-shadow:none;background:transparent;color:var(--text2)}
+
 /* Szokáskövető táblázat (Havi nézet) */
 .bj-h{display:flex;align-items:center;gap:10px}
 .bj-month{font-size:26px;font-weight:500;margin-top:2px}
@@ -749,6 +808,7 @@ try{if(/BloomlyApp/.test(navigator.userAgent)||/[?&]app=1/.test(location.search)
   <div id="ob"></div>
   <div class="toast glass" id="toast" role="status" aria-live="polite"></div>
   <div class="fx" id="fx"></div>
+  <div class="lock" id="lock" role="dialog" aria-label="Kódzár"></div>
 </div>
 
 <script>
@@ -1066,7 +1126,7 @@ function periodText(h){return{weekly:'Ezen a héten',monthly:'Ebben a hónapban'
 function periodMax(f){return{weekly:7,monthly:31,yearly:365}[f]||7}
 function freqLabel(t){return t.freq==='daily'?'Minden nap':t.freq==='weekly'?`Heti ${t.target}×`:t.freq==='monthly'?`Havi ${t.target}×`:t.freq==='yearly'?`Évente ${t.target}×`:t.days.map(d=>WD[d]).join(', ')}
 function periodCount(h,k){if(h.freq==='weekly')return weekCount(h,k);const pre=h.freq==='monthly'?k.slice(0,7):k.slice(0,4);return Object.keys(S.log).filter(x=>x.startsWith(pre)&&x<=k&&S.log[x].includes(h.id)).length}
-function scheduledOn(h,d){if(h.freq==='daily'||isT(h))return true;return h.days.includes(wd(d))}
+function scheduledOn(h,d){if(isPaused(keyOf(d)))return false;if(h.freq==='daily'||isT(h))return true;return h.days.includes(wd(d))}
 const isDone=(h,k)=>(S.log[k]||[]).includes(h.id);
 function weekCount(h,k){const d=parseK(k),st=addDays(d,-wd(d));let c=0;for(let i=0;i<7;i++){const kk=keyOf(addDays(st,i));if((S.log[kk]||[]).includes(h.id))c++}return c}
 /* ───────── Szokáskövető a számításokban ─────────
@@ -1094,12 +1154,12 @@ function trackerDone(k,s=S){
   if((s.med||[]).some(x=>x.date===k))return true;const e=((s.skin||{}).log||{})[k];return!!(e&&(e.am.length||e.pm.length))}
 function dayRate(k,s=S){const d=parseK(k);const hs=s.habits.filter(h=>!isT(h)&&scheduledOn(h,d)),tc=trackerChecks(k,s),tot=hs.length+tc.length;if(!tot)return null;return(hs.filter(h=>(s.log[k]||[]).includes(h.id)).length+tc.filter(Boolean).length)/tot}
 const active=(k,s=S)=>(s.log[k]||[]).length>0||trackerDone(k,s);
-function curStreak(s=S){let d=now();if(!active(keyOf(d),s))d=addDays(d,-1);let c=0;while(active(keyOf(d),s)){c++;d=addDays(d,-1)}return c}
-function longestStreak(s=S){const ks=[...new Set([...Object.keys(s.log).filter(k=>s.log[k].length),...Object.keys(s.moods||{}),...Object.keys(s.sleep||{}),...(s.med||[]).map(x=>x.date),...Object.keys((s.fitness||{}).log||{}).filter(k=>s.fitness.log[k].done),...Object.keys((s.skin||{}).log||{}).filter(k=>{const e=s.skin.log[k];return e.am.length||e.pm.length})])].filter(k=>k<=TODAY).sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&dayDiff(k,prev)===1?run+1:1;best=Math.max(best,run);prev=k});return best}
+function curStreak(s=S){let d=now();if(!active(keyOf(d),s))d=addDays(d,-1);let c=0,g=0;while(g++<3650){const k=keyOf(d);if(active(k,s))c++;else if(!isPaused(k))break;d=addDays(d,-1)}return c}
+function longestStreak(s=S){const ks=[...new Set([...Object.keys(s.log).filter(k=>s.log[k].length),...Object.keys(s.moods||{}),...Object.keys(s.sleep||{}),...(s.med||[]).map(x=>x.date),...Object.keys((s.fitness||{}).log||{}).filter(k=>s.fitness.log[k].done),...Object.keys((s.skin||{}).log||{}).filter(k=>{const e=s.skin.log[k];return e.am.length||e.pm.length})])].filter(k=>k<=TODAY).sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&(dayDiff(k,prev)===1||pausedGap(prev,k))?run+1:1;best=Math.max(best,run);prev=k});return best}
 function habitStreak(h){let d=now();if(!isDone(h,keyOf(d)))d=addDays(d,-1);let c=0,guard=0;while(guard++<400){if(!scheduledOn(h,d)||isT(h)){d=addDays(d,-1);if(isT(h))break;continue}if(isDone(h,keyOf(d))){c++;d=addDays(d,-1)}else break}return c}
 function totalDone(s=S){return Object.values(s.log).reduce((a,v)=>a+v.length,0)}
 function perfectDays(s=S){return Object.keys(s.log).filter(k=>dayRate(k,s)===1).length}
-function petals(s=S){return totalDone(s)*10+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
+function petals(s=S){return totalDone(s)*10+(s.pomo||[]).length*10+Object.keys(s.kind||{}).length*5+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
 const LEVELS=[[0,'Mag'],[200,'Csíra'],[600,'Bimbó'],[1200,'Virágzó'],[2000,'Kert'],[3200,'Liget'],[5000,'Édenkert'],[8000,'Bloom Paradicsom']];
 function level(p=petals()){let i=0;LEVELS.forEach((l,j)=>{if(p>=l[0])i=j});const nx=LEVELS[i+1];return{i,name:LEVELS[i][1],from:LEVELS[i][0],to:nx?nx[0]:LEVELS[i][0],next:nx?nx[1]:null}}
 function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++});trackerChecks(k).forEach(v=>{b++;if(v)a++})}return b?a/b:0}
@@ -1174,6 +1234,11 @@ function allBadges(s=S){
    {g:'Különleges',id:'dream1',n:'Valóra vált álom',d:'Egy elért cél a Vision Boardon',tier:'peach',icon:'target',v:(s.vision||[]).filter(v=>v.done).length,goal:1},
    {g:'Különleges',id:'vision20',n:'Álomtérkép',d:'20 elem a Vision Boardon',tier:'orchid',icon:'image',v:(s.vision||[]).length,goal:20,rare:true},
    {g:'Különleges',id:'coll30',n:'Kertgyűjtő',d:'30 feloldott elem a Bloom Kertben',tier:'mint',icon:'leaf',v:unlocks(s).filter(u=>u.got&&u.c!=='Szezonális').length,goal:30},
+   {g:'Különleges',id:'chal1',n:'Kihívó',d:'Egy teljesített kihívás',tier:'peach',icon:'target',v:((s.ch||{}).done||[]).length,goal:1},
+   {g:'Különleges',id:'chal3',n:'Kihívás-bajnok',d:'3 teljesített kihívás',tier:'arany',icon:'medal',v:((s.ch||{}).done||[]).length,goal:3,rare:true},
+   {g:'Öngondoskodás',id:'water7',n:'Hidratált hét',d:'7 nap teljesített vízcél',tier:'sky',icon:'drop',v:Object.values((s.water||{}).log||{}).filter(n=>n>=((s.water||{}).goal||8)).length,goal:7},
+   {g:'Öngondoskodás',id:'pomo25',n:'Mély fókusz',d:'25 befejezett fókuszblokk',tier:'lav',icon:'flame',v:(s.pomo||[]).length,goal:25},
+   {g:'Különleges',id:'kind30',n:'Kedves lélek',d:'30 napi kedvesség',tier:'rose',icon:'gift',v:Object.keys(s.kind||{}).length,goal:30,rare:true},
   ].map(b=>({...b,got:b.v>=b.goal}))
 }
 const TIER={bronz:['#E8C3A0','#C99872'],ezust:['#EEF0F5','#BFC5D2'],arany:['#F4E3B5','#D4B373'],lav:['#E3D7FC','#B9A2EE'],peach:['#FFE3D6','#F2B79C'],mint:['#DDF2DE','#9FD0A5'],rose:['#FBE3EA','#EDB3C3'],
@@ -1258,6 +1323,7 @@ function unlocks(s=S){
    {c:'Szezonális',id:'candles',n:'Mindenszenteki mécsesek',r:'s',d:'Szezonális · október 25. – november 5.',v:md>=1025&&md<=1105?1:0,g:1,col:'#FBF3D6'},
    {c:'Szezonális',id:'xmas',n:'Karácsonyfa',r:'s',d:'Szezonális · december',v:mo===11?1:0,g:1,col:'#DDF0D9'},
    {c:'Szezonális',id:'snowman',n:'Hóember',r:'s',d:'Szezonális · december–február',v:season(11,1),g:1,col:'#EEF3FA'},
+   {c:'Díszek',id:'wreath',n:'Virágkoszorú',r:'l',d:'Egy teljesített kihívás',v:((s.ch||{}).done||[]).length,g:1,col:'#FBE3EA'},
   ].map(u=>({...u,got:u.v>=u.g}))
 }
 function flower(x,y,s,type,col,delay=0,isNew){
@@ -1284,7 +1350,7 @@ function flower(x,y,s,type,col,delay=0,isNew){
   return`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s.toFixed(2)})" class="${isNew?'bloom-new':''}"><g class="sway" style="animation-delay:-${delay.toFixed(1)}s"><path d="M0 0C1 -8 -1 -16 0 ${-H}" stroke="#8DBE95" stroke-width="1.6" fill="none"/><path d="M0 -8c4-1 6-4 7-7-4 0-6 2-7 7z" fill="#A9D6AE"/><g class="head">${head}</g></g></g>`
 }
 function gardenSVG(compact){
-  const u=Object.fromEntries(unlocks().map(x=>[x.id,x.got]));const T=totalDone();
+  const u=Object.fromEntries(unlocks().map(x=>[x.id,x.got]));const T=totalDone()+(S.pomo||[]).length;
   const W=360,Hh=compact?200:270,gy=compact?118:150;
   const r=rng(7);let o=`<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Bloom Kert: ${T} virágzó szokásból nőtt kert"><defs><linearGradient id="sky${compact?'c':'f'}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky1)"/><stop offset="1" style="stop-color:var(--sky2)"/></linearGradient></defs>`;
   o+=`<rect width="${W}" height="${Hh}" fill="url(#sky${compact?'c':'f'})"/>`;
@@ -1352,6 +1418,7 @@ function gardenSVG(compact){
   if(u.snowman)o+=`<g transform="translate(300 ${gy+46})"><circle r="8" fill="#FFFFFF" stroke="#DCE4EE" stroke-width=".6"/><circle cy="-12" r="5.5" fill="#FFFFFF" stroke="#DCE4EE" stroke-width=".6"/><path d="M-4.5 -16.5h9M-3 -16.5v-4.5h6v4.5" fill="#8D7B9E" stroke="#8D7B9E" stroke-width="1.4"/><path d="M0 -12l4 1-4 1z" fill="#F2A66A"/><circle cx="-2" cy="-13.5" r=".6" fill="#3A2E28"/><circle cx="2" cy="-13.5" r=".6" fill="#3A2E28"/><path d="M-5 -7q5 3 10 0" stroke="#EFA2B5" stroke-width="2" fill="none"/></g>`+[...Array(14)].map((_,i)=>`<circle cx="${10+(i*41)%340}" cy="${gy-60+(i*19)%110}" r="${1+(i%3)*.4}" fill="#fff" opacity=".9"/>`).join('');
   if(u.valentine)o+=[[40,gy-40,'#F5BCCB'],[150,gy-62,'#EFA2B5'],[260,gy-48,'#F7CBD6']].map(([x,y,c],i)=>`<g transform="translate(${x} ${y})"><g class="fly" style="animation-duration:${9+i}s;animation-delay:-${i*3}s"><path d="${HEART}" fill="${c}" transform="scale(1.2)"/></g></g>`).join('');
   }
+  if(u.wreath&&!compact)o+=`<g transform="translate(160 ${gy+74})">${[...Array(10)].map((_,i)=>{const a=i*Math.PI/5;return`<circle cx="${(9*Math.cos(a)).toFixed(1)}" cy="${(3.6*Math.sin(a)).toFixed(1)}" r="2.4" fill="${['#F5BCCB','#F6D77A','#CBB7F7','#A9D6AE'][i%4]}"/>`}).join('')}</g>`;
   if(S.firstFlower){const ff=S.firstFlower;o+=`<ellipse cx="180" cy="${Hh-6}" rx="16" ry="3.5" fill="#5A4A6A" opacity=".1"/>`+flower(180,Hh-6,compact?1.55:1.9,ff.type,ff.col,0,false)}
   if(u.bfly)o+=[[60,gy-10,'#E9D6A7',0],[200,gy-30,'#CBB7F7',3]].map(([x,y,c,dl])=>`<g transform="translate(${x} ${y})"><g class="fly" style="animation-delay:-${dl}s"><g class="wing"><ellipse cx="-3" rx="3.2" ry="2.4" fill="${c}"/><ellipse cx="3" rx="3.2" ry="2.4" fill="${c}"/></g><rect x="-.5" y="-2" width="1" height="4" fill="#8D7B9E"/></g></g>`).join('');
   return o+'</svg>'
@@ -1388,9 +1455,12 @@ home(){
   ${!ci?`<section class="checkin" aria-label="Reggeli check-in"><div class="eyebrow" style="color:inherit;opacity:.7">Reggeli check-in</div><h3 style="margin-top:6px">Hogy érzed magad ma?</h3><p>Három rövid kérdés, hogy tudatosan indítsd a napot.</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood-b ${mood&&mood.m===i?'on':''}" data-a="openCheckin" data-m="${i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div></section>`:
    `<section class="card" aria-label="Mai szándék"><div class="eyebrow">Mai célod</div><p style="font-family:var(--f-display);font-size:19px;color:var(--ink);margin-top:6px">${esc(ci.goal)}</p><p class="muted" style="margin-top:6px">Hálás vagy: ${esc(ci.grateful)}</p></section>`}
   ${c?`<button class="card row" data-a="tab" data-t="cycle" style="text-align:left;width:100%"><span class="ic" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:${PHASES[c.ph].c};color:var(--on-pastel)">${ic('cycle')}</span><div class="grow"><b style="color:var(--ink)">${PHASES[c.ph].n} · ${c.day}. nap</b><div class="muted">${PHASES[c.ph].rec[0]}</div></div>${ic('next',18)}</button>`:''}
+  ${homeExtras()}
   <div class="sec-h"><h2>Mai szokások</h2><button class="link" data-a="habitsList">Mind</button></div>
   <div class="habits">${hs.length?hs.map(habitRow).join(''):S.habits.length?`<div class="card empty-note">Ma nincs ütemezett szokásod. Pihenj, vagy adj hozzá egy újat.</div>`:`<div class="card empty-note" style="display:flex;flex-direction:column;gap:12px;align-items:center">Még nincs szokásod. Válaszd ki azokat, amelyeket vezetni szeretnél, az életterületeken.<button class="btn" data-a="tab" data-t="habits">${ic('plus',18)} Szokások kiválasztása</button></div>`}</div>
+  ${waterCard()}
   <section class="card quote" aria-label="Napi inspiráció"><div class="eyebrow">Napi inspiráció</div><p class="q">„${q}”</p><div class="acts"><span class="muted">Bloomly · ${fmt(TODAY,{month:'long',day:'numeric'})}</span><button class="iconbtn" style="width:36px;height:36px;color:${fav?'#E28FA6':'var(--text2)'}" data-a="favQ" aria-pressed="${fav}" aria-label="Idézet kedvencnek jelölése"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px;${fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button></div><span class="mark">${ic('lotus',120)}</span></section>
+  ${kindCard()}
   <button class="card garden-prev garden" data-a="tab" data-t="garden" style="text-align:left;width:100%" aria-label="Bloom Kert megnyitása">${gardenSVG(true)}<div class="meta"><div class="grow"><div class="eyebrow">Bloom Kert · ${lv.name}</div><div class="bar" style="margin-top:8px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div><div class="muted" style="margin-top:6px">${lv.next?`${lv.to-pt} szirom a(z) ${lv.next} szintig`:'Elérted a legmagasabb szintet'}</div></div>${ic('next',18)}</div></button>
   <section class="card row" aria-label="Esti reflexió"><span style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--lav-soft);color:var(--lav-deep);flex:none">${ic('moon')}</span><div class="grow"><b style="color:var(--ink)">Esti reflexió</b><div class="muted">${rf?'Ma már reflektáltál. Szép munka.':'Mit sikerült ma teljesítened?'}</div></div><button class="btn ${rf?'ghost':''}" style="padding:10px 16px;font-size:13px" data-a="openReflect">${rf?'Megnézem':'Kezdés'}</button></section>`
 },
@@ -1409,7 +1479,7 @@ habits(){
 garden(){
   const us=unlocks(),lv=level(),pt=petals(),got=us.filter(u=>u.got).length,T=totalDone();
   const mo=now().getMonth();const season=mo<2||mo===11?'Téli':mo<5?'Tavaszi':mo<8?'Nyári':'Őszi';
-  return`<div class="top">${backBtn()}<div class="grow"><div class="eyebrow">Bloom Kert</div><h1>${esc(S.name)} kertje</h1></div><span class="rar l" style="font-size:11px;padding:6px 10px">${lv.name}</span></div>
+  return`<div class="top">${backBtn()}<div class="grow"><div class="eyebrow">Bloom Kert</div><h1>${esc(S.name)} kertje</h1></div><button class="iconbtn" data-a="shareGarden" aria-label="Kert mentése képként">${ic('share',18)}</button><span class="rar l" style="font-size:11px;padding:6px 10px">${lv.name}</span></div>
   <section class="card garden" style="padding:0;overflow:hidden">${gardenSVG(false)}<div style="padding:16px 18px"><div class="row"><div class="grow"><b style="color:var(--ink)">${pt.toLocaleString('hu-HU')} szirom</b><div class="muted">${lv.next?`Következő szint: ${lv.next} (${lv.to.toLocaleString('hu-HU')})`:'Legmagasabb szint'}</div></div></div><div class="bar" style="margin-top:10px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div></div></section>
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${Math.min(T,80)}</b><small>virág nyílik</small></div><div class="kpi"><b>${got}/${us.length}</b><small>gyűjtemény</small></div><div class="kpi"><b>${curStreak()}</b><small>napos sorozat</small></div></div>
   <section class="insight">${ic('leaf')}<div><b>${season} szezon</b><br>${(()=>{const now_=us.filter(u=>u.c==='Szezonális'&&u.got).map(u=>u.n);return now_.length?`Most a kertedben: ${now_.join(', ')}. A szezonális elemek maguktól jelennek meg és tűnnek el, ahogy az évszakok változnak.`:'A szezonális elemek maguktól jelennek meg és tűnnek el, ahogy az évszakok változnak.'})()}</div></section>
@@ -1447,7 +1517,7 @@ cycle(){
 },
 me(){
   const lv=level(),b=allBadges().filter(x=>x.got).length;
-  const T2=[['chart','Statisztikák','#6FAE7B','stats',''],['image','Vision Board','#E39A6C','vision',`${S.vision.length} elem`],['medal','Jelvények','#D3A55A','badges',`${b} megszerezve`],['bell','Értesítések','#D9809A','notifs',''],['gear','Beállítások','#6E9CCB','settings','']];
+  const T2=[['chart','Statisztikák','#6FAE7B','stats',''],['image','Vision Board','#E39A6C','vision',`${S.vision.length} elem`],['target','Kihívások','#D9809A','challenges',chInfo()?`${chInfo().day}. nap`:''],['calendar','Heti visszatekintő','#9C86D6','review',''],['flame','Fókusz időzítő','#D3A55A','pomo',''],['medal','Jelvények','#D3A55A','badges',`${b} megszerezve`],['bell','Értesítések','#D9809A','notifs',''],['gear','Beállítások','#6E9CCB','settings','']];
   return`<div class="top">${backBtn()}<h1 class="grow">Profilom</h1></div><section class="glass" style="padding:22px;display:flex;align-items:center;gap:16px"><span class="avatar" style="width:64px;height:64px;font-size:26px">${esc(S.name[0]||'B')}</span><div class="grow"><h1 style="font-size:24px">${esc(S.name)}</h1><div class="muted">${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom</div><div class="muted">Fő célod: ${esc(S.goal)}</div></div></section>
   <div class="eyebrow">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(menuRow).join('')}</nav>`
 },
@@ -1477,6 +1547,7 @@ stats(){
   <div class="seg">${[[7,'7 nap'],[30,'30 nap'],[90,'90 nap']].map(([v,n])=>`<button class="${N===v?'on':''}" data-a="range" data-v="${v}">${n}</button>`).join('')}</div>
   <div class="kpis"><div class="kpi"><b>${Math.round(rate*100)}%</b><small>teljesítési arány</small></div><div class="kpi"><b>${cs} nap</b><small>aktuális sorozat</small></div><div class="kpi"><b>${ls} nap</b><small>leghosszabb sorozat</small></div><div class="kpi"><b>${totalDone()}</b><small>összes teljesítés</small></div></div>
   ${areaStats(N)}
+  ${insightsCard()}
   <section class="card chart"><div class="row"><b class="grow" style="color:var(--ink)">Heti fejlődés</b><span class="muted" id="barInfo">Koppints egy napra</span></div>${bars(days,'d')}</section>
   <section class="card chart"><b style="color:var(--ink)">Havi fejlődés</b><p class="muted">Heti átlagos teljesítés az elmúlt 6 hétben</p>${lineChart(weeks)}</section>
   <section class="card"><b style="color:var(--ink)">Következetesség · 12 hét</b><div class="heat" style="margin-top:12px">${heat}</div><div class="row muted" style="margin-top:10px;font-size:11px;gap:5px">Kevesebb <i style="width:12px;height:12px;border-radius:4px;background:var(--track)"></i><i style="width:12px;height:12px;border-radius:4px;background:color-mix(in srgb,var(--lav) 40%,var(--track))"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav)"></i><i style="width:12px;height:12px;border-radius:4px;background:var(--lav-deep)"></i> Több</div></section>
@@ -1507,6 +1578,7 @@ settings(){
   <section class="card"><div class="lbl">Téma</div><div style="margin-top:12px">${themeCards(S.theme,'theme')}</div></section>
   <section class="card list"><div class="li"><div class="grow"><b style="color:var(--ink)">Cikluskövetés</b><div class="muted">Fázisok, előrejelzés, tünetek</div></div><button class="switch ${S.cycleOn?'on':''}" data-a="cycleToggle" role="switch" aria-checked="${S.cycleOn}" aria-label="Cikluskövetés"></button></div>
    ${S.cycleOn?`<div class="li"><div class="grow"><b style="color:var(--ink)">Ciklus hossza</b><div class="muted">átlagosan</div></div><div class="stepper"><button data-a="clen" data-v="-1" aria-label="Csökkentés">−</button><b>${S.cycle.length}</b><button data-a="clen" data-v="1" aria-label="Növelés">+</button></div></div>`:''}</section>
+  ${settingsExtra()}
   <section class="card list"><button class="li" data-a="restartOb" style="width:100%;text-align:left"><div class="grow"><b style="color:var(--ink)">Bevezető újraindítása</b><div class="muted">Az onboarding újra lefut</div></div>${ic('next',18)}</button>
    <div class="li"><div class="grow"><b style="color:var(--ink)">Minden adat törlése</b><div class="muted" id="resetMsg">Az összes szokás, napló és kert visszaáll.</div></div><button class="btn danger" style="padding:9px 14px;font-size:13px" data-a="reset" id="resetBtn">Törlés</button></div></section>
   <section class="card list"><div class="li"><div class="grow"><b style="color:var(--ink)">Frissítések</b><div class="muted">${verLabel()} · ${updHint()}</div></div><button class="btn ghost" style="padding:9px 14px;font-size:13px" data-a="checkUpd">Keresés</button></div></section>
@@ -1542,6 +1614,7 @@ function unlockArt2(id){
   const fl=['violet','crocus','cosmos','iris','lilyvalley','dahlia','lily','orchid'];if(fl.includes(id))return flower(id==='lilyvalley'?24:28,47,1.3,id);
   const HEART='M0 2c-3-2.5-5-4-5-6a2.5 2.5 0 0 1 5-1 2.5 2.5 0 0 1 5 1c0 2-2 3.5-5 6z';
   return({
+  wreath:'<circle cx="28" cy="28" r="15" fill="none" stroke="#A9D6AE" stroke-width="5"/>'+[...Array(10)].map((_,i)=>{const a=i*Math.PI/5;return`<circle cx="${(28+15*Math.cos(a)).toFixed(1)}" cy="${(28+15*Math.sin(a)).toFixed(1)}" r="3.4" fill="${['#F5BCCB','#F6D77A','#CBB7F7'][i%3]}"/>`}).join('')+'<path d="M24 43l4 6 4-6" stroke="#EFA2B5" stroke-width="2.4" fill="none"/>',
   lavbush:'<ellipse cx="28" cy="46" rx="18" ry="4" fill="#A9C9A8"/>'+[...Array(8)].map((_,i)=>`<path d="M${14+i*4} 46q${i%2?1:-1} -12 0 -22" stroke="#9FBF9C" stroke-width="1" fill="none"/><ellipse cx="${14+i*4}" cy="${22+(i%2)*3}" rx="1.8" ry="5" fill="${i%3?'#B9A3EE':'#CBB7F7'}"/>`).join(''),
   rosebush:'<circle cx="20" cy="34" r="11" fill="#A9D6AE"/><circle cx="36" cy="34" r="11" fill="#B9DDBE"/><circle cx="28" cy="25" r="11" fill="#C6E6C8"/>'+[[18,28],[28,20],[38,30],[26,34],[33,23]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="3.6" fill="#EFA2B5"/>`).join(''),
   lemontree:'<path d="M20 38l2 12h12l2-12z" fill="#E8B9A0"/><rect x="27" y="22" width="2" height="16" fill="#B9A08C"/><circle cx="28" cy="18" r="11" fill="#B9DDBE"/><ellipse cx="23" cy="17" rx="2.6" ry="2" fill="#F6D77A"/><ellipse cx="33" cy="21" rx="2.6" ry="2" fill="#F6D77A"/><ellipse cx="31" cy="12" rx="2.6" ry="2" fill="#F6D77A"/>',
@@ -1689,7 +1762,8 @@ function bujoView(){
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${pips}</b><small>pipa ${range==='week'?'a héten':'a hónapban'}</small></div><div class="kpi"><b>${pct}%</b><small>teljesítés eddig</small><div class="bar" style="margin-top:6px"><i style="width:${pct}%"></i></div></div><div class="kpi"><b class="bj-best">${best?esc(best.n):'–'}</b><small>${best?`legjobb · ${best.pct}%`:'legjobb szokás'}</small></div></div>
   ${hs.length?`<section class="card bj bj-${range}" aria-label="Szokáskövető táblázat"><div class="bj-scroll"><table class="bj-t"><thead>${head}</thead><tbody>${body}${rate}${mood}</tbody></table></div></section>
   <div class="bj-legend"><span><i class="bj-c on" style="--hc:#CBB7F7">${ic('check',10)}</i>kész</span><span><i class="bj-c miss"></i>kimaradt</span><span><i class="bj-c off"></i>pihenőnap</span><span><i class="bj-c fut"></i>még előtted</span></div>
-  <p class="muted" style="text-align:center">Koppints egy cellára a kipipáláshoz. Korábbi napokat is pótolhatsz.</p>`
+  <p class="muted" style="text-align:center">Koppints egy cellára a kipipáláshoz. Korábbi napokat is pótolhatsz.</p>
+  <button class="btn ghost" data-a="bjShare" style="align-self:center">${ic('share',16)} Mentés képként</button>`
   :`<div class="card empty-note">Még nincs szokásod. Válaszd ki őket az Életterületek fülön.</div>`}`
 }
 Object.assign(SCREENS,{
@@ -1874,7 +1948,7 @@ document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={sknew
 
 function renderTabs(){const T=[['home','home','Kezdőlap'],['habits','check','Szokások'],['garden','sprout','Kert'],['cycle','cycle','Ciklus'],['me','user','Profilom']];
   $('#tabbar').innerHTML=T.map(([k,i,n])=>`<button class="tab ${S.ui.tab===k&&!S.ui.sub?'on':''}" data-a="tab" data-t="${k}" aria-current="${S.ui.tab===k?'page':'false'}">${ic(i)}<span>${n}</span><span class="dot"></span></button>`).join('')}
-function render(keepScroll){if(!S.life)ensureLife();const st=scroll.scrollTop;const key=S.ui.sub||S.ui.tab;if(key!=='meditation'&&medT)stopMed();if(key!=='sleep')slDraft=null;view.innerHTML=`<div class="wrap ${keepScroll?'':'screen-in'}">${SCREENS[key]()}</div>`;renderTabs();$('#fab').hidden=!!S.ui.sub||S.ui.tab==='me';if(keepScroll)scroll.scrollTop=st;else scroll.scrollTop=0;
+function render(keepScroll){if(!S.life)ensureLife();ensureF();const st=scroll.scrollTop;const key=S.ui.sub||S.ui.tab;if(key!=='meditation'&&medT)stopMed();if(key!=='sleep')slDraft=null;view.innerHTML=`<div class="wrap ${keepScroll?'':'screen-in'}">${SCREENS[key]()}</div>`;renderTabs();$('#fab').hidden=!!S.ui.sub||S.ui.tab==='me';if(keepScroll)scroll.scrollTop=st;else scroll.scrollTop=0;
   const bs=$('.bj-scroll'),tc=bs&&bs.querySelector('th.td');if(tc)bs.scrollLeft=Math.max(0,tc.offsetLeft-152-(bs.clientWidth-152)/2+14);if(key==='vision')initDrag()}
 $('#fab').innerHTML=ic('plus');$('#asideLogo').innerHTML=`<span style="display:block;width:40px;height:40px">${LOTUS('as')}</span>`;
 
@@ -2079,7 +2153,8 @@ const A={
   ${h.note?`<div class="insight" style="margin-top:14px">${ic('pen')}<p>${esc(h.note)}</p></div>`:''}
   <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${habitStreak(h)}</b><small>sorozat</small></div><div class="kpi"><b>${isT(h)?periodCount(h,TODAY)+'/'+h.target:b?Math.round(a/b*100)+'%':'–'}</b><small>${isT(h)?'e héten':'12 hét'}</small></div><div class="kpi"><b>${Object.values(S.log).filter(v=>v.includes(h.id)).length}</b><small>összesen</small></div></div>
   <div class="lbl" style="margin-top:18px">Teljesítési előzmények</div><div class="heat" style="margin-top:10px">${heat}</div>
-  <div class="list" style="margin-top:10px">${last.map(k=>`<div class="li"><span style="color:var(--mint-deep)">${ic('check',18)}</span><span class="grow">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}</span></div>`).join('')||'<p class="muted">Még nincs teljesítés.</p>'}</div>
+  <div class="list" style="margin-top:10px">${last.map(k=>`<div class="li"><span style="color:var(--mint-deep)">${ic('check',18)}</span><span class="grow">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}${(S.hnotes[k]||{})[h.id]?`<small class="hn">${esc(S.hnotes[k][h.id])}</small>`:''}</span></div>`).join('')||'<p class="muted">Még nincs teljesítés.</p>'}</div>
+  <div class="field"><label for="hnote">Mai jegyzet</label><div class="row" style="gap:8px"><input class="inp grow" id="hnote" maxlength="120" value="${esc((S.hnotes[TODAY]||{})[h.id]||'')}" placeholder="pl. ma 5 km lett!"><button class="btn ghost" style="padding:12px 16px" data-a="hnoteSave" data-id="${h.id}">Mentés</button></div></div>
   <div class="btns"><button class="btn ghost" data-a="editHabit" data-id="${h.id}">Szerkesztés</button><button class="btn" data-a="toggleFromSheet" data-id="${h.id}">${isDone(h,TODAY)?'Visszavonás':'Ma kész'}</button></div>`)},
  toggleFromSheet(el){closeSheet();A.toggle(el)},
  hf(el){S.ui.hf=el.dataset.v;render(true)},
@@ -2337,6 +2412,304 @@ const VISION_A={
 Object.assign(A,VISION_A);
 document.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Enter'&&t.id==='vns'){e.preventDefault();const b=$('[data-a="vaddstep"]');if(b)b.click()}else if((e.key==='Enter'||e.key===' ')&&t.matches('[role="button"][data-a]')){e.preventDefault();t.click()}});
 
+
+/* ═════════ Bloomly 2.0 ═════════
+   Értesítések, biztonsági mentés, Android widget, heti visszatekintő, kihívások, vízkövető, fókusz időzítő,
+   napi kedvesség, pihenő mód, jegyzetek a pipákhoz, megosztható képek és kódzár. */
+const NAT=window.BloomlyNative||null;
+const natHas=f=>!!(NAT&&typeof NAT[f]==='function');
+function natCall(f,...a){try{return natHas(f)?NAT[f](...a):undefined}catch(e){return undefined}}
+const hm=t=>{const[h,m]=String(t||'').split(':').map(Number);return{h:h||0,m:m||0}};
+const b64u=s=>btoa(unescape(encodeURIComponent(s)));
+IC.share='M12 15V4M8 8l4-4 4 4M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5';
+IC.lock='M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z';
+IC.pause='M9 6v12M15 6v12';
+IC.glass='M7 4h10l-1.5 16h-7z M7.6 10h8.8';
+
+/* Pihenő mód: a szüneteltetett napok nem számítanak kihagyásnak, a sorozat nem szakad meg */
+function isPaused(k){let s;try{s=S}catch(e){return false}if(!s)return false;if(s.pause&&s.pause.from&&k>=s.pause.from)return true;return(s.pauses||[]).some(p=>k>=p.from&&k<=p.to)}
+function pausedGap(a,b){for(let d=addDays(parseK(a),1);keyOf(d)<b;d=addDays(d,1))if(!isPaused(keyOf(d)))return false;return true}
+
+const KINDNESS=['Írj valakinek, akire ma gondoltál.','Mondj egy őszinte bókot egy kollégádnak vagy barátodnak.','Köszönd meg valakinek, amit sokszor természetesnek veszel.','Hívd fel a nagyszüleidet vagy egy idősebb rokonodat.','Tarts ajtót, és mosolyogj rá valakire.','Hagyj egy kedves üzenetet egy cetlin valakinek.','Bocsáss meg magadnak egy apró hibát.','Dicsérd meg magad valamiért, amit ma jól csináltál.','Hallgass meg valakit úgy, hogy közben nem a telefonodat nézed.','Küldj egy régi közös fotót egy barátodnak.','Vegyél egy kávét vagy virágot valakinek csak úgy.','Írj egy pozitív értékelést egy kedvenc helyednek.','Kérdezd meg valakitől, hogy van, és figyelj a válaszra.','Adj el vagy ajándékozz el valamit, amire már nincs szükséged.','Segíts egy szomszédnak vagy idős embernek.','Írd le három dolgot, amit szeretsz magadban.','Mondd el valakinek, mit tanultál tőle.','Engedj magad elé valakit a sorban.','Ültess egy növényt, vagy gondozd a meglévőt.','Írj egy hálás üzenetet egy tanárodnak vagy mentorodnak.','Készíts egy kis meglepetést valakinek otthon.','Ma ne panaszkodj, keresd a jót.','Szólj kedvesen magadhoz, amikor tükörbe nézel.','Oszd meg egy barátod munkáját vagy vállalkozását.','Hívj fel valakit, akivel rég beszéltél.','Adj egy ölelést valakinek, akit szeretsz.','Tegyél félre egy kis összeget jótékony célra.','Mondj nemet valamire, ami nem tesz jót neked. Ez is kedvesség.','Írj egy rövid levelet a jövőbeli önmagadnak.','Etess meg egy madarat, vagy töltsd fel a madáritatót.','Főzz vagy süss valamit, és oszd meg mással.','Írj egy kedves kommentet valakinek a közösségi médiában.','Hagyj nagyobb borravalót, és köszönd meg a kiszolgálást.','Szánj 10 percet arra, hogy segíts valakinek a munkájában.','Küldj egy hangüzenetet egy barátnődnek, csak hogy szereted.','Vegyél észre valakit, akit ritkán vesznek észre, és szólj hozzá.','Pihenj egy kicsit bűntudat nélkül.','Gyűjts össze egy kis szemetet séta közben.','Írd fel egy cetlire, miért vagy hálás valakinek, és add oda.','Kérj bocsánatot, ha valakit megbántottál.'];
+const kindToday=()=>KINDNESS[Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5)%KINDNESS.length];
+
+const CH_SELF=['Írj le 3 dolgot, amit szeretsz magadban.','Igyál meg egy teát lassan, telefon nélkül.','Mondj magadnak egy kedves mondatot a tükör előtt.','Tegyél ma 15 percet csak magadért.','Írd le egy sikeredet ebből a hétből.','Feküdj le 30 perccel korábban.','Kényeztesd a bőröd egy maszkkal vagy krémmel.','Mondj nemet valamire, ami kimerít.','Sétálj 20 percet a kedvenc zenéiddel.','Írj egy levelet a 10 évvel ezelőtti önmagadnak.','Készíts egy tápláló, szép ételt magadnak.','Vegyél fel valamit, amiben gyönyörűnek érzed magad.','Írd le, mi ad ma energiát.','Bocsáss meg magadnak egy régi hibát.','Táncolj egy kedvenc számodra.','Tölts 10 percet a természetben.','Írd le 5 erősségedet.','Ma ne hasonlítsd magad senkihez.','Olvass 20 percet valamit, ami feltölt.','Ünnepeld meg az eddigi utadat egy apró jutalommal.','Írj egy szerelmes levelet önmagadnak.'];
+const CH_CALM=['5 perc tudatos légzés ébredés után.','Egy étkezés telefon nélkül, figyelemmel.','10 perc csendes séta.','Írd ki a gondolataidat lefekvés előtt.','Tarts egy 10 perces meditációt.','Kapcsold ki az értesítéseket 2 órára.','Egy meleg fürdő vagy zuhany, lassan.'];
+const CH_GRAT=['Írj le 3 dolgot, amiért hálás vagy.','Köszönj meg valamit valakinek személyesen.','Fotózz le valamit, ami ma örömet okozott.','Írd le, miért vagy hálás a testednek.','Gondolj egy nehéz helyzetre, és keresd meg benne a tanulságot.','Írj hálát egy emberért az életedben.','Vedd észre a napfelkeltét vagy a naplementét.','Írd le a nap legszebb pillanatát.','Köszönd meg magadnak a mai erőfeszítésedet.','Írj egy hálás üzenetet egy barátodnak.','Sorold fel az otthonod 3 kedvenc részét.','Írd le, mit tanultál ma.','Légy hálás egy egyszerű örömért, például egy jó kávéért.','Nézd vissza az elmúlt két hét hálanaplóját.'];
+const CH_DIGI=['Az első órában ne nézd a telefonod.','Töröld a felesleges értesítéseket.','Egy étkezés teljesen képernyő nélkül.','Lefekvés előtt 1 óráig ne használj képernyőt.','Egy délután közösségi média nélkül.','Olvass papírkönyvet telefon helyett.','Egy teljes este digitális eszközök nélkül.'];
+const CH_MOVE=['10 perc nyújtás reggel.','20 perc séta.','15 perc jóga.','Lépcsőzz lift helyett egész nap.','30 perc tempós séta.','10 perc tánc a kedvenc zenédre.','15 perc gerinctorna.','20 perc kerékpározás vagy séta.','10 perc core edzés.','30 perc mozgás a szabadban.','Csípőnyitó gyakorlatok 10 percig.','8000 lépés.','15 perc pilates.','Egy hosszú, nyugodt séta.','Pihentető, lassú nyújtás este.'];
+const CH_WATER=['Igyál egy pohár vizet ébredés után.','Vigyél magaddal egy kulacsot egész nap.','Igyál meg 8 pohár vizet.','Minden kávé mellé igyál egy pohár vizet.','Ízesítsd a vized citrommal vagy mentával.','Igyál egy pohár vizet minden étkezés előtt.','Este nézd meg, megvan-e a napi vízcélod.'];
+const CHALLENGES=[
+ {id:'self21',n:'21 nap önszeretet',i:'heart',c:'#F5D3DC',d:'Napi apró gesztusok önmagad felé.',t:CH_SELF},
+ {id:'calm7',n:'7 nap nyugalom',i:'lotus',c:'#CBB7F7',d:'Egy hét lassítás és jelenlét.',t:CH_CALM},
+ {id:'grat14',n:'14 nap hála',i:'sun',c:'#E9D6A7',d:'Vedd észre a jót minden nap.',t:CH_GRAT},
+ {id:'digital7',n:'7 nap digitális egyensúly',i:'phone',c:'#CFE2F6',d:'Kevesebb képernyő, több élet.',t:CH_DIGI},
+ {id:'move30',n:'30 nap mozgás',i:'dumbbell',c:'#CDECCF',d:'Minden nap egy kis mozgás.',t:[...CH_MOVE,...CH_MOVE]},
+ {id:'water21',n:'21 nap hidratálás',i:'drop',c:'#CFEAEC',d:'Igyál elég vizet minden nap.',t:[...CH_WATER,...CH_WATER,...CH_WATER]}];
+function chInfo(){const c=S.ch&&S.ch.cur;if(!c)return null;const p=CHALLENGES.find(x=>x.id===c.id);if(!p)return null;const day=Math.min(p.t.length,dayDiff(TODAY,c.start)+1);const done=Object.keys(c.done||{}).length;return{c,p,day,done,len:p.t.length}}
+
+/* ───────── Értesítések ─────────
+   Androidon a natív app ütemezi őket (akkor is jönnek, ha az app be van zárva); az exe-ben és a böngészőben
+   addig jönnek, amíg a Bloomly nyitva van. A napok: 0 = hétfő … 6 = vasárnap. */
+function notifPlan(){const n=S.notif,out=[],paused=isPaused(TODAY);
+  if(n.morning)out.push({id:'morning',...hm(n.mt),title:`Jó reggelt, ${S.name}! 🌸`,text:NOTIFS[4]});
+  if(n.evening)out.push({id:'evening',...hm(n.et),title:'Esti reflexió 🌙',text:NOTIFS[5]});
+  if(n.streak&&!paused)out.push({id:'streak',...hm(n.st||'20:00'),title:'Ma is számít egy kis lépés 🌱',text:'Egyetlen kipipált szokás is megőrzi a sorozatodat.',skipActive:true});
+  if(n.garden)out.push({id:'weekly',h:18,m:0,days:[6],title:'Elkészült a heti visszatekintőd 🌸',text:'Nézd meg, mennyit nőtt a kerted ezen a héten.'});
+  if(!paused)S.habits.filter(h=>h.remind).forEach(h=>out.push({id:'h_'+h.id,...hm(h.remind),days:h.freq==='daily'||isT(h)?null:h.days,title:h.name,text:h.note||'Itt az ideje. Egy kis lépés ma is elég 🌸',habit:h.id}));
+  return out}
+function syncPayload(){const hs=todays();return{today:TODAY,active:active(TODAY),done:S.log[TODAY]||[],alarms:notifPlan(),
+  widget:{name:S.name,paused:isPaused(TODAY),items:hs.slice(0,6).map(h=>({id:h.id,name:h.name,color:COLORS[h.color]||'#CBB7F7'}))}}}
+let syncT=null;function scheduleSync(){clearTimeout(syncT);syncT=setTimeout(()=>{if(natHas('sync'))natCall('sync',JSON.stringify(syncPayload()))},300)}
+const __save=save;save=function(){__save();scheduleSync()};
+/* A widgeten kipipált szokások: az app megnyitásakor érkeznek a natív oldalról */
+window.bloomlyPending=json=>{let L=[];try{L=JSON.parse(json)}catch(e){}let ch=0;
+  L.forEach(p=>{if(!S.habits.some(h=>h.id===p.id))return;const a=S.log[p.date]||[];const has=a.includes(p.id);if(p.on&&!has){S.log[p.date]=[...a,p.id];ch++}else if(!p.on&&has){S.log[p.date]=a.filter(x=>x!==p.id);ch++}});
+  if(ch){save();render(true);toast('A widgeten kipipált szokásaid bekerültek 🌸')}};
+function showNotif(t,b){if(window.Notification&&Notification.permission==='granted'){try{new Notification(t,{body:b,icon:'bloomly-256.png',tag:'bloomly'});return}catch(e){}}toast(`${t} · ${b}`)}
+function webNotifTick(){if(NAT||!S.onboarded)return;const d=new Date(),wdn=wd(d);let fired={};try{fired=JSON.parse(localStorage.getItem('bloomly.fired')||'{}')}catch(e){}
+  let ch=false;notifPlan().forEach(a=>{if(a.h!==d.getHours()||a.m!==d.getMinutes())return;if(a.days&&!a.days.includes(wdn))return;if(a.skipActive&&active(TODAY))return;if(a.habit&&(S.log[TODAY]||[]).includes(a.habit))return;const key=TODAY+'|'+a.id;if(fired[key])return;fired[key]=1;ch=true;showNotif(a.title,a.text)});
+  if(ch){Object.keys(fired).forEach(k=>{if(!k.startsWith(TODAY))delete fired[k]});try{localStorage.setItem('bloomly.fired',JSON.stringify(fired))}catch(e){}}}
+setInterval(webNotifTick,15000);
+function notifState(){if(NAT)return natHas('notifEnabled')?(natCall('notifEnabled')?'on':'off'):'old';if(location.protocol==='file:')return'desk';if(!window.Notification)return'none';return Notification.permission==='granted'?'on':Notification.permission==='denied'?'denied':'off'}
+
+/* ───────── Fájlok mentése és megosztása ───────── */
+function saveB64(name,mime,b64,share){
+  if(natHas('saveFile')){const r=natCall('saveFile',name,mime,b64,!!share);toast(r||'Mentve');return}
+  const bin=atob(b64),arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);const blob=new Blob([arr],{type:mime});
+  if(share&&navigator.canShare){try{const f=new File([blob],name,{type:mime});if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Bloomly'}).catch(()=>{});return}}catch(e){}}
+  const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Mentve a Letöltések mappába')}
+function shareCanvas(cv,name){saveB64(name,'image/png',cv.toDataURL('image/png').split(',')[1],true)}
+function rr(x,c,y,w,h,r){x.beginPath();x.moveTo(c+r,y);x.arcTo(c+w,y,c+w,y+h,r);x.arcTo(c+w,y+h,c,y+h,r);x.arcTo(c,y+h,c,y,r);x.arcTo(c,y,c+w,y,r);x.closePath()}
+function cssVars(svg){const cs=getComputedStyle(document.documentElement);return svg.replace(/var\((--[\w-]+)\)/g,(m,v)=>cs.getPropertyValue(v).trim()||'#ddd')}
+function gardenImage(){const svg=cssVars(gardenSVG(false)).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="810" ');
+  const im=new Image();im.onload=()=>{const W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+    const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#F4EEFD');g.addColorStop(1,'#FFF0E8');x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.fillStyle='#4A3F5C';x.textAlign='center';x.font='600 64px Georgia, serif';x.fillText(`${S.name} kertje`,W/2,150);
+    const lv=level();x.font='500 34px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom · ${curStreak()} napos sorozat`,W/2,210);
+    x.save();rr(x,60,270,W-120,(W-120)*.75,48);x.clip();x.drawImage(im,60,270,W-120,(W-120)*.75);x.restore();
+    x.fillStyle='#B49CE6';x.font='600 36px Georgia, serif';x.fillText('Bloomly · Virágozz minden nap.',W/2,H-90);
+    shareCanvas(cv,`bloomly-kert-${TODAY}.png`)};
+  im.onerror=()=>toast('Nem sikerült a képet elkészíteni');im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)}
+function monthImage(){const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),dim=new Date(b.getFullYear(),b.getMonth()+1,0).getDate();
+  const hs=S.habits.filter(h=>!isT(h)).slice(0,18),cell=26,gap=4,left=300,top=230,W=Math.max(1080,left+dim*(cell+gap)+60),H=top+hs.length*(cell+12)+200;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.fillStyle='#FFFDFB';x.fillRect(0,0,W,H);
+  x.fillStyle='#4A3F5C';x.textAlign='left';x.font='600 56px Georgia, serif';const t=b.toLocaleDateString('hu-HU',{year:'numeric',month:'long'});x.fillText(t.charAt(0).toUpperCase()+t.slice(1),60,110);
+  x.font='500 28px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${S.name} szokáskövetője · Bloomly`,60,158);
+  x.textAlign='center';x.font='600 18px system-ui, sans-serif';for(let i=0;i<dim;i++){const d=new Date(b.getFullYear(),b.getMonth(),i+1,12);x.fillStyle=wd(d)>=5?'#B49CE6':'#8A7F99';x.fillText(i+1,left+i*(cell+gap)+cell/2,top-16)}
+  hs.forEach((h,r)=>{const y=top+r*(cell+12);x.textAlign='left';x.fillStyle='#4A3F5C';x.font='600 22px system-ui, sans-serif';let n=h.name;while(x.measureText(n).width>left-90&&n.length>3)n=n.slice(0,-2);x.fillText(n===h.name?n:n+'…',60,y+cell-6);
+    for(let i=0;i<dim;i++){const d=new Date(b.getFullYear(),b.getMonth(),i+1,12),k=keyOf(d),cx=left+i*(cell+gap);const on=isDone(h,k),sc=scheduledOn(h,d),fut=k>TODAY;
+      x.fillStyle=on?(COLORS[h.color]||'#CBB7F7'):fut?'#F6F3F8':sc?'#ECE7F0':'#FAF8FB';rr(x,cx,y,cell,cell,8);x.fill();if(on){x.strokeStyle='rgba(74,63,92,.55)';x.lineWidth=2.4;x.beginPath();x.moveTo(cx+7,y+13);x.lineTo(cx+11.5,y+18);x.lineTo(cx+19,y+8);x.stroke()}}});
+  x.textAlign='center';x.fillStyle='#B49CE6';x.font='600 26px Georgia, serif';x.fillText('Virágozz minden nap.',W/2,H-60);shareCanvas(cv,`bloomly-${keyOf(b).slice(0,7)}.png`)}
+
+/* ───────── Biztonsági mentés ───────── */
+let restoreDraft=null;
+function backupFile(){restoreDraft=null;const f=document.createElement('input');f.type='file';f.accept='application/json,.json';f.style.display='none';document.body.appendChild(f);
+  f.addEventListener('change',()=>{const file=f.files[0];f.remove();if(!file)return;const rd=new FileReader();rd.onload=()=>{let o=null;try{o=JSON.parse(rd.result)}catch(e){}const d=o&&(o.data||o);
+    if(!d||!Array.isArray(d.habits)||typeof d.log!=='object'){toast('Ez nem Bloomly mentés');return}restoreDraft=d;
+    const days=Object.keys(d.log||{}).length;openSheet(`<h2>Visszaállítás</h2><p class="muted">${o.date?`Mentés ideje: ${new Date(o.date).toLocaleString('hu-HU')}`:''}</p>
+     <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${d.habits.length}</b><small>szokás</small></div><div class="kpi"><b>${days}</b><small>nap előzmény</small></div><div class="kpi"><b>${(d.vision||[]).length}</b><small>Vision Board elem</small></div></div>
+     <div class="insight" style="margin-top:14px">${ic('shield')}<p>A jelenlegi adataid helyére a mentés kerül. Ha bizonytalan vagy, előbb készíts mentést a mostani állapotról is.</p></div>
+     <div class="btns"><button class="btn ghost" data-a="closeSheet">Mégse</button><button class="btn" data-a="restoreOk">Visszaállítás</button></div>`)};rd.readAsText(file)});f.click()}
+
+/* ───────── Heti visszatekintő ───────── */
+const reviewMon=(off=0)=>addDays(wd(now())===6?addDays(now(),-6):addDays(now(),-wd(now())-7),off*7);
+function weekStats(mon){const ks=[...Array(7)].map((_,i)=>keyOf(addDays(mon,i)));
+  const rates=ks.map(k=>({k,r:k>TODAY?null:dayRate(k)})),valid=rates.filter(x=>x.r!=null);
+  const flowers=ks.reduce((a,k)=>a+(S.log[k]||[]).length,0),avg=valid.length?valid.reduce((a,x)=>a+x.r,0)/valid.length:null;
+  const best=valid.slice().sort((a,b)=>b.r-a.r)[0];const ms=ks.filter(k=>S.moods[k]).map(k=>moodScore(S.moods[k].m));
+  const hab=S.habits.filter(h=>!isT(h)).map(h=>{let a=0,b=0;ks.forEach(k=>{if(k>TODAY||!scheduledOn(h,parseK(k)))return;b++;if(isDone(h,k))a++});return{h,a,b,r:b?a/b:null}}).filter(x=>x.b);
+  const top=hab.slice().sort((a,b)=>b.r-a.r||b.a-a.a)[0],low=hab.slice().sort((a,b)=>a.r-b.r)[0];
+  const w=ks.map(k=>(S.water.log||{})[k]||0),wd_=w.filter(Boolean);
+  return{ks,rates,flowers,avg,best,mood:ms.length?ms.reduce((a,b)=>a+b,0)/ms.length:null,top,low:low&&low.r<.6?low:null,
+    pomo:(S.pomo||[]).filter(p=>ks.includes(p.date)).length,water:wd_.length?wd_.reduce((a,b)=>a+b,0)/wd_.length:null,kind:ks.filter(k=>S.kind[k]).length,
+    ref:ks.filter(k=>S.reflections[k]).length}}
+const pct=v=>v==null?'–':Math.round(v*100)+'%';
+function reviewView(){const off=Math.min(0,S.ui.rw||0),mon=reviewMon(off),key=keyOf(mon),st=weekStats(mon),pv=weekStats(addDays(mon,-7)),R=S.reviews[key]||null,edit=S.ui.rwEdit||!R;
+  const delta=st.avg!=null&&pv.avg!=null?Math.round((st.avg-pv.avg)*100):null;
+  const title=`${fmt(key,{month:'short',day:'numeric'})} – ${fmt(keyOf(addDays(mon,6)),{month:'short',day:'numeric'})}`;
+  const q=[['proud','Mire vagy a legbüszkébb ezen a héten?','pl. Minden reggel nyújtottam, és sokkal energikusabb voltam.'],['learn','Mi volt nehéz, és mit tanultál belőle?','pl. Az esti képernyőzés elvette az alvásom.'],['next','Mi legyen a fókuszod jövő héten?','pl. Lefekvés előtt egy órával leteszem a telefont.']];
+  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Heti visszatekintő</h1></div>
+  <div class="bj-h"><button class="iconbtn" data-a="rwGo" data-v="-1" aria-label="Előző hét">${ic('back',18)}</button><div class="grow" style="text-align:center"><div class="eyebrow">${off===0?'Legutóbbi hét':`${-off} héttel korábban`}</div><h2 class="bj-month">${title}</h2></div><button class="iconbtn" data-a="rwGo" data-v="1" ${off>=0?'disabled':''} aria-label="Következő hét">${ic('next',18)}</button></div>
+  <section class="card rv-hero"><div class="eyebrow">Ezen a héten</div><div class="rv-big">${st.flowers}</div><p>virág nyílt a kertedben</p>${delta!=null?`<span class="rv-delta ${delta>=0?'up':'down'}">${delta>=0?'▲':'▼'} ${Math.abs(delta)} százalékpont az előző héthez képest</span>`:''}</section>
+  <div class="kpis"><div class="kpi"><b>${pct(st.avg)}</b><small>átlagos teljesítés</small></div><div class="kpi"><b>${st.mood!=null?st.mood.toFixed(1).replace('.',','):'–'}</b><small>átlagos hangulat (1–5)</small></div><div class="kpi"><b>${st.pomo}</b><small>fókuszblokk</small></div><div class="kpi"><b>${st.water!=null?st.water.toFixed(1).replace('.',','):'–'}</b><small>pohár víz naponta</small></div></div>
+  <section class="card chart"><b style="color:var(--ink)">Napi teljesítés</b>${bars(st.rates.map(x=>({l:WD[wd(parseK(x.k))],v:x.r||0,t:x.r==null?'–':Math.round(x.r*100)+'%'})),'rv')}</section>
+  <section class="card list">${[st.best?['star','gold','Legjobb napod',`${fmt(st.best.k,{weekday:'long'})} · ${pct(st.best.r)}`]:null,st.top?['medal','mint','Kiemelkedő szokás',`${esc(st.top.h.name)} · ${st.top.a}/${st.top.b} nap`]:null,st.low?['leaf','peach','Figyelmet kér',`${esc(st.low.h.name)} · ${st.low.a}/${st.low.b} nap. Talán túl nagy a lépés? Próbáld kisebben.`]:null,['gift','rose','Kedvesség és reflexió',`${st.kind} kedves gesztus · ${st.ref} esti reflexió`]].filter(Boolean).map(([i,c,t,d])=>`<div class="li"><span class="ic" style="width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:var(--${c});color:var(--on-pastel);flex:none">${ic(i,17)}</span><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div></div>`).join('')}</section>
+  <div class="sec-h"><h2>Gondolatok a hétről</h2>${R&&!edit?`<button class="link" data-a="rwEdit">Szerkesztés</button>`:''}</div>
+  ${edit?`<section class="card">${q.map(([k,l,p])=>`<div class="field" style="margin-top:${k==='proud'?0:16}px"><label for="rv-${k}">${l}</label><textarea class="inp" id="rv-${k}" maxlength="400" placeholder="${p}">${esc(R&&R[k]||'')}</textarea></div>`).join('')}<button class="btn block" style="margin-top:16px" data-a="rwSave" data-k="${key}">Mentés</button></section>`
+   :`<section class="card">${q.map(([k,l])=>R[k]?`<div class="rv-a"><small>${l}</small><p>${esc(R[k])}</p></div>`:'').join('')||'<p class="muted">Nem írtál gondolatokat.</p>'}</section>`}`}
+
+/* ───────── Kihívások ───────── */
+function challengesView(){const ci=chInfo(),done=S.ch.done||[];
+  const act=ci?`<section class="card ch-act" style="--cc:${ci.p.c}"><div class="row"><span class="tile" style="background:${ci.p.c}">${ic(ci.p.i,22)}</span><div class="grow"><div class="eyebrow">Aktív kihívás · ${ci.day}. nap</div><h2 style="font-size:20px">${ci.p.n}</h2></div><b class="ch-pct">${Math.round(ci.done/ci.len*100)}%</b></div>
+    <div class="bar" style="margin-top:12px"><i style="width:${ci.done/ci.len*100}%"></i></div>
+    <div class="ch-today ${ci.c.done[ci.day]?'on':''}"><div class="grow"><small>Mai feladat</small><p>${esc(ci.p.t[ci.day-1])}</p></div><button class="chk ${ci.c.done[ci.day]?'':''}" data-a="chTick" data-v="${ci.day}" aria-pressed="${!!ci.c.done[ci.day]}" aria-label="Mai feladat kész">${ic('check')}</button></div>
+    <div class="ch-days">${ci.p.t.map((t,i)=>{const d=i+1,on=!!ci.c.done[d],fut=d>ci.day;return`<button class="ch-d ${on?'on':''} ${fut?'fut':''} ${d===ci.day?'td':''}" data-a="chTick" data-v="${d}" ${fut?'disabled':''} title="${d}. nap: ${esc(t)}" aria-label="${d}. nap ${on?'kész':''}">${on?ic('check',12):d}</button>`}).join('')}</div>
+    <p class="muted" style="margin-top:10px">A kimaradt napokat utólag is pótolhatod. Ha minden nap kész, jutalmat kapsz a kertedbe.</p>
+    <button class="link" data-a="chQuit" style="margin-top:8px">Kihívás feladása</button></section>`:`<section class="card empty-note">Válassz egy kihívást, és kezdd el még ma. Egyszerre egy kihívás lehet aktív.</section>`;
+  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Kihívások</h1>${done.length?`<span class="rar l" style="font-size:11px;padding:6px 10px">${done.length} teljesítve</span>`:''}</div>${act}
+  <div class="sec-h"><h2>Programok</h2></div><div class="vlist">${CHALLENGES.map(p=>{const n=done.filter(x=>x.id===p.id).length,cur=ci&&ci.p.id===p.id;return`<div class="vrow"><span class="tile" style="background:${p.c}">${ic(p.i,20)}</span><span class="grow"><b>${p.n}</b><small>${p.d}${n?` · ${n}× teljesítve`:''}</small></span>${cur?'<span class="rar k">Aktív</span>':`<button class="btn ghost" style="padding:9px 14px;font-size:13px" data-a="chStart" data-v="${p.id}">Indítás</button>`}</div>`}).join('')}</div>`}
+
+/* ───────── Fókusz időzítő ───────── */
+const FZ={mode:'work',end:0,left:null,run:false,iv:null};
+const fzCfg=()=>S.pomoCfg||(S.pomoCfg={w:25,b:5});
+const fzTotal=()=>(FZ.mode==='work'?fzCfg().w:fzCfg().b)*60;
+const fzLeft=()=>FZ.run?Math.max(0,Math.round((FZ.end-Date.now())/1000)):(FZ.left??fzTotal());
+const mmss=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+function fzRing(p){const R=96,C=2*Math.PI*R;return`<svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="12"/><circle id="fzarc" cx="110" cy="110" r="${R}" fill="none" stroke="${FZ.mode==='work'?'#B9A3EE':'#9FD0A5'}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}" transform="rotate(-90 110 110)"/></svg>`}
+function fzTick(){const l=fzLeft(),t=$('#fzt'),a=$('#fzarc');if(t)t.textContent=mmss(l);if(a){const C=2*Math.PI*96;a.setAttribute('stroke-dashoffset',C*(l/fzTotal()))}
+  if(FZ.run&&l<=0)fzDone()}
+function fzDone(){FZ.run=false;clearInterval(FZ.iv);FZ.left=null;natCall('cancelTimer');
+  if(FZ.mode==='work'){(S.pomo=S.pomo||[]).push({date:TODAY,min:fzCfg().w,label:(S.ui.fzl||'').trim()});S.lastBloom=Date.now();save();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
+    toast('Szép munka! Egy új virág nyílt a kertedben 🌸 Jöhet egy kis szünet.');FZ.mode='break';checkBadges()}else{toast('Vége a szünetnek. Készen állsz a következőre? 🌿');FZ.mode='work'}
+  if((S.ui.sub)==='pomo')render(true)}
+function fzStart(){FZ.end=Date.now()+fzLeft()*1000;FZ.run=true;clearInterval(FZ.iv);FZ.iv=setInterval(fzTick,500);
+  natCall('timer',String(FZ.end),FZ.mode==='work'?'Kész a fókuszblokk 🌸':'Vége a szünetnek 🌿',FZ.mode==='work'?'Egy új virág nyílt a kertedben. Jöhet egy kis szünet.':'Készen állsz a következő fókuszblokkra?')}
+function pomoView(){const c=fzCfg(),l=fzLeft(),today=(S.pomo||[]).filter(p=>p.date===TODAY),wk=[...Array(7)].map((_,i)=>{const k=keyOf(addDays(now(),i-6));return{l:WD[wd(parseK(k))],v:(S.pomo||[]).filter(p=>p.date===k).length}}),mx=Math.max(4,...wk.map(x=>x.v));
+  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Fókusz időzítő</h1></div>
+  <div class="seg">${[[25,5],[50,10],[15,3]].map(([w,b])=>`<button class="${c.w===w&&c.b===b?'on':''}" data-a="fzCfg" data-v="${w}-${b}" ${FZ.run?'disabled':''}>${w} / ${b} perc</button>`).join('')}</div>
+  <section class="card fz"><div class="eyebrow">${FZ.mode==='work'?'Fókusz':'Szünet'}</div><div class="fz-ring">${fzRing(l/fzTotal())}<b id="fzt">${mmss(l)}</b></div>
+   ${FZ.mode==='work'?`<input class="inp" id="fzl" maxlength="40" placeholder="Min dolgozol most? (nem kötelező)" value="${esc(S.ui.fzl||'')}" style="text-align:center">`:'<p class="muted">Állj fel, nyújtózz, igyál egy pohár vizet.</p>'}
+   <div class="btns"><button class="btn ghost" data-a="fzReset">Visszaállítás</button><button class="btn" data-a="fzGo">${FZ.run?'Szünet':l<fzTotal()?'Folytatás':'Indítás'}</button></div>
+   ${FZ.mode==='break'&&!FZ.run?`<button class="link" data-a="fzSkip" style="margin-top:10px">Szünet kihagyása</button>`:''}</section>
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${today.length}</b><small>blokk ma</small></div><div class="kpi"><b>${today.reduce((a,p)=>a+p.min,0)}</b><small>perc ma</small></div><div class="kpi"><b>${(S.pomo||[]).length}</b><small>összesen</small></div></div>
+  <section class="card chart"><b style="color:var(--ink)">Az elmúlt 7 nap</b>${bars(wk.map(x=>({l:x.l,v:x.v/mx,t:String(x.v)})),'fz')}</section>
+  ${today.length?`<section class="card list">${today.slice().reverse().map(p=>`<div class="li"><span style="color:var(--lav-deep)">${ic('flower',18)}</span><span class="grow">${p.label?esc(p.label):'Fókuszblokk'}</span><span class="muted">${p.min} perc</span></div>`).join('')}</section>`:''}
+  <p class="muted" style="text-align:center">Minden befejezett fókuszblokk egy új virágot növeszt a kertedben és 10 szirmot ad.</p>`}
+
+/* ───────── Felismerések (Statisztikák) ───────── */
+function insightsCard(){const L=[],av=a=>a.reduce((x,y)=>x+y,0)/a.length,f1=v=>v.toFixed(1).replace('.',',');
+  const byWd=[...Array(7)].map(()=>[]);for(let i=1;i<=56;i++){const d=addDays(now(),-i),r=dayRate(keyOf(d));if(r!=null)byWd[wd(d)].push(r)}
+  const wds=byWd.map((a,i)=>({i,n:a.length,v:a.length?av(a):null})).filter(x=>x.n>=3);
+  if(wds.length>=4){const b=wds.slice().sort((a,c)=>c.v-a.v)[0],w=wds.slice().sort((a,c)=>a.v-c.v)[0];if(b.v-w.v>=.1)L.push(['calendar',`A legerősebb napod a <b>${['hétfő','kedd','szerda','csütörtök','péntek','szombat','vasárnap'][b.i]}</b> (${pct(b.v)}), a legnehezebb a ${['hétfő','kedd','szerda','csütörtök','péntek','szombat','vasárnap'][w.i]} (${pct(w.v)}). Erre a napra tervezz kisebb lépéseket.`])}
+  if(S.cycleOn){const ph={men:[],fol:[],ovu:[],lut:[]},hr={men:[],fol:[],ovu:[],lut:[]};Object.keys(S.moods).forEach(k=>{const c=cycInfo(k);if(c)ph[c.ph].push(moodScore(S.moods[k].m))});
+    for(let i=0;i<90;i++){const k=keyOf(addDays(now(),-i)),c=cycInfo(k),r=dayRate(k);if(c&&r!=null)hr[c.ph].push(r)}
+    const ps=Object.keys(ph).filter(p=>ph[p].length>=3).map(p=>({p,m:av(ph[p]),r:hr[p].length?av(hr[p]):null}));
+    if(ps.length>=2){const b=ps.slice().sort((a,c)=>c.m-a.m)[0],w=ps.slice().sort((a,c)=>a.m-c.m)[0];if(b.m-w.m>=.3)L.push(['cycle',`A <b>${PHASES[b.p].n.toLowerCase()}</b> idején a legjobb a hangulatod (${f1(b.m)}/5${b.r!=null?`, ${pct(b.r)} teljesítés`:''}). A ${PHASES[w.p].n.toLowerCase()} alatt (${f1(w.m)}/5) légy kíméletesebb magadhoz.`])}}
+  const sl=Object.keys(S.sleep||{}).filter(k=>S.moods[k]),g7=sl.filter(k=>sHrs(S.sleep[k])>=7).map(k=>moodScore(S.moods[k].m)),l7=sl.filter(k=>sHrs(S.sleep[k])<7).map(k=>moodScore(S.moods[k].m));
+  if(g7.length>=3&&l7.length>=3&&Math.abs(av(g7)-av(l7))>=.3)L.push(['bed',`Ha legalább 7 órát alszol, a hangulatod átlagosan <b>${f1(Math.abs(av(g7)-av(l7)))} ponttal ${av(g7)>av(l7)?'jobb':'rosszabb'}</b>.`]);
+  const wl=Object.keys(S.water.log||{}).filter(k=>S.moods[k]),wg=wl.filter(k=>S.water.log[k]>=S.water.goal).map(k=>moodScore(S.moods[k].m)),wb=wl.filter(k=>S.water.log[k]<S.water.goal).map(k=>moodScore(S.moods[k].m));
+  if(wg.length>=3&&wb.length>=3&&Math.abs(av(wg)-av(wb))>=.3)L.push(['drop',`Amikor megiszod a napi ${S.water.goal} pohár vizet, a hangulatod átlagosan <b>${f1(Math.abs(av(wg)-av(wb)))} ponttal ${av(wg)>av(wb)?'jobb':'rosszabb'}</b>.`]);
+  const hs=S.habits.filter(h=>!isT(h)).map(h=>{let a=0,b=0;for(let i=0;i<30;i++){const d=addDays(now(),-i);if(!scheduledOn(h,d))continue;b++;if(isDone(h,keyOf(d)))a++}return{h,r:b>=5?a/b:null}}).filter(x=>x.r!=null);
+  if(hs.length>=2){const b=hs.slice().sort((a,c)=>c.r-a.r)[0],w=hs.slice().sort((a,c)=>a.r-c.r)[0];L.push(['medal',`A legkövetkezetesebb szokásod: <b>${esc(b.h.name)}</b> (${pct(b.r)}).${w.r<.5?` A(z) <b>${esc(w.h.name)}</b> csak ${pct(w.r)}: érdemes kisebbre venni vagy más napszakra tenni.`:''}`])}
+  const pw=(S.pomo||[]).filter(p=>dayDiff(TODAY,p.date)<7).length;if(pw)L.push(['flame',`Ezen a héten <b>${pw} fókuszblokkot</b> fejeztél be, ez ${pw*fzCfg().w} perc mély munka.`]);
+  return`<section class="card"><b style="color:var(--ink)">Felismerések</b><p class="muted">A Bloomly az adataidból keres összefüggéseket. Minél többet rögzítesz, annál pontosabbak.</p>${L.length?`<div class="ins-list">${L.map(([i,t])=>`<div class="insight">${ic(i)}<p>${t}</p></div>`).join('')}</div>`:'<p class="muted" style="margin-top:10px">Még kevés az adat. Néhány hét rögzítés után itt jelennek meg az első felismerések.</p>'}</section>`}
+
+/* ───────── Kezdőlap kártyák ───────── */
+function homeExtras(){let o='';const pz=S.pause,ci=chInfo(),rm=reviewMon(),rk=keyOf(rm);
+  if(pz)o+=`<section class="card pause-card"><span class="ic">${ic('pause',20)}</span><div class="grow"><b>Pihenő mód · ${esc(pz.reason||'Pihenés')}</b><div class="muted">${fmt(pz.from,{month:'short',day:'numeric'})} óta. A sorozatod és a kerted biztonságban van.</div></div><button class="btn" style="padding:10px 14px;font-size:13px" data-a="pauseOff">Folytatom</button></section>`;
+  if((wd(now())===6||wd(now())<=1)&&!S.reviews[rk]&&Object.keys(S.log).some(k=>k>=rk))o+=`<button class="card review-card" data-a="go" data-s="review"><span class="ic">${ic('calendar',20)}</span><div class="grow"><b>Elkészült a heti visszatekintőd</b><div class="muted">${weekStats(rm).flowers} virág nyílt ${fmt(rk,{month:'short',day:'numeric'})} óta. Nézd meg!</div></div>${ic('next',18)}</button>`;
+  if(ci&&!pz){const on=!!ci.c.done[ci.day];o+=`<section class="card ch-home" style="--cc:${ci.p.c}"><button class="grow" data-a="go" data-s="challenges" style="text-align:left;display:flex;gap:12px;align-items:center;min-width:0"><span class="tile" style="background:${ci.p.c}">${ic(ci.p.i,20)}</span><span style="min-width:0"><span class="eyebrow">${esc(ci.p.n)} · ${ci.day}/${ci.len}. nap</span><b>${esc(ci.p.t[ci.day-1])}</b></span></button><button class="chk ${on?'on':''}" data-a="chTick" data-v="${ci.day}" aria-pressed="${on}" aria-label="Mai kihívás kész">${ic('check')}</button></section>`}
+  return o}
+function waterCard(){if(S.waterOn===false)return'';const n=S.water.log[TODAY]||0,g=S.water.goal;
+  return`<section class="card water"><div class="row"><span class="ic" style="width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#CFE2F6;color:var(--on-pastel);flex:none">${ic('drop',20)}</span><div class="grow"><b style="color:var(--ink)">Víz</b><div class="muted">${n}/${g} pohár${n>=g?' · Megvan a napi cél 💧':''}</div></div><button class="iconbtn" data-a="wAdd" data-v="-1" aria-label="Egy pohárral kevesebb" ${n?'':'disabled'}>−</button><button class="btn" style="padding:10px 14px;font-size:13px" data-a="wAdd" data-v="1">+ pohár</button></div>
+  <div class="glasses" aria-hidden="true">${[...Array(Math.max(g,n))].map((_,i)=>`<button tabindex="-1" class="gl ${i<n?'on':''}" data-a="wSet" data-v="${i+1}"></button>`).join('')}</div></section>`}
+function kindCard(){const on=!!S.kind[TODAY];return`<section class="card kind-card ${on?'on':''}"><span class="ic">${ic('gift',20)}</span><div class="grow"><div class="eyebrow">Napi kedvesség</div><p>${kindToday()}</p></div><button class="chk ${on?'on':''}" data-a="kindDo" aria-pressed="${on}" aria-label="Napi kedvesség kész">${ic('check')}</button></section>`}
+
+/* ───────── Értesítések képernyő ───────── */
+function notifsView(){const n=S.notif,st=notifState();
+  const T=[['morning','Reggeli check-in','mt'],['evening','Esti reflexió','et'],['streak','Sorozatvédelem','st'],['garden','Heti visszatekintő','']];
+  const stTxt={on:['Az értesítések be vannak kapcsolva.','mint'],off:['Az értesítések nincsenek engedélyezve.','peach'],denied:['A böngésző letiltotta az értesítéseket. A böngésző beállításaiban engedélyezheted.','peach'],none:['Ez a böngésző nem támogatja az értesítéseket.','peach'],old:['Az értesítésekhez telepítsd a Bloomly legújabb APK-ját.','peach'],desk:['Az asztali változatban az emlékeztetők a Bloomly ablakában jelennek meg, amíg az app nyitva van.','mint']}[st];
+  return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Értesítések</h1></div>
+  <section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--${stTxt[1]});color:var(--on-pastel);flex:none">${ic('bell',18)}</span><div class="grow"><b style="color:var(--ink)">${st==='on'?'Engedélyezve':st==='desk'?'Asztali emlékeztetők':'Nincs engedélyezve'}</b><div class="muted">${stTxt[0]}</div></div>${st==='off'?`<button class="btn" style="padding:9px 14px;font-size:13px" data-a="notifAsk">Engedélyezés</button>`:''}</section>
+  <section class="card list">${T.map(([k,t,tk])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${tk?`<input type="time" class="inp" value="${n[tk]||'20:00'}" data-nt="${tk}" style="padding:6px 10px;width:auto;margin-top:4px" aria-label="${t} időpontja">`:'Vasárnap 18:00'}</div></div><button class="switch ${n[k]?'on':''}" data-a="ntog" data-k="${k}" role="switch" aria-checked="${!!n[k]}" aria-label="${t}"></button></div>`).join('')}</section>
+  <div class="sec-h"><h2>Szokás-emlékeztetők</h2></div>
+  <p class="muted">Adj meg egy időpontot, és a Bloomly szól, ha aznap még nem pipáltad ki a szokást.</p>
+  ${S.habits.length?`<section class="card list">${S.habits.map(h=>`<div class="li"><span class="tile" style="width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel);flex:none">${ic(h.icon,16)}</span><div class="grow"><b style="color:var(--ink)">${esc(h.name)}</b><div class="muted">${freqLabel(h)}</div></div><input type="time" class="inp" value="${h.remind||''}" data-hr="${h.id}" style="padding:6px 8px;width:auto" aria-label="${esc(h.name)} emlékeztető időpontja">${h.remind?`<button class="iconbtn" style="width:32px;height:32px" data-a="hrClear" data-id="${h.id}" aria-label="Emlékeztető törlése">${ic('close',14)}</button>`:''}</div>`).join('')}</section>`:'<div class="card empty-note">Még nincs szokásod.</div>'}
+  <div class="sec-h"><h2>Előnézet</h2><button class="link" data-a="demoNotif">Próba értesítés</button></div>
+  <p class="muted">A hangvétel mindig támogató: soha nem szidunk, nem sürgetünk. Csak azokat az értesítéseket kapod, amelyeket itt bekapcsolsz.${NAT?'':' Az asztali változatban akkor jönnek, ha a Bloomly nyitva van.'}</p>`}
+
+/* ───────── Beállítások: új részek ───────── */
+function settingsExtra(){const lb=S.lastBackup;
+  return`<div class="sec-h"><h2>Biztonsági mentés</h2></div>
+  <section class="card"><p class="muted">Az adataid csak ezen az eszközön vannak. Készíts rendszeresen mentést, és a fájllal bármikor visszaállíthatod őket, vagy átviheted egy másik eszközre (például a gépről a telefonra).</p>
+   <div class="muted" style="margin-top:8px">Utolsó mentés: <b style="color:var(--ink)">${lb?fmt(lb,{year:'numeric',month:'long',day:'numeric'}):'még nem volt'}</b>${lb&&dayDiff(TODAY,lb)>30?' · ideje egy újnak':''}</div>
+   <div class="btns" style="margin-top:14px"><button class="btn" data-a="backupSave">${ic('share',16)} Mentés fájlba</button><button class="btn ghost" data-a="backupLoad">Visszaállítás</button></div></section>
+  <div class="sec-h"><h2>Pihenő mód</h2></div>
+  <section class="card">${S.pause?`<div class="row"><div class="grow"><b style="color:var(--ink)">Bekapcsolva · ${esc(S.pause.reason)}</b><div class="muted">${fmt(S.pause.from,{month:'long',day:'numeric'})} óta</div></div><button class="btn" style="padding:9px 14px;font-size:13px" data-a="pauseOff">Folytatom</button></div>`
+   :`<p class="muted">Betegség, utazás vagy egy nehezebb időszak alatt szüneteltetheted a szokásaidat. Ezek a napok nem számítanak kihagyásnak, a sorozatod nem szakad meg, és az emlékeztetők is szünetelnek.</p><div class="chips wrapchips" style="margin-top:12px">${['Betegség','Utazás','Pihenés','Nehéz időszak'].map(r=>`<button class="chip" data-a="pauseOn" data-v="${r}">${r}</button>`).join('')}</div>`}</section>
+  <div class="sec-h"><h2>Kódzár</h2></div>
+  <section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--lav-soft);color:var(--lav-deep);flex:none">${ic('lock',18)}</span><div class="grow"><b style="color:var(--ink)">${S.pin?'Bekapcsolva':'Kikapcsolva'}</b><div class="muted">4 jegyű kód az app megnyitásához. Védi a naplódat és a jegyzeteidet.</div></div><button class="btn ${S.pin?'ghost':''}" style="padding:9px 14px;font-size:13px" data-a="${S.pin?'pinOff':'pinSet'}">${S.pin?'Kikapcsolás':'Beállítás'}</button></section>
+  <div class="sec-h"><h2>Vízkövető</h2></div>
+  <section class="card list"><div class="li"><div class="grow"><b style="color:var(--ink)">A kezdőlapon</b><div class="muted">Pohárszámláló minden nap</div></div><button class="switch ${S.waterOn!==false?'on':''}" data-a="waterTog" role="switch" aria-checked="${S.waterOn!==false}" aria-label="Vízkövető a kezdőlapon"></button></div>
+   <div class="li"><div class="grow"><b style="color:var(--ink)">Napi cél</b><div class="muted">pohár (kb. 2,5 dl)</div></div><div class="stepper"><button data-a="wGoal" data-v="-1" aria-label="Csökkentés">−</button><b>${S.water.goal}</b><button data-a="wGoal" data-v="1" aria-label="Növelés">+</button></div></div></section>`}
+
+/* ───────── Kódzár ───────── */
+const pinHash=p=>{let h=2166136261;for(const c of 'bloomly:'+p){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return(h>>>0).toString(36)};
+let locked=false,pinBuf='',hiddenAt=0,pinMode=null,pinFirst='';
+function drawLock(msg){const L=$('#lock');if(!L)return;const title=pinMode==='set1'?'Adj meg egy 4 jegyű kódot':pinMode==='set2'?'Add meg még egyszer':pinMode==='off'?'Add meg a jelenlegi kódot':`Szia, ${esc(S.name)}`;
+  L.innerHTML=`<div class="lock-in"><span class="lock-logo">${LOTUS('lk')}</span><h2>${title}</h2><p class="muted lock-msg">${msg||(pinMode?'':'Add meg a kódodat a belépéshez')}</p>
+  <div class="pin-dots">${[0,1,2,3].map(i=>`<i class="${i<pinBuf.length?'on':''}"></i>`).join('')}</div>
+  <div class="pin-pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?(pinMode?`<button class="pin-k sm" data-a="pinCancel">Mégse</button>`:'<span></span>'):`<button class="pin-k" data-a="pinKey" data-v="${k}" aria-label="${k==='⌫'?'Törlés':k}">${k}</button>`).join('')}</div>
+  ${!pinMode?`<button class="link" data-a="pinForgot" style="margin-top:14px">Elfelejtetted?</button>`:''}</div>`;L.classList.add('on')}
+function showLock(){if(!S.pin||locked)return;locked=true;pinMode=null;pinBuf='';drawLock()}
+function hideLock(){locked=false;pinMode=null;pinBuf='';const L=$('#lock');L.classList.remove('on');L.innerHTML=''}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)hiddenAt=Date.now();else if(S.pin&&hiddenAt&&Date.now()-hiddenAt>60000)showLock()});
+document.addEventListener('keydown',e=>{if(!$('#lock')||!$('#lock').classList.contains('on'))return;if(/^\d$/.test(e.key)){e.preventDefault();A.pinKey({dataset:{v:e.key}})}else if(e.key==='Backspace'){e.preventDefault();A.pinKey({dataset:{v:'⌫'}})}},true);
+
+const F_A={
+ /* értesítések */
+ notifAsk(){if(NAT){natCall('askNotif');setTimeout(()=>render(true),1500);return}if(window.Notification)Notification.requestPermission().then(()=>render(true))},
+ demoNotif(){const t='Bloomly 🌸',b=NOTIFS[Math.floor(Math.random()*4)];if(natHas('testNotif')){natCall('testNotif',t,b);toast('Próba értesítés elküldve')}else if(notifState()==='on')showNotif(t,b);else toast(b)},
+ hrClear(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(h){delete h.remind;save();render(true)}},
+ /* mentés */
+ backupSave(){saveB64(`bloomly-mentes-${TODAY}.json`,'application/json',b64u(JSON.stringify({app:'Bloomly',v:2,date:new Date().toISOString(),data:S})),false);S.lastBackup=TODAY;save();render(true)},
+ backupLoad(){backupFile()},
+ restoreOk(){if(!restoreDraft)return;const d=restoreDraft;d.onboarded=true;d.ui={...(d.ui||{}),tab:'home',sub:null};try{localStorage.setItem(SKEY,JSON.stringify(d))}catch(e){toast('Nem sikerült a mentés visszaállítása');return}closeSheet();toast('Visszaállítva ✨');setTimeout(()=>location.reload(),600)},
+ /* megosztás */
+ shareGarden(){toast('Kép készül…');gardenImage()},
+ bjShare(){toast('Kép készül…');monthImage()},
+ /* visszatekintő */
+ rwGo(el){S.ui.rw=Math.min(0,(S.ui.rw||0)+ +el.dataset.v);S.ui.rwEdit=false;render(true)},
+ rwEdit(){S.ui.rwEdit=true;render(true)},
+ rwSave(el){const r={};['proud','learn','next'].forEach(k=>{r[k]=($('#rv-'+k).value||'').trim()});r.at=TODAY;S.reviews[el.dataset.k]=r;S.ui.rwEdit=false;save();render(true);toast('Elmentve. Szép hetet! 🌸')},
+ /* kihívások */
+ chStart(el){const p=CHALLENGES.find(x=>x.id===el.dataset.v);if(S.ch.cur&&!el.dataset.sure){el.dataset.sure=1;el.textContent='Biztosan? A mostani elvész';return}S.ch.cur={id:p.id,start:TODAY,done:{}};save();render(true);toast(`Elkezdődött: ${p.n} 🌱`)},
+ chTick(el){const ci=chInfo();if(!ci)return;const d=+el.dataset.v;if(d>ci.day)return;if(ci.c.done[d])delete ci.c.done[d];else{ci.c.done[d]=1;S.lastBloom=Date.now()}
+  if(Object.keys(ci.c.done).length>=ci.len){S.ch.done.push({id:ci.p.id,end:TODAY});S.ch.cur=null;save();render(true);petalsFall(50);toast(`Gratulálok! Teljesítetted: ${ci.p.n} 🏆`);checkBadges();return}
+  save();render(true);if(ci.c.done[d])toast('Szép! +10 szirom 🌸')},
+ chQuit(el){if(!el.dataset.sure){el.dataset.sure=1;el.textContent='Biztosan feladod? Koppints újra';return}S.ch.cur=null;save();render(true);toast('Bármikor újrakezdheted 🌿')},
+ /* víz */
+ wAdd(el){const n=Math.max(0,(S.water.log[TODAY]||0)+ +el.dataset.v);S.water.log[TODAY]=n;save();render(true);if(+el.dataset.v>0&&n===S.water.goal){toast('Megvan a napi vízcélod 💧');checkBadges()}},
+ wSet(el){const v=+el.dataset.v,cur=S.water.log[TODAY]||0;S.water.log[TODAY]=v===cur?v-1:v;save();render(true)},
+ wGoal(el){S.water.goal=Math.max(4,Math.min(16,S.water.goal+ +el.dataset.v));save();render(true)},
+ waterTog(){S.waterOn=S.waterOn===false;save();render(true)},
+ /* kedvesség */
+ kindDo(){if(S.kind[TODAY])delete S.kind[TODAY];else{S.kind[TODAY]=1;toast('A kedvesség visszatalál hozzád 💛')}save();render(true);checkBadges()},
+ /* fókusz */
+ fzCfg(el){const[w,b]=el.dataset.v.split('-').map(Number);S.pomoCfg={w,b};FZ.left=null;save();render(true)},
+ fzGo(){const i=$('#fzl');if(i)S.ui.fzl=i.value;if(FZ.run){FZ.left=fzLeft();FZ.run=false;clearInterval(FZ.iv);natCall('cancelTimer')}else fzStart();render(true)},
+ fzReset(){FZ.run=false;clearInterval(FZ.iv);FZ.left=null;FZ.mode='work';natCall('cancelTimer');render(true)},
+ fzSkip(){FZ.mode='work';FZ.left=null;render(true)},
+ /* pihenő mód */
+ pauseOn(el){S.pause={from:TODAY,reason:el.dataset.v};save();render(true);toast('Pihenő mód bekapcsolva. Vigyázz magadra 🤍')},
+ pauseOff(){const p=S.pause;if(!p)return;if(p.from<TODAY)(S.pauses=S.pauses||[]).push({from:p.from,to:keyOf(addDays(now(),-1))});S.pause=null;save();render(true);toast('Üdv újra! Folytassuk együtt 🌸')},
+ /* jegyzet a pipához */
+ hnoteSave(el){const v=($('#hnote').value||'').trim(),d=S.hnotes[TODAY]=S.hnotes[TODAY]||{};if(v)d[el.dataset.id]=v;else delete d[el.dataset.id];save();toast(v?'Jegyzet mentve':'Jegyzet törölve')},
+ /* kódzár */
+ pinSet(){pinMode='set1';pinBuf='';locked=true;drawLock()},
+ pinOff(){pinMode='off';pinBuf='';locked=true;drawLock()},
+ pinCancel(){hideLock()},
+ pinForgot(){drawLock(S.pinHint?`Emlékeztető: ${esc(S.pinHint)}`:'A kód csak ezen az eszközön van tárolva. Ha elfelejtetted, egy korábbi biztonsági mentésből tudod visszaállítani az adataidat.')},
+ pinKey(el){const v=String(el.dataset.v);if(v==='⌫'){pinBuf=pinBuf.slice(0,-1);drawLock();return}if(pinBuf.length>=4)return;pinBuf+=v;drawLock();if(pinBuf.length<4)return;
+  setTimeout(()=>{const p=pinBuf;pinBuf='';
+   if(pinMode==='set1'){pinFirst=p;pinMode='set2';drawLock();return}
+   if(pinMode==='set2'){if(p!==pinFirst){pinMode='set1';drawLock('A két kód nem egyezett. Kezdjük újra.');return}S.pin=pinHash(p);save();hideLock();render(true);
+     openSheet(`<h2>Kódzár bekapcsolva</h2><p class="muted">Az app indításkor és 1 percnél hosszabb szünet után kéri a kódot.</p><div class="field"><label for="phint">Emlékeztető (nem kötelező)</label><input class="inp" id="phint" maxlength="40" placeholder="pl. a kedvenc évszámom"></div><div class="btns"><button class="btn" data-a="pinHintSave">Kész</button></div>`);return}
+   if(pinHash(p)!==S.pin){const L=$('#lock .pin-dots');drawLock('Hibás kód, próbáld újra');const d=$('#lock .pin-dots');if(d){d.classList.add('shake')}return}
+   if(pinMode==='off'){delete S.pin;delete S.pinHint;save();hideLock();render(true);toast('Kódzár kikapcsolva');return}
+   hideLock()},120)},
+ pinHintSave(){const v=($('#phint').value||'').trim();if(v)S.pinHint=v;else delete S.pinHint;save();closeSheet();toast('Kódzár bekapcsolva 🔒')}
+};
+Object.assign(A,F_A);
+Object.assign(SCREENS,{review:reviewView,challenges:challengesView,pomo:pomoView,notifs:notifsView});
+document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;
+  if(t.dataset.hr){const h=S.habits.find(x=>x.id===t.dataset.hr);if(h){if(t.value)h.remind=t.value;else delete h.remind;save();render(true);toast(t.value?`Emlékeztető: ${t.value}`:'Emlékeztető törölve')}}
+  if(t.dataset.nt){S.notif[t.dataset.nt]=t.value;save();toast('Időpont mentve')}});
+/* Adatszerkezet az új funkciókhoz */
+S.water=S.water||{goal:8,log:{}};S.ch=S.ch||{cur:null,done:[]};S.pomo=S.pomo||[];S.kind=S.kind||{};S.reviews=S.reviews||{};S.hnotes=S.hnotes||{};S.pauses=S.pauses||[];
+function ensureF(){S.water=S.water||{goal:8,log:{}};S.ch=S.ch||{cur:null,done:[]};S.pomo=S.pomo||[];S.kind=S.kind||{};S.reviews=S.reviews||{};S.hnotes=S.hnotes||{};S.pauses=S.pauses||[];S.notif=S.notif||{};}
+
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const fn=A[el.dataset.a];if(fn){if(el.dataset.a!=='closeModal')e.stopPropagation();fn(el,e)}});
 document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.a==='time'){S.notif[e.target.dataset.k]=e.target.value;save();toast('Időpont mentve')}});
 document.addEventListener('keydown',e=>{
@@ -2364,9 +2737,10 @@ Object.assign(A,{
 
 /* Az Android vissza gombja ezt hívja: true, ha az app maga kezelte a visszalépést */
 /* Éjfél után, vagy amikor az app a háttérből visszatér, frissül a mai nap */
-function dayRoll(){const k=keyOf(now());if(k===TODAY)return;TODAY=k;if(!$('#sheet').classList.contains('on')&&!$('#modal').innerHTML)render(true)}
+function dayRoll(){const k=keyOf(now());if(k===TODAY)return;TODAY=k;scheduleSync();if(!$('#sheet').classList.contains('on')&&!$('#modal').innerHTML)render(true)}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)dayRoll()});window.addEventListener('focus',dayRoll);setInterval(dayRoll,60000);
 window.bloomlyBack=()=>{
+  if(locked)return false;
   if($('#sheet').classList.contains('on')){closeSheet();return true}
   if($('#modal').innerHTML){clearTimeout(vpT);$('#modal').innerHTML='';return true}
   if($('#ob').innerHTML){if(ob.step>0||S.onboarded){A.obBack();return true}return false}
@@ -2374,13 +2748,13 @@ window.bloomlyBack=()=>{
   return false};
 if(!S.fitness)seedExtras(S,true);
 S.habits.forEach(h=>{if(!h.area)h.area=areaOf(h)});if(!S.weight)S.weight={log:{}};
-/* Az új jelvényeket a meglévő felhasználóknál csendben megszerzettnek jelöljük, hogy ne ugorjon fel egyszerre sok ablak */
-if(S.onboarded&&!S.badgeV2){allBadges().filter(b=>b.got&&!S.seen.includes(b.id)).forEach(b=>S.seen.push(b.id));S.badgeV2=1;save()}
 TEMPLATES.forEach(t=>{if(!LIBRARY.some(x=>x.name===t.name))LIBRARY.push({...t})});
 S.habits.forEach(h=>{if(!LIBRARY.some(t=>t.name===h.name))toMyLib(h)});
 /* Új jelvénycsomag: a már teljesített új jelvények csendben kerülnek a gyűjteménybe, ne egyszerre ugorjon fel mind */
 if((S.badgesV||0)<2){S.seen=[...new Set([...(S.seen||[]),...allBadges().filter(b=>b.got).map(b=>b.id)])];S.badgesV=2;save()}
-applyTheme();if(!S.vision.length)seedVision();render();if(!S.onboarded)renderOb();
+window.bloomlyNotifChanged=()=>{if(S.ui.sub==='notifs')render(true)};
+{const pd=natCall('takePending');if(pd&&pd!=='[]')setTimeout(()=>bloomlyPending(pd),0)}
+applyTheme();if(!S.vision.length)seedVision();render();if(!S.onboarded)renderOb();if(S.pin)showLock();scheduleSync();
 </script>
 
 </html>
