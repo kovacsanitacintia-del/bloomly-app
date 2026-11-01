@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101221416">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101221416">
+<meta name="bloomly-version" content="20261101221823">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101221823">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3344,11 +3344,14 @@ const HM_ICONS=[
  ['Önmagam',['😴','🧘‍♀️','🏃‍♀️','💪','🚶‍♀️','💊','📖','📓','🎧','🙏','💖','☀️','🌙','💤','🥤','🍵']],
  ['Egyéb',['🚗','⛽','🔧','🪛','💡','🔋','📱','💻','📞','✉️','📅','⏰','🔑','🏠','🧳','🎁']]];
 function hmSeed(){let n=0;const id=()=>'hm'+(n++)+uid();
-  return{daily:[['🩴','Papucsok letörlése'],['🧺','Szennyes összegyűjtése'],['🗑️','Szemét kivitele'],['📝','Bevásárlólista megírása'],['🪶','Portalanítás'],['🧹','Söprés, porszívózás, felmosás'],['🍃','Bejárat felsöprése'],['👕','Mosás'],['👟','Cipők letörlése'],['🍽️','Mosogatás']].map(([i,t])=>({id:id(),i,t})),
+  return{daily:[['🛏️','Ágyazás'],['🧺','Szennyes összegyűjtése'],['🗑️','Szemét kivitele'],['📝','Bevásárlólista megírása'],['🪶','Portalanítás'],['🧹','Söprés, porszívózás, felmosás'],['🪴','Növények locsolása'],['👕','Mosás'],['🪟','Szellőztetés'],['🍽️','Mosogatás']].map(([i,t])=>({id:id(),i,t})),
    time:[['07:30','🍳','Reggeli'],['08:30','🧹','Földszint takarítása'],['10:00','🥗','Ebéd előkészítése'],['11:00','🧽','Emelet takarítása'],['12:30','🍲','Ebéd'],['13:30','🍽️','Mosogatás, konyha rendbetétele'],['14:00','😴','Pihenő'],['16:00','👚','Vasalás, ruhák elpakolása'],['18:30','🍝','Vacsora'],['19:30','✨','Konyha és pult letörlése'],['22:00','🌙','Alvás']].map(([at,i,t])=>({id:id(),at,i,t})),
    days:[['Fürdőszoba alapos takarítása','Csempék lemosása','Tükrök tisztítása'],['Klíma és szűrők tisztítása','Ablakpucolás','Nyitott polcok letörlése'],['Cipősszekrény letörlése','Redőnyök portalanítása','Kanapé porszívózása'],['Emelet alapos takarítása','Ajtókeretek letörlése','Villanykapcsolók letörlése'],['Ágynemű cseréje','Autó belsejének takarítása','Szőnyegek kiporolása'],['Kukák és kültér lemosása','Hűtő kitakarítása bevásárlás előtt','Ablakok'],['Szekrények rendezése','Hálószobák rendrakása','Heti menü megtervezése']].map(l=>l.map(t=>({id:id(),t}))),
    log:{},wlog:{}}}
-function ensureHome(){if(!S.home)S.home=hmSeed();const h=S.home;h.daily=h.daily||[];h.time=h.time||[];h.days=h.days||[[],[],[],[],[],[],[]];h.log=h.log||{};h.wlog=h.wlog||{};return h}
+function ensureHome(){if(!S.home)S.home=hmSeed();const h=S.home;h.daily=h.daily||[];h.time=h.time||[];h.days=h.days||[[],[],[],[],[],[],[]];h.log=h.log||{};h.wlog=h.wlog||{};
+  /* Három régi alapfeladat cseréje (csak ha a nevük még az eredeti; a pipák megmaradnak, mert az azonosító nem változik) */
+  if(!h.v2){const R={'Papucsok letörlése':['🛏️','Ágyazás'],'Bejárat felsöprése':['🪴','Növények locsolása'],'Cipők letörlése':['🪟','Szellőztetés']};h.daily.forEach(x=>{const r=R[x.t];if(r){x.i=r[0];x.t=r[1]}});h.v2=1}
+  return h}
 const hmWeek=()=>keyOf(addDays(now(),-wd(now())));
 function hmStats(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[wk]||{},td=wd(now());
   const dTot=h.daily.length*7,dDone=h.daily.reduce((a,x)=>a+((L[x.id]||[]).length),0),wTot=h.days.reduce((a,l)=>a+l.length,0),wDone=h.days.reduce((a,l)=>a+l.filter(x=>W[x.id]).length,0);
