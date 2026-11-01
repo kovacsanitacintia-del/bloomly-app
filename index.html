@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101160158">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101160158">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
+<meta name="bloomly-version" content="20261101174752">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101174752">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -514,7 +514,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .logo-big{width:124px;height:124px;border-radius:34px;box-shadow:0 28px 54px -24px rgba(176,120,150,.75),0 2px 8px -2px rgba(176,120,150,.25);animation:float 6s ease-in-out infinite}
 .logo-big svg{display:block;width:100%;height:100%}
-.brand-wm{font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif;font-size:46px;font-weight:500;letter-spacing:.16em;line-height:1;margin-right:-.16em;color:color-mix(in srgb,#74505F 72%,var(--ink))}
+.brand-wm{font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif;font-size:clamp(30px,10.5vw,42px);font-weight:500;letter-spacing:.13em;line-height:1;margin-right:-.13em;white-space:nowrap;color:color-mix(in srgb,#74505F 72%,var(--ink))}
 .brand-tag{display:flex;align-items:center;gap:10px;margin-top:-4px;font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#B08D57}
 .brand-tag i{width:30px;height:1px;background:currentColor;opacity:.7}
 @keyframes float{50%{transform:translateY(-8px)}}
@@ -539,7 +539,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .empty-note{padding:22px;text-align:center;color:var(--text2);font-size:13.5px}
 
-/* Bloomly 2.0 */
+/* Bloomsette 2.0 */
 .chk.on,.ch-today.on .chk{background:var(--mint);border-color:var(--mint);color:#3F6B48}
 .pause-card,.review-card,.kind-card,.ch-home{display:flex;align-items:center;gap:12px;text-align:left;width:100%}
 .pause-card .ic,.review-card .ic,.kind-card .ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--on-pastel)}
@@ -689,7 +689,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .trk-kpi small{font-size:11px;color:var(--text2);line-height:1.25}
 @container app (max-width:420px){.trk-grid,.trk-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* „Bloomly ajánlja” */
+/* „Bloomsette ajánlja” */
 .reco{position:relative;padding:16px 16px 14px;border-radius:26px;background:linear-gradient(165deg,color-mix(in srgb,var(--ac) 28%,var(--card)),var(--card) 55%);border:1px solid color-mix(in srgb,var(--ac) 45%,transparent);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
 .reco-head{display:flex;align-items:center;gap:12px}
 .reco-mark{width:42px;height:42px;flex:none;border-radius:14px;overflow:hidden;box-shadow:0 8px 18px -12px rgba(176,120,150,.8)}
@@ -876,8 +876,8 @@ textarea.inp{min-height:92px;resize:vertical}
 /* Androidos app (BloomlyApp a user agentben) vagy exe (?app=1): mindig teljes képernyő, telefonkeret nélkül */
 try{if(/BloomlyApp/.test(navigator.userAgent)||/[?&]app=1/.test(location.search))document.documentElement.classList.add('native')}catch(e){}
 </script>
-<aside class="aside" aria-label="A Bloomlyról">
-  <div class="row"><span id="asideLogo"></span><span class="wm">BLOOMLY</span></div>
+<aside class="aside" aria-label="A Bloomsette-ről">
+  <div class="row"><span id="asideLogo"></span><span class="wm">BLOOMSETTE</span></div>
   <h2>Virágozz minden&nbsp;nap.</h2>
   <p>Interaktív prototípus. Pipálj ki szokásokat, rögzítsd a hangulatod, és nézd, ahogy a Bloom Kerted nő. Minden adat csak a te böngésződben tárolódik.</p>
 </aside>
@@ -1009,7 +1009,7 @@ const LIBRARY=[
 const CAT2AREA={'Egészség':'health','Táplálkozás':'health','Mozgás':'health','Alvás':'health','Szépség':'self','Önszeretet':'self','Otthon':'self','Kapcsolatok':'rel','Tanulás':'learn','Pénzügyek':'money','Kreativitás':'hobby','Nyugalom':'soul','Tudatosság':'soul','Digitális egyensúly':'soul'};
 const NAME2AREA={'Olvasás':'learn','Napi célok leírása':'career','Heti tervezés':'career','Kiadások vezetése':'money'};
 function areaOf(h){return h.area||NAME2AREA[h.name]||CAT2AREA[h.cat]||'self'}
-/* „Bloomly ajánlja”: életterületenként, alcsoportokba rendezett szokásjavaslatok.
+/* „Bloomsette ajánlja”: életterületenként, alcsoportokba rendezett szokásjavaslatok.
    R(név, ikon, szín, jegyzet, ismétlődés, cél) — alapértelmezés: naponta */
 const R=(name,icon,color,note,freq='daily',target)=>({name,icon,color,note,freq,target});
 const RECO={
@@ -1525,7 +1525,7 @@ function habitRow(h,opt){
   const k=TODAY,done=isDone(h,k),st=habitStreak(h);
   const wh=!opt&&waterHabit()===h,wn=wh?S.water.log[k]||0:0,wg=S.water.goal;
   const meta=isT(h)?`${periodText(h)} ${periodCount(h,k)}/${h.target}`:wh?`${wn}/${wg} pohár`:(h.note?esc(h.note):areaName(h));
-  return`<div class="habit ${done?'done':''} ${wh?'hw':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div>${opt&&opt.ret?`<button class="ret" data-a="unReco" data-id="${h.id}" title="Vissza a Bloomly ajánlja részbe" aria-label="${esc(h.name)} vissza a Bloomly ajánlja részbe">${ic('undo',17)}</button>`:''}${wh?`<div class="wbtns"><button class="gmin" data-a="wAdd" data-v="-1" aria-label="Egy pohárral kevesebb" ${wn?'':'disabled'}>−</button><button class="gmin" data-a="wAdd" data-v="1" aria-label="Egy pohárral több">+</button></div>`:''}<button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button>${wh?`<div class="glasses" role="group" aria-label="Poharak: ${wn}/${wg}">${[...Array(Math.max(wg,wn))].map((_,i)=>`<button class="gl ${i<wn?'on':''}" data-a="wSet" data-v="${i+1}" aria-label="${i+1}. pohár"></button>`).join('')}</div>`:''}</div>`
+  return`<div class="habit ${done?'done':''} ${wh?'hw':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div>${opt&&opt.ret?`<button class="ret" data-a="unReco" data-id="${h.id}" title="Vissza a Bloomsette ajánlja részbe" aria-label="${esc(h.name)} vissza a Bloomsette ajánlja részbe">${ic('undo',17)}</button>`:''}${wh?`<div class="wbtns"><button class="gmin" data-a="wAdd" data-v="-1" aria-label="Egy pohárral kevesebb" ${wn?'':'disabled'}>−</button><button class="gmin" data-a="wAdd" data-v="1" aria-label="Egy pohárral több">+</button></div>`:''}<button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button>${wh?`<div class="glasses" role="group" aria-label="Poharak: ${wn}/${wg}">${[...Array(Math.max(wg,wn))].map((_,i)=>`<button class="gl ${i<wn?'on':''}" data-a="wSet" data-v="${i+1}" aria-label="${i+1}. pohár"></button>`).join('')}</div>`:''}</div>`
 }
 function todays(){return S.habits.filter(h=>scheduledOn(h,now()))}
 
@@ -1544,7 +1544,7 @@ home(){
   ${homeExtras()}
   <div class="sec-h"><h2>Mai szokások</h2><button class="link" data-a="habitsList">Mind</button></div>
   <div class="habits">${hs.length?hs.map(habitRow).join(''):S.habits.length?`<div class="card empty-note">Ma nincs ütemezett szokásod. Pihenj, vagy adj hozzá egy újat.</div>`:`<div class="card empty-note" style="display:flex;flex-direction:column;gap:12px;align-items:center">Még nincs szokásod. Válaszd ki azokat, amelyeket vezetni szeretnél, az életterületeken.<button class="btn" data-a="tab" data-t="habits">${ic('plus',18)} Szokások kiválasztása</button></div>`}</div>
-  <section class="card quote" aria-label="Napi inspiráció"><div class="eyebrow">Napi inspiráció</div><p class="q">„${q}”</p><div class="acts"><span class="muted">Bloomly · ${fmt(TODAY,{month:'long',day:'numeric'})}</span><button class="iconbtn" style="width:36px;height:36px;color:${fav?'#E28FA6':'var(--text2)'}" data-a="favQ" aria-pressed="${fav}" aria-label="Idézet kedvencnek jelölése"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px;${fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button></div><span class="mark">${ic('lotus',120)}</span></section>
+  <section class="card quote" aria-label="Napi inspiráció"><div class="eyebrow">Napi inspiráció</div><p class="q">„${q}”</p><div class="acts"><span class="muted">Bloomsette · ${fmt(TODAY,{month:'long',day:'numeric'})}</span><button class="iconbtn" style="width:36px;height:36px;color:${fav?'#E28FA6':'var(--text2)'}" data-a="favQ" aria-pressed="${fav}" aria-label="Idézet kedvencnek jelölése"><svg class="i" viewBox="0 0 24 24" style="width:18px;height:18px;${fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button></div><span class="mark">${ic('lotus',120)}</span></section>
   ${kindCard()}
   <button class="card garden-prev garden" data-a="tab" data-t="garden" style="text-align:left;width:100%" aria-label="Bloom Kert megnyitása">${gardenSVG(true)}<div class="meta"><div class="grow"><div class="eyebrow">Bloom Kert · ${lv.name}</div><div class="bar" style="margin-top:8px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div><div class="muted" style="margin-top:6px">${lv.next?`${lv.to-pt} szirom a(z) ${lv.next} szintig`:'Elérted a legmagasabb szintet'}</div></div>${ic('next',18)}</div></button>
   <section class="card row" aria-label="Esti reflexió"><span style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--lav-soft);color:var(--lav-deep);flex:none">${ic('moon')}</span><div class="grow"><b style="color:var(--ink)">Esti reflexió</b><div class="muted">${rf?'Ma már reflektáltál. Szép munka.':'Mit sikerült ma teljesítened?'}</div></div><button class="btn ${rf?'ghost':''}" style="padding:10px 16px;font-size:13px" data-a="openReflect">${rf?'Megnézem':'Kezdés'}</button></section>`
@@ -1654,7 +1654,7 @@ notifs(){
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Értesítések</h1></div>
   <section class="card list">${T.map(([k,t,tk,msg])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${tk?`<input type="time" class="inp" id="t-${tk}" value="${n[tk]}" data-a="time" data-k="${tk}" style="padding:6px 10px;width:auto;margin-top:4px" aria-label="${t} időpontja">`:esc(msg)}</div></div><button class="switch ${n[k]?'on':''}" data-a="ntog" data-k="${k}" role="switch" aria-checked="${!!n[k]}" aria-label="${t}"></button></div>`).join('')}</section>
   <div class="sec-h"><h2>Előnézet</h2><button class="link" data-a="demoNotif">Próba értesítés</button></div>
-  <div style="display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:28px;background:linear-gradient(160deg,color-mix(in srgb,var(--lav) 60%,var(--bg)),color-mix(in srgb,var(--peach) 50%,var(--bg)))">${NOTIFS.slice(0,4).map((m,i)=>`<div class="notif glass"><span class="ap">${LOTUS('n'+i)}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomly</b><span class="muted" style="font-size:11px">${['most','8:00','19:30','tegnap'][i]}</span></div><p style="font-size:13.5px;color:var(--ink)">${m}</p></div></div>`).join('')}</div>
+  <div style="display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:28px;background:linear-gradient(160deg,color-mix(in srgb,var(--lav) 60%,var(--bg)),color-mix(in srgb,var(--peach) 50%,var(--bg)))">${NOTIFS.slice(0,4).map((m,i)=>`<div class="notif glass"><span class="ap">${LOTUS('n'+i)}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomsette</b><span class="muted" style="font-size:11px">${['most','8:00','19:30','tegnap'][i]}</span></div><p style="font-size:13.5px;color:var(--ink)">${m}</p></div></div>`).join('')}</div>
   <p class="muted">A hangvétel mindig támogató: soha nem szidunk, nem sürgetünk. Napi legfeljebb 2 értesítés.</p>`
 },
 settings(){
@@ -1667,7 +1667,7 @@ settings(){
   <section class="card list"><button class="li" data-a="restartOb" style="width:100%;text-align:left"><div class="grow"><b style="color:var(--ink)">Bevezető újraindítása</b><div class="muted">Az onboarding újra lefut</div></div>${ic('next',18)}</button>
    <div class="li"><div class="grow"><b style="color:var(--ink)">Minden adat törlése</b><div class="muted" id="resetMsg">Az összes szokás, napló és kert visszaáll.</div></div><button class="btn danger" style="padding:9px 14px;font-size:13px" data-a="reset" id="resetBtn">Törlés</button></div></section>
   <section class="card list"><div class="li"><div class="grow"><b style="color:var(--ink)">Frissítések</b><div class="muted">${verLabel()} · ${updHint()}</div></div><button class="btn ghost" style="padding:9px 14px;font-size:13px" data-a="checkUpd">Keresés</button></div></section>
-  <p class="muted" style="text-align:center">Bloomly 1.0 · Virágozz minden nap.</p>`
+  <p class="muted" style="text-align:center">Bloomsette 1.0 · Virágozz minden nap.</p>`
 }};
 
 function moodChart(vals){const W=320,H=150,P=24,n=vals.length;const x=i=>P+i*(W-P*2)/(n-1||1),y=v=>H-P-(v-1)/4*(H-P*2);
@@ -2168,7 +2168,7 @@ function lfPanel(id,sc){const a=AREAS.find(x=>x.id===id),v=sc[id];
 
 /* ───────── Onboarding: 12 képernyő ───────── */
 const OB_FLOWERS=[{id:'lav',n:'Levendula',col:'#CBB7F7'},{id:'tulip',n:'Tulipán',col:'#E9A8B8'},{id:'poppy',n:'Pipacs',col:'#FFC9B3'},{id:'daisy',n:'Margaréta',col:'#FFFFFF'}];
-const MOOD_REPLY=['Csodás! Vigyük tovább ezt a ragyogást.','Szép, kiegyensúlyozott állapot. Építsünk rá.','Teljesen rendben van. Kis lépésekkel indulunk.','Köszönjük, hogy megosztottad. Ma legyél különösen kedves magadhoz.','Érthető. A Bloomly abban is segít, hogy lassíts egy kicsit.',
+const MOOD_REPLY=['Csodás! Vigyük tovább ezt a ragyogást.','Szép, kiegyensúlyozott állapot. Építsünk rá.','Teljesen rendben van. Kis lépésekkel indulunk.','Köszönjük, hogy megosztottad. Ma legyél különösen kedves magadhoz.','Érthető. A Bloomsette abban is segít, hogy lassíts egy kicsit.',
  'Ez az energia aranyat ér. Tegyük olyan szokásokba, amik sokáig kitartanak.','Milyen szép érzés! Jusson belőle magadra is egy kis figyelem.','A hála a legszebb kezdet. Ma is lesz miért hálásnak lenned.','Bízol magadban, és ez meglátszik. Merj ma nagyot lépni.','Jó, hogy szeretet vesz körül. Engedd, hogy feltöltsön.',
  'A töprengés is érték. Egy kis naplóírás segíthet rendet tenni a gondolataidban.','A tested pihenést kér. Ma a kisebb lépések is számítanak.','Nem vagy egyedül. Egy rövid üzenet egy barátnak csodákra képes.','Lélegezz mélyet. Most semmi nem sürget, egyszerre csak egy dolog.','Rendben van dühösnek lenni. Egy kis mozgás vagy séta segíthet kiengedni.'];
 /* Kihagyott bevezető lépések: 3 = első szokások (a Szokások menüben választod ki), 4 = Életvirág */
@@ -2184,7 +2184,7 @@ function renderOb(dir){
   const s=ob.step,N=12-OB_SKIP.length,pos=s+1-OB_SKIP.filter(x=>x<s).length;let b='',cta='Tovább',ok=true,skip=false,sec='';
   const H=(eb,t,l)=>`<div class="eyebrow">${eb}</div><h1>${t}</h1>${l?`<p class="lead">${l}</p>`:''}`;
   const freq=t=>freqLabel(t).toLowerCase();
-  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMLY</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomly világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('cycle',14)} Ciklus</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
+  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMSETTE</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomsette világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('cycle',14)} Ciklus</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
   if(s===1){ok=ob.areas.length>0;const card=(a,sm)=>{const on=ob.areas.includes(a.id);return`<button class="area ${sm?'sm':''} ${on?'on':''}" style="--ac:${a.c}" data-a="obArea" data-v="${a.id}" aria-pressed="${on}"${sm?` title="${AREAS.find(x=>x.id===a.p).n} szirom"`:''}><span class="tile">${ic(a.i,sm?18:20)}</span><b>${a.n}</b>${sm?'':`<small>${a.d}</small>`}<span class="tick">${ic('check',sm?11:13)}</span></button>`};
     b=H('Fókusz','Miben szeretnél fejlődni?','Válaszd ki azokat a területeket, amelyek most a legfontosabbak neked. Bármennyit választhatsz, és később is módosíthatod.')+`<div class="sec-h"><h2 style="font-size:16px">Életterületek</h2><span class="muted">${AREAS.filter(a=>ob.areas.includes(a.id)).length}/8</span></div><div class="area-grid">${AREAS.map(a=>card(a)).join('')}</div>`;cta=ok?`Tovább · ${ob.areas.length} terület`:'Válassz legalább egy területet'}
   if(s===2){const seenG=new Set(),opts=ALL_FOCUS.filter(a=>ob.areas.includes(a.id)).flatMap(a=>a.g.map(g=>({g,a}))).filter(o=>!seenG.has(o.g)&&seenG.add(o.g));ok=ob.goals.length>0;
@@ -2200,7 +2200,7 @@ function renderOb(dir){
   if(s===5){b=H('Bloom Kert','Ez a te Bloom Kerted','Minden teljesített szokás egy új virágot növeszt. A kerted veled együtt fejlődik, és soha nem hervad el.')+`<div class="ob-garden">${demoGarden()}</div><div class="tips">${[['check','mint','Kipipálsz egy szokást,','és kinyílik egy virág. +10 szirom.'],['flame','peach','Sorozatot építesz,','és ritka növények költöznek a kertedbe.'],['star','gold','Különleges eredményeket érsz el,','és fák, tó, szezonális díszek jelennek meg.']].map(([i,c,t,d],k)=>`<div class="tip ob-tip" style="animation-delay:${(1.6+k*.18).toFixed(2)}s"><span class="ic" style="background:var(--${c})">${ic(i,18)}</span><p><b style="color:var(--ink)">${t}</b> ${d}</p></div>`).join('')}</div>`;cta='Csodás, tovább'}
   if(s===6){skip=true;b=H('Ciklus','Kövessük együtt a ciklusodat?','A tested ritmusa hat az energiádra és a hangulatodra. Fázisonként személyre szabott tippeket adunk.')+`<div class="ob-phases">${Object.values(PHASES).map(p=>`<span style="background:${p.c}">${p.n.split(' ')[0]}</span>`).join('')}</div><button class="opt ${ob.cycle?'on':''}" data-a="obCycle" role="switch" aria-checked="${ob.cycle}"><span class="tile" style="background:var(--rose)">${ic('cycle',18)}</span><div class="grow"><b>Cikluskövetés</b><div class="muted">Titkosítva, csak az eszközödön tárolva</div></div><span class="switch ${ob.cycle?'on':''}" aria-hidden="true"></span></button>${ob.cycle?`<div class="field"><label for="obl">Utolsó menstruációd első napja</label><input class="inp" type="date" id="obl" value="${ob.last||keyOf(addDays(now(),-14))}" max="${TODAY}"></div><div class="row" style="margin-top:14px"><span class="grow muted">Átlagos ciklushossz</span><div class="stepper"><button data-a="obClen" data-v="-1" aria-label="Rövidebb">−</button><b>${ob.clen}</b><button data-a="obClen" data-v="1" aria-label="Hosszabb">+</button></div><span class="muted">nap</span></div>`:''}`;cta=ob.cycle?'Bekapcsolom':'Tovább nélküle'}
   if(s===7){skip=true;ok=ob.mood!=null;b=H('Hangulat','Hogy érzed magad most?','Nincs jó vagy rossz válasz. Ez lesz az első bejegyzés a hangulatnaplódban.')+`<div class="mood-big">${MOODS.map((m,i)=>`<button class="${ob.mood===i?'on':''}" data-a="obMood" data-v="${i}" aria-pressed="${ob.mood===i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div>${ob.mood!=null?`<div class="insight mood-reply">${ic('heart')}<p>${MOOD_REPLY[ob.mood]}</p></div>`:''}`;cta=ok?'Tovább':'Válassz egy hangulatot'}
-  if(s===8){b=H('Értesítések','Kérsz kedves emlékeztetőket?','Naponta legfeljebb kettőt küldünk. Soha nem sürgetünk, és bármikor kikapcsolhatod.')+`<div class="notif glass notif-demo"><span class="ap">${LOTUS('obn')}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomly</b><span class="muted" style="font-size:11px">${ob.mt}</span></div><p style="font-size:13.5px;color:var(--ink)">Jó reggelt${ob.name?', '+esc(ob.name):''}! A kerted vár rád 🌸</p></div></div>
+  if(s===8){b=H('Értesítések','Kérsz kedves emlékeztetőket?','Naponta legfeljebb kettőt küldünk. Soha nem sürgetünk, és bármikor kikapcsolhatod.')+`<div class="notif glass notif-demo"><span class="ap">${LOTUS('obn')}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomsette</b><span class="muted" style="font-size:11px">${ob.mt}</span></div><p style="font-size:13.5px;color:var(--ink)">Jó reggelt${ob.name?', '+esc(ob.name):''}! A kerted vár rád 🌸</p></div></div>
     <section class="card list">${[['nm','mt','Reggeli check-in','Hogy indul a napod?'],['ne','et','Esti reflexió','Mire vagy ma büszke?']].map(([k,tk,t,d])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div><input type="time" class="inp" id="ob-${tk}" value="${ob[tk]}" style="width:auto;padding:8px 10px" aria-label="${t} időpontja" ${ob[k]?'':'disabled'}><button class="switch ${ob[k]?'on':''}" data-a="obNotif" data-k="${k}" role="switch" aria-checked="${ob[k]}" aria-label="${t}"></button></div>`).join('')}</section>`;cta='Engedélyezem';sec='Most nem'}
   if(s===9){b=H('Személyre szabás','Tedd a magadévá','Hogyan szólíthatunk, és melyik hangulat illik hozzád?')+`<div class="field"><label for="obn">Keresztneved</label><input class="inp" id="obn" value="${esc(ob.name)}" placeholder="pl. Anna" maxlength="24" autocomplete="given-name"></div><div class="lbl" style="margin-top:18px">Téma</div>${themeCards(ob.theme,'obTheme')}`}
   if(s===10){const f=OB_FLOWERS.find(x=>x.id===ob.flower);ok=ob.planted;b=H('Első virág','Ültesd el az első virágodat',ob.planted?'Gyönyörű. Ez a virág mindig a kerted közepén marad, emlékeztetőül arra, hogy itt kezdődött.':'Válassz egy virágot, majd tartsd lenyomva a gombot, amíg a mag a földbe kerül.')+`${ob.planted?'':`<div class="flower-pick">${OB_FLOWERS.map(x=>`<button class="fp ${ob.flower===x.id?'on':''}" data-a="obFlower" data-v="${x.id}" aria-pressed="${ob.flower===x.id}">${flowerArt(x.id,x.col,64)}${x.n}</button>`).join('')}</div>`}<div class="pot">${potArt(f,ob.planted)}</div>${ob.planted?`<div class="insight mood-reply">${ic('sparkle')}<p>Az első virágod kinyílt: <b>${f.n}</b></p></div>`:`<button class="plant-btn" id="plantBtn" aria-label="Tartsd lenyomva az ültetéshez, vagy nyomj Entert"><i></i><span>${ic('sprout',18)} Tartsd lenyomva az ültetéshez</span></button>`}`;cta=ok?'Tovább':'Előbb ültesd el a virágot'}
@@ -2329,7 +2329,7 @@ const A={
  lfSel(el){const v=el.dataset.v;if($('#ob').innerHTML){ob.lfs=v;renderOb()}else{S.ui.lfs=v;render(true)}},
  lfSave(){S.life.hist=S.life.hist.filter(h=>h.date!==TODAY);S.life.hist.push({date:TODAY,scores:{...S.life.scores}});save();render(true);toast('Életvirág elmentve 🌸')}
 };
-/* „Bloomly ajánlja” blokk egy életterülethez: alcsoport-csipek, egy érintéses felvétel, „Mindet felveszem” */
+/* „Bloomsette ajánlja” blokk egy életterülethez: alcsoport-csipek, egy érintéses felvétel, „Mindet felveszem” */
 const recoNames=id=>new Set((RECO[id]||[]).flatMap(g=>g.items.map(r=>r.name)));
 /* Ha egy szokást korábban visszatettél az ajánlások közé, újrafelvételkor a régi előzményeivel együtt tér vissza */
 /* Szokástár = beépített ötletek + a saját magad létrehozott szokások (S.myLib). Egy saját szokás létrehozásakor
@@ -2342,9 +2342,9 @@ function recoHabit(r,area){const old=(S.parked||{})[r.name];if(old){delete S.par
 function recoSection(a,have){if(a.custom)return`<section class="card empty-note" style="text-align:left">Ez a saját életterületed. A fenti <b>+ Új szokás</b> gombbal adhatsz hozzá szokásokat, vagy a Szokástárból is választhatsz.</section>`;
   /* Csak a még fel nem vett javaslatok látszanak; a felvett szokás átkerül a Szokások részbe. Az üres alcsoport eltűnik. */
   const gs=(RECO[a.id]||[]).map((x,i)=>({...x,i,items:x.items.filter(r=>!have.has(r.name))})).filter(x=>x.items.length);
-  if(!gs.length)return`<section class="reco reco-done" style="--ac:${a.c}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomly ajánlja</div><b>Minden javaslatot felvettél</b><div class="muted">További ötleteket a Szokástárban találsz.</div></div><button class="link" data-a="go" data-s="library">Szokástár</button></div></section>`;
+  if(!gs.length)return`<section class="reco reco-done" style="--ac:${a.c}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomsette ajánlja</div><b>Minden javaslatot felvettél</b><div class="muted">További ötleteket a Szokástárban találsz.</div></div><button class="link" data-a="go" data-s="library">Szokástár</button></div></section>`;
   const want=((S.ui.recoG||{})[a.id])||0,g=gs.find(x=>x.i===want)||gs[0],left=g.items.length;
-  return`<section class="reco" style="--ac:${a.c}" aria-label="Bloomly ajánlja: ${a.n}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomly ajánlja</div><b>${g.g}</b></div><button class="link" data-a="go" data-s="library">Szokástár</button></div>
+  return`<section class="reco" style="--ac:${a.c}" aria-label="Bloomsette ajánlja: ${a.n}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomsette ajánlja</div><b>${g.g}</b></div><button class="link" data-a="go" data-s="library">Szokástár</button></div>
    ${gs.length>1?`<div class="chips">${gs.map(x=>`<button class="chip ${x.i===g.i?'on':''}" data-a="recoG" data-area="${a.id}" data-v="${x.i}">${x.g} · ${x.items.length}</button>`).join('')}</div>`:''}
    <div class="list reco-list">${g.items.map(r=>`<div class="li"><span class="reco-ic" style="background:${COLORS[r.color]}">${ic(r.icon,17)}</span><div class="grow"><b>${r.name}</b><div class="muted">${r.note} · ${freqLabel(r).toLowerCase()}</div></div><button class="chk add" data-a="recoAdd" data-area="${a.id}" data-n="${esc(r.name)}" aria-label="${esc(r.name)} felvétele a szokásaim közé">${ic('plus')}</button></div>`).join('')}</div>
    ${left>1?`<button class="btn ghost block" style="margin-top:10px" data-a="recoAll" data-area="${a.id}" data-g="${g.i}">${ic('plus',16)} Mind a ${left} felvétele</button>`:''}</section>`}
@@ -2377,7 +2377,7 @@ weight(){
 }});
 Object.assign(EXTRA_A,{
  recoG(el){S.ui.recoG={...(S.ui.recoG||{}),[el.dataset.area]:+el.dataset.v};render(true)},
- unReco(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;S.parked={...(S.parked||{}),[h.name]:h};S.habits=S.habits.filter(x=>x.id!==h.id);save();render(true);toast(`„${h.name}” visszakerült a Bloomly ajánlja részbe`)},
+ unReco(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;S.parked={...(S.parked||{}),[h.name]:h};S.habits=S.habits.filter(x=>x.id!==h.id);save();render(true);toast(`„${h.name}” visszakerült a Bloomsette ajánlja részbe`)},
  recoAdd(el){const g=(RECO[el.dataset.area]||[]).flatMap(x=>x.items),r=g.find(x=>x.name===el.dataset.n);if(!r||S.habits.some(h=>h.name===r.name))return;S.habits.push(recoHabit(r,el.dataset.area));save();render(true);toast(`${r.name} elültetve 🌱`)},
  recoAll(el){const a=el.dataset.area,g=(RECO[a]||[])[+el.dataset.g];if(!g)return;let n=0;g.items.forEach(r=>{if(!S.habits.some(h=>h.name===r.name)){S.habits.push(recoHabit(r,a));n++}});save();render(true);toast(n?`${n} szokás elültetve 🌱`:'Ezek már mind a szokásaid között vannak')},
  openArea(el){S.ui.area=el.dataset.v;if(S.ui.sub==='area'){render();return}A.go({dataset:{s:'area'}})},
@@ -2455,7 +2455,7 @@ function visionView(){
   if(mode==='ideas'){
     const have=new Set(S.vision.map(v=>v.text)),f=S.ui.vic||'Mind',list=VIDEAS.map((x,i)=>({x,i})).filter(({x})=>!have.has(x[1])&&(f==='Mind'||x[2]===f));
     const cats=['Mind',...VCATS.map(c=>c[0]).filter(c=>VIDEAS.some(x=>x[2]===c))];
-    return`${head}<p class="muted">Válogass a Bloomly ötleteiből. Egy koppintással felkerülnek a táblára, és később bármikor átírhatod őket.</p>
+    return`${head}<p class="muted">Válogass a Bloomsette ötleteiből. Egy koppintással felkerülnek a táblára, és később bármikor átírhatod őket.</p>
     <div class="chips">${cats.map(c=>`<button class="chip ${f===c?'on':''}" data-a="vic" data-v="${c}">${c==='Mind'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
     ${Object.keys(VT).filter(t=>t!=='img').map(t=>{const its=list.filter(({x})=>x[0]===t);return its.length?`<div class="vsec">${VT[t].n}</div><div class="vlist">${its.map(({x,i})=>`<div class="videa"><span class="cdot" style="background:${vcol(x[2])};width:12px;height:12px;margin:0"></span><p><small>${x[2]}${x[3]&&t==='goal'?` · ${x[3].length} lépés`:''}</small>${esc(x[1])}</p><button data-a="videa" data-i="${i}" aria-label="Hozzáadás a táblához">${ic('plus',18)}</button></div>`).join('')}</div>`:''}).join('')||`<div class="card empty-note">Minden ötletet felvettél ebből a kategóriából. 🌸</div>`}`}
   const f=S.ui.vf||'Mind',items=vFiltered(),cats=VCATS.map(c=>c[0]).filter(c=>S.vision.some(v=>v.cat===c));
@@ -2532,7 +2532,7 @@ Object.assign(A,VISION_A,AREA_A);
 document.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Enter'&&t.id==='vns'){e.preventDefault();const b=$('[data-a="vaddstep"]');if(b)b.click()}else if((e.key==='Enter'||e.key===' ')&&t.matches('[role="button"][data-a]')){e.preventDefault();t.click()}});
 
 
-/* ═════════ Bloomly 2.0 ═════════
+/* ═════════ Bloomsette 2.0 ═════════
    Értesítések, biztonsági mentés, Android widget, heti visszatekintő, kihívások, vízkövető, fókusz időzítő,
    napi kedvesség, pihenő mód, jegyzetek a pipákhoz, megosztható képek és kódzár. */
 const NAT=window.BloomlyNative||null;
@@ -2593,7 +2593,7 @@ function chInfo(){const c=S.ch&&S.ch.cur;if(!c)return null;const p=CHALLENGES.fi
 
 /* ───────── Értesítések ─────────
    Androidon a natív app ütemezi őket (akkor is jönnek, ha az app be van zárva); az exe-ben és a böngészőben
-   addig jönnek, amíg a Bloomly nyitva van. A napok: 0 = hétfő … 6 = vasárnap. */
+   addig jönnek, amíg a Bloomsette nyitva van. A napok: 0 = hétfő … 6 = vasárnap. */
 function notifPlan(){const n=S.notif,out=[],paused=isPaused(TODAY);
   if(n.morning)out.push({id:'morning',...hm(n.mt),title:`Jó reggelt, ${S.name}! 🌸`,text:NOTIFS[4]});
   if(n.evening)out.push({id:'evening',...hm(n.et),title:'Esti reflexió 🌙',text:NOTIFS[5]});
@@ -2620,7 +2620,7 @@ function notifState(){if(NAT)return natHas('notifEnabled')?(natCall('notifEnable
 function saveB64(name,mime,b64,share){
   if(natHas('saveFile')){const r=natCall('saveFile',name,mime,b64,!!share);toast(r||'Mentve');return}
   const bin=atob(b64),arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);const blob=new Blob([arr],{type:mime});
-  if(share&&navigator.canShare){try{const f=new File([blob],name,{type:mime});if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Bloomly'}).catch(()=>{});return}}catch(e){}}
+  if(share&&navigator.canShare){try{const f=new File([blob],name,{type:mime});if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Bloomsette'}).catch(()=>{});return}}catch(e){}}
   const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Mentve a Letöltések mappába')}
 function shareCanvas(cv,name){saveB64(name,'image/png',cv.toDataURL('image/png').split(',')[1],true)}
 function rr(x,c,y,w,h,r){x.beginPath();x.moveTo(c+r,y);x.arcTo(c+w,y,c+w,y+h,r);x.arcTo(c+w,y+h,c,y+h,r);x.arcTo(c,y+h,c,y,r);x.arcTo(c,y,c+w,y,r);x.closePath()}
@@ -2631,25 +2631,25 @@ function gardenImage(){const svg=cssVars(gardenSVG(false)).replace('<svg ','<svg
     x.fillStyle='#4A3F5C';x.textAlign='center';x.font='600 64px Georgia, serif';x.fillText(`${S.name} kertje`,W/2,150);
     const lv=level();x.font='500 34px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom · ${curStreak()} napos sorozat`,W/2,210);
     x.save();rr(x,60,270,W-120,(W-120)*.75,48);x.clip();x.drawImage(im,60,270,W-120,(W-120)*.75);x.restore();
-    x.fillStyle='#B49CE6';x.font='600 36px Georgia, serif';x.fillText('Bloomly · Virágozz minden nap.',W/2,H-90);
-    shareCanvas(cv,`bloomly-kert-${TODAY}.png`)};
+    x.fillStyle='#B49CE6';x.font='600 36px Georgia, serif';x.fillText('Bloomsette · Virágozz minden nap.',W/2,H-90);
+    shareCanvas(cv,`bloomsette-kert-${TODAY}.png`)};
   im.onerror=()=>toast('Nem sikerült a képet elkészíteni');im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)}
 function monthImage(){const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),dim=new Date(b.getFullYear(),b.getMonth()+1,0).getDate();
   const hs=S.habits.filter(h=>!isT(h)).slice(0,18),cell=26,gap=4,left=300,top=230,W=Math.max(1080,left+dim*(cell+gap)+60),H=top+hs.length*(cell+12)+200;
   const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.fillStyle='#FFFDFB';x.fillRect(0,0,W,H);
   x.fillStyle='#4A3F5C';x.textAlign='left';x.font='600 56px Georgia, serif';const t=b.toLocaleDateString('hu-HU',{year:'numeric',month:'long'});x.fillText(t.charAt(0).toUpperCase()+t.slice(1),60,110);
-  x.font='500 28px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${S.name} szokáskövetője · Bloomly`,60,158);
+  x.font='500 28px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${S.name} szokáskövetője · Bloomsette`,60,158);
   x.textAlign='center';x.font='600 18px system-ui, sans-serif';for(let i=0;i<dim;i++){const d=new Date(b.getFullYear(),b.getMonth(),i+1,12);x.fillStyle=wd(d)>=5?'#B49CE6':'#8A7F99';x.fillText(i+1,left+i*(cell+gap)+cell/2,top-16)}
   hs.forEach((h,r)=>{const y=top+r*(cell+12);x.textAlign='left';x.fillStyle='#4A3F5C';x.font='600 22px system-ui, sans-serif';let n=h.name;while(x.measureText(n).width>left-90&&n.length>3)n=n.slice(0,-2);x.fillText(n===h.name?n:n+'…',60,y+cell-6);
     for(let i=0;i<dim;i++){const d=new Date(b.getFullYear(),b.getMonth(),i+1,12),k=keyOf(d),cx=left+i*(cell+gap);const on=isDone(h,k),sc=scheduledOn(h,d),fut=k>TODAY;
       x.fillStyle=on?(COLORS[h.color]||'#CBB7F7'):fut?'#F6F3F8':sc?'#ECE7F0':'#FAF8FB';rr(x,cx,y,cell,cell,8);x.fill();if(on){x.strokeStyle='rgba(74,63,92,.55)';x.lineWidth=2.4;x.beginPath();x.moveTo(cx+7,y+13);x.lineTo(cx+11.5,y+18);x.lineTo(cx+19,y+8);x.stroke()}}});
-  x.textAlign='center';x.fillStyle='#B49CE6';x.font='600 26px Georgia, serif';x.fillText('Virágozz minden nap.',W/2,H-60);shareCanvas(cv,`bloomly-${keyOf(b).slice(0,7)}.png`)}
+  x.textAlign='center';x.fillStyle='#B49CE6';x.font='600 26px Georgia, serif';x.fillText('Virágozz minden nap.',W/2,H-60);shareCanvas(cv,`bloomsette-${keyOf(b).slice(0,7)}.png`)}
 
 /* ───────── Biztonsági mentés ───────── */
 let restoreDraft=null;
 function backupFile(){restoreDraft=null;const f=document.createElement('input');f.type='file';f.accept='application/json,.json';f.style.display='none';document.body.appendChild(f);
   f.addEventListener('change',()=>{const file=f.files[0];f.remove();if(!file)return;const rd=new FileReader();rd.onload=()=>{let o=null;try{o=JSON.parse(rd.result)}catch(e){}const d=o&&(o.data||o);
-    if(!d||!Array.isArray(d.habits)||typeof d.log!=='object'){toast('Ez nem Bloomly mentés');return}restoreDraft=d;
+    if(!d||!Array.isArray(d.habits)||typeof d.log!=='object'){toast('Ez nem Bloomsette mentés');return}restoreDraft=d;
     const days=Object.keys(d.log||{}).length;openSheet(`<h2>Visszaállítás</h2><p class="muted">${o.date?`Mentés ideje: ${new Date(o.date).toLocaleString('hu-HU')}`:''}</p>
      <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${d.habits.length}</b><small>szokás</small></div><div class="kpi"><b>${days}</b><small>nap előzmény</small></div><div class="kpi"><b>${(d.vision||[]).length}</b><small>Vision Board elem</small></div></div>
      <div class="insight" style="margin-top:14px">${ic('shield')}<p>A jelenlegi adataid helyére a mentés kerül. Ha bizonytalan vagy, előbb készíts mentést a mostani állapotról is.</p></div>
@@ -2738,7 +2738,7 @@ function insightsCard(){const L=[],av=a=>a.reduce((x,y)=>x+y,0)/a.length,f1=v=>v
   const hs=S.habits.filter(h=>!isT(h)).map(h=>{let a=0,b=0;for(let i=0;i<30;i++){const d=addDays(now(),-i);if(!scheduledOn(h,d))continue;b++;if(isDone(h,keyOf(d)))a++}return{h,r:b>=5?a/b:null}}).filter(x=>x.r!=null);
   if(hs.length>=2){const b=hs.slice().sort((a,c)=>c.r-a.r)[0],w=hs.slice().sort((a,c)=>a.r-c.r)[0];L.push(['medal',`A legkövetkezetesebb szokásod: <b>${esc(b.h.name)}</b> (${pct(b.r)}).${w.r<.5?` A(z) <b>${esc(w.h.name)}</b> csak ${pct(w.r)}: érdemes kisebbre venni vagy más napszakra tenni.`:''}`])}
   const pw=(S.pomo||[]).filter(p=>dayDiff(TODAY,p.date)<7).length;if(pw)L.push(['flame',`Ezen a héten <b>${pw} fókuszblokkot</b> fejeztél be, ez ${(S.pomo||[]).filter(p=>dayDiff(TODAY,p.date)<7).reduce((a,p)=>a+(p.min||0),0)} perc mély munka.`]);
-  return`<section class="card"><b style="color:var(--ink)">Felismerések</b><p class="muted">A Bloomly az adataidból keres összefüggéseket. Minél többet rögzítesz, annál pontosabbak.</p>${L.length?`<div class="ins-list">${L.map(([i,t])=>`<div class="insight">${ic(i)}<p>${t}</p></div>`).join('')}</div>`:'<p class="muted" style="margin-top:10px">Még kevés az adat. Néhány hét rögzítés után itt jelennek meg az első felismerések.</p>'}</section>`}
+  return`<section class="card"><b style="color:var(--ink)">Felismerések</b><p class="muted">A Bloomsette az adataidból keres összefüggéseket. Minél többet rögzítesz, annál pontosabbak.</p>${L.length?`<div class="ins-list">${L.map(([i,t])=>`<div class="insight">${ic(i)}<p>${t}</p></div>`).join('')}</div>`:'<p class="muted" style="margin-top:10px">Még kevés az adat. Néhány hét rögzítés után itt jelennek meg az első felismerések.</p>'}</section>`}
 
 /* ───────── Kezdőlap kártyák ───────── */
 function homeExtras(){let o='';const pz=S.pause,ci=chInfo(),rm=reviewMon(),rk=keyOf(rm);
@@ -2760,15 +2760,15 @@ function kindCard(){const on=!!S.kind[TODAY];return`<section class="card kind-ca
 /* ───────── Értesítések képernyő ───────── */
 function notifsView(){const n=S.notif,st=notifState();
   const T=[['morning','Reggeli check-in','mt'],['evening','Esti reflexió','et'],['streak','Sorozatvédelem','st'],['garden','Heti visszatekintő','']];
-  const stTxt={on:['Az értesítések be vannak kapcsolva.','mint'],off:['Az értesítések nincsenek engedélyezve.','peach'],denied:['A böngésző letiltotta az értesítéseket. A böngésző beállításaiban engedélyezheted.','peach'],none:['Ez a böngésző nem támogatja az értesítéseket.','peach'],old:['Az értesítésekhez telepítsd a Bloomly legújabb APK-ját.','peach'],desk:['Az asztali változatban az emlékeztetők a Bloomly ablakában jelennek meg, amíg az app nyitva van.','mint']}[st];
+  const stTxt={on:['Az értesítések be vannak kapcsolva.','mint'],off:['Az értesítések nincsenek engedélyezve.','peach'],denied:['A böngésző letiltotta az értesítéseket. A böngésző beállításaiban engedélyezheted.','peach'],none:['Ez a böngésző nem támogatja az értesítéseket.','peach'],old:['Az értesítésekhez telepítsd a Bloomsette legújabb APK-ját.','peach'],desk:['Az asztali változatban az emlékeztetők a Bloomsette ablakában jelennek meg, amíg az app nyitva van.','mint']}[st];
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Értesítések</h1></div>
   <section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--${stTxt[1]});color:var(--on-pastel);flex:none">${ic('bell',18)}</span><div class="grow"><b style="color:var(--ink)">${st==='on'?'Engedélyezve':st==='desk'?'Asztali emlékeztetők':'Nincs engedélyezve'}</b><div class="muted">${stTxt[0]}</div></div>${st==='off'?`<button class="btn" style="padding:9px 14px;font-size:13px" data-a="notifAsk">Engedélyezés</button>`:''}</section>
   <section class="card list">${T.map(([k,t,tk])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${tk?`<input type="time" class="inp" value="${n[tk]||'20:00'}" data-nt="${tk}" style="padding:6px 10px;width:auto;margin-top:4px" aria-label="${t} időpontja">`:'Vasárnap 18:00'}</div></div><button class="switch ${n[k]?'on':''}" data-a="ntog" data-k="${k}" role="switch" aria-checked="${!!n[k]}" aria-label="${t}"></button></div>`).join('')}</section>
   <div class="sec-h"><h2>Szokás-emlékeztetők</h2></div>
-  <p class="muted">Adj meg egy időpontot, és a Bloomly szól, ha aznap még nem pipáltad ki a szokást.</p>
+  <p class="muted">Adj meg egy időpontot, és a Bloomsette szól, ha aznap még nem pipáltad ki a szokást.</p>
   ${S.habits.length?`<section class="card list">${S.habits.map(h=>`<div class="li"><span class="tile" style="width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel);flex:none">${ic(h.icon,16)}</span><div class="grow"><b style="color:var(--ink)">${esc(h.name)}</b><div class="muted">${freqLabel(h)}</div></div><input type="time" class="inp" value="${h.remind||''}" data-hr="${h.id}" style="padding:6px 8px;width:auto" aria-label="${esc(h.name)} emlékeztető időpontja">${h.remind?`<button class="iconbtn" style="width:32px;height:32px" data-a="hrClear" data-id="${h.id}" aria-label="Emlékeztető törlése">${ic('close',14)}</button>`:''}</div>`).join('')}</section>`:'<div class="card empty-note">Még nincs szokásod.</div>'}
   <div class="sec-h"><h2>Előnézet</h2><button class="link" data-a="demoNotif">Próba értesítés</button></div>
-  <p class="muted">A hangvétel mindig támogató: soha nem szidunk, nem sürgetünk. Csak azokat az értesítéseket kapod, amelyeket itt bekapcsolsz.${NAT?'':' Az asztali változatban akkor jönnek, ha a Bloomly nyitva van.'}</p>`}
+  <p class="muted">A hangvétel mindig támogató: soha nem szidunk, nem sürgetünk. Csak azokat az értesítéseket kapod, amelyeket itt bekapcsolsz.${NAT?'':' Az asztali változatban akkor jönnek, ha a Bloomsette nyitva van.'}</p>`}
 
 /* ───────── Beállítások: új részek ───────── */
 function settingsExtra(){const lb=S.lastBackup;
@@ -2801,10 +2801,10 @@ document.addEventListener('keydown',e=>{if(!$('#lock')||!$('#lock').classList.co
 const F_A={
  /* értesítések */
  notifAsk(){if(NAT){natCall('askNotif');setTimeout(()=>render(true),1500);return}if(window.Notification)Notification.requestPermission().then(()=>render(true))},
- demoNotif(){const t='Bloomly 🌸',b=NOTIFS[Math.floor(Math.random()*4)];if(natHas('testNotif')){natCall('testNotif',t,b);toast('Próba értesítés elküldve')}else if(notifState()==='on')showNotif(t,b);else toast(b)},
+ demoNotif(){const t='Bloomsette 🌸',b=NOTIFS[Math.floor(Math.random()*4)];if(natHas('testNotif')){natCall('testNotif',t,b);toast('Próba értesítés elküldve')}else if(notifState()==='on')showNotif(t,b);else toast(b)},
  hrClear(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(h){delete h.remind;save();render(true)}},
  /* mentés */
- backupSave(){saveB64(`bloomly-mentes-${TODAY}.json`,'application/json',b64u(JSON.stringify({app:'Bloomly',v:2,date:new Date().toISOString(),data:S})),false);S.lastBackup=TODAY;save();render(true)},
+ backupSave(){saveB64(`bloomsette-mentes-${TODAY}.json`,'application/json',b64u(JSON.stringify({app:'Bloomsette',v:2,date:new Date().toISOString(),data:S})),false);S.lastBackup=TODAY;save();render(true)},
  backupLoad(){backupFile()},
  restoreOk(){if(!restoreDraft)return;const d=restoreDraft;d.onboarded=true;d.ui={...(d.ui||{}),tab:'home',sub:null};try{localStorage.setItem(SKEY,JSON.stringify(d))}catch(e){toast('Nem sikerült a mentés visszaállítása');return}closeSheet();toast('Visszaállítva ✨');setTimeout(()=>location.reload(),600)},
  /* megosztás */
@@ -2973,7 +2973,7 @@ function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(f
    ${m.i?`<div class="fin-rate">Megtakarítási ráta: <b>${Math.max(0,Math.round(bal/m.i*100))}%</b></div>`:''}</section>
   ${bt?`<section class="card"><div class="row" style="justify-content:space-between"><b style="color:var(--ink)">Havi költségkeret</b><span class="muted">${Math.round(bp*100)}%</span></div><div class="bar fin-bar ${bp>=1?'over':bp>=.85?'warn':''}" style="margin-top:10px"><i style="width:${Math.min(100,bp*100)}%"></i></div>
    <div class="muted" style="margin-top:8px">${left>=0?`${ft(left)} maradt a ${ft(bt)} keretből${cur&&dl>0?` · naponta kb. <b style="color:var(--ink)">${ft(left/dl)}</b> költhető`:''}`:`<b style="color:#B0485F">${ft(-left)}-tal túllépted</b> a havi keretet`}</div></section>`
-   :`<button class="insight" data-a="fv" data-v="bud" style="width:100%;text-align:left">${ic('target')}<p>Állíts be <b>havi költségkeretet</b>, és a Bloomly naponta megmutatja, mennyit költhetsz még.</p></button>`}
+   :`<button class="insight" data-a="fv" data-v="bud" style="width:100%;text-align:left">${ic('target')}<p>Állíts be <b>havi költségkeretet</b>, és a Bloomsette naponta megmutatja, mennyit költhetsz még.</p></button>`}
   <div class="kpis"><div class="kpi"><b>${ftS(avg)} Ft</b><small>napi átlagos kiadás</small></div><div class="kpi"><b>${ftS(proj)} Ft</b><small>${cur?'várható havi kiadás':'havi kiadás'}</small></div>
    <div class="kpi"><b>${dlt==null?'–':(dlt>0?'+':'')+dlt+'%'}</b><small>kiadás az előző hónaphoz képest</small></div><div class="kpi"><b>${m.n}</b><small>tétel ebben a hónapban</small></div></div>
   ${due.length?`<div class="sec-h"><h2>Rögzítésre vár</h2>${due.length>1?`<button class="link" data-a="recPayAll">Mind rögzítése</button>`:''}</div><section class="card list">${due.map(r=>{const c=FCAT[r.cat]||FCAT.other,st=recState(r,mk);
@@ -3126,7 +3126,7 @@ const FIN_A={
  finExport(){const f=ensureFin();if(!f.tx.length){toast('Még nincs exportálható tétel');return}
   const q=s=>`"${String(s??'').replace(/"/g,'""')}"`;
   const rows=[['Dátum','Típus','Kategória','Összeg (Ft)','Fizetési mód','Megjegyzés'],...f.tx.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(t=>[t.date,t.t==='in'?'Bevétel':'Kiadás',(FCAT[t.cat]||FCAT.other).n,(t.t==='in'?1:-1)*t.amt,t.pm||'',t.note||''])];
-  saveB64(`bloomly-penzugyek-${TODAY}.csv`,'text/csv',b64u('﻿'+rows.map(r=>r.map(q).join(';')).join('\r\n')),true)}
+  saveB64(`bloomsette-penzugyek-${TODAY}.csv`,'text/csv',b64u('﻿'+rows.map(r=>r.map(q).join(';')).join('\r\n')),true)}
 };
 Object.assign(A,FIN_A);
 Object.assign(SCREENS,{money:moneyView});
@@ -3158,8 +3158,8 @@ const UPD_BASE='https://kovacsanitacintia-del.github.io/bloomly-app/';
 const APP_VER=(document.querySelector('meta[name="bloomly-version"]')||{}).content||'';
 function verLabel(){const v=(window.BloomlyNative&&BloomlyNative.version&&BloomlyNative.version())||APP_VER;return /^\d{12,14}$/.test(v)?`Verzió: ${v.slice(0,4)}.${v.slice(4,6)}.${v.slice(6,8)}. ${v.slice(8,10)}:${v.slice(10,12)}`:'Fejlesztői változat'}
 function updHint(){return window.BloomlyNative?'az app indításkor magától keres':/[?&]app=1/.test(location.search)?'az exe minden indításkor frissül':'a webes változat mindig a legfrissebb'}
-window.bloomlyUpdateReady=v=>{$('#upd').innerHTML=`<div class="upd glass" role="status">${ic('sparkle')}<div class="grow"><b>Új Bloomly-verzió érkezett</b><small>Az adataid megmaradnak.</small></div><button class="btn" data-a="applyUpd">Frissítés</button><button class="iconbtn" data-a="laterUpd" aria-label="Később">${ic('close',16)}</button></div>`};
-window.bloomlyUpToDate=()=>toast('A Bloomly naprakész ✨');
+window.bloomlyUpdateReady=v=>{$('#upd').innerHTML=`<div class="upd glass" role="status">${ic('sparkle')}<div class="grow"><b>Új Bloomsette-verzió érkezett</b><small>Az adataid megmaradnak.</small></div><button class="btn" data-a="applyUpd">Frissítés</button><button class="iconbtn" data-a="laterUpd" aria-label="Később">${ic('close',16)}</button></div>`};
+window.bloomlyUpToDate=()=>toast('A Bloomsette naprakész ✨');
 window.bloomlyUpdateFailed=()=>toast('Nem sikerült kapcsolódni. Próbáld újra később.');
 Object.assign(A,{
  applyUpd(){$('#upd').innerHTML='';if(window.BloomlyNative)BloomlyNative.applyUpdate();else location.reload()},
