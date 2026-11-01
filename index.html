@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101174752">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101174752">
+<meta name="bloomly-version" content="20261101211837">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101211837">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1165,7 +1165,10 @@ function seedExtras(s,ws){
   s.therapy.questions=[{id:uid(),text:'Miért nehéz segítséget kérnem?',done:false},{id:uid(),text:'Hogyan kezeljem a vasárnap esti szorongást?',done:false}];
 }
 const sHrs=e=>{const[a,b]=e.bed.split(':').map(Number),[c,d]=e.wake.split(':').map(Number);let m=c*60+d-(a*60+b);if(m<=0)m+=1440;return m/60};
-function nextB(c){const t=now();let d=new Date(t.getFullYear(),+c.bday.slice(0,2)-1,+c.bday.slice(3),12);if(keyOf(d)<TODAY)d=new Date(t.getFullYear()+1,d.getMonth(),d.getDate(),12);return{k:keyOf(d),n:dayDiff(keyOf(d),TODAY),age:c.year?d.getFullYear()-c.year:null}}
+/* Évente ismétlődő nap egy adott évben: a február 29. nem szökőévben február 28-ra esik (nem március 1-re) */
+function yearDay(y,m,dd){const last=new Date(y,m+1,0).getDate();return new Date(y,m,Math.min(dd,last),12)}
+function nextYearly(m,dd){const y=now().getFullYear();let d=yearDay(y,m,dd);if(keyOf(d)<TODAY)d=yearDay(y+1,m,dd);return d}
+function nextB(c){const d=nextYearly(+c.bday.slice(0,2)-1,+c.bday.slice(3));return{k:keyOf(d),n:dayDiff(keyOf(d),TODAY),age:c.year?d.getFullYear()-c.year:null}}
 
 /* ───────── Állapot ───────── */
 const SKEY='bloomly.v1';
@@ -2857,7 +2860,7 @@ Object.assign(A,F_A);
    A születésnapok a Kapcsolatok (S.contacts) adatai, a többi dátum S.dates-ben: évente ismétlődő vagy egyszeri. */
 const DTYPES={'Évforduló':['heart','#F5D3DC'],'Névnap':['sparkle','#E6DDF7'],'Ünnep':['sun','#F2E0B5'],'Esemény':['star','#CFE2F6'],'Határidő':['target','#FFD6C2'],'Egyéb':['calendar','#D7ECE4']};
 function nextD(x){if(!x.yearly){const n=dayDiff(x.date,TODAY);return{k:x.date,n,yrs:null}}
-  const t=now(),m=+x.date.slice(5,7)-1,dd=+x.date.slice(8);let d=new Date(t.getFullYear(),m,dd,12);if(keyOf(d)<TODAY)d=new Date(t.getFullYear()+1,m,dd,12);
+  const d=nextYearly(+x.date.slice(5,7)-1,+x.date.slice(8));
   const y=d.getFullYear()-+x.date.slice(0,4);return{k:keyOf(d),n:dayDiff(keyOf(d),TODAY),yrs:y>0?y:null}}
 /* Közös lista: születésnapok + fontos dátumok, a legközelebbivel kezdve */
 function allDates(){
@@ -2927,7 +2930,10 @@ const GOAL_C=['#CFE2F6','#CDECCF','#F5D3DC','#CBB7F7','#F2E0B5','#FFD6C2'];
 function ensureFin(){const f=S.fin=S.fin||{};f.tx=f.tx||[];f.budget=f.budget||{total:0,cats:{}};f.budget.cats=f.budget.cats||{};f.rec=f.rec||[];f.goals=f.goals||[];return f}
 const ft=n=>`${Math.round(n).toLocaleString('hu-HU')} Ft`;
 const ftS=n=>{const a=Math.abs(n);return a>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M':a>=1e4?Math.round(n/1e3)+' e':Math.round(n).toLocaleString('hu-HU')};
-const parseAmt=s=>Math.round(Number(String(s||'').replace(/[\s  ]/g,'').replace(/[^\d,.-]/g,'').replace(',','.'))||0);
+/* Forintösszeg beolvasása: a szóköz, illetve a 3 számjegy előtti pont vagy vessző ezres tagolás (12 500, 12.500, 12,500);
+   minden más pont vagy vessző tizedesjel (12,5) */
+const parseAmt=s=>{let v=String(s||'').replace(/[\s  ]/g,'').replace(/[^\d,.-]/g,'');
+  if(/^-?\d{1,3}([.,]\d{3})+$/.test(v))v=v.replace(/[.,]/g,'');else v=v.replace(',','.');return Math.round(Number(v)||0)};
 const fmKey=off=>{const d=now();return keyOf(new Date(d.getFullYear(),d.getMonth()+off,1,12)).slice(0,7)};
 const fmLabel=mk=>fmt(mk+'-01',{year:'numeric',month:'long'});
 const fmDim=mk=>new Date(+mk.slice(0,4),+mk.slice(5,7),0).getDate();
@@ -3095,7 +3101,10 @@ const FIN_A={
   if(!FCAT[fd.cat])fd.cat=fd.t==='in'?'otherin':'other';fd.note=(fd.note||'').trim();if(fd.t==='in')fd.pm='';
   if(fd.id){const i=S.fin.tx.findIndex(x=>x.id===fd.id);S.fin.tx[i]=fd}else S.fin.tx.push({...fd,id:uid(),ts:Date.now()});
   save();closeSheet();render(true);toast(fd.id?'Tétel mentve':fd.t==='in'?`Bevétel rögzítve · +${ft(fd.amt)}`:`Kiadás rögzítve · −${ft(fd.amt)}`);finWarn(fd)},
- delTx(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.fin.tx=S.fin.tx.filter(x=>x.id!==fd.id);save();closeSheet();render(true);toast('Tétel törölve')},
+ delTx(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.fin.tx=S.fin.tx.filter(x=>x.id!==fd.id);
+  /* Ha egy rendszeres tétel ebben a hónapban rögzített kiadását törlöd, a tétel újra rögzíthető lesz */
+  if(fd.rec){const mk=fd.date.slice(0,7),r=S.fin.rec.find(x=>x.name===fd.note&&x.last===mk);if(r&&!S.fin.tx.some(t=>t.rec&&t.note===r.name&&t.date.slice(0,7)===mk))r.last=''}
+  save();closeSheet();render(true);toast('Tétel törölve')},
  budSet(el){ensureFin();budSheet(el.dataset.v)},
  budUse(el){const i=$('#bda');if(i)i.value=(+el.dataset.v).toLocaleString('hu-HU')},
  budSave(el){const k=el.dataset.v,v=parseAmt(($('#bda')||{}).value);if(!(v>0)){toast('Adj meg egy összeget');return}if(k==='total')S.fin.budget.total=v;else S.fin.budget.cats[k]=v;save();closeSheet();render(true);toast('Keret mentve')},
