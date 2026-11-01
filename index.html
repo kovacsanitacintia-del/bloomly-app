@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101152708">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101152708">
+<meta name="bloomly-version" content="20261101153202">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101153202">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -716,6 +716,14 @@ textarea.inp{min-height:92px;resize:vertical}
 .area-pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .apick{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:15px;background:var(--bg2);border:1.5px solid transparent;font-size:13.5px;font-weight:600;color:var(--ink);text-align:left;min-width:0}
 .apick-ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--ac);color:var(--on-pastel)}
+.acard-new{border:1.5px dashed var(--line);background:transparent;box-shadow:none;--ac:var(--lav-soft)}
+.acard-new .acard-ic{color:var(--lav-deep)}
+.ar-ics{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.ar-ic{aspect-ratio:1;border-radius:12px;background:var(--bg2);color:var(--text2);display:grid;place-items:center;border:1.5px solid transparent}
+.ar-ic.on{background:var(--lav-soft);color:var(--lav-deep);border-color:var(--lav-deep)}
+.ar-cols{display:flex;flex-wrap:wrap;gap:10px}
+.ar-col{width:34px;height:34px;border-radius:50%;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.ar-col.on{border-color:var(--lav-deep);box-shadow:0 0 0 3px var(--card) inset}
 .apick.on{border-color:color-mix(in srgb,var(--ac) 70%,var(--lav-deep));background:color-mix(in srgb,var(--ac) 25%,var(--card))}
 .area-stat{width:100%;padding:2px 0}
 .area-mini{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--ac);color:var(--on-pastel)}
@@ -1682,7 +1690,7 @@ function trackerTodayCard(){
   return`<section class="card trk-card" aria-label="Napi követők"><div class="row"><div class="grow"><div class="eyebrow">Napi követők · ma</div><b style="color:var(--ink);font-size:16px">${done}/${items.length} rendben</b></div><button class="link" data-a="tab" data-t="habits">Megnyitás</button></div>
    <div class="trk-grid">${items.map(([i,c,n,v,s,ok])=>`<button class="trk ${ok?'ok':''}" style="--c:${c}" data-a="go" data-s="${s}"><span class="trk-ic">${ic(i,18)}</span><span class="trk-t"><small>${n}</small><b>${v}</b></span></button>`).join('')}</div></section>`}
 function areaStats(N){
-  return`<section class="card"><b style="color:var(--ink)">Életterületek · ${N} nap</b><div class="cons" style="margin-top:14px">${AREAS.map(a=>{let x=0,y=0;for(let i=0;i<N;i++){const d=addDays(now(),-i),k=keyOf(d);S.habits.forEach(h=>{if(areaOf(h)!==a.id||isT(h)||!scheduledOn(h,d))return;y++;if(isDone(h,k))x++})}
+  return`<section class="card"><b style="color:var(--ink)">Életterületek · ${N} nap</b><div class="cons" style="margin-top:14px">${allAreas().map(a=>{let x=0,y=0;for(let i=0;i<N;i++){const d=addDays(now(),-i),k=keyOf(d);S.habits.forEach(h=>{if(areaOf(h)!==a.id||isT(h)||!scheduledOn(h,d))return;y++;if(isDone(h,k))x++})}
     return`<button class="row area-stat" data-a="openArea" data-v="${a.id}"><span class="area-mini" style="--ac:${a.c}">${ic(a.i,15)}</span><span class="grow" style="font-size:13.5px;text-align:left">${a.n}</span><div class="bar" style="width:110px"><i style="width:${y?x/y*100:0}%"></i></div><b style="width:40px;text-align:right;font-size:13px;color:var(--ink)">${y?Math.round(x/y*100)+'%':'–'}</b></button>`}).join('')}</div></section>`}
 function trackerStats(N){
   const t=trackerSummary(N);
@@ -1700,7 +1708,7 @@ const fKey=()=>keyOf(addDays(now(),fSel()-wd(now())));
 function markHabit(name){const h=S.habits.find(x=>x.name===name);if(h&&!isDone(h,TODAY)){(S.log[TODAY]=S.log[TODAY]||[]).push(h.id);S.lastBloom=Date.now();return true}return false}
 const ICHU={drop:'csepp',pill:'tabletta',dumbbell:'súlyzó',book:'könyv',lotus:'lótusz',pen:'toll',sparkle:'csillogás',moon:'hold',leaf:'levél',heart:'szív',sun:'nap',star:'csillag',cup:'csésze',home:'otthon',coin:'érme',phone:'telefon',palette:'paletta',globe:'földgömb',apple:'alma',bike:'kerékpár',steps:'lábnyom',music:'zene',headphones:'fejhallgató',bath:'fürdőkád',bed:'ágy',paw:'mancs',gift:'ajándék',flower:'virág',sprout:'csíra',target:'célpont',calendar:'naptár',bell:'csengő',chat:'beszélgetés',flame:'láng',journal:'napló',smile:'mosoly'};
 const COLHU={lav:'levendula',rose:'rózsa',peach:'barack',mint:'menta',gold:'arany',sky:'égkék',orchid:'orchidea',coral:'korall',sage:'zsálya',aqua:'akvamarin',lemon:'citrom',sand:'homok'};
-const habitsHead=()=>`<div class="top">${backBtn()}<h1 class="grow">Szokásaim</h1><button class="iconbtn" data-a="go" data-s="library" aria-label="Szokástár">${ic('book')}</button><button class="iconbtn" data-a="editHabit" aria-label="Új szokás">${ic('plus')}</button></div>
+const habitsHead=()=>`<div class="top">${backBtn()}<h1 class="grow">Szokásaim</h1><button class="iconbtn" data-a="go" data-s="library" aria-label="Szokástár">${ic('book')}</button><button class="iconbtn" data-a="addMenu" aria-label="Új szokás vagy életterület">${ic('plus')}</button></div>
   <div class="seg wide">${[['cats','Életterületek'],['list','Összes szokás'],['bujo','Havi nézet']].map(([v,n])=>`<button class="${habitsMode()===v?'on':''}" data-a="hv" data-v="${v}">${n}</button>`).join('')}</div>`;
 const habitsMode=()=>['list','bujo'].includes(S.ui.hv)?S.ui.hv:'cats';
 /* Színes menüsor. Útvonal: "tab:x" fül, "act:x" művelet, "jt:x" napló adott füle, egyébként aloldal */
@@ -1729,7 +1737,7 @@ function trackerDefs(){
    therapy:['chat','Terápia','#9C86D6','therapy',S.therapy.next&&dayDiff(S.therapy.next,TODAY)>=0?fmt(S.therapy.next,{month:'short',day:'numeric'}):''],
    breath:['drop','Légzőgyakorlatok','#6E9CCB','act:openBreath','3 technika']}}
 const AREA_TRK={health:['fitness','sleep','cycle','symptoms','weight'],self:['morning','skin'],rel:['contacts'],career:['focus','vision'],learn:[],money:[],hobby:[],soul:['mood','meditation','gratitude','diary','therapy','breath']};
-const areaName=h=>(AREAS.find(a=>a.id===areaOf(h))||AREAS[1]).n;
+const areaName=h=>esc((allAreas().find(a=>a.id===areaOf(h))||allAreas()[1]).n);
 const libArea=t=>t.area||NAME2AREA[t.name]||CAT2AREA[t.cat]||'self';
 /* Egy életterület mai és időszakos állapota a szokásai alapján */
 function areaProgress(id){
@@ -1739,9 +1747,10 @@ function areaProgress(id){
 function areasView(){
   const hsAll=todays().filter(h=>!isT(h)),tc=trackerChecks(TODAY),done=hsAll.filter(h=>isDone(h,TODAY)).length+tc.filter(Boolean).length,tot=hsAll.length+tc.length;
   return`<section class="card area-today"><div class="row"><div class="grow"><div class="eyebrow">Ma</div><b style="color:var(--ink);font-size:17px">${done}/${tot} szokás kész</b></div><span class="area-pct">${tot?Math.round(done/tot*100):0}%</span></div><div class="bar" style="margin-top:10px"><i style="width:${tot?done/tot*100:0}%"></i></div></section>
-  <div class="acards">${AREAS.map(a=>{const pr=areaProgress(a.id);
-    return`<button class="acard" style="--ac:${a.c}" data-a="openArea" data-v="${a.id}"><span class="acard-ic">${ic(a.i,22)}</span><b>${a.n}</b><small>${pr.hs.length} szokás</small>
-     <span class="acard-bar"><i style="width:${pr.today.length?pr.done/pr.today.length*100:0}%"></i></span><small class="acard-today">${pr.today.length?`${pr.done}/${pr.today.length} ma`:'Ma nincs teendő'}</small></button>`}).join('')}</div>`}
+  <div class="acards">${allAreas().map(a=>{const pr=areaProgress(a.id);
+    return`<button class="acard" style="--ac:${a.c}" data-a="openArea" data-v="${a.id}"><span class="acard-ic">${ic(a.i,22)}</span><b>${esc(a.n)}</b><small>${pr.hs.length} szokás</small>
+     <span class="acard-bar"><i style="width:${pr.today.length?pr.done/pr.today.length*100:0}%"></i></span><small class="acard-today">${pr.today.length?`${pr.done}/${pr.today.length} ma`:'Ma nincs teendő'}</small></button>`}).join('')}
+   <button class="acard acard-new" data-a="newArea"><span class="acard-ic">${ic('plus',22)}</span><b>Új életterület</b><small>Hozz létre egy sajátot</small></button></div>`}
 /* Szokáskövető táblázat (Havi nézet): napok felül, szokások bal oldalon életterületenként csoportosítva.
    Heti nézetben a 7 nap görgetés nélkül elfér, havi nézetben vízszintesen görgethető, a mai napra ugrik.
    Cellák: kész (a szokás színe, pipa) · kimaradt (halvány) · pihenőnap (pont) · jövő (üres). */
@@ -1763,7 +1772,7 @@ function bujoView(){
     pips+=c;poss+=p;const pct=p?Math.round(c/p*100):null;if(!isT(h)&&p&&(!best||pct>best.pct))best={n:h.name,pct};
     const meta=isT(h)?`${c} alkalom · ${freqLabel(h).toLowerCase()}`:`${c}/${p} nap`;
     return`<tr><th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:${COLORS[h.color]}">${ic(h.icon,14)}</span><span class="bj-lbl"><b title="${esc(h.name)}">${esc(h.name)}</b><span class="bj-meta"><span class="bj-mini"><i style="width:${isT(h)?Math.min(100,c/Math.max(1,h.target)*100):pct||0}%;background:${COLORS[h.color]}"></i></span><small>${meta}</small></span></span></div></th>${cells}</tr>`};
-  const groups=AREAS.map(a=>({a,list:hs.filter(h=>areaOf(h)===a.id)})).filter(g=>g.list.length);
+  const groups=allAreas().map(a=>({a,list:hs.filter(h=>areaOf(h)===a.id)})).filter(g=>g.list.length);
   const body=groups.map(g=>`<tr class="bj-grp"><th scope="rowgroup"><span class="bj-gdot" style="background:${g.a.c}"></span>${g.a.n}</th><td colspan="${D.length}"></td></tr>${g.list.map(row).join('')}`).join('');
   const rate=`<tr class="bj-sum"><th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:var(--lav-soft);color:var(--lav-deep)">${ic('chart',14)}</span><span class="bj-lbl"><b>Napi teljesítés</b><small>ütemezett szokások</small></span></div></th>${D.map(x=>{const r=x.fut?null:dayRate(x.k);return`<td class="${cc(x)}"><span class="bj-pct ${r==null?'':r>=1?'full':r>=.5?'mid':'low'}" title="${r==null?'':Math.round(r*100)+'%'}">${r==null?'':Math.round(r*100)}</span></td>`}).join('')}</tr>`;
   const mood=`<tr class="bj-sum"><th scope="row"><div class="bj-rh"><span class="bj-ic" style="background:var(--peach)">${ic('smile',14)}</span><span class="bj-lbl"><b>Hangulat</b><small>napi bejegyzés</small></span></div></th>${D.map(x=>`<td class="${cc(x)} bj-mood">${S.moods[x.k]?MOODS[S.moods[x.k].m].e:''}</td>`).join('')}</tr>`;
@@ -1974,7 +1983,7 @@ function habitSheet(){const h=draft;if(h.freq==='custom'){h.freq='weekly';h.targ
   ${!h.id?`<div class="sugg">${TEMPLATES.filter(t=>!S.habits.some(x=>x.name===t.name)).slice(0,6).map(t=>`<button class="chip" data-a="tpl" data-n="${t.name}">${t.name}</button>`).join('')}</div><button class="link" style="margin-top:10px" data-a="go" data-s="library">Böngéssz a szokástárban (${allLib().length} ötlet) →</button>`:''}
   <div class="field"><span class="lbl">Ikon</span><div class="icongrid">${['drop','pill','dumbbell','book','lotus','pen','sparkle','moon','leaf','heart','sun','star','cup','home','coin','phone','palette','globe','apple','bike','steps','music','headphones','bath','bed','paw','gift','flower','sprout','target','calendar','bell','chat','flame','journal','smile'].map(i=>`<button class="${h.icon===i?'on':''}" data-a="hset" data-k="icon" data-v="${i}" aria-label="${ICHU[i]||i} ikon">${ic(i)}</button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Szín</span><div class="swatches">${Object.entries(COLORS).map(([k,c])=>`<button class="${h.color===k?'on':''}" style="background:${c}" data-a="hset" data-k="color" data-v="${k}" aria-label="${COLHU[k]} szín"></button>`).join('')}</div></div>
-  <div class="field"><span class="lbl">Életterület</span><div class="area-pick">${AREAS.map(a=>`<button class="apick ${areaOf(h)===a.id?'on':''}" style="--ac:${a.c}" data-a="hset" data-k="area" data-v="${a.id}" aria-pressed="${areaOf(h)===a.id}"><span class="apick-ic">${ic(a.i,16)}</span>${a.n}</button>`).join('')}</div></div>
+  <div class="field"><span class="lbl">Életterület</span><div class="area-pick">${allAreas().map(a=>`<button class="apick ${areaOf(h)===a.id?'on':''}" style="--ac:${a.c}" data-a="hset" data-k="area" data-v="${a.id}" aria-pressed="${areaOf(h)===a.id}"><span class="apick-ic">${ic(a.i,16)}</span>${esc(a.n)}</button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Ismétlődés</span><div class="seg">${[['daily','Napi'],['weekly','Heti'],['monthly','Havi'],['yearly','Éves']].map(([v,n])=>`<button class="${h.freq===v?'on':''}" data-a="hset" data-k="freq" data-v="${v}">${n}</button>`).join('')}</div>
    ${h.freq==='custom'?`<div class="days" style="margin-top:10px">${WD.map((w,i)=>`<button class="${h.days.includes(i)?'on':''}" data-a="hday" data-v="${i}">${w}</button>`).join('')}</div>`:''}
    ${isT(h)?`<div class="row" style="margin-top:10px"><span class="grow muted">${{weekly:'Hányszor egy héten?',monthly:'Hányszor egy hónapban?',yearly:'Hányszor egy évben?'}[h.freq]}</span><div class="stepper"><button data-a="htarget" data-v="-1" aria-label="Kevesebb">−</button><b>${h.target}</b><button data-a="htarget" data-v="1" aria-label="Több">+</button></div></div>`:''}</div>
@@ -2022,6 +2031,38 @@ const AREAS=[
  {id:'hobby',n:'Hobbik',i:'palette',c:'#F1D7F2',d:'Kreativitás, otthon, öröm',cats:['Kreativitás','Otthon'],g:['Kreatív önkifejezés','Egy régi hobbi újrakezdése','Szebb, rendezettebb otthon']},
  {id:'soul',n:'Lelki egyensúly',i:'lotus',c:'#CBB7F7',d:'Nyugalom, jelenlét, hála',cats:['Nyugalom','Tudatosság'],g:['Kevesebb stressz','Napi meditáció','Több hála és jelenlét']}
 ];
+/* Saját életterületek: a beépített nyolc mellé a Szokásaim + gombjával vehetők fel (az Életvirág szirmai a beépítettek maradnak) */
+function allAreas(){return[...AREAS,...(S.customAreas||[])]}
+const AREA_IC=['star','heart','sun','moon','leaf','flower','plant','book','music','palette','home','cat','paw','bike','dumbbell','cup','globe','headphones','gift','target','coin','smile','pen','sparkle'];
+const AREA_COL=['#CBB7F7','#F5D3DC','#FFD6C2','#E9D6A7','#CDECCF','#CFE2F6','#DCEFC9','#F1D7F2','#D7ECE4','#FADCD0','#E6DDF7','#F2E0B5'];
+let areaDraft=null;
+function areaSheet(){const a=areaDraft,edit=!!a.id;
+  openSheet(`<h2>${edit?'Életterület szerkesztése':'Új életterület'}</h2>
+  <div class="row" style="margin-top:14px;gap:12px"><span class="area-hero-ic" style="--ac:${a.c}">${ic(a.i,24)}</span><div class="grow"><b id="arpn" style="color:var(--ink);font-size:17px">${esc(a.n)||'Életterület neve'}</b><div class="muted" id="arpd">${esc(a.d)||'Rövid leírás'}</div></div></div>
+  <div class="field"><label for="arn">Név</label><input class="inp" id="arn" maxlength="24" value="${esc(a.n)}" placeholder="pl. Spiritualitás, Anyaság, Utazás"></div>
+  <div class="field"><label for="ard">Leírás (nem kötelező)</label><input class="inp" id="ard" maxlength="40" value="${esc(a.d)}" placeholder="pl. Hit, csend, befelé figyelés"></div>
+  <div class="field"><span class="lbl">Ikon</span><div class="ar-ics">${AREA_IC.filter(i=>IC[i]).map(i=>`<button class="ar-ic ${a.i===i?'on':''}" data-a="arSet" data-k="i" data-v="${i}" aria-label="Ikon: ${i}" aria-pressed="${a.i===i}">${ic(i,18)}</button>`).join('')}</div></div>
+  <div class="field"><span class="lbl">Szín</span><div class="ar-cols">${AREA_COL.map(c=>`<button class="ar-col ${a.c===c?'on':''}" style="background:${c}" data-a="arSet" data-k="c" data-v="${c}" aria-label="Szín ${c}" aria-pressed="${a.c===c}"></button>`).join('')}</div></div>
+  <button class="btn block" style="margin-top:18px" data-a="arSave">${edit?'Mentés':'Életterület létrehozása'}</button>
+  ${edit?`<button class="btn ghost block" style="margin-top:8px" data-a="arDel">${ic('trash',16)} Életterület törlése</button>`:''}`);
+  const n=$('#arn');if(n&&!edit)setTimeout(()=>n.focus(),300)}
+document.addEventListener('input',e=>{const id=e.target.id;if(id==='arn'||id==='ard'){const p=$(id==='arn'?'#arpn':'#arpd');if(p)p.textContent=e.target.value.trim()||(id==='arn'?'Életterület neve':'Rövid leírás')}});
+function arSync(){const n=$('#arn'),d=$('#ard');if(n)areaDraft.n=n.value;if(d)areaDraft.d=d.value}
+const AREA_A={
+ addMenu(){openSheet(`<h2>Hozzáadás</h2><div class="opts" style="margin-top:14px"><button class="opt" data-a="editHabit"><span class="tile" style="background:${COLORS.lav}">${ic('plus',18)}</span><b>Új szokás</b></button><button class="opt" data-a="newArea"><span class="tile" style="background:${COLORS.peach}">${ic('flower',18)}</span><b>Új életterület</b></button></div>`)},
+ newArea(){const used=new Set(allAreas().map(a=>a.c));areaDraft={id:null,n:'',d:'',i:'star',c:AREA_COL.find(c=>!used.has(c))||AREA_COL[0]};areaSheet()},
+ editArea(el){const a=(S.customAreas||[]).find(x=>x.id===el.dataset.v);if(!a)return;areaDraft={...a};areaSheet()},
+ arSet(el){arSync();areaDraft[el.dataset.k]=el.dataset.v;areaSheet()},
+ arSave(){arSync();const n=areaDraft.n.trim();if(!n){toast('Adj nevet az életterületnek');$('#arn')&&$('#arn').focus();return}
+  if(allAreas().some(a=>a.n.toLowerCase()===n.toLowerCase()&&a.id!==areaDraft.id)){toast('Már van ilyen nevű életterület');return}
+  S.customAreas=S.customAreas||[];const d=areaDraft.d.trim()||'Saját életterület';
+  if(areaDraft.id){const a=S.customAreas.find(x=>x.id===areaDraft.id);Object.assign(a,{n,d,i:areaDraft.i,c:areaDraft.c});save();closeSheet();render(true);toast('Életterület mentve');return}
+  const a={id:'ca_'+uid(),n,d,i:areaDraft.i,c:areaDraft.c,cats:[],g:[],custom:true};S.customAreas.push(a);save();closeSheet();
+  S.ui.area=a.id;A.go({dataset:{s:'area'}});toast(`${n} életterület létrehozva 🌸`)},
+ arDel(el){if(!el.dataset.sure){el.dataset.sure=1;el.innerHTML='Biztosan? A szokásai megmaradnak, más területre kerülnek';return}
+  const id=areaDraft.id;S.customAreas=(S.customAreas||[]).filter(a=>a.id!==id);S.habits.forEach(h=>{if(h.area===id){delete h.area;h.area=areaOf(h)}});
+  save();closeSheet();if(S.ui.sub==='area'&&S.ui.area===id)A.back();else render(true);toast('Életterület törölve')}
+};
 /* További fejlődési területek: mindegyik egy Életvirág-szirom (p) alá tartozik */
 const FOCUS_MORE=[
  {id:'sleep',p:'health',n:'Alvás',i:'moon',c:'#D6E4F7',cats:['Alvás'],g:['Minden éjjel 7–8 óra alvás','Nyugodt esti rutin','Frissebb ébredések']},
@@ -2233,7 +2274,7 @@ function toMyLib(d){const name=(d.name||'').trim();if(!name||LIBRARY.some(t=>t.n
   const e={name,icon:d.icon,color:d.color,area:areaOf(d),freq:d.freq,target:d.target,days:d.days,note:(d.note||'').trim()||'Saját szokás',cat:''};
   S.myLib=(S.myLib||[]).filter(x=>x.name!==name);S.myLib.unshift(e)}
 function recoHabit(r,area){const old=(S.parked||{})[r.name];if(old){delete S.parked[r.name];return old}return mkHabit({...r,area})}
-function recoSection(a,have){
+function recoSection(a,have){if(a.custom)return`<section class="card empty-note" style="text-align:left">Ez a saját életterületed. A fenti <b>+ Új szokás</b> gombbal adhatsz hozzá szokásokat, vagy a Szokástárból is választhatsz.</section>`;
   /* Csak a még fel nem vett javaslatok látszanak; a felvett szokás átkerül a Szokások részbe. Az üres alcsoport eltűnik. */
   const gs=(RECO[a.id]||[]).map((x,i)=>({...x,i,items:x.items.filter(r=>!have.has(r.name))})).filter(x=>x.items.length);
   if(!gs.length)return`<section class="reco reco-done" style="--ac:${a.c}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomly ajánlja</div><b>Minden javaslatot felvettél</b><div class="muted">További ötleteket a Szokástárban találsz.</div></div><button class="link" data-a="go" data-s="library">Szokástár</button></div></section>`;
@@ -2245,10 +2286,10 @@ function recoSection(a,have){
 Object.assign(SCREENS,{
 /* Egy életterület: szokások, ajánlások, 7 napos statisztika */
 area(){
-  const a=AREAS.find(x=>x.id===S.ui.area)||AREAS[0],pr=areaProgress(a.id);
+  const a=allAreas().find(x=>x.id===S.ui.area)||allAreas()[0],pr=areaProgress(a.id);
   const have=new Set(S.habits.map(h=>h.name));
   const days=[...Array(7)].map((_,i)=>{const d=addDays(now(),i-6),k=keyOf(d);let x=0,y=0;pr.hs.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;y++;if(isDone(h,k))x++});return{l:WD[wd(d)],v:y?x/y:0,t:y?Math.round(x/y*100)+'%':''}});
-  return`<div class="top">${backBtn()}<span class="area-hero-ic" style="--ac:${a.c}">${ic(a.i,24)}</span><div class="grow" style="min-width:0"><h1 style="font-size:24px">${a.n}</h1><div class="muted">${a.d}</div></div></div>
+  return`<div class="top">${backBtn()}<span class="area-hero-ic" style="--ac:${a.c}">${ic(a.i,24)}</span><div class="grow" style="min-width:0"><h1 style="font-size:24px">${esc(a.n)}</h1><div class="muted">${esc(a.d)}</div></div>${a.custom?`<button class="iconbtn" data-a="editArea" data-v="${a.id}" aria-label="Életterület szerkesztése">${ic('pen')}</button>`:''}</div>
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${pr.done}/${pr.today.length}</b><small>szokás ma</small></div><div class="kpi"><b>${pr.rate==null?'–':pr.rate+'%'}</b><small>elmúlt 7 nap</small></div><div class="kpi"><b>${pr.hs.length}</b><small>szokás összesen</small></div></div>
 
   <div class="sec-h"><h2>Szokások</h2><button class="link" data-a="editHabit" data-area="${a.id}">+ Új szokás</button></div>
@@ -2422,7 +2463,7 @@ const VISION_A={
   if(it.id){const i=S.vision.findIndex(x=>x.id===it.id);if(i>=0)S.vision[i]=it;toast('Mentve ✨')}else{S.vision.unshift({...it,id:uid()});S.ui.vf='Mind';S.ui.vv='board';toast('Felkerült a Vision Boardra ✨')}
   save();closeSheet();if(S.ui.sub!=='vision'){pushNav();S.ui.sub='vision'}render(!!it.id)}
 };
-Object.assign(A,VISION_A);
+Object.assign(A,VISION_A,AREA_A);
 document.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Enter'&&t.id==='vns'){e.preventDefault();const b=$('[data-a="vaddstep"]');if(b)b.click()}else if((e.key==='Enter'||e.key===' ')&&t.matches('[role="button"][data-a]')){e.preventDefault();t.click()}});
 
 
