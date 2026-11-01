@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101223015">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101223015">
+<meta name="bloomly-version" content="20261101223537">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101223537">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -843,6 +843,15 @@ textarea.inp{min-height:92px;resize:vertical}
 .hm-emo button{aspect-ratio:1;border-radius:12px;background:var(--bg2);font-size:20px;border:1.5px solid transparent}
 .hm-emo button.on{border-color:var(--lav-deep);background:var(--lav-soft)}
 .iconbtn.on{background:var(--lav-soft);color:var(--lav-deep)}
+.vaff-hero{position:relative;overflow:hidden;border-radius:28px;padding:22px 20px 18px;text-align:center;color:var(--on-pastel);box-shadow:var(--shadow);isolation:isolate}
+.vaff-hero>.vh-sp{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.vaff-hero .eyebrow{color:inherit;opacity:.7}
+.vaff-t{font-family:var(--f-display);font-size:25px;font-weight:500;line-height:1.28;margin:12px 4px 8px;overflow-wrap:anywhere}
+.vaff-hint{font-size:12px;opacity:.72}
+.vaff-btns{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.vaff-btns .btn{padding:10px 16px;font-size:13px}
+.vaff-btns .btn.ghost{background:rgba(255,255,255,.6);color:var(--on-pastel)}
+.vaff-row b{font-family:var(--f-display);font-weight:500;font-size:15px;font-style:normal}
 /* Pénzügyek */
 .fin-month{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .fin-month b{font-family:var(--f-display);font-size:18px;font-weight:600;color:var(--ink)}
@@ -2587,25 +2596,20 @@ function vCard(v,i){
   return`<article class="vc ${t} ${size} ${night?'night':''} ${v.done?'done':''} ${v.fav?'fav':''}" data-id="${v.id}" data-i="${Math.min(i,12)}" data-a="vopen" role="button" tabindex="0" aria-label="${VT[t].n}: ${esc(v.text)}" style="background:${t==='img'?'#CBB7F7':vbgCss(bgk)}">${v.img?`<img src="${v.img}" alt="">`:''}<i class="vshine" aria-hidden="true"></i>
    <div class="tools"><span class="vtag"><span class="cdot" style="background:${vcol(v.cat)};margin:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.7)"></span>${esc(v.cat||VT[t].n)}</span><span class="row" style="gap:2px">${heartBtn(v)}<button class="grip" aria-label="Áthelyezés">${ic('grip',16)}</button></span></div>${body}</article>`}
 function visionView(){
-  const M=vMeta(),mode=S.ui.vv||'board',yr=now().getFullYear(),goals=S.vision.filter(vIsGoal),ach=goals.filter(v=>v.done).length,favs=S.vision.filter(v=>v.fav).length;
+  const M=vMeta(),mode=S.ui.vv==='ideas'?'affirm':(S.ui.vv||'board'),yr=now().getFullYear(),goals=S.vision.filter(vIsGoal),ach=goals.filter(v=>v.done).length,favs=S.vision.filter(v=>v.fav).length;
   const gp=goals.length?Math.round(goals.reduce((a,v)=>a+vProg(v),0)/goals.length):0;
   const head=`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow vtitle">Vision Board</h1><button class="iconbtn" data-a="addVision" aria-label="Új elem">${ic('plus')}</button></div>
   <div class="card vhero" data-a="vword" role="button" tabindex="0" aria-label="Az év szavának szerkesztése"><span class="vh-aur" aria-hidden="true"></span><span class="vh-sp" aria-hidden="true">${[...Array(9)].map((_,i)=>`<i style="--x:${(i*37+11)%96}%;--y:${(i*53+7)%88}%;--d:${(i%5)*.7}s"></i>`).join('')}</span><div class="eyebrow">${yr} · Az én évem</div><h2 class="vword ${M.word?'shim':'ph'}">${M.word?esc(M.word):'Válaszd ki az év szavát'}</h2><p class="muted">${M.intent?esc(M.intent):'Egyetlen szó és egy szándék, ami egész évben vezet. Koppints ide.'}</p>
    <div class="vstats"><div><b>${S.vision.length}</b><small>elem</small></div><div><b>${ach}/${goals.length}</b><small>cél elérve</small></div><div><b>${favs}</b><small>kedvenc</small></div></div>
    <div class="bar" title="Célok átlagos haladása"><i style="width:${gp}%"></i></div></div>
   ${S.vision.length?`<div class="vacts"><button class="vact play" data-a="vplay">${ic('play')}<span><b>Vizualizáció</b><small>Pár perc álmodozás</small></span></button><button class="vact" data-a="vposter">${ic('image')}<span><b>Háttérkép</b><small>A táblád a telefonodon</small></span></button></div>`:''}
-  <div class="seg">${[['board','Tábla'],['goals','Célok'],['ideas','Ötletek']].map(([v,n])=>`<button class="${mode===v?'on':''}" data-a="vview" data-v="${v}">${n}</button>`).join('')}</div>`;
+  <div class="seg">${[['board','Tábla'],['goals','Célok'],['affirm','Megerősítések']].map(([v,n])=>`<button class="${mode===v?'on':''}" data-a="vview" data-v="${v}">${n}</button>`).join('')}</div>`;
   if(mode==='goals'){
     const row=v=>{const p=vProg(v),st=v.steps||[],due=vDue(v);return`<button class="vrow ${v.done?'done':''}" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic(v.done?'check':VT[v.type].i,20)}</span><span class="grow"><b>${esc(v.text)}</b>${v.done?`<small>Elérve${v.doneAt?' · '+fmt(v.doneAt,{year:'numeric',month:'short',day:'numeric'}):''}</small>`:`<span class="bar" style="height:6px"><i style="width:${p}%"></i></span><small>${[VT[v.type].n,esc(v.cat||''),st.length?`${st.filter(x=>x.d).length}/${st.length} lépés`:'',due].filter(Boolean).join(' · ')}</small>`}</span>${v.done?'':`<span class="pct">${p}%</span>`}</button>`};
     const open=goals.filter(v=>!v.done).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')),done=goals.filter(v=>v.done);
     return`${head}${goals.length?`${open.length?`<div class="vsec">Folyamatban · ${open.length}</div><div class="vlist">${open.map(row).join('')}</div>`:''}${done.length?`<div class="vsec">Elérve · ${done.length}</div><div class="vlist">${done.map(row).join('')}</div>`:''}`:`<div class="card empty-note">Még nincs célod vagy bakancslistás álmod. Adj hozzá egyet, és bontsd kis lépésekre.</div>`}
     <button class="btn ghost" data-a="addVision" data-t="goal">${ic('plus',16)} Új cél</button>`}
-  if(mode==='ideas'){
-    const have=new Set(S.vision.map(v=>v.text)),f=S.ui.vic||'Mind',list=VIDEAS.map((x,i)=>({x,i})).filter(({x})=>!have.has(x[1])&&(f==='Mind'||x[2]===f));
-    const cats=['Mind',...VCATS.map(c=>c[0]).filter(c=>VIDEAS.some(x=>x[2]===c))];
-    return`${head}<p class="muted">Válogass a Bloomsette ötleteiből. Egy koppintással felkerülnek a táblára, és később bármikor átírhatod őket.</p>
-    <div class="chips">${cats.map(c=>`<button class="chip ${f===c?'on':''}" data-a="vic" data-v="${c}">${c==='Mind'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
-    ${Object.keys(VT).filter(t=>t!=='img').map(t=>{const its=list.filter(({x})=>x[0]===t);return its.length?`<div class="vsec">${VT[t].n}</div><div class="vlist">${its.map(({x,i})=>`<div class="videa"><span class="cdot" style="background:${vcol(x[2])};width:12px;height:12px;margin:0"></span><p><small>${x[2]}${x[3]&&t==='goal'?` · ${x[3].length} lépés`:''}</small>${esc(x[1])}</p><button data-a="videa" data-i="${i}" aria-label="Hozzáadás a táblához">${ic('plus',18)}</button></div>`).join('')}</div>`:''}).join('')||`<div class="card empty-note">Minden ötletet felvettél ebből a kategóriából. 🌸</div>`}`}
+  if(mode==='affirm')return head+vAffirm();
   const f=S.ui.vf||'Mind',items=vFiltered(),cats=VCATS.map(c=>c[0]).filter(c=>S.vision.some(v=>v.cat===c));
   return`${head}<div class="chips">${['Mind','Kedvencek',...cats].map(c=>`<button class="chip ${f===c?'on':''}" data-a="vf" data-v="${c}">${c==='Mind'||c==='Kedvencek'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
   <p class="muted">Koppints egy kártyára a részletekért, vagy rendezd át őket a jobb felső sarokban lévő fogantyúval.</p>
@@ -2720,6 +2724,41 @@ const VISION_A={
   save();closeSheet();if(S.ui.sub!=='vision'){pushNav();S.ui.sub='vision'}render(!!it.id)}
 };
 Object.assign(A,VISION_A,AREA_A);
+/* Pozitív megerősítések: napi kiemelt megerősítés, a saját megerősítések és egy kategorizált tár */
+const VAFF=[
+ ['Önszeretet','Méltó vagyok minden jóra, ami az életembe érkezik.'],['Önszeretet','Elég vagyok úgy, ahogy vagyok.'],['Önszeretet','Szeretettel és türelemmel bánok magammal.'],['Önszeretet','A hibáim is hozzám tartoznak, és tanulok belőlük.'],['Önszeretet','Megérdemlem a pihenést és az örömöt.'],['Önszeretet','Ragyogok, amikor önmagam vagyok.'],['Önszeretet','Kedves vagyok magamhoz a nehéz napokon is.'],
+ ['Egészség','A testem az otthonom, szeretettel bánok vele.'],['Egészség','Minden nappal erősebb és energikusabb vagyok.'],['Egészség','Hálás vagyok a testemért, ami minden nap visz.'],['Egészség','Olyan döntéseket hozok, amelyek táplálnak.'],['Egészség','A pihenés is a fejlődés része.'],
+ ['Kapcsolatok','Szeretet vesz körül, és én is szeretetet adok.'],['Kapcsolatok','Olyan emberekkel veszem körül magam, akik felemelnek.'],['Kapcsolatok','Bátran kimondom, amire szükségem van.'],['Kapcsolatok','A kapcsolataim mélyek, őszinték és melegek.'],['Kapcsolatok','Határaim tiszteletet érdemelnek.'],
+ ['Karrier','Bátran lépek ki a komfortzónámból.'],['Karrier','Értékes, amit a munkámmal adok a világnak.'],['Karrier','Képes vagyok elérni a céljaimat.'],['Karrier','Minden kihívás egy lehetőség a növekedésre.'],['Karrier','Hiszek a tehetségemben és a kitartásomban.'],
+ ['Pénzügyek','Bőség és nyugalom áramlik az életembe.'],['Pénzügyek','Tudatosan és bölcsen bánok a pénzemmel.'],['Pénzügyek','Megérdemlem az anyagi biztonságot.'],['Pénzügyek','Minden nap közelebb kerülök a pénzügyi céljaimhoz.'],
+ ['Tanulás','Kíváncsi vagyok, és szeretek tanulni.'],['Tanulás','Minden nap egy kicsit bölcsebb leszek.'],['Tanulás','Türelmes vagyok magammal, amíg valami újat tanulok.'],
+ ['Lelki béke','Megengedem magamnak, hogy lassítsak.'],['Lelki béke','Békében vagyok önmagammal és a világgal.'],['Lelki béke','Elengedem, amit nem tudok irányítani.'],['Lelki béke','Minden lélegzettel nyugodtabb leszek.'],['Lelki béke','A jelen pillanat ajándék.'],['Lelki béke','Bízom az élet folyamában.'],
+ ['Otthon','Az otthonom nyugalmat és melegséget sugároz.'],['Otthon','Szeretettel teremtek rendet magam körül.'],
+ ['Utazás','Nyitott szívvel fedezem fel a világot.'],['Utazás','Az élet egy kaland, és én élvezem.'],
+ ['Hobbik','Időt szánok arra, ami boldoggá tesz.'],['Hobbik','Kreatív vagyok, és bátran alkotok.']];
+const VAFF_BG=['sunset','aurora','cotton','dawn','dusk','bloom','lagoon'];
+function vAffirm(){const mine=S.vision.filter(v=>v.type==='affirm'),have=new Set(mine.map(v=>v.text));
+  const pool=[...mine.map(v=>({t:v.text,c:v.cat,id:v.id})),...VAFF.filter(x=>!have.has(x[1])).map(x=>({t:x[1],c:x[0]}))];
+  const day=Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5),cur=pool[(day+(S.ui.vaf||0))%pool.length],bg=VAFF_BG[(day+(S.ui.vaf||0))%VAFF_BG.length];
+  const f=S.ui.vafc||'Mind',lib=VAFF.map((x,i)=>({x,i})).filter(({x})=>!have.has(x[1])&&(f==='Mind'||x[0]===f)),cats=['Mind',...VCATS.map(c=>c[0]).filter(c=>VAFF.some(x=>x[0]===c))];
+  return`<section class="vaff-hero" style="background:${vbgCss(bg)}"><span class="vh-sp" aria-hidden="true">${[...Array(7)].map((_,i)=>`<i style="--x:${(i*37+11)%96}%;--y:${(i*53+7)%88}%;--d:${(i%5)*.7}s"></i>`).join('')}</span>
+   <div class="eyebrow">Mai megerősítésed${cur.c?' · '+esc(cur.c):''}</div><p class="vaff-t">${esc(cur.t)}</p><p class="vaff-hint">Mondd ki háromszor, lassan, és érezd, hogy igaz.</p>
+   <div class="vaff-btns"><button class="btn ghost" data-a="vafNext">${ic('undo',16)} Másikat</button>${cur.id?`<button class="btn ghost" data-a="vopen" data-id="${cur.id}">${ic('sparkle',16)} Megnyitás</button>`:`<button class="btn" data-a="vafAdd" data-t="${esc(cur.t)}" data-c="${esc(cur.c||'')}">${ic('plus',16)} A táblámra</button>`}</div></section>
+  <button class="vact play" data-a="vafPlay" style="width:100%">${ic('play')}<span><b>Megerősítés-pillanat</b><small>${mine.length?`${mine.length} saját megerősítésed, egymás után`:'Néhány megerősítés a tárból, egymás után'}</small></span></button>
+  <div class="vsec">Saját megerősítéseim · ${mine.length}</div>
+  ${mine.length?`<div class="vlist">${mine.map(v=>`<button class="vrow vaff-row" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic('sparkle',18)}</span><span class="grow"><b>${esc(v.text)}</b><small>${esc(v.cat||'')}${v.fav?' · ♥ kedvenc':''}</small></span></button>`).join('')}</div>`:`<div class="card empty-note">Még nincs saját megerősítésed. Írj egyet, vagy válassz a tárból.</div>`}
+  <button class="btn ghost" data-a="addVision" data-t="affirm">${ic('plus',16)} Saját megerősítés írása</button>
+  <div class="vsec">Megerősítés-tár</div>
+  <div class="chips">${cats.map(c=>`<button class="chip ${f===c?'on':''}" data-a="vafc" data-v="${c}">${c==='Mind'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
+  <div class="vlist">${lib.map(({x,i})=>`<div class="videa"><span class="cdot" style="background:${vcol(x[0])};width:12px;height:12px;margin:0"></span><p><small>${x[0]}</small>${esc(x[1])}</p><button data-a="vafAdd" data-i="${i}" aria-label="Hozzáadás a táblához">${ic('plus',18)}</button></div>`).join('')||`<div class="card empty-note">Ebből a kategóriából mindet felvetted. 🌸</div>`}</div>`}
+const VAFF_A={
+ vafNext(){S.ui.vaf=(S.ui.vaf||0)+1;render(true)},
+ vafc(el){S.ui.vafc=el.dataset.v;render(true)},
+ vafAdd(el){const x=el.dataset.i!=null?VAFF[+el.dataset.i]:[el.dataset.c||'Önszeretet',el.dataset.t];if(!x||!x[1])return;if(S.vision.some(v=>v.text===x[1])){toast('Ez már a tábládon van');return}
+  S.vision.unshift({id:uid(),type:'affirm',text:x[1],cat:x[0]||'Önszeretet',bg:'rose'});save();render(true);toast('Felkerült a táblára ✨')},
+ vafPlay(){const mine=S.vision.filter(v=>v.type==='affirm');vpL=mine.length?mine:VAFF.slice(0,5).map((x,i)=>({id:'t'+i,type:'affirm',text:x[1],cat:x[0],bg:VAFF_BG[i]}));vpI=0;vpShow()}
+};
+Object.assign(A,VAFF_A);
 document.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Enter'&&t.id==='vns'){e.preventDefault();const b=$('[data-a="vaddstep"]');if(b)b.click()}else if((e.key==='Enter'||e.key===' ')&&t.matches('[role="button"][data-a]')){e.preventDefault();t.click()}});
 
 
