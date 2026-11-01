@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101081322">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101081322">
+<meta name="bloomly-version" content="20261101081916">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101081916">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1196,7 +1196,7 @@ habits(){
   <div class="habits">${list.map(h=>{const days=[...Array(7)].map((_,i)=>{const k=keyOf(addDays(now(),i-6));return`<i class="${isDone(h,k)?'y':''}"></i>`}).join('');
    const fr=freqLabel(h);
    return`<button class="habit" data-a="habitDetail" data-id="${h.id}" style="text-align:left;width:100%"><span class="tile" style="background:${COLORS[h.color]}">${ic(h.icon)}</span><div class="grow"><div class="name">${esc(h.name)}</div><div class="meta"><span>${fr}</span><span>· ${areaName(h)}</span></div><div class="week" style="--hc:${COLORS[h.color]}">${days}</div></div><div style="text-align:right"><b style="font-family:var(--f-display);font-size:20px;color:var(--ink)">${habitStreak(h)}</b><div class="muted" style="font-size:11px">nap</div></div></button>`}).join('')||`<div class="card empty-note">Ebben a kategóriában még nincs szokás.</div>`}</div>
-  <button class="btn block" data-a="go" data-s="library">${ic('book',18)} Szokástár · ${LIBRARY.length} ötlet</button>
+  <button class="btn block" data-a="go" data-s="library">${ic('book',18)} Szokástár · ${allLib().length} ötlet</button>
   <button class="btn ghost block" data-a="editHabit">${ic('plus',18)} Saját szokás létrehozása</button>`
 },
 garden(){
@@ -1463,12 +1463,12 @@ life(){
 library(){
   const q=(S.ui.lq||'').toLowerCase(),c=S.ui.lc||'Mind',have=new Set(S.habits.map(h=>h.name));
   const an=t=>(AREAS.find(a=>a.id===libArea(t))||AREAS[1]).n;if(c!=='Mind'&&!AREAS.some(a=>a.n===c))S.ui.lc='Mind';const cc=S.ui.lc||'Mind';
-  const items=LIBRARY.filter(t=>(cc==='Mind'||an(t)===cc)&&(!q||t.name.toLowerCase().includes(q)||t.note.toLowerCase().includes(q)||an(t).toLowerCase().includes(q)));
+  const items=allLib().filter(t=>(cc==='Mind'||an(t)===cc)&&(!q||t.name.toLowerCase().includes(q)||t.note.toLowerCase().includes(q)||an(t).toLowerCase().includes(q)));
   const groups=AREAS.map(a=>a.n).filter(n=>items.some(t=>an(t)===n));
-  return`${subTop('Szokástár')}<p class="muted">${LIBRARY.length} szokásötlet, mint egy bullet journal szokáskövetőjében. Koppints a + jelre, és a szokás bekerül a listádba.</p>
+  return`${subTop('Szokástár')}<p class="muted">${allLib().length} szokásötlet, mint egy bullet journal szokáskövetőjében. Koppints a + jelre, és a szokás bekerül a listádba.</p>
   <input class="inp" id="lq" type="search" placeholder="Keresés, pl. víz, olvasás, séta" value="${esc(S.ui.lq||'')}" aria-label="Keresés a szokástárban">
   <div class="chips">${['Mind',...AREAS.map(a=>a.n)].map(x=>`<button class="chip ${cc===x?'on':''}" data-a="lc" data-v="${x}">${x}</button>`).join('')}</div>
-  ${groups.map(g=>{const its=items.filter(t=>an(t)===g);return`<div class="sec-h"><h2 style="font-size:17px">${g}</h2><span class="muted">${its.length} ötlet</span></div><section class="card list" style="padding-block:4px">${its.map(t=>{const h=have.has(t.name);return`<div class="li"><span style="width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:${COLORS[t.color]};color:var(--on-pastel);flex:none">${ic(t.icon,18)}</span><div class="grow"><b style="color:var(--ink);font-size:14.5px">${t.name}</b><div class="muted">${t.note} · ${freqLabel(t).toLowerCase()}</div></div><button class="chk ${h?'on':'add'}" data-a="libAdd" data-n="${esc(t.name)}" ${h?'disabled':''} aria-label="${h?esc(t.name)+' már a szokásaid között':esc(t.name)+' felvétele'}">${ic(h?'check':'plus')}</button></div>`}).join('')}</section>`}).join('')||'<div class="card empty-note">Nincs találat. Próbálj másik szót, vagy hozz létre saját szokást.</div>'}
+  ${groups.map(g=>{const its=items.filter(t=>an(t)===g);return`<div class="sec-h"><h2 style="font-size:17px">${g}</h2><span class="muted">${its.length} ötlet</span></div><section class="card list" style="padding-block:4px">${its.map(t=>{const h=have.has(t.name);return`<div class="li"><span style="width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:${COLORS[t.color]};color:var(--on-pastel);flex:none">${ic(t.icon,18)}</span><div class="grow"><b style="color:var(--ink);font-size:14.5px">${esc(t.name)}</b>${t.mine?`<span class="rar r" style="margin-left:6px">Saját</span>`:""}<div class="muted">${t.note} · ${freqLabel(t).toLowerCase()}</div></div><button class="chk ${h?'on':'add'}" data-a="libAdd" data-n="${esc(t.name)}" ${h?'disabled':''} aria-label="${h?esc(t.name)+' már a szokásaid között':esc(t.name)+' felvétele'}">${ic(h?'check':'plus')}</button></div>`}).join('')}</section>`}).join('')||'<div class="card empty-note">Nincs találat. Próbálj másik szót, vagy hozz létre saját szokást.</div>'}
   <button class="btn ghost block" data-a="editHabit">${ic('plus',18)} Saját szokás létrehozása</button>`
 },
 fitness(){
@@ -1584,7 +1584,7 @@ const EXTRA_A={
   S.log[k]=was?cur.filter(x=>x!==id):[...cur,id];if(!S.log[k].length)delete S.log[k];if(!was&&k===TODAY)S.lastBloom=Date.now();save();render(true);
   const sc2=$('.bj-scroll');if(sc2)sc2.scrollLeft=sl;if(!was){const c=view.querySelector(`.bj-c[data-id="${id}"][data-k="${k}"]`);if(c)c.classList.add('pop');checkBadges()}},
  lc(el){S.ui.lc=el.dataset.v;render(true)},
- libAdd(el){const t=LIBRARY.find(x=>x.name===el.dataset.n);if(!t||S.habits.some(h=>h.name===t.name))return;S.habits.push(mkHabit(t));save();render(true);toast(`${t.name} elültetve 🌱`)},
+ libAdd(el){const t=allLib().find(x=>x.name===el.dataset.n);if(!t||S.habits.some(h=>h.name===t.name))return;const a=libArea(t);S.habits.push(recoHabit({...t,area:a},a));save();render(true);toast(`${t.name} elültetve 🌱 · ${(AREAS.find(x=>x.id===a)||{}).n}`)},
  fday(el){S.ui.fday=+el.dataset.v;render(true)},
  fset(el){S.fitness.plan[fSel()]=el.dataset.v;save();render(true)},
  fmin(el){const k=fKey(),l=S.fitness.log[k]||{done:false,min:30};l.min=Math.max(5,Math.min(180,l.min+ +el.dataset.v));S.fitness.log[k]=l;save();render(true)},
@@ -1636,7 +1636,7 @@ let draft=null,ciStep=0,ciData={};
 function habitSheet(){const h=draft;if(h.freq==='custom'){h.freq='weekly';h.target=Math.max(1,(h.days||[]).length||3)}
   openSheet(`<h2>${h.id?'Szokás szerkesztése':'Új szokás'}</h2><p class="muted">Kis lépés, nagy változás.</p>
   <div class="field"><label for="hn">Név</label><input class="inp" id="hn" value="${esc(h.name)}" placeholder="pl. Reggeli nyújtás" maxlength="40"></div>
-  ${!h.id?`<div class="sugg">${TEMPLATES.filter(t=>!S.habits.some(x=>x.name===t.name)).slice(0,6).map(t=>`<button class="chip" data-a="tpl" data-n="${t.name}">${t.name}</button>`).join('')}</div><button class="link" style="margin-top:10px" data-a="go" data-s="library">Böngéssz a szokástárban (${LIBRARY.length} ötlet) →</button>`:''}
+  ${!h.id?`<div class="sugg">${TEMPLATES.filter(t=>!S.habits.some(x=>x.name===t.name)).slice(0,6).map(t=>`<button class="chip" data-a="tpl" data-n="${t.name}">${t.name}</button>`).join('')}</div><button class="link" style="margin-top:10px" data-a="go" data-s="library">Böngéssz a szokástárban (${allLib().length} ötlet) →</button>`:''}
   <div class="field"><span class="lbl">Ikon</span><div class="icongrid">${['drop','pill','dumbbell','book','lotus','pen','sparkle','moon','leaf','heart','sun','star','cup','home','coin','phone','palette','globe','apple','bike','steps','music','headphones','bath','bed','paw','gift','flower','sprout','target','calendar','bell','chat','flame','journal','smile'].map(i=>`<button class="${h.icon===i?'on':''}" data-a="hset" data-k="icon" data-v="${i}" aria-label="${ICHU[i]||i} ikon">${ic(i)}</button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Szín</span><div class="swatches">${Object.entries(COLORS).map(([k,c])=>`<button class="${h.color===k?'on':''}" style="background:${c}" data-a="hset" data-k="color" data-v="${k}" aria-label="${COLHU[k]} szín"></button>`).join('')}</div></div>
   <div class="field"><span class="lbl">Életterület</span><div class="area-pick">${AREAS.map(a=>`<button class="apick ${areaOf(h)===a.id?'on':''}" style="--ac:${a.c}" data-a="hset" data-k="area" data-v="${a.id}" aria-pressed="${areaOf(h)===a.id}"><span class="apick-ic">${ic(a.i,16)}</span>${a.n}</button>`).join('')}</div></div>
@@ -1820,7 +1820,7 @@ const A={
  hset(el){syncDraft();draft[el.dataset.k]=el.dataset.v;if(el.dataset.k==='freq')draft.target=Math.min(draft.target||3,periodMax(draft.freq));habitSheet()},
  hday(el){syncDraft();const v=+el.dataset.v;draft.days=draft.days.includes(v)?draft.days.filter(x=>x!==v):[...draft.days,v].sort();if(!draft.days.length)draft.days=[v];habitSheet()},
  htarget(el){syncDraft();draft.target=Math.max(1,Math.min(periodMax(draft.freq),draft.target+ +el.dataset.v));habitSheet()},
- saveHabit(){syncDraft();delete draft.newCat;draft.area=areaOf(draft);if(!draft.name.trim()){$('#hn').focus();toast('Adj nevet a szokásnak');return}
+ saveHabit(){syncDraft();delete draft.newCat;draft.area=areaOf(draft);if(!draft.name.trim()){$('#hn').focus();toast('Adj nevet a szokásnak');return}toMyLib(draft);
   if(draft.id){const i=S.habits.findIndex(x=>x.id===draft.id);S.habits[i]=draft}else{S.habits.push({...draft,id:uid(),created:TODAY})}save();closeSheet();render(true);toast(draft.id?'Szokás frissítve':'Új szokás elültetve 🌱')},
  delHabit(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.habits=S.habits.filter(x=>x.id!==draft.id);save();closeSheet();render(true);toast('Szokás törölve')},
  habitDetail(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;let heat='';const st=addDays(now(),-(7*12-1)-wd(addDays(now(),-(7*12-1))));let a=0,b=0;
@@ -1892,6 +1892,12 @@ const A={
 /* „Bloomly ajánlja” blokk egy életterülethez: alcsoport-csipek, egy érintéses felvétel, „Mindet felveszem” */
 const recoNames=id=>new Set((RECO[id]||[]).flatMap(g=>g.items.map(r=>r.name)));
 /* Ha egy szokást korábban visszatettél az ajánlások közé, újrafelvételkor a régi előzményeivel együtt tér vissza */
+/* Szokástár = beépített ötletek + a saját magad létrehozott szokások (S.myLib). Egy saját szokás létrehozásakor
+   automatikusan a Szokástárba is bekerül, így törlés után is bármikor újra felvehető. */
+function allLib(){const mine=(S.myLib||[]).map(x=>({...x,mine:true}));return[...mine,...LIBRARY.filter(t=>!mine.some(m=>m.name===t.name))]}
+function toMyLib(d){const name=(d.name||'').trim();if(!name||LIBRARY.some(t=>t.name===name))return;
+  const e={name,icon:d.icon,color:d.color,area:areaOf(d),freq:d.freq,target:d.target,days:d.days,note:(d.note||'').trim()||'Saját szokás',cat:''};
+  S.myLib=(S.myLib||[]).filter(x=>x.name!==name);S.myLib.unshift(e)}
 function recoHabit(r,area){const old=(S.parked||{})[r.name];if(old){delete S.parked[r.name];return old}return mkHabit({...r,area})}
 function recoSection(a,have){
   /* Csak a még fel nem vett javaslatok látszanak; a felvett szokás átkerül a Szokások részbe. Az üres alcsoport eltűnik. */
@@ -1983,6 +1989,8 @@ window.bloomlyBack=()=>{
   return false};
 if(!S.fitness)seedExtras(S,true);
 S.habits.forEach(h=>{if(!h.area)h.area=areaOf(h)});if(!S.weight)S.weight={log:{}};
+TEMPLATES.forEach(t=>{if(!LIBRARY.some(x=>x.name===t.name))LIBRARY.push({...t})});
+S.habits.forEach(h=>{if(!LIBRARY.some(t=>t.name===h.name))toMyLib(h)});
 /* Új jelvénycsomag: a már teljesített új jelvények csendben kerülnek a gyűjteménybe, ne egyszerre ugorjon fel mind */
 if((S.badgesV||0)<2){S.seen=[...new Set([...(S.seen||[]),...allBadges().filter(b=>b.got).map(b=>b.id)])];S.badgesV=2;save()}
 applyTheme();if(!S.vision.length)seedVision();render();if(!S.onboarded)renderOb();
