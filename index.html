@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101150929">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101150929">
+<meta name="bloomly-version" content="20261101152109">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101152109">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -567,7 +567,8 @@ textarea.inp{min-height:92px;resize:vertical}
 .habit.hw{flex-wrap:wrap;row-gap:10px}
 .habit.hw .glasses{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding-left:60px}
 .habit.hw .gl{width:21px;height:27px}
-.gmin{width:27px;height:27px;border-radius:10px;background:var(--bg2);color:var(--text2);font-weight:700;font-size:16px;margin-right:2px}
+.wbtns{display:flex;gap:6px;flex:none}
+.gmin{width:34px;height:34px;border-radius:12px;background:var(--bg2);color:var(--text2);font-weight:700;font-size:18px;display:grid;place-items:center}
 .gmin:disabled{opacity:.4}
 .gl{width:24px;height:30px;border-radius:4px 4px 9px 9px;border:1.8px solid #A9C6EA;background:transparent;position:relative;overflow:hidden;transition:background .3s}
 .gl.on{background:linear-gradient(transparent 22%,#BFD7F2 22%)}
@@ -1444,7 +1445,7 @@ function habitRow(h,opt){
   const k=TODAY,done=isDone(h,k),st=habitStreak(h);
   const wh=!opt&&waterHabit()===h,wn=wh?S.water.log[k]||0:0,wg=S.water.goal;
   const meta=isT(h)?`${periodText(h)} ${periodCount(h,k)}/${h.target}`:wh?`${wn}/${wg} pohár`:(h.note?esc(h.note):areaName(h));
-  return`<div class="habit ${done?'done':''} ${wh?'hw':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div>${opt&&opt.ret?`<button class="ret" data-a="unReco" data-id="${h.id}" title="Vissza a Bloomly ajánlja részbe" aria-label="${esc(h.name)} vissza a Bloomly ajánlja részbe">${ic('undo',17)}</button>`:''}<button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button>${wh?`<div class="glasses" role="group" aria-label="Poharak: ${wn}/${wg}"><button class="gmin" data-a="wAdd" data-v="-1" aria-label="Egy pohárral kevesebb" ${wn?'':'disabled'}>−</button>${[...Array(Math.max(wg,wn))].map((_,i)=>`<button class="gl ${i<wn?'on':''}" data-a="wSet" data-v="${i+1}" aria-label="${i+1}. pohár"></button>`).join('')}</div>`:''}</div>`
+  return`<div class="habit ${done?'done':''} ${wh?'hw':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div>${opt&&opt.ret?`<button class="ret" data-a="unReco" data-id="${h.id}" title="Vissza a Bloomly ajánlja részbe" aria-label="${esc(h.name)} vissza a Bloomly ajánlja részbe">${ic('undo',17)}</button>`:''}${wh?`<div class="wbtns"><button class="gmin" data-a="wAdd" data-v="-1" aria-label="Egy pohárral kevesebb" ${wn?'':'disabled'}>−</button><button class="gmin" data-a="wAdd" data-v="1" aria-label="Egy pohárral több">+</button></div>`:''}<button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button>${wh?`<div class="glasses" role="group" aria-label="Poharak: ${wn}/${wg}">${[...Array(Math.max(wg,wn))].map((_,i)=>`<button class="gl ${i<wn?'on':''}" data-a="wSet" data-v="${i+1}" aria-label="${i+1}. pohár"></button>`).join('')}</div>`:''}</div>`
 }
 function todays(){return S.habits.filter(h=>scheduledOn(h,now()))}
 
@@ -2155,6 +2156,7 @@ const A={
   const last=Object.keys(S.log).filter(k=>S.log[k].includes(h.id)).sort().reverse().slice(0,5);
   openSheet(`<div class="row"><span class="tile" style="width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,24)}</span><div class="grow"><h2>${esc(h.name)}</h2><div class="muted">${areaName(h)} · ${freqLabel(h)}</div></div></div>
   ${h.note?`<div class="insight" style="margin-top:14px">${ic('pen')}<p>${esc(h.note)}</p></div>`:''}
+  ${waterH()===h?`<section class="card list" style="margin-top:14px;padding:4px 16px"><div class="li"><div class="grow"><b style="color:var(--ink)">Poharak a szokásnál</b><div class="muted">Pohárszámláló a kezdőlapon, a cél elérésekor magától kipipálódik</div></div><button class="switch ${S.waterOn!==false?'on':''}" data-a="waterTog" data-id="${h.id}" role="switch" aria-checked="${S.waterOn!==false}" aria-label="Poharak a szokásnál"></button></div>${S.waterOn!==false?`<div class="li"><div class="grow"><b style="color:var(--ink)">Napi cél</b><div class="muted">pohár (kb. 2,5 dl)</div></div><div class="stepper"><button data-a="wGoal" data-v="-1" data-id="${h.id}" aria-label="Csökkentés">−</button><b>${S.water.goal}</b><button data-a="wGoal" data-v="1" data-id="${h.id}" aria-label="Növelés">+</button></div></div>`:''}</section>`:''}
   <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${habitStreak(h)}</b><small>sorozat</small></div><div class="kpi"><b>${isT(h)?periodCount(h,TODAY)+'/'+h.target:b?Math.round(a/b*100)+'%':'–'}</b><small>${isT(h)?'e héten':'12 hét'}</small></div><div class="kpi"><b>${Object.values(S.log).filter(v=>v.includes(h.id)).length}</b><small>összesen</small></div></div>
   <div class="lbl" style="margin-top:18px">Teljesítési előzmények</div><div class="heat" style="margin-top:10px">${heat}</div>
   <div class="list" style="margin-top:10px">${last.map(k=>`<div class="li"><span style="color:var(--mint-deep)">${ic('check',18)}</span><span class="grow">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}${(S.hnotes[k]||{})[h.id]?`<small class="hn">${esc(S.hnotes[k][h.id])}</small>`:''}</span></div>`).join('')||'<p class="muted">Még nincs teljesítés.</p>'}</div>
@@ -2606,7 +2608,8 @@ function homeExtras(){let o='';const pz=S.pause,ci=chInfo(),rm=reviewMon(),rk=ke
   if(ci&&!pz){const on=!!ci.c.done[ci.day];o+=`<section class="card ch-home" style="--cc:${ci.p.c}"><button class="grow" data-a="go" data-s="challenges" style="text-align:left;display:flex;gap:12px;align-items:center;min-width:0"><span class="tile" style="background:${ci.p.c}">${ic(ci.p.i,20)}</span><span style="min-width:0"><span class="eyebrow">${esc(ci.p.n)} · ${ci.day}/${ci.len}. nap</span><b>${esc(ci.p.t[ci.day-1])}</b></span></button><button class="chk ${on?'on':''}" data-a="chTick" data-v="${ci.day}" aria-pressed="${on}" aria-label="Mai kihívás kész">${ic('check')}</button></section>`}
   return o}
 /* Vízivás: a poharak a meglévő víz-szokás sorában jelennek meg (nincs külön kártya) */
-function waterHabit(){if(S.waterOn===false)return null;return S.habits.find(h=>!isT(h)&&(h.icon==='drop'||/v[ií]z/i.test(h.name)))||null}
+function waterH(){return S.habits.find(h=>!isT(h)&&(h.icon==='drop'||/v[ií]z/i.test(h.name)))||null}
+function waterHabit(){return S.waterOn===false?null:waterH()}
 function waterSet(n){const before=S.water.log[TODAY]||0,g=S.water.goal,h=waterHabit();n=Math.max(0,n);S.water.log[TODAY]=n;
   const done=h&&(S.log[TODAY]||[]).includes(h.id);
   if(h&&scheduledOn(h,now())&&n>=g&&before<g&&!done){A.toggle({dataset:{id:h.id}});setTimeout(()=>toast('Megvan a napi vízcélod 💧'),900);return}
@@ -2680,8 +2683,8 @@ const F_A={
  /* víz */
  wAdd(el){waterSet((S.water.log[TODAY]||0)+ +el.dataset.v)},
  wSet(el){const v=+el.dataset.v,cur=S.water.log[TODAY]||0;waterSet(v===cur?v-1:v)},
- wGoal(el){S.water.goal=Math.max(4,Math.min(16,S.water.goal+ +el.dataset.v));save();render(true)},
- waterTog(){S.waterOn=S.waterOn===false;save();render(true)},
+ wGoal(el){S.water.goal=Math.max(4,Math.min(16,S.water.goal+ +el.dataset.v));save();render(true);if(el.dataset.id)A.habitDetail(el)},
+ waterTog(el){S.waterOn=S.waterOn===false;save();render(true);if(el&&el.dataset.id)A.habitDetail(el)},
  /* kedvesség */
  kindDo(){if(S.kind[TODAY])delete S.kind[TODAY];else{S.kind[TODAY]=1;toast('A kedvesség visszatalál hozzád 💛')}save();render(true);checkBadges()},
  /* fókusz */
