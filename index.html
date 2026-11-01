@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101220526">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101220526">
+<meta name="bloomly-version" content="20261101220914">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101220914">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3317,7 +3317,7 @@ document.addEventListener('input',e=>{if(e.target.id!=='fq')return;S.ui.fq=e.tar
 /* Összeg mezők: ezres tagolás gépelés közben */
 document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest('.fin-amtin'))return;const v=parseAmt(t.value);const s=v?v.toLocaleString('hu-HU'):'';if(t.value!==s){t.value=s;try{t.setSelectionRange(s.length,s.length)}catch(_){}}});
 /* ───────── Otthon: takarítási terv (Profilom) ─────────
-   Napi feladatok heti pipálótáblával, napi időbeosztás, a hét napjaira szabott feladatok és heti haladás.
+   Napi feladatok heti pipálótáblával, a hét napjaira szabott feladatok és heti haladás (a korábbi időbeosztás adatai megmaradnak, de nem jelennek meg).
    Adatok: S.home = {daily:[{id,t,i}], time:[{id,at,t,i}], days:[7 × [{id,t}]], log:{hétfőKulcs:{feladatId:[napok]}}, wlog:{hétfőKulcs:{feladatId:true}}}.
    A pipák hetente maguktól újraindulnak (a hét hétfői dátuma a kulcs). */
 const HM_DAYS=[['Hétfő','H','#CFE2F6','🧽'],['Kedd','K','#F5D3DC','❄️'],['Szerda','Sz','#FFD6C2','👟'],['Csütörtök','Cs','#CDECCF','🪜'],['Péntek','P','#E9D6A7','🛏️'],['Szombat','Sz','#E6DDF7','🪣'],['Vasárnap','V','#F7D9E6','✨']];
@@ -3344,9 +3344,6 @@ function otthonView(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[
    <div class="hm-grid"><span></span>${HM_DAYS.map(([n,s,c],i)=>`<span class="hm-dh ${i===td?'td':''}" style="--dc:${c}" title="${n}">${s}</span>`).join('')}</div>
    ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><i aria-hidden="true">${x.i||'🧹'}</i><span>${esc(x.t)}</span>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
    ${add('daily')}</section>
-  <section class="card hm-box hm-time"><div class="hm-head"><b>Napi időbeosztás</b><small>Írd be a saját időpontjaidat</small><span class="hm-badge">⏰</span></div>
-   ${h.time.slice().sort((a,b)=>(a.at||'99').localeCompare(b.at||'99')).map(x=>`<div class="hm-trow"><input type="time" class="hm-at" value="${esc(x.at||'')}" data-hmtime="${x.id}" aria-label="${esc(x.t)} időpontja"><i aria-hidden="true">${x.i||'🕒'}</i><span>${esc(x.t)}</span>${del('time',x.id)}</div>`).join('')||'<p class="muted">Még nincs időbeosztás.</p>'}
-   ${add('time')}</section>
   <div class="hm-days">${HM_DAYS.map(([n,,c,e],i)=>{const l=h.days[i]||[],dn=l.filter(x=>W[x.id]).length;return`<section class="hm-day ${i===td?'td':''}" style="--dc:${c}"><div class="hm-dhead"><b>${n}</b>${i===td?'<small>ma</small>':''}<span aria-hidden="true">${e}</span></div>
     <div class="hm-list">${l.map(x=>`<div class="hm-li"><button class="hm-cb ${W[x.id]?'on':''}" data-a="hmW" data-id="${x.id}" aria-pressed="${!!W[x.id]}">${W[x.id]?ic('check',11):''}</button><span>${esc(x.t)}</span>${del('day',x.id,i)}</div>`).join('')||'<p class="muted" style="font-size:12px">Nincs feladat</p>'}</div>
     ${l.length?`<div class="hm-dbar"><i style="width:${Math.round(dn/l.length*100)}%"></i></div>`:''}${add('day',i)}<span class="hm-wm" aria-hidden="true">${e}</span></section>`}).join('')}
@@ -3371,7 +3368,6 @@ const HOME_A={
 function hmCheer(){const s=hmStats();if(s.todayTot&&s.today===s.todayTot){petalsFall(30);toast('Ma minden kész. Ragyog az otthonod! ✨')}else if(s.pct===100)toast('Az egész heti terv kész! 🏡')}
 Object.assign(A,HOME_A);
 Object.assign(SCREENS,{otthon:otthonView});
-document.addEventListener('change',e=>{const id=e.target.dataset&&e.target.dataset.hmtime;if(!id)return;const x=ensureHome().time.find(t=>t.id===id);if(x){x.at=e.target.value;save();render(true)}});
 Object.assign(SCREENS,{review:reviewView,challenges:challengesView,pomo:pomoView,notifs:notifsView,dates:datesView});
 document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;
   if(t.dataset.hr){const h=S.habits.find(x=>x.id===t.dataset.hr);if(h){if(t.value)h.remind=t.value;else delete h.remind;save();render(true);toast(t.value?`Emlékeztető: ${t.value}`:'Emlékeztető törölve')}}
