@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101152503">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101152503">
+<meta name="bloomly-version" content="20261101152708">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101152708">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -568,6 +568,13 @@ textarea.inp{min-height:92px;resize:vertical}
 .habit.hw .glasses{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding-left:60px}
 .habit.hw .gl{width:21px;height:27px}
 .wbtns{display:flex;gap:6px;flex:none}
+.fz-set{padding:4px 16px}
+.fz-set .stepper{gap:8px}
+.fz-set .stepper button:disabled{opacity:.4}
+.fz-in{display:flex;align-items:baseline;gap:4px;background:var(--bg2);border-radius:12px;padding:6px 10px}
+.fz-in input{width:42px;border:0;background:none;font-family:var(--f-display);font-size:20px;font-weight:600;color:var(--ink);text-align:center;-moz-appearance:textfield}
+.fz-in input::-webkit-inner-spin-button,.fz-in input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.fz-in span{font-size:12px;color:var(--text2)}
 .gmin{width:34px;height:34px;border-radius:12px;background:var(--bg2);color:var(--text2);font-weight:700;font-size:18px;display:grid;place-items:center}
 .gmin:disabled{opacity:.4}
 .gl{width:24px;height:30px;border-radius:4px 4px 9px 9px;border:1.8px solid #A9C6EA;background:transparent;position:relative;overflow:hidden;transition:background .3s}
@@ -2584,6 +2591,8 @@ function challengesView(){const ci=chInfo(),done=S.ch.done||[];
 const FZ={mode:'work',end:0,left:null,run:false,iv:null};
 const fzCfg=()=>S.pomoCfg||(S.pomoCfg={w:25,b:5});
 const fzTotal=()=>(FZ.mode==='work'?fzCfg().w:fzCfg().b)*60;
+/* Kézzel beállított időtartam: fókusz 1–240, szünet 0–60 perc (0 = nincs szünet) */
+function fzPut(k,v){if(FZ.run)return;const mn=k==='w'?1:0,mx=k==='w'?240:60;v=Math.round(+v);if(isNaN(v))v=fzCfg()[k];fzCfg()[k]=Math.max(mn,Math.min(mx,v));FZ.left=null;if(!fzCfg().b)FZ.mode='work';save();render(true)}
 const fzLeft=()=>FZ.run?Math.max(0,Math.round((FZ.end-Date.now())/1000)):(FZ.left??fzTotal());
 const mmss=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
 function fzRing(p){const R=96,C=2*Math.PI*R;return`<svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="12"/><circle id="fzarc" cx="110" cy="110" r="${R}" fill="none" stroke="${FZ.mode==='work'?'#B9A3EE':'#9FD0A5'}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}" transform="rotate(-90 110 110)"/></svg>`}
@@ -2591,13 +2600,13 @@ function fzTick(){const l=fzLeft(),t=$('#fzt'),a=$('#fzarc');if(t)t.textContent=
   if(FZ.run&&l<=0)fzDone()}
 function fzDone(){FZ.run=false;clearInterval(FZ.iv);FZ.left=null;natCall('cancelTimer');
   if(FZ.mode==='work'){(S.pomo=S.pomo||[]).push({date:TODAY,min:fzCfg().w,label:(S.ui.fzl||'').trim()});S.lastBloom=Date.now();save();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
-    toast('Szép munka! Egy új virág nyílt a kertedben 🌸 Jöhet egy kis szünet.');FZ.mode='break';checkBadges()}else{toast('Vége a szünetnek. Készen állsz a következőre? 🌿');FZ.mode='work'}
+    if(fzCfg().b){toast('Szép munka! Egy új virág nyílt a kertedben 🌸 Jöhet egy kis szünet.');FZ.mode='break'}else toast('Szép munka! Egy új virág nyílt a kertedben 🌸');checkBadges()}else{toast('Vége a szünetnek. Készen állsz a következőre? 🌿');FZ.mode='work'}
   if((S.ui.sub)==='pomo')render(true)}
 function fzStart(){FZ.end=Date.now()+fzLeft()*1000;FZ.run=true;clearInterval(FZ.iv);FZ.iv=setInterval(fzTick,500);
-  natCall('timer',String(FZ.end),FZ.mode==='work'?'Kész a fókuszblokk 🌸':'Vége a szünetnek 🌿',FZ.mode==='work'?'Egy új virág nyílt a kertedben. Jöhet egy kis szünet.':'Készen állsz a következő fókuszblokkra?')}
+  natCall('timer',String(FZ.end),FZ.mode==='work'?'Kész a fókuszblokk 🌸':'Vége a szünetnek 🌿',FZ.mode==='work'?(fzCfg().b?'Egy új virág nyílt a kertedben. Jöhet egy kis szünet.':'Egy új virág nyílt a kertedben.'):'Készen állsz a következő fókuszblokkra?')}
 function pomoView(){const c=fzCfg(),l=fzLeft(),today=(S.pomo||[]).filter(p=>p.date===TODAY),wk=[...Array(7)].map((_,i)=>{const k=keyOf(addDays(now(),i-6));return{l:WD[wd(parseK(k))],v:(S.pomo||[]).filter(p=>p.date===k).length}}),mx=Math.max(4,...wk.map(x=>x.v));
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow">Fókusz időzítő</h1></div>
-  <div class="seg">${[[25,5],[50,10],[15,3]].map(([w,b])=>`<button class="${c.w===w&&c.b===b?'on':''}" data-a="fzCfg" data-v="${w}-${b}" ${FZ.run?'disabled':''}>${w} / ${b} perc</button>`).join('')}</div>
+  <section class="card fz-set" aria-label="Időtartam beállítása">${[['w','Fókusz','1–240 perc',1,240],['b','Szünet','0 = szünet nélkül',0,60]].map(([k,n,h,mn,mx])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${n}</b><div class="muted">${h}</div></div><div class="stepper"><button data-a="fzSet" data-k="${k}" data-v="-5" aria-label="${n}: 5 perccel kevesebb" ${FZ.run||c[k]<=mn?'disabled':''}>−</button><label class="fz-in"><input type="number" inputmode="numeric" id="fz${k}" min="${mn}" max="${mx}" value="${c[k]}" ${FZ.run?'disabled':''} aria-label="${n} perc"><span>perc</span></label><button data-a="fzSet" data-k="${k}" data-v="5" aria-label="${n}: 5 perccel több" ${FZ.run||c[k]>=mx?'disabled':''}>+</button></div></div>`).join('')}</section>
   <section class="card fz"><div class="eyebrow">${FZ.mode==='work'?'Fókusz':'Szünet'}</div><div class="fz-ring">${fzRing(l/fzTotal())}<b id="fzt">${mmss(l)}</b></div>
    ${FZ.mode==='work'?`<input class="inp" id="fzl" maxlength="40" placeholder="Min dolgozol most? (nem kötelező)" value="${esc(S.ui.fzl||'')}" style="text-align:center">`:'<p class="muted">Állj fel, nyújtózz, igyál egy pohár vizet.</p>'}
    <div class="btns"><button class="btn ghost" data-a="fzReset">Visszaállítás</button><button class="btn" data-a="fzGo">${FZ.run?'Szünet':l<fzTotal()?'Folytatás':'Indítás'}</button></div>
@@ -2622,7 +2631,7 @@ function insightsCard(){const L=[],av=a=>a.reduce((x,y)=>x+y,0)/a.length,f1=v=>v
   if(wg.length>=3&&wb.length>=3&&Math.abs(av(wg)-av(wb))>=.3)L.push(['drop',`Amikor megiszod a napi ${S.water.goal} pohár vizet, a hangulatod átlagosan <b>${f1(Math.abs(av(wg)-av(wb)))} ponttal ${av(wg)>av(wb)?'jobb':'rosszabb'}</b>.`]);
   const hs=S.habits.filter(h=>!isT(h)).map(h=>{let a=0,b=0;for(let i=0;i<30;i++){const d=addDays(now(),-i);if(!scheduledOn(h,d))continue;b++;if(isDone(h,keyOf(d)))a++}return{h,r:b>=5?a/b:null}}).filter(x=>x.r!=null);
   if(hs.length>=2){const b=hs.slice().sort((a,c)=>c.r-a.r)[0],w=hs.slice().sort((a,c)=>a.r-c.r)[0];L.push(['medal',`A legkövetkezetesebb szokásod: <b>${esc(b.h.name)}</b> (${pct(b.r)}).${w.r<.5?` A(z) <b>${esc(w.h.name)}</b> csak ${pct(w.r)}: érdemes kisebbre venni vagy más napszakra tenni.`:''}`])}
-  const pw=(S.pomo||[]).filter(p=>dayDiff(TODAY,p.date)<7).length;if(pw)L.push(['flame',`Ezen a héten <b>${pw} fókuszblokkot</b> fejeztél be, ez ${pw*fzCfg().w} perc mély munka.`]);
+  const pw=(S.pomo||[]).filter(p=>dayDiff(TODAY,p.date)<7).length;if(pw)L.push(['flame',`Ezen a héten <b>${pw} fókuszblokkot</b> fejeztél be, ez ${(S.pomo||[]).filter(p=>dayDiff(TODAY,p.date)<7).reduce((a,p)=>a+(p.min||0),0)} perc mély munka.`]);
   return`<section class="card"><b style="color:var(--ink)">Felismerések</b><p class="muted">A Bloomly az adataidból keres összefüggéseket. Minél többet rögzítesz, annál pontosabbak.</p>${L.length?`<div class="ins-list">${L.map(([i,t])=>`<div class="insight">${ic(i)}<p>${t}</p></div>`).join('')}</div>`:'<p class="muted" style="margin-top:10px">Még kevés az adat. Néhány hét rögzítés után itt jelennek meg az első felismerések.</p>'}</section>`}
 
 /* ───────── Kezdőlap kártyák ───────── */
@@ -2712,7 +2721,7 @@ const F_A={
  /* kedvesség */
  kindDo(){if(S.kind[TODAY])delete S.kind[TODAY];else{S.kind[TODAY]=1;toast('A kedvesség visszatalál hozzád 💛')}save();render(true);checkBadges()},
  /* fókusz */
- fzCfg(el){const[w,b]=el.dataset.v.split('-').map(Number);S.pomoCfg={w,b};FZ.left=null;save();render(true)},
+ fzSet(el){fzPut(el.dataset.k,fzCfg()[el.dataset.k]+ +el.dataset.v)},
  fzGo(){const i=$('#fzl');if(i)S.ui.fzl=i.value;if(FZ.run){FZ.left=fzLeft();FZ.run=false;clearInterval(FZ.iv);natCall('cancelTimer')}else fzStart();render(true)},
  fzReset(){FZ.run=false;clearInterval(FZ.iv);FZ.left=null;FZ.mode='work';natCall('cancelTimer');render(true)},
  fzSkip(){FZ.mode='work';FZ.left=null;render(true)},
@@ -2746,6 +2755,7 @@ S.water=S.water||{goal:8,log:{}};S.ch=S.ch||{cur:null,done:[]};S.pomo=S.pomo||[]
 function ensureF(){S.water=S.water||{goal:8,log:{}};S.ch=S.ch||{cur:null,done:[]};S.pomo=S.pomo||[];S.kind=S.kind||{};S.reviews=S.reviews||{};S.hnotes=S.hnotes||{};S.pauses=S.pauses||[];S.notif=S.notif||{};}
 
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const fn=A[el.dataset.a];if(fn){if(el.dataset.a!=='closeModal')e.stopPropagation();fn(el,e)}});
+document.addEventListener('change',e=>{const id=e.target.id;if(id==='fzw'||id==='fzb')fzPut(id.slice(2),e.target.value)});
 document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.a==='time'){S.notif[e.target.dataset.k]=e.target.value;save();toast('Időpont mentve')}});
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){if($('#sheet').classList.contains('on')||$('#modal').innerHTML){closeSheet();$('#modal').innerHTML=''}else if(!$('#ob').innerHTML&&(NAV.length||S.ui.sub||S.ui.tab!=='home'))A.back()}
