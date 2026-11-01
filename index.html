@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101154927">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101154927">
+<meta name="bloomly-version" content="20261101160158">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101160158">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomly</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -736,6 +736,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-key span{display:flex;align-items:center;gap:5px}
 .fin-amt{font-family:var(--f-display);font-size:16px;font-weight:600;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;flex:none}
 .fin-amt.in{color:var(--mint-deep)}
+.fin-rn{display:block;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin-row .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin-day{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--text2);margin:6px 4px -4px}
 .fin-sum{display:flex;gap:14px;font-size:13px;font-weight:600;color:var(--text2);padding:0 4px}
@@ -2965,7 +2966,7 @@ function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(f
   if(up)ins.push(['flame',`${up.n}: <b>${ft(up.v-up.p)}-tal több</b>, mint az előző hónapban.`]);
   const over=Object.entries(S.fin.budget.cats).filter(([id,l])=>l&&(m.by[id]||0)>l).map(([id])=>FCAT[id].n.toLowerCase());
   if(over.length)ins.push(['shield',`Túllépett keret: <b>${over.join(', ')}</b>.`]);
-  if(m.i&&bal>0&&bal/m.i>=.2)ins.push(['sparkle',`Szép! A bevételed <b>${Math.round(bal/m.i*100)}%-át</b> megtakarítottad ebben a hónapban.`]);
+  if(m.i&&m.o&&(!cur||el>=20)&&bal>0&&bal/m.i>=.2)ins.push(['sparkle',`Szép! A bevételed <b>${Math.round(bal/m.i*100)}%-át</b> megtakarítottad ebben a hónapban.`]);
   return`${fmNav()}
   <section class="fin-hero"><small>Egyenleg · ${cur?'ebben a hónapban':fmt(mk+'-01',{month:'long'})}</small><b class="${bal<0?'neg':''}">${bal<0?'−':''}${ft(Math.abs(bal))}</b>
    <div class="fin-io"><div><small><span class="fin-dot in"></span>Bevétel</small><b>${ft(m.i)}</b></div><div><small><span class="fin-dot out"></span>Kiadás</small><b>${ft(m.o)}</b></div></div>
@@ -2975,8 +2976,8 @@ function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(f
    :`<button class="insight" data-a="fv" data-v="bud" style="width:100%;text-align:left">${ic('target')}<p>Állíts be <b>havi költségkeretet</b>, és a Bloomly naponta megmutatja, mennyit költhetsz még.</p></button>`}
   <div class="kpis"><div class="kpi"><b>${ftS(avg)} Ft</b><small>napi átlagos kiadás</small></div><div class="kpi"><b>${ftS(proj)} Ft</b><small>${cur?'várható havi kiadás':'havi kiadás'}</small></div>
    <div class="kpi"><b>${dlt==null?'–':(dlt>0?'+':'')+dlt+'%'}</b><small>kiadás az előző hónaphoz képest</small></div><div class="kpi"><b>${m.n}</b><small>tétel ebben a hónapban</small></div></div>
-  ${due.length?`<div class="sec-h"><h2>Esedékes tételek</h2>${due.length>1?`<button class="link" data-a="recPayAll">Mind rögzítése</button>`:''}</div><section class="card list">${due.map(r=>{const c=FCAT[r.cat]||FCAT.other,st=recState(r,mk);
-   return`<div class="li"><span class="tile sm" style="background:${c.c}">${ic(c.i,17)}</span><div class="grow"><b style="color:var(--ink)">${esc(r.name)}</b><div class="muted">${r.t==='in'?'+':'−'}${ft(r.amt)}</div></div><span class="fin-st ${st[0]}">${st[1]}</span><button class="btn ghost" style="padding:8px 12px;font-size:12.5px" data-a="recPay" data-id="${r.id}">Rögzítés</button></div>`}).join('')}</section>`:''}
+  ${due.length?`<div class="sec-h"><h2>Rögzítésre vár</h2>${due.length>1?`<button class="link" data-a="recPayAll">Mind rögzítése</button>`:''}</div><section class="card list">${due.map(r=>{const c=FCAT[r.cat]||FCAT.other,st=recState(r,mk);
+   return`<div class="li"><span class="tile sm" style="background:${c.c}">${ic(c.i,17)}</span><div class="grow" style="min-width:0"><b class="fin-rn">${esc(r.name)}</b><div class="muted" style="white-space:nowrap">${r.t==='in'?'+':'−'}${ft(r.amt)}</div></div><button class="btn ghost" style="padding:8px 12px;font-size:12.5px;flex:none" data-a="recPay" data-id="${r.id}">Rögzítés</button></div>`}).join('')}</section>`:''}
   <div class="sec-h"><h2>Kiadások kategóriánként</h2></div>
   ${cats.length?`<section class="card">${donut(cats,m.o,ftS(m.o),'Ft kiadás')}<div class="fin-leg">${cats.map(c=>`<button data-a="fcGo" data-v="${c.id}"><span class="sw" style="background:${c.c}">${ic(c.i,17)}</span><div class="grow" style="min-width:0"><div class="nm">${c.n}</div><div class="bb"><i style="width:${c.v/cats[0].v*100}%;background:${c.c}"></i></div></div><div class="vv">${ft(c.v)}<small>${Math.round(c.v/m.o*100)}%</small></div></button>`).join('')}</div></section>`
    :`<div class="card empty-note">${cur?'Ebben a hónapban még nincs kiadásod. A + gombbal rögzítheted az elsőt.':'Ebben a hónapban nem volt kiadás.'}</div>`}
@@ -3009,7 +3010,7 @@ function finBud(){const mk=fmKey(0),m=monthSum(mk),b=S.fin.budget,bt=b.total,bp=
   <div class="habits">${ids.map(id=>budRow(id,m.by[id]||0,b.cats[id]||0)).join('')||'<div class="card empty-note">Állíts be keretet azokra a kategóriákra, amelyeket figyelni szeretnél, például élelmiszer vagy étterem.</div>'}</div>
   <div class="sec-h"><h2>Rendszeres tételek</h2><button class="link" data-a="addRec">+ Új</button></div>
   ${S.fin.rec.length?`<p class="muted">Havonta ${recOut?`−${ft(recOut)}`:''}${recOut&&recIn?' és ':''}${recIn?`+${ft(recIn)}`:''} fix tétel.</p><div class="habits">${S.fin.rec.slice().sort((a,b)=>a.day-b.day).map(r=>{const c=FCAT[r.cat]||FCAT.other,st=recState(r,mk);
-   return`<button class="habit" data-a="editRec" data-id="${r.id}" style="text-align:left;width:100%"><span class="tile" style="background:${c.c}">${ic(c.i)}</span><div class="grow" style="min-width:0"><div class="name">${esc(r.name)}</div><div class="meta"><span>Minden hónap ${r.day}.</span><span>· ${c.n}</span></div></div><div style="text-align:right;flex:none"><b class="fin-amt ${r.t}">${r.t==='in'?'+':'−'}${ft(r.amt)}</b><div><span class="fin-st ${st[0]}">${st[1]}</span></div></div></button>`}).join('')}</div>`
+   return`<button class="habit" data-a="editRec" data-id="${r.id}" style="text-align:left;width:100%"><span class="tile" style="background:${c.c}">${ic(c.i)}</span><div class="grow" style="min-width:0"><div class="name">${esc(r.name)}</div><div class="meta"><span>${c.n}</span></div></div><div style="text-align:right;flex:none"><b class="fin-amt ${r.t}">${r.t==='in'?'+':'−'}${ft(r.amt)}</b>${st[0]==='ok'?`<div><span class="fin-st ok">Rögzítve</span></div>`:''}</div></button>`}).join('')}</div>`
    :'<div class="card empty-note">Vedd fel a havi fix tételeidet, például lakbér, rezsi, telefon, előfizetések. Az esedékeseket egy koppintással rögzítheted.</div>'}`}
 
 function finGoals(){const g=S.fin.goals,tot=g.reduce((a,x)=>a+x.saved,0),tg=g.reduce((a,x)=>a+x.target,0);
@@ -3049,7 +3050,7 @@ function recSheet(){const r=fd;
   <div class="seg" style="margin-top:14px">${[['out','Kiadás'],['in','Bevétel']].map(([k,n])=>`<button class="${r.t===k?'on':''}" data-a="recSet" data-k="t" data-v="${k}">${n}</button>`).join('')}</div>
   <div class="field"><label for="rcn">Megnevezés</label><input class="inp" id="rcn" maxlength="40" value="${esc(r.name)}" placeholder="pl. Lakbér, Netflix, Telefon"></div>
   ${amtIn('rca',r.amt,r.t)}
-  <div class="field"><label for="rcd">Esedékesség (a hónap hányadik napja)</label><input class="inp" id="rcd" type="number" inputmode="numeric" min="1" max="31" value="${r.day}"></div>
+  <div class="field"><label for="rcd">A hónap melyik napján szokott lenni (a rögzítés dátumához)</label><input class="inp" id="rcd" type="number" inputmode="numeric" min="1" max="31" value="${r.day}"></div>
   <div class="field"><span class="lbl">Kategória</span>${catGrid(r.t==='in'?FC_IN:FC_OUT,r.cat,'recSet')}</div>
   <div class="btns">${r.id?`<button class="btn danger" data-a="delRec">Törlés</button>`:''}<button class="btn" data-a="saveRec">Mentés</button></div>`)}
 function readRec(){const n=$('#rcn'),a=$('#rca'),d=$('#rcd');if(n)fd.name=n.value;if(a)fd.amt=parseAmt(a.value);if(d)fd.day=Math.max(1,Math.min(31,parseInt(d.value)||1))}
