@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261101222504">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101222504">
+<meta name="bloomly-version" content="20261101222838">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261101222838">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3333,7 +3333,7 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest
    Napi feladatok heti pipálótáblával, a hét napjaira szabott feladatok és heti haladás (a korábbi időbeosztás adatai megmaradnak, de nem jelennek meg).
    Adatok: S.home = {daily:[{id,t,i}], time:[{id,at,t,i}], days:[7 × [{id,t}]], log:{hétfőKulcs:{feladatId:[napok]}}, wlog:{hétfőKulcs:{feladatId:true}}}.
    A pipák hetente maguktól újraindulnak (a hét hétfői dátuma a kulcs). */
-const HM_DAYS=[['Hétfő','H','#CFE2F6','🧽'],['Kedd','K','#F5D3DC','❄️'],['Szerda','Sz','#FFD6C2','👟'],['Csütörtök','Cs','#CDECCF','🪜'],['Péntek','P','#E9D6A7','🛏️'],['Szombat','Sz','#E6DDF7','🪣'],['Vasárnap','V','#F7D9E6','✨']];
+const HM_DAYS=[['Hétfő','H','#CFE2F6','🌱'],['Kedd','K','#F5D3DC','🌷'],['Szerda','Sz','#FFD6C2','🌻'],['Csütörtök','Cs','#CDECCF','🍀'],['Péntek','P','#E9D6A7','🌸'],['Szombat','Sz','#E6DDF7','☀️'],['Vasárnap','V','#F7D9E6','🌙']];
 /* Ikontár a saját feladatokhoz, kategóriánként */
 /* Saját rajzolt ikonok azokhoz, amelyekhez nincs emoji (pl. porszívó). Az ikon értéke ilyenkor "svg:név". */
 const HM_SVG={vacuum:'<svg class="hm-svg" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 15.5c0-6 4-9.5 8-9.5" fill="none" stroke="#B9A3EE" stroke-width="2.6" stroke-linecap="round"/><path d="M21 6l6.2 18.5" stroke="#6E5BA8" stroke-width="2.4" stroke-linecap="round"/><rect x="22.5" y="23.5" width="8.5" height="3.6" rx="1.8" fill="#6E5BA8"/><rect x="1.5" y="14" width="15" height="11.5" rx="5.6" fill="#F2A7C0"/><rect x="3.6" y="16.2" width="7.2" height="4.4" rx="2.2" fill="#FCDDE8"/><circle cx="12.6" cy="18.4" r="1.4" fill="#E08AAA"/><circle cx="5.2" cy="26.2" r="2.7" fill="#6E5BA8"/><circle cx="12.8" cy="26.2" r="2.7" fill="#6E5BA8"/><circle cx="5.2" cy="26.2" r="1" fill="#E6DDF7"/><circle cx="12.8" cy="26.2" r="1" fill="#E6DDF7"/></svg>'};
