@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102204918">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102204918">
+<meta name="bloomly-version" content="20261102205318">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102205318">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -454,6 +454,16 @@ textarea.inp{min-height:92px;resize:vertical}
 .area .tick{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--lav-deep);color:var(--card);display:grid;place-items:center;transform:scale(0);transition:transform .4s var(--ease)}
 .area.on .tick{transform:scale(1)}
 .area.info{gap:6px;padding:16px 12px 14px}
+.ob-feats{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.ob-feat{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:22px;background:var(--glass);border:1.5px solid var(--glass-line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:obFeatIn .55s var(--ease) both;animation-delay:var(--d)}
+.ob-feat .tile{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;flex:none;background:var(--ac);color:var(--on-pastel)}
+.ob-feat b{display:block;color:var(--ink);font-size:15.5px;line-height:1.3}
+.ob-feat p{margin:4px 0 0;font-size:13px;color:var(--text2);line-height:1.45}
+.ob-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ob-tags span{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;color:var(--ink);background:color-mix(in srgb,var(--ac) 45%,transparent)}
+.ob-where{display:flex;align-items:center;gap:4px;margin-top:10px;font-size:11.5px;font-weight:600;color:var(--lav-deep)}
+@keyframes obFeatIn{from{opacity:0;transform:translateY(12px)}}
+@media (prefers-reduced-motion:reduce){.ob-feat{animation:none}}
 .gnum{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--card);background:transparent;border:1.5px dashed color-mix(in srgb,var(--text2) 50%,transparent);flex:none;transition:all .3s var(--ease)}
 .goal.on .gnum{background:var(--lav-deep);border:0}
 .ob-chk{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;border:1.5px solid color-mix(in srgb,var(--lav) 80%,var(--text2));color:#3F6B48;transition:all .3s var(--ease)}
@@ -2330,7 +2340,7 @@ const MOOD_REPLY=['Csodás! Vigyük tovább ezt a ragyogást.','Szép, kiegyens�
  'Ez az energia aranyat ér. Tegyük olyan szokásokba, amik sokáig kitartanak.','Milyen szép érzés! Jusson belőle magadra is egy kis figyelem.','A hála a legszebb kezdet. Ma is lesz miért hálásnak lenned.','Bízol magadban, és ez meglátszik. Merj ma nagyot lépni.','Jó, hogy szeretet vesz körül. Engedd, hogy feltöltsön.',
  'A töprengés is érték. Egy kis naplóírás segíthet rendet tenni a gondolataidban.','A tested pihenést kér. Ma a kisebb lépések is számítanak.','Nem vagy egyedül. Egy rövid üzenet egy barátnak csodákra képes.','Lélegezz mélyet. Most semmi nem sürget, egyszerre csak egy dolog.','Rendben van dühösnek lenni. Egy kis mozgás vagy séta segíthet kiengedni.'];
 /* Kihagyott bevezető lépések: 3 = első szokások (a Szokások menüben választod ki), 4 = Életvirág */
-const OB_SKIP=[2,3,4];
+const OB_SKIP=[4];
 let ob;
 function newOb(){ob={step:0,dir:1,areas:AREAS.map(a=>a.id),goals:[],picks:[],picksInit:false,life:Object.fromEntries(AREAS.map(a=>[a.id,5])),lfs:null,lfAnim:true,cycle:true,last:'',clen:28,mood:null,nm:true,ne:true,mt:'07:30',et:'21:00',theme:S.theme||'system',name:S.onboarded?S.name:'',flower:'lav',planted:false,sample:false}}
 const flowerArt=(type,col,size)=>`<svg viewBox="-17 -41 34 44" width="${size}" height="${size}" aria-hidden="true">${flower(0,0,1,type,col,0,false)}</svg>`;
@@ -2348,15 +2358,15 @@ function renderOb(dir){
     const feat=(icn,c,t,d)=>`<div class="li"><span class="tile" style="width:38px;height:38px;border-radius:13px;display:grid;place-items:center;flex:none;background:${c};color:var(--on-pastel)">${ic(icn,17)}</span><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div></div>`;
     b=H('Életterületek','Nyolc terület, egy virágzó élet','A Bloomsette-ben a szokásaid életterületekbe rendeződnek, így egy pillantással látod, mire figyelsz eleget, és mire kevésbé.')+`<div class="area-grid">${AREAS.map(card).join('')}</div>
     <section class="card list" style="margin-top:14px">${feat('sparkle','var(--lav)','Ajánlott szokások','Minden területhez kész javaslatokat kapsz, egy koppintással felveheted őket.')}${feat('flower','var(--rose)','Életvirág','Minden terület egy szirom: értékeld, hol tartasz, és figyeld, ahogy kivirágzik.')}${feat('plus','var(--mint)','Saját területek','Bármikor létrehozhatsz új életterületet a Szokások fülön.')}</section>`;cta='Értem, tovább'}
-  if(s===2){const seenG=new Set(),opts=ALL_FOCUS.filter(a=>ob.areas.includes(a.id)).flatMap(a=>a.g.map(g=>({g,a}))).filter(o=>!seenG.has(o.g)&&seenG.add(o.g));ok=ob.goals.length>0;
-    const goalBtn=(g,c,icn,sub)=>{const i=ob.goals.indexOf(g);return`<button class="opt goal ${i>=0?'on':''}" data-a="obGoal" data-v="${esc(g)}" aria-pressed="${i>=0}"><span class="tile" style="background:${c}">${ic(icn,18)}</span><div class="grow"><b>${esc(g)}</b><div class="muted">${sub}</div></div><span class="gnum">${i>=0?i+1:''}</span></button>`};
-    b=H('Célok','Mit szeretnél elérni?','Válassz annyi célt, amennyit szeretnél a következő 90 napra. Ezek lesznek az iránytűid.')+`<div class="opts">${opts.map(({g,a})=>goalBtn(g,a.c,a.i,a.n)).join('')}${ob.goals.filter(g=>!opts.some(o=>o.g===g)).map(g=>goalBtn(g,'#E9D6A7','star','Saját cél')).join('')}</div>
-    <div class="row"><input class="inp" id="obgc" placeholder="Saját cél, pl. Lefutni az első 5 km-t" maxlength="60" aria-label="Saját cél"><button class="iconbtn" data-a="obGoalAdd" aria-label="Saját cél hozzáadása">${ic('plus')}</button></div>`;cta=ok?`Tovább · ${ob.goals.length} cél kiválasztva`:'Válassz legalább egy célt'}
-  if(s===3){const cats=[...new Set(ALL_FOCUS.filter(a=>ob.areas.includes(a.id)).flatMap(a=>a.cats))],by={},mix=[];
-    LIBRARY.filter(t=>cats.includes(t.cat)).forEach(t=>(by[t.cat]=by[t.cat]||[]).push(t));
-    for(let i=0;mix.length<12&&i<12;i++)Object.values(by).forEach(l=>{if(l[i]&&mix.length<12&&!mix.some(m=>m.name===l[i].name))mix.push(l[i])});
-    if(!ob.picksInit){ob.picks=mix.slice(0,3).map(t=>t.name);ob.picksInit=true}ok=ob.picks.length>0;
-    b=H('Első szokások','Válaszd ki az első szokásaidat','3–5 szokással a legkönnyebb kitartani. Íme néhány népszerű kezdő szokás a különböző területekről.')+`<div class="ob-count-pill ${ob.picks.length>5?'warn':''}">${ob.picks.length} kiválasztva · ajánlott 3–5</div><div class="opts">${mix.map(t=>{const on=ob.picks.includes(t.name);return`<button class="opt ${on?'on':''}" data-a="obPick" data-v="${esc(t.name)}" aria-pressed="${on}"><span class="tile" style="background:${COLORS[t.color]}">${ic(t.icon,18)}</span><div class="grow"><b>${t.name}</b><div class="muted">${t.note} · ${freq(t)}</div></div><span class="ob-chk">${on?ic('check',16):''}</span></button>`}).join('')}</div>`;cta=ok?`Tovább · ${ob.picks.length} szokás`:'Válassz legalább egy szokást'}
+  /* Bemutató oldalak a további funkciókról: mit tud, és hol találja meg */
+  const feats=(list)=>`<div class="ob-feats">${list.map(([icn,c,t,d,tags,where],i)=>`<div class="ob-feat" style="--ac:${c};--d:${(i*.09).toFixed(2)}s"><span class="tile">${ic(icn,22)}</span><div class="grow"><b>${t}</b><p>${d}</p><div class="ob-tags">${tags.map(x=>`<span>${x}</span>`).join('')}</div><div class="ob-where">${ic('next',12)} ${where}</div></div></div>`).join('')}</div>`;
+  if(s===2){b=H('Mindennapok','Rend és nyugalom a hétköznapokban','A szokásokon túl a Bloomsette a mindennapi teendőidben is segít, hogy minden fontos dolog egy helyen legyen.')+feats([
+    ['wallet','#DCEFC9','Pénzügyek','Kövesd a kiadásaidat és a bevételeidet, állíts be havi keretet, és spórolj tudatosan a céljaidra.',['Kiadások és bevételek','Havi keret','Megtakarítási célok'],'Alsó menü · Pénzügyek'],
+    ['home','#CFE2F6','Otthon','Heti takarítási terv napokra bontva és napi teendők saját ikonokkal, hogy az otthonod is virágozzon.',['Heti terv','Napi teendők','Saját feladatok'],'Profilom · Otthon'],
+    ['gift','#F5D3DC','Születésnapok és fontos dátumok','Születésnapok, évfordulók és más fontos napok egy helyen. A közelgő dátumokra a kezdőlap is figyelmeztet.',['Születésnapok','Évfordulók','Jelzés a kezdőlapon'],'Profilom · Születésnapok és fontos dátumok']])}
+  if(s===3){b=H('Inspiráció','Álmodj nagyot, haladj lépésenként','Tűzz ki álmokat, és tegyél értük minden nap egy keveset. Ebben két eszköz kísér végig.')+feats([
+    ['target','#FFD6C2','Kihívások',`${CHALLENGES.length} tematikus kihívás, például jobb alvás vagy több önbizalom. Minden napra kapsz egy kis feladatot, és látod, hol tartasz.`,['Tematikus kihívások','Napi feladatok','Haladásjelző'],'Profilom · Kihívások'],
+    ['image','#CBB7F7','Vision Board','Gyűjtsd össze az álmaidat képekkel és idézetekkel, írd le a céljaidat, és erősítsd magad napi pozitív megerősítésekkel.',['Tábla','Célok','Megerősítések','Háttérkép a telefonodra'],'Profilom · Vision Board']])}
   if(s===4){if(!ob.lfs)ob.lfs=petalOf(ob.areas[0])||AREAS[0].id;b=H('Életvirág','Ismerd meg az Életvirágodat','Nyolc szirom, nyolc életterület. Koppints egy sziromra, és értékeld 1-től 10-ig, most hol tartasz.')+`<div class="lf-wrap">${lifeFlowerSVG(ob.life,ob.lfs,ob.lfAnim)}</div>${lfPanel(ob.lfs,ob.life)}`;ob.lfAnim=false;cta='Ez az én virágom'}
   if(s===5){b=H('Bloom Kert','Ez a te Bloom Kerted','Minden teljesített szokás egy új virágot növeszt. A kerted veled együtt fejlődik, és soha nem hervad el.')+`<div class="ob-garden">${demoGarden()}</div><div class="tips">${[['check','mint','Kipipálsz egy szokást,','és kinyílik egy virág. +10 szirom.'],['flame','peach','Sorozatot építesz,','és ritka növények költöznek a kertedbe.'],['star','gold','Különleges eredményeket érsz el,','és fák, tó, szezonális díszek jelennek meg.']].map(([i,c,t,d],k)=>`<div class="tip ob-tip" style="animation-delay:${(1.6+k*.18).toFixed(2)}s"><span class="ic" style="background:var(--${c})">${ic(i,18)}</span><p><b style="color:var(--ink)">${t}</b> ${d}</p></div>`).join('')}</div>`;cta='Csodás, tovább'}
   if(s===6){skip=true;b=H('Ciklus','Kövessük együtt a ciklusodat?','A tested ritmusa hat az energiádra és a hangulatodra. Fázisonként személyre szabott tippeket adunk.')+`<div class="ob-phases">${Object.values(PHASES).map(p=>`<span style="background:${p.c}">${p.n.split(' ')[0]}</span>`).join('')}</div><button class="opt ${ob.cycle?'on':''}" data-a="obCycle" role="switch" aria-checked="${ob.cycle}"><span class="tile" style="background:var(--rose)">${ic('cycle',18)}</span><div class="grow"><b>Cikluskövetés</b><div class="muted">Titkosítva, csak az eszközödön tárolva</div></div><span class="switch ${ob.cycle?'on':''}" aria-hidden="true"></span></button>${ob.cycle?`<div class="field"><label for="obl">Utolsó menstruációd első napja</label><input class="inp" type="date" id="obl" value="${ob.last||keyOf(addDays(now(),-14))}" max="${TODAY}"></div><div class="row" style="margin-top:14px"><span class="grow muted">Átlagos ciklushossz</span><div class="stepper"><button data-a="obClen" data-v="-1" aria-label="Rövidebb">−</button><b>${ob.clen}</b><button data-a="obClen" data-v="1" aria-label="Hosszabb">+</button></div><span class="muted">nap</span></div>`:''}`;cta=ob.cycle?'Bekapcsolom':'Tovább nélküle'}
