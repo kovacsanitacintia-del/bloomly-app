@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102212657">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102212657">
+<meta name="bloomly-version" content="20261102213112">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102213112">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -913,6 +913,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-budl{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:12.5px;color:var(--text2)}.fin-budl b{color:var(--ink)}
 .fin-seg button{display:flex;align-items:center;justify-content:center;gap:6px}
 .fin-seg button.on.in{background:color-mix(in srgb,var(--fin-in) 20%,var(--card));color:var(--fin-in)}.fin-seg button.on.out{background:color-mix(in srgb,var(--fin-out) 18%,var(--card));color:var(--fin-out)}
+.fin-miss{margin-top:6px;font-size:13px;color:var(--text2)}.fin-miss b{color:var(--fin-out);font-family:var(--f-display);font-size:15px}
 .fin-hint{font-size:12.5px;color:var(--text2);margin-top:10px;text-align:center}
 .fin-rn{display:block;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin-row .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -3337,7 +3338,8 @@ function finGoals(){const g=S.fin.goals,tot=g.reduce((a,x)=>a+x.saved,0),tg=g.re
    let ml=0;if(x.date&&!done){const a=parseK(TODAY),b=parseK(x.date);ml=Math.max(1,(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth())}
    return`<section class="card fin-goal" style="--gc:${x.c}"><div class="row" style="gap:12px"><span class="tile" style="background:${x.c};width:46px;height:46px;border-radius:16px;display:grid;place-items:center;color:var(--on-pastel);flex:none">${ic('piggy',22)}</span><div class="grow" style="min-width:0"><b style="color:var(--ink);font-size:16px">${esc(x.name)}</b><div class="muted">${ft(x.saved)} / ${ft(x.target)}</div></div><b class="fin-gp">${Math.round(p*100)}%</b></div>
     <div class="bar" style="margin-top:12px;height:10px"><i style="width:${p*100}%"></i></div>
-    <div class="muted" style="margin-top:8px;font-size:12.5px">${done?'🎉 Elérted a célt! Gratulálunk.':x.date?(x.date<TODAY?`A határidő lejárt · még ${ft(rem)} hiányzik`:`Határidő: ${fmt(x.date,{year:'numeric',month:'long',day:'numeric'})} · havonta kb. <b style="color:var(--ink)">${ft(rem/ml)}</b>`):`Még ${ft(rem)} hiányzik`}</div>
+    ${done||x.date?`<div class="muted" style="margin-top:8px;font-size:12.5px">${done?'🎉 Elérted a célt! Gratulálunk.':x.date<TODAY?`A határidő lejárt: ${fmt(x.date,{year:'numeric',month:'long',day:'numeric'})}`:`Határidő: ${fmt(x.date,{year:'numeric',month:'long',day:'numeric'})} · havonta kb. <b style="color:var(--ink)">${ft(rem/ml)}</b>`}</div>`:''}
+    ${done?'':`<div class="fin-miss">Még hiányzik: <b>${ft(rem)}</b></div>`}
     <div class="btns" style="margin-top:12px"><button class="btn ghost" data-a="editGoal" data-id="${x.id}">Szerkesztés</button><button class="btn" data-a="goalDep" data-id="${x.id}">Befizetés</button></div></section>`}).join('')
    ||'<div class="card empty-note">Mire gyűjtesz? Nyaralás, vésztartalék, új laptop. Hozz létre egy célt, és kövesd, hogyan nő a megtakarításod.</div>'}
   <button class="btn block" data-a="addGoal">${ic('plus',18)} Új megtakarítási cél</button>`}
