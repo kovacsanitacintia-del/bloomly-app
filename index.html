@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102153337">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102153337">
+<meta name="bloomly-version" content="20261102153519">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102153519">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2749,7 +2749,6 @@ function vAffirm(){const mine=S.vision.filter(v=>v.type==='affirm'),have=new Set
   return`<section class="vaff-hero" style="background:${vbgCss(bg)}"><span class="vh-sp" aria-hidden="true">${[...Array(7)].map((_,i)=>`<i style="--x:${(i*37+11)%96}%;--y:${(i*53+7)%88}%;--d:${(i%5)*.7}s"></i>`).join('')}</span>
    <div class="eyebrow">Mai megerősítésed${cur.c?' · '+esc(cur.c):''}</div><p class="vaff-t">${esc(cur.t)}</p><p class="vaff-hint">Mondd ki háromszor, lassan, és érezd, hogy igaz.</p>
    <div class="vaff-btns"><button class="btn ghost" data-a="vafNext">${ic('undo',16)} Másikat</button>${cur.id?`<button class="btn ghost" data-a="vopen" data-id="${cur.id}">${ic('sparkle',16)} Megnyitás</button>`:`<button class="btn" data-a="vafAdd" data-t="${esc(cur.t)}" data-c="${esc(cur.c||'')}">${ic('plus',16)} A táblámra</button>`}</div></section>
-  <button class="vact play" data-a="vafPlay" style="width:100%">${ic('play')}<span><b>Megerősítés-pillanat</b><small>${mine.length?`${mine.length} saját megerősítésed, egymás után`:'Néhány megerősítés a tárból, egymás után'}</small></span></button>
   <div class="vsec">Saját megerősítéseim · ${mine.length}</div>
   ${mine.length?`<div class="vlist">${mine.map(v=>`<button class="vrow vaff-row" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic('sparkle',18)}</span><span class="grow"><b>${esc(v.text)}</b><small>${esc(v.cat||'')}${v.fav?' · ♥ kedvenc':''}</small></span></button>`).join('')}</div>`:`<div class="card empty-note">Még nincs saját megerősítésed. Írj egyet, vagy válassz a tárból.</div>`}
   <button class="btn ghost" data-a="addVision" data-t="affirm">${ic('plus',16)} Saját megerősítés írása</button>
