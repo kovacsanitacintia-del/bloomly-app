@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102163807">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102163807">
+<meta name="bloomly-version" content="20261102164824">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102164824">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1263,7 +1263,7 @@ const QUOTES=[
  'Gondolj ma szeretettel valakire, aki fontos neked. Aztán önmagadra is.',
  'Virágozz a magad módján. Nincs két egyforma szirom.'
 ];
-const NOTIFS=['A kerted vár rád 🌸','Egyetlen szokás ma is közelebb visz a céljaidhoz.','Ne hagyd megszakadni a sorozatodat.','Ma is nyílik egy új virág a kertedben.','Szánj ma 2 percet a reggeli check-inre.','Mire voltál ma büszke? Az esti reflexió vár.'];
+const NOTIFS=['A kerted vár rád 🌸','Egyetlen szokás ma is közelebb visz a céljaidhoz.','Ne hagyd megszakadni a sorozatodat.','Ma is nyílik egy új virág a kertedben.','Szánj ma 2 percet a reggeli ráhangolódásra.','Mire voltál ma büszke? Az esti reflexió vár.'];
 const PHASES={
  men:{n:'Menstruáció',c:'#F7CBD6',d:'A tested most megújul. Lassíts, és adj magadnak több pihenést.',
   rec:['Lágy mozgás: jóga, nyújtás, könnyű séta','Vasban gazdag ételek: lencse, spenót, cékla','Meleg italok, például kamilla- vagy gyömbértea'],
@@ -1428,8 +1428,8 @@ function allBadges(s=S){
    {g:'Szokások',id:'t1000',n:'Virágzó mező',d:'1000 teljesített szokás',tier:'aqua',icon:'sun',v:T,goal:1000,rare:true},
    {g:'Szokások',id:'perfect',n:'Tökéletes hét',d:'7 nap 100%-os teljesítés',tier:'mint',v:PD,goal:7},
    {g:'Szokások',id:'perfect30',n:'Tökéletes hónap',d:'30 nap 100%-os teljesítés',tier:'arany',icon:'target',v:PD,goal:30,rare:true},
-   {g:'Napló és hangulat',id:'dawn',n:'Hajnalcsillag',d:'21 reggeli check-in',tier:'peach',v:C,goal:21},
-   {g:'Napló és hangulat',id:'ci100',n:'Reggeli fény',d:'100 reggeli check-in',tier:'peach',icon:'sun',v:C,goal:100},
+   {g:'Napló és hangulat',id:'dawn',n:'Hajnalcsillag',d:'21 reggeli ráhangolódás',tier:'peach',v:C,goal:21},
+   {g:'Napló és hangulat',id:'ci100',n:'Reggeli fény',d:'100 reggeli ráhangolódás',tier:'peach',icon:'sun',v:C,goal:100},
    {g:'Napló és hangulat',id:'moon',n:'Holdvirág',d:'30 esti reflexió',tier:'lav',v:R,goal:30,rare:true},
    {g:'Napló és hangulat',id:'rf100',n:'Csillagos ég',d:'100 esti reflexió',tier:'sky',icon:'moon',v:R,goal:100,rare:true},
    {g:'Napló és hangulat',id:'mood',n:'Érzelmi iránytű',d:'50 hangulatbejegyzés',tier:'rose',v:M,goal:50},
@@ -1451,7 +1451,7 @@ function allBadges(s=S){
    {g:'Szokások',id:'perfect1',n:'Tökéletes nap',d:'Egy nap 100%-os teljesítéssel',tier:'peach',icon:'check',v:PD,goal:1},
    {g:'Szokások',id:'perfect100',n:'Száz tökéletes nap',d:'100 nap 100%-os teljesítés',tier:'arany',icon:'medal',v:PD,goal:100,rare:true},
    {g:'Szokások',id:'habits10',n:'Szokásgyűjtő',d:'10 szokás a listádon',tier:'mint',icon:'star',v:s.habits.length,goal:10},
-   {g:'Napló és hangulat',id:'ci7',n:'Korán kelő',d:'7 reggeli check-in',tier:'peach',icon:'sun',v:C,goal:7},
+   {g:'Napló és hangulat',id:'ci7',n:'Korán kelő',d:'7 reggeli ráhangolódás',tier:'peach',icon:'sun',v:C,goal:7},
    {g:'Napló és hangulat',id:'rf7',n:'Esti csend',d:'7 esti reflexió',tier:'lav',icon:'moon',v:R,goal:7},
    {g:'Napló és hangulat',id:'mood10',n:'Érzelmi napló',d:'10 hangulatbejegyzés',tier:'rose',icon:'smile',v:M,goal:10},
    {g:'Napló és hangulat',id:'mood200',n:'Szívem térképe',d:'200 hangulatbejegyzés',tier:'coral',icon:'heart',v:M,goal:200,rare:true},
@@ -1502,14 +1502,14 @@ function unlocks(s=S){
    {c:'Fák és bokrok',id:'oak',n:'Bölcs tölgy',r:'l',d:'100 napos sorozat',v:L,g:100,col:'#CDECCF'},
    {c:'Élőlények',id:'bfly',n:'Pillangók',r:'r',d:'10 esti reflexió',v:R,g:10,col:'#E9D6A7'},
    {c:'Élőlények',id:'bee',n:'Méhecskék',r:'k',d:'3 tökéletes nap',v:PD,g:3,col:'#FBEFC4'},
-   {c:'Élőlények',id:'ladybug',n:'Katica',r:'k',d:'7 reggeli check-in',v:C,g:7,col:'#FCE0D8'},
+   {c:'Élőlények',id:'ladybug',n:'Katica',r:'k',d:'7 reggeli ráhangolódás',v:C,g:7,col:'#FCE0D8'},
    {c:'Élőlények',id:'bird',n:'Cinege',r:'r',d:'30 hangulatbejegyzés',v:M,g:30,col:'#E3EEFB'},
    {c:'Élőlények',id:'hedgehog',n:'Kis sün',r:'r',d:'14 alvásnapló-bejegyzés',v:Object.keys(s.sleep||{}).length,g:14,col:'#EFE4D8'},
    {c:'Díszek',id:'stones',n:'Kőösvény',r:'k',d:'5 szokás a listádon',v:s.habits.length,g:5,col:'#ECE8E4'},
-   {c:'Díszek',id:'bench',n:'Kerti pad',r:'r',d:'14 reggeli check-in',v:C,g:14,col:'#E8D9C8'},
+   {c:'Díszek',id:'bench',n:'Kerti pad',r:'r',d:'14 reggeli ráhangolódás',v:C,g:14,col:'#E8D9C8'},
    {c:'Díszek',id:'birdhouse',n:'Madárodú',r:'r',d:'5 fontos ember a kapcsolataid között',v:(s.contacts||[]).length,g:5,col:'#F2E6D8'},
    {c:'Díszek',id:'chime',n:'Szélcsengő',r:'r',d:'7 elem a Vision Boardon',v:(s.vision||[]).length,g:7,col:'#E6DFFB'},
-   {c:'Díszek',id:'fairy',n:'Fényfüzér',r:'r',d:'30 reggeli check-in',v:C,g:30,col:'#FBEFC4'},
+   {c:'Díszek',id:'fairy',n:'Fényfüzér',r:'r',d:'30 reggeli ráhangolódás',v:C,g:30,col:'#FBEFC4'},
    {c:'Díszek',id:'swing',n:'Kerti hinta',r:'s',d:'20 elvégzett edzés',v:fit,g:20,col:'#F2E6D8'},
    {c:'Díszek',id:'pond',n:'Lótuszos tó',r:'s',d:'30 napos sorozat',v:L,g:30,col:'#D8E8F6'},
    {c:'Díszek',id:'fountain',n:'Szökőkút',r:'s',d:'10 tökéletes nap',v:PD,g:10,col:'#DDF3F1'},
@@ -1518,7 +1518,7 @@ function unlocks(s=S){
    {c:'Szezonális',id:'lantern',n:'Őszi lampionok',r:'s',d:'Szezonális · ősz',v:season(8,10),g:1,col:'#FFD6C2'},
    {c:'Szezonális',id:'snowdrop',n:'Téli hóvirág',r:'s',d:'Szezonális · tél',v:season(11,1),g:1,col:'#EEF3FA'},
    {c:'Virágok',id:'violet',n:'Illatos ibolya',r:'k',d:'15 teljesítés',v:T,g:15,col:'#E6DFFB'},
-   {c:'Virágok',id:'crocus',n:'Sáfrányvirág',r:'k',d:'3 reggeli check-in',v:C,g:3,col:'#EFE6FD'},
+   {c:'Virágok',id:'crocus',n:'Sáfrányvirág',r:'k',d:'3 reggeli ráhangolódás',v:C,g:3,col:'#EFE6FD'},
    {c:'Virágok',id:'cosmos',n:'Pillangóvirág',r:'k',d:'35 teljesítés',v:T,g:35,col:'#FBE3EA'},
    {c:'Virágok',id:'iris',n:'Kék írisz',r:'r',d:'21 napos sorozat',v:L,g:21,col:'#DCE8FA'},
    {c:'Virágok',id:'lilyvalley',n:'Gyöngyvirág',r:'r',d:'15 esti reflexió',v:R,g:15,col:'#E6F6E7'},
@@ -1542,7 +1542,7 @@ function unlocks(s=S){
    {c:'Díszek',id:'pots',n:'Virágcserepek',r:'k',d:'8 szokás a listádon',v:s.habits.length,g:8,col:'#F7E2C6'},
    {c:'Díszek',id:'picnic',n:'Piknikpléd',r:'r',d:'3 fontos ember a kapcsolataid között',v:(s.contacts||[]).length,g:3,col:'#FBE0E8'},
    {c:'Díszek',id:'birdbath',n:'Madárfürdő',r:'r',d:'45 hangulatbejegyzés',v:M,g:45,col:'#E3EEFB'},
-   {c:'Díszek',id:'sundial',n:'Napóra',r:'r',d:'60 reggeli check-in',v:C,g:60,col:'#ECE8E4'},
+   {c:'Díszek',id:'sundial',n:'Napóra',r:'r',d:'60 reggeli ráhangolódás',v:C,g:60,col:'#ECE8E4'},
    {c:'Díszek',id:'lamp',n:'Kerti lámpás',r:'s',d:'40 esti reflexió',v:R,g:40,col:'#FBF3D6'},
    {c:'Díszek',id:'arch',n:'Rózsalugas',r:'s',d:'175 teljesítés',v:T,g:175,col:'#FBE3EA'},
    {c:'Szezonális',id:'valentine',n:'Valentin-napi szívek',r:'s',d:'Szezonális · február 1–14.',v:md>=201&&md<=214?1:0,g:1,col:'#FBE0E8'},
@@ -1683,7 +1683,7 @@ home(){
   <section class="glass hero" aria-label="Mai haladás"><div class="ring">${ringSVG(p)}<div class="val"><div><b>${Math.round(p*100)}%</b><span>${done}/${allItems} szokás</span></div></div></div>
    <div class="stat-chips"><div class="chip-stat"><span class="ic" style="background:var(--peach)">${ic('flame',18)}</span><div><b>${curStreak()} nap</b><small>aktuális sorozat</small></div></div>
    <button class="chip-stat" data-a="openCheckin" style="text-align:left"><span class="ic" style="background:var(--lav)">${mood?`<span style="font-size:18px">${MOODS[mood.m].e}</span>`:ic('smile',18)}</span><div><b>${mood?MOODS[mood.m].n:'Hangulat'}</b><small>${mood?'mai hangulatod':'rögzítsd most'}</small></div></button></div></section>
-  ${!ci?`<section class="checkin" aria-label="Reggeli check-in"><div class="eyebrow" style="color:inherit;opacity:.7">Reggeli check-in</div><h3 style="margin-top:6px">Hogy érzed magad ma?</h3><p>Három rövid kérdés, hogy tudatosan indítsd a napot.</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood-b ${mood&&mood.m===i?'on':''}" data-a="openCheckin" data-m="${i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div></section>`:
+  ${!ci?`<section class="checkin" aria-label="Reggeli ráhangolódás"><div class="eyebrow" style="color:inherit;opacity:.7">Reggeli ráhangolódás</div><h3 style="margin-top:6px">Hogy érzed magad ma?</h3><p>Három rövid kérdés, hogy tudatosan indítsd a napot.</p><div class="moods">${MOODS.map((m,i)=>`<button class="mood-b ${mood&&mood.m===i?'on':''}" data-a="openCheckin" data-m="${i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div></section>`:
    `<section class="card" aria-label="Mai szándék"><div class="eyebrow">Mai célod</div><p style="font-family:var(--f-display);font-size:19px;color:var(--ink);margin-top:6px">${esc(ci.goal)}</p><p class="muted" style="margin-top:6px">Hálás vagy: ${esc(ci.grateful)}</p></section>`}
   ${c?`<button class="card row" data-a="go" data-s="cycle" style="text-align:left;width:100%"><span class="ic" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:${PHASES[c.ph].c};color:var(--on-pastel)">${ic('cycle')}</span><div class="grow"><b style="color:var(--ink)">${PHASES[c.ph].n} · ${c.day}. nap</b><div class="muted">${PHASES[c.ph].rec[0]}</div></div>${ic('next',18)}</button>`:''}
   ${homeExtras()}
@@ -1716,7 +1716,7 @@ garden(){
   <div class="sec-h"><h2>Gyűjtemény</h2><span class="muted">${got} feloldva</span></div>
   ${[...new Set(us.map(x=>x.c))].map(c=>{const list=us.filter(x=>x.c===c);return`<div class="lbl" style="margin-top:6px">${c} · ${list.filter(x=>x.got).length}/${list.length}</div><div class="coll">${list.map(u=>`<div class="item ${u.got?'':'locked'}"><span class="art" style="background:${u.col}">${unlockArt(u.id)}</span><b>${u.n}</b><span class="rar ${u.r}">${{k:'Gyakori',r:'Ritka',s:'Különleges',l:'Legendás'}[u.r]}</span><small>${u.got?'Feloldva':`${u.d} · ${Math.min(u.v,u.g)}/${u.g}`}</small></div>`).join('')}</div>`}).join('')}
   <div class="sec-h"><h2>Így nő a kerted</h2></div>
-  <section class="card tips">${[['sprout','mint','Minden kipipált szokás egy új virágot növeszt és 10 szirmot ad.'],['flame','peach','A hosszú sorozatok ritka növényeket oldanak fel: 7 nap pipacs, 30 nap lótuszos tó, 100 nap bölcs tölgy.'],['sun','gold','A reggeli check-in és az esti reflexió 15-15 szirmot ér.'],['heart','rose','A kerted sosem hervad el. Ha kihagysz egy napot, a növények csak pihennek.']].map(([i,c,t])=>`<div class="tip"><span class="ic" style="background:var(--${c})">${ic(i,18)}</span><p>${t}</p></div>`).join('')}</section>`
+  <section class="card tips">${[['sprout','mint','Minden kipipált szokás egy új virágot növeszt és 10 szirmot ad.'],['flame','peach','A hosszú sorozatok ritka növényeket oldanak fel: 7 nap pipacs, 30 nap lótuszos tó, 100 nap bölcs tölgy.'],['sun','gold','A reggeli ráhangolódás és az esti reflexió 15-15 szirmot ér.'],['heart','rose','A kerted sosem hervad el. Ha kihagysz egy napot, a növények csak pihennek.']].map(([i,c,t])=>`<div class="tip"><span class="ic" style="background:var(--${c})">${ic(i,18)}</span><p>${t}</p></div>`).join('')}</section>`
 },
 cycle(){
   if(!S.cycleOn)return`<div class="top">${backBtn()}<h1>Ciklusom</h1></div><section class="card" style="text-align:center;padding:30px 22px"><div style="width:64px;height:64px;margin:0 auto 14px;border-radius:22px;background:var(--rose);display:grid;place-items:center;color:var(--on-pastel)">${ic('cycle',28)}</div><h2 style="font-size:22px">Ismerd meg a ritmusod</h2><p class="muted" style="margin-block:8px 18px">A cikluskövetés fázisonként személyre szabott ajánlásokat ad. Az adataid titkosítva, csak nálad tárolódnak.</p><button class="btn block" data-a="cycleOn">Cikluskövetés bekapcsolása</button></section>`;
@@ -1763,7 +1763,7 @@ journal(){
    <section class="card chart">${moodChart(vals)}<p class="muted" style="margin-top:10px">Átlag: <b style="color:var(--ink)">${MOODS[Math.max(0,Math.min(4,5-Math.round(avg)))].e} ${avg.toFixed(1)}/5</b> az elmúlt ${N} napban</p></section>
    <section class="card"><div class="lbl">Megoszlás</div><div class="cons" style="margin-top:12px">${MOODS.map((x,i)=>({...x,i})).filter(x=>dist[x.i]).sort((a,b)=>dist[b.i]-dist[a.i]).map(x=>`<div class="row"><span style="width:26px;font-size:18px">${x.e}</span><span style="width:86px;font-size:13px">${x.n}</span><div class="bar grow"><i style="width:${dist[x.i]/tot*100}%"></i></div><span class="muted" style="width:30px;text-align:right">${dist[x.i]}</span></div>`).join('')||'<p class="muted">Még nincs bejegyzés ebben az időszakban.</p>'}</div></section>`}
   else{const src=t==='am'?S.checkins:S.reflections;const ks=Object.keys(src).sort().reverse();
-   body=`<button class="btn block" data-a="${t==='am'?'openCheckin':'openReflect'}">${t==='am'?'Mai check-in':'Mai reflexió'}</button>`+(ks.length?ks.slice(0,30).map(k=>{const e=src[k];return`<article class="entry"><div class="row"><b class="grow" style="color:var(--ink);font-size:13px">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}</b>${t==='am'&&e.mood!=null?`<span>${MOODS[e.mood].e}</span>`:''}</div>${t==='am'?`<div><div class="q">Mai cél</div><p>${esc(e.goal)}</p></div><div><div class="q">Hálás vagyok</div><p>${esc(e.grateful)}</p></div>`:`<div><div class="q">Amit teljesítettem</div><p>${esc(e.done)}</p></div><div><div class="q">Amire büszke vagyok</div><p>${esc(e.proud)}</p></div>`}</article>`}).join(''):`<div class="card empty-note">Még nincs bejegyzés.</div>`)}
+   body=`<button class="btn block" data-a="${t==='am'?'openCheckin':'openReflect'}">${t==='am'?'Mai ráhangolódás':'Mai reflexió'}</button>`+(ks.length?ks.slice(0,30).map(k=>{const e=src[k];return`<article class="entry"><div class="row"><b class="grow" style="color:var(--ink);font-size:13px">${fmt(k,{month:'long',day:'numeric',weekday:'long'})}</b>${t==='am'&&e.mood!=null?`<span>${MOODS[e.mood].e}</span>`:''}</div>${t==='am'?`<div><div class="q">Mai cél</div><p>${esc(e.goal)}</p></div><div><div class="q">Hálás vagyok</div><p>${esc(e.grateful)}</p></div>`:`<div><div class="q">Amit teljesítettem</div><p>${esc(e.done)}</p></div><div><div class="q">Amire büszke vagyok</div><p>${esc(e.proud)}</p></div>`}</article>`}).join(''):`<div class="card empty-note">Még nincs bejegyzés.</div>`)}
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Hangulatnapló</h1></div>${tabs}${body}`
 },
 stats(){
@@ -1795,7 +1795,7 @@ badges(){
   <section class="card tips">${[['sparkle','Ritka jelvények','A ritka jelvények csillogó kerettel jelennek meg, amikor megszerzed őket.'],['sprout','A kerted is nő','Ugyanezek a lépések (sorozatok, teljesítések, naplók) új növényeket, élőlényeket és díszeket oldanak fel a Bloom Kertben.']].map(([i,t,d])=>`<div class="tip"><span class="ic" style="background:var(--gold)">${ic(i,18)}</span><div><b style="color:var(--ink)">${t}</b><p class="muted">${d}</p></div></div>`).join('')}</section>`
 },
 notifs(){
-  const n=S.notif;const T=[['morning','Reggeli check-in','mt',NOTIFS[4]],['evening','Esti reflexió','et',NOTIFS[5]],['streak','Sorozatvédelem','',NOTIFS[2]],['garden','Kerthírek','',NOTIFS[3]]];
+  const n=S.notif;const T=[['morning','Reggeli ráhangolódás','mt',NOTIFS[4]],['evening','Esti reflexió','et',NOTIFS[5]],['streak','Sorozatvédelem','',NOTIFS[2]],['garden','Kerthírek','',NOTIFS[3]]];
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Értesítések</h1></div>
   <section class="card list">${T.map(([k,t,tk,msg])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${tk?`<input type="time" class="inp" id="t-${tk}" value="${n[tk]}" data-a="time" data-k="${tk}" style="padding:6px 10px;width:auto;margin-top:4px" aria-label="${t} időpontja">`:esc(msg)}</div></div><button class="switch ${n[k]?'on':''}" data-a="ntog" data-k="${k}" role="switch" aria-checked="${!!n[k]}" aria-label="${t}"></button></div>`).join('')}</section>
   <div class="sec-h"><h2>Előnézet</h2><button class="link" data-a="demoNotif">Próba értesítés</button></div>
@@ -2347,8 +2347,8 @@ function renderOb(dir){
   if(s===5){b=H('Bloom Kert','Ez a te Bloom Kerted','Minden teljesített szokás egy új virágot növeszt. A kerted veled együtt fejlődik, és soha nem hervad el.')+`<div class="ob-garden">${demoGarden()}</div><div class="tips">${[['check','mint','Kipipálsz egy szokást,','és kinyílik egy virág. +10 szirom.'],['flame','peach','Sorozatot építesz,','és ritka növények költöznek a kertedbe.'],['star','gold','Különleges eredményeket érsz el,','és fák, tó, szezonális díszek jelennek meg.']].map(([i,c,t,d],k)=>`<div class="tip ob-tip" style="animation-delay:${(1.6+k*.18).toFixed(2)}s"><span class="ic" style="background:var(--${c})">${ic(i,18)}</span><p><b style="color:var(--ink)">${t}</b> ${d}</p></div>`).join('')}</div>`;cta='Csodás, tovább'}
   if(s===6){skip=true;b=H('Ciklus','Kövessük együtt a ciklusodat?','A tested ritmusa hat az energiádra és a hangulatodra. Fázisonként személyre szabott tippeket adunk.')+`<div class="ob-phases">${Object.values(PHASES).map(p=>`<span style="background:${p.c}">${p.n.split(' ')[0]}</span>`).join('')}</div><button class="opt ${ob.cycle?'on':''}" data-a="obCycle" role="switch" aria-checked="${ob.cycle}"><span class="tile" style="background:var(--rose)">${ic('cycle',18)}</span><div class="grow"><b>Cikluskövetés</b><div class="muted">Titkosítva, csak az eszközödön tárolva</div></div><span class="switch ${ob.cycle?'on':''}" aria-hidden="true"></span></button>${ob.cycle?`<div class="field"><label for="obl">Utolsó menstruációd első napja</label><input class="inp" type="date" id="obl" value="${ob.last||keyOf(addDays(now(),-14))}" max="${TODAY}"></div><div class="row" style="margin-top:14px"><span class="grow muted">Átlagos ciklushossz</span><div class="stepper"><button data-a="obClen" data-v="-1" aria-label="Rövidebb">−</button><b>${ob.clen}</b><button data-a="obClen" data-v="1" aria-label="Hosszabb">+</button></div><span class="muted">nap</span></div>`:''}`;cta=ob.cycle?'Bekapcsolom':'Tovább nélküle'}
   if(s===7){skip=true;ok=ob.mood!=null;b=H('Hangulat','Hogy érzed magad most?','Nincs jó vagy rossz válasz. Ez lesz az első bejegyzés a hangulatnaplódban.')+`<div class="mood-big">${MOODS.map((m,i)=>`<button class="${ob.mood===i?'on':''}" data-a="obMood" data-v="${i}" aria-pressed="${ob.mood===i}"><span class="e">${m.e}</span>${m.n}</button>`).join('')}</div>${ob.mood!=null?`<div class="insight mood-reply">${ic('heart')}<p>${MOOD_REPLY[ob.mood]}</p></div>`:''}`;cta=ok?'Tovább':'Válassz egy hangulatot'}
-  if(s===8){b=H('Értesítések','Kérsz kedves emlékeztetőket?','Naponta legfeljebb kettőt küldünk. Soha nem sürgetünk, és bármikor kikapcsolhatod.')+`<div class="notif glass notif-demo"><span class="ap">${LOTUS('obn')}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomsette</b><span class="muted" style="font-size:11px">${ob.mt}</span></div><p style="font-size:13.5px;color:var(--ink)">Jó reggelt${ob.name?', '+esc(ob.name):''}! A kerted vár rád 🌸</p></div></div>
-    <section class="card list">${[['nm','mt','Reggeli check-in','Hogy indul a napod?'],['ne','et','Esti reflexió','Mire vagy ma büszke?']].map(([k,tk,t,d])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div><input type="time" class="inp" id="ob-${tk}" value="${ob[tk]}" style="width:auto;padding:8px 10px" aria-label="${t} időpontja" ${ob[k]?'':'disabled'}><button class="switch ${ob[k]?'on':''}" data-a="obNotif" data-k="${k}" role="switch" aria-checked="${ob[k]}" aria-label="${t}"></button></div>`).join('')}</section>`;cta='Engedélyezem';sec='Most nem'}
+  if(s===8){b=H('Értesítések','Kérsz kedves emlékeztetőket?','Naponta legfeljebb kettőt küldünk, pontosan a beállított időpontban, akkor is, ha a Bloomsette be van zárva. Soha nem sürgetünk, és bármikor kikapcsolhatod.')+`<div class="notif glass notif-demo"><span class="ap">${LOTUS('obn')}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomsette</b><span class="muted" style="font-size:11px">${ob.mt}</span></div><p style="font-size:13.5px;color:var(--ink)">Jó reggelt${ob.name?', '+esc(ob.name):''}! A kerted vár rád 🌸</p></div></div>
+    <section class="card list">${[['nm','mt','Reggeli ráhangolódás','Hogy indul a napod?'],['ne','et','Esti reflexió','Mire vagy ma büszke?']].map(([k,tk,t,d])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div><input type="time" class="inp" id="ob-${tk}" value="${ob[tk]}" style="width:auto;padding:8px 10px" aria-label="${t} időpontja" ${ob[k]?'':'disabled'}><button class="switch ${ob[k]?'on':''}" data-a="obNotif" data-k="${k}" role="switch" aria-checked="${ob[k]}" aria-label="${t}"></button></div>`).join('')}</section>`;cta='Engedélyezem';sec='Most nem'}
   if(s===9){b=H('Személyre szabás','Tedd a magadévá','Hogyan szólíthatunk, és melyik hangulat illik hozzád?')+`<div class="field"><label for="obn">Keresztneved</label><input class="inp" id="obn" value="${esc(ob.name)}" placeholder="pl. Anna" maxlength="24" autocomplete="given-name"></div><div class="lbl" style="margin-top:18px">Téma</div>${themeCards(ob.theme,'obTheme')}`}
   if(s===10){const f=OB_FLOWERS.find(x=>x.id===ob.flower);ok=ob.planted;b=H('Első virág','Ültesd el az első virágodat',ob.planted?'Gyönyörű. Ez a virág mindig a kerted közepén marad, emlékeztetőül arra, hogy itt kezdődött.':'Válassz egy virágot, majd tartsd lenyomva a gombot, amíg a mag a földbe kerül.')+`${ob.planted?'':`<div class="flower-pick">${OB_FLOWERS.map(x=>`<button class="fp ${ob.flower===x.id?'on':''}" data-a="obFlower" data-v="${x.id}" aria-pressed="${ob.flower===x.id}">${flowerArt(x.id,x.col,52)}${x.n}</button>`).join('')}</div><p class="muted fp-hint">${OB_FLOWERS.length} virág közül választhatsz · húzd oldalra a többiért</p>`}<div class="pot">${potArt(f,ob.planted)}</div>${ob.planted?`<div class="insight mood-reply">${ic('sparkle')}<p>Az első virágod kinyílt: <b>${f.n}</b></p></div>`:`<button class="plant-btn" id="plantBtn" aria-label="Tartsd lenyomva az ültetéshez, vagy nyomj Entert"><i></i><span>${ic('sprout',18)} Tartsd lenyomva az ültetéshez</span></button>`}`;cta=ok?'Tovább':'Előbb ültesd el a virágot'}
   if(s===11){const f=OB_FLOWERS.find(x=>x.id===ob.flower);b=`<div class="ob-hero"><div class="ob-final-flower">${flowerArt(f.id,f.col,120)}</div><h1>Kezdődhet a virágzás${ob.name.trim()?', '+esc(ob.name.trim()):''}</h1><p class="lead">Minden készen áll. Az első lépést már megtetted, a többit napról napra együtt visszük.</p></div>
@@ -2381,7 +2381,8 @@ function finishOb(){
   if(ob.cycle){const last=ob.last||keyOf(addDays(now(),-14));if(!ob.sample)S.cycle.starts=[last];else{S.cycle.starts=S.cycle.starts.filter(x=>x<last&&dayDiff(last,x)>20);S.cycle.starts.push(last)}}
   S.life={scores:{...ob.life},hist:[{date:TODAY,scores:{...ob.life}}]};
   if(ob.mood!=null)S.moods[TODAY]={...(S.moods[TODAY]||{}),m:ob.mood,energy:(S.moods[TODAY]||{}).energy||3,note:''};
-  if(!ob.sample)S.log={};if(!S.vision.length)seedVision();S.onboarded=true;S.ui.tab='home';S.ui.sub=null;NAV=[];save();applyTheme();$('#ob').innerHTML='';render();petalsFall(34);if(!S.habits.length){S.ui.tab='habits';S.ui.hv='cats';render();toast('Válaszd ki a szokásaidat az életterületeken 🌱')}else toast(`Üdv a kertedben, ${S.name} 🌸`)}
+  if(!ob.sample)S.log={};if(!S.vision.length)seedVision();S.onboarded=true;S.ui.tab='home';S.ui.sub=null;NAV=[];save();applyTheme();$('#ob').innerHTML='';render();petalsFall(34);if(!S.habits.length){S.ui.tab='habits';S.ui.hv='cats';render();toast('Válaszd ki a szokásaidat az életterületeken 🌱')}else toast(`Üdv a kertedben, ${S.name} 🌸`);
+  const rem=[S.notif.morning&&`reggel ${S.notif.mt}`,S.notif.evening&&`este ${S.notif.et}`].filter(Boolean);if(rem.length)setTimeout(()=>toast(`🔔 Emlékeztetők beállítva: ${rem.join(', ')}`),3200)}
 newOb();
 function seedVision(){S.vision=[
   {id:uid(),type:'quote',text:'A virág sem siet, mégis kinyílik.',cat:'Önszeretet',fav:true},
@@ -2456,7 +2457,7 @@ const A={
  theme(el){S.theme=el.dataset.v;save();applyTheme();render(true)},
  restartOb(){newOb();renderOb(1)},
  reset(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Megerősítés';$('#resetMsg').textContent='Koppints újra a végleges törléshez.';return}try{localStorage.removeItem(SKEY)}catch(e){}S=seed();applyTheme();render();A.restartOb()},
- obNext(){readOb();if(ob.step===11){finishOb();return}ob.step++;while(OB_SKIP.includes(ob.step))ob.step++;renderOb(1);if(ob.step===11)setTimeout(()=>petalsFall(26),350)},
+ obNext(){readOb();if(ob.step===11){finishOb();return}if(ob.step===8&&(ob.nm||ob.ne))askNotifPermission();ob.step++;while(OB_SKIP.includes(ob.step))ob.step++;renderOb(1);if(ob.step===11)setTimeout(()=>petalsFall(26),350)},
  obBack(){readOb();if(ob.step===0){if(S.onboarded)A.obClose();return}ob.step--;while(OB_SKIP.includes(ob.step))ob.step--;renderOb(-1)},
  obSec(){readOb();if(ob.step===8){ob.nm=false;ob.ne=false}ob.step++;renderOb(1)},
  obSkipStep(){readOb();if(ob.step===6)ob.cycle=false;if(ob.step===7)ob.mood=null;ob.step++;renderOb(1)},
@@ -2829,6 +2830,8 @@ function chInfo(){const c=S.ch&&S.ch.cur;if(!c)return null;const p=CHALLENGES.fi
 /* ───────── Értesítések ─────────
    Androidon a natív app ütemezi őket (akkor is jönnek, ha az app be van zárva); az exe-ben és a böngészőben
    addig jönnek, amíg a Bloomsette nyitva van. A napok: 0 = hétfő … 6 = vasárnap. */
+/* Értesítési engedély kérése: a telefonon a rendszer engedélyablaka (csak ha még nincs megadva), böngészőben a böngészőé */
+function askNotifPermission(){try{if(NAT){if(!natCall('notifEnabled'))natCall('askNotif');return}if(window.Notification&&Notification.permission==='default')Notification.requestPermission()}catch(e){}}
 function notifPlan(){const n=S.notif,out=[],paused=isPaused(TODAY);
   if(n.morning)out.push({id:'morning',...hm(n.mt),title:`Jó reggelt, ${S.name}! 🌸`,text:NOTIFS[4]});
   if(n.evening)out.push({id:'evening',...hm(n.et),title:'Esti reflexió 🌙',text:NOTIFS[5]});
@@ -2994,10 +2997,11 @@ function kindCard(){const on=!!S.kind[TODAY];return`<section class="card kind-ca
 
 /* ───────── Értesítések képernyő ───────── */
 function notifsView(){const n=S.notif,st=notifState();
-  const T=[['morning','Reggeli check-in','mt'],['evening','Esti reflexió','et'],['streak','Sorozatvédelem','st'],['garden','Heti visszatekintő','']];
+  const T=[['morning','Reggeli ráhangolódás','mt'],['evening','Esti reflexió','et'],['streak','Sorozatvédelem','st'],['garden','Heti visszatekintő','']];
   const stTxt={on:['Az értesítések be vannak kapcsolva.','mint'],off:['Az értesítések nincsenek engedélyezve.','peach'],denied:['A böngésző letiltotta az értesítéseket. A böngésző beállításaiban engedélyezheted.','peach'],none:['Ez a böngésző nem támogatja az értesítéseket.','peach'],old:['Az értesítésekhez telepítsd a Bloomsette legújabb APK-ját.','peach'],desk:['Az asztali változatban az emlékeztetők a Bloomsette ablakában jelennek meg, amíg az app nyitva van.','mint']}[st];
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Értesítések</h1></div>
   <section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--${stTxt[1]});color:var(--on-pastel);flex:none">${ic('bell',18)}</span><div class="grow"><b style="color:var(--ink)">${st==='on'?'Engedélyezve':st==='desk'?'Asztali emlékeztetők':'Nincs engedélyezve'}</b><div class="muted">${stTxt[0]}</div></div>${st==='off'?`<button class="btn" style="padding:9px 14px;font-size:13px" data-a="notifAsk">Engedélyezés</button>`:''}</section>
+  ${natHas('batteryOk')&&!natCall('batteryOk')?`<section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--peach);color:var(--on-pastel);flex:none">${ic('shield',18)}</span><div class="grow"><b style="color:var(--ink)">Pontos emlékeztetők</b><div class="muted">A telefonod energiatakarékosságból elaltathatja a Bloomsette-et, ilyenkor az emlékeztető késhet. Engedélyezd, hogy mindig pontosan szóljon.</div></div><button class="btn" style="padding:9px 14px;font-size:13px" data-a="batteryAsk">Beállítom</button></section>`:''}
   <section class="card list">${T.map(([k,t,tk])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${tk?`<input type="time" class="inp" value="${n[tk]||'20:00'}" data-nt="${tk}" style="padding:6px 10px;width:auto;margin-top:4px" aria-label="${t} időpontja">`:'Vasárnap 18:00'}</div></div><button class="switch ${n[k]?'on':''}" data-a="ntog" data-k="${k}" role="switch" aria-checked="${!!n[k]}" aria-label="${t}"></button></div>`).join('')}</section>
   <div class="sec-h"><h2>Szokás-emlékeztetők</h2></div>
   <p class="muted">Adj meg egy időpontot, és a Bloomsette szól, ha aznap még nem pipáltad ki a szokást.</p>
@@ -3035,6 +3039,7 @@ document.addEventListener('keydown',e=>{if(!$('#lock')||!$('#lock').classList.co
 
 const F_A={
  /* értesítések */
+ batteryAsk(){natCall('askBattery');setTimeout(()=>render(true),2500)},
  notifAsk(){if(NAT){natCall('askNotif');setTimeout(()=>render(true),1500);return}if(window.Notification)Notification.requestPermission().then(()=>render(true))},
  demoNotif(){const t='Bloomsette 🌸',b=NOTIFS[Math.floor(Math.random()*4)];if(natHas('testNotif')){natCall('testNotif',t,b);toast('Próba értesítés elküldve')}else if(notifState()==='on')showNotif(t,b);else toast(b)},
  hrClear(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(h){delete h.remind;save();render(true)}},
