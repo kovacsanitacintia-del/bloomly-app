@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102213716">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102213716">
+<meta name="bloomly-version" content="20261102214055">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102214055">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1799,9 +1799,10 @@ cycle(){
 },
 me(){
   const lv=level(),b=allBadges().filter(x=>x.got).length;
+  /* A menü csoportjai: fejlődés, célok és inspiráció, mindennapok, végül a beállítások */
   const T2=[['chart','Statisztikák','#6FAE7B','stats',''],['cycle','Ciklusom','#9C86D6','cycle',(()=>{const c=S.cycleOn&&cycInfo();return c?`${PHASES[c.ph].n} · ${c.day}. nap`:'Kikapcsolva'})()],['image','Vision Board','#E39A6C','vision',`${S.vision.length} elem`],['target','Kihívások','#D9809A','challenges',chInfo()?`${chInfo().day}. nap`:''],['calendar','Heti visszatekintő','#9C86D6','review',''],['flame','Fókusz időzítő','#D3A55A','pomo',''],['home','Otthon','#6E9CCB','otthon',(()=>{const s=hmStats();return s.todayTot?`${s.today}/${s.todayTot} ma`:''})()],['gift','Születésnapok és fontos dátumok','#6FAE7B','dates',(()=>{const x=allDates().find(d=>d.n>=0);return x?`${esc(x.name)} · ${x.n===0?'ma':x.n===1?'holnap':x.n+' nap'}`:''})()],['medal','Jelvények','#D3A55A','badges',`${b} megszerezve`],['bell','Értesítések','#D9809A','notifs',''],['gear','Beállítások','#6E9CCB','settings','']];
   return`<div class="top">${backBtn()}<h1 class="grow">Profilom</h1></div><section class="glass" style="padding:22px;display:flex;align-items:center;gap:16px"><span class="avatar" style="width:64px;height:64px;font-size:26px">${esc(S.name[0]||'B')}</span><div class="grow"><h1 style="font-size:24px">${esc(S.name)}</h1><div class="muted">${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom</div><div class="muted">Fő célod: ${esc(S.goal)}</div></div></section>
-  <div class="eyebrow">Fejlődés és beállítások</div><nav class="mlist" aria-label="Fejlődés és beállítások">${T2.map(menuRow).join('')}</nav>`
+  ${[['Fejlődés',['stats','review','badges']],['Célok és inspiráció',['vision','challenges','pomo']],['Mindennapok',['cycle','otthon','dates']],['Beállítások',['notifs','settings']]].map(([g,ids])=>`<div class="eyebrow">${g}</div><nav class="mlist" aria-label="${g}">${ids.map(id=>menuRow(T2.find(x=>x[3]===id))).join('')}</nav>`).join('')}`
 },
 journal(){
   const t=S.ui.jt;
