@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102164824">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102164824">
+<meta name="bloomly-version" content="20261102170411">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102170411">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3001,7 +3001,8 @@ function notifsView(){const n=S.notif,st=notifState();
   const stTxt={on:['Az értesítések be vannak kapcsolva.','mint'],off:['Az értesítések nincsenek engedélyezve.','peach'],denied:['A böngésző letiltotta az értesítéseket. A böngésző beállításaiban engedélyezheted.','peach'],none:['Ez a böngésző nem támogatja az értesítéseket.','peach'],old:['Az értesítésekhez telepítsd a Bloomsette legújabb APK-ját.','peach'],desk:['Az asztali változatban az emlékeztetők a Bloomsette ablakában jelennek meg, amíg az app nyitva van.','mint']}[st];
   return`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1>Értesítések</h1></div>
   <section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--${stTxt[1]});color:var(--on-pastel);flex:none">${ic('bell',18)}</span><div class="grow"><b style="color:var(--ink)">${st==='on'?'Engedélyezve':st==='desk'?'Asztali emlékeztetők':'Nincs engedélyezve'}</b><div class="muted">${stTxt[0]}</div></div>${st==='off'?`<button class="btn" style="padding:9px 14px;font-size:13px" data-a="notifAsk">Engedélyezés</button>`:''}</section>
-  ${natHas('batteryOk')&&!natCall('batteryOk')?`<section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--peach);color:var(--on-pastel);flex:none">${ic('shield',18)}</span><div class="grow"><b style="color:var(--ink)">Pontos emlékeztetők</b><div class="muted">A telefonod energiatakarékosságból elaltathatja a Bloomsette-et, ilyenkor az emlékeztető késhet. Engedélyezd, hogy mindig pontosan szóljon.</div></div><button class="btn" style="padding:9px 14px;font-size:13px" data-a="batteryAsk">Beállítom</button></section>`:''}
+  ${(()=>{const ex=natHas('exactOk')&&!natCall('exactOk'),bat=natHas('batteryOk')&&!natCall('batteryOk');if(!ex&&!bat)return'';
+   return`<section class="card row"><span class="ic" style="width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--peach);color:var(--on-pastel);flex:none">${ic('shield',18)}</span><div class="grow"><b style="color:var(--ink)">Pontos emlékeztetők</b><div class="muted">${ex?'A telefonod beállításában engedélyezd a Bloomsette-nek az „Ébresztők és emlékeztetők” lehetőséget, így pontosan a beállított időben szól.':'A telefonod energiatakarékosságból elaltathatja a Bloomsette-et. A megnyíló listában keresd meg a Bloomsette-et, és válaszd a „Nem optimalizált” (vagy „Korlátlan”) lehetőséget.'}</div></div><button class="btn" style="padding:9px 14px;font-size:13px" data-a="${ex?'exactAsk':'batteryAsk'}">Beállítom</button></section>`})()}
   <section class="card list">${T.map(([k,t,tk])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${tk?`<input type="time" class="inp" value="${n[tk]||'20:00'}" data-nt="${tk}" style="padding:6px 10px;width:auto;margin-top:4px" aria-label="${t} időpontja">`:'Vasárnap 18:00'}</div></div><button class="switch ${n[k]?'on':''}" data-a="ntog" data-k="${k}" role="switch" aria-checked="${!!n[k]}" aria-label="${t}"></button></div>`).join('')}</section>
   <div class="sec-h"><h2>Szokás-emlékeztetők</h2></div>
   <p class="muted">Adj meg egy időpontot, és a Bloomsette szól, ha aznap még nem pipáltad ki a szokást.</p>
@@ -3039,6 +3040,7 @@ document.addEventListener('keydown',e=>{if(!$('#lock')||!$('#lock').classList.co
 
 const F_A={
  /* értesítések */
+ exactAsk(){natCall('askExact')},
  batteryAsk(){natCall('askBattery');setTimeout(()=>render(true),2500)},
  notifAsk(){if(NAT){natCall('askNotif');setTimeout(()=>render(true),1500);return}if(window.Notification)Notification.requestPermission().then(()=>render(true))},
  demoNotif(){const t='Bloomsette 🌸',b=NOTIFS[Math.floor(Math.random()*4)];if(natHas('testNotif')){natCall('testNotif',t,b);toast('Próba értesítés elküldve')}else if(notifState()==='on')showNotif(t,b);else toast(b)},
