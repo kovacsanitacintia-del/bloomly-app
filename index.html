@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102210009">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102210009">
+<meta name="bloomly-version" content="20261102211604">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102211604">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
 /* Elrendezés: telefonkeret asztali nézetben, teljes képernyő mobilon; légies pasztell felületek, üvegkártyák, alsó tabsáv. */
 :root{
   --bg:#FFFDFB; --bg2:#F8F5F2; --card:#FFFFFF; --text:#556070; --ink:#465064; --text2:#7D879A;
-  --lav:#CBB7F7; --lav-deep:#8F78CF; --lav-soft:#F1EBFD; --rose:#F7E5EA; --peach:#FFD6C2; --mint:#CDECCF; --mint-deep:#5E9C6B;
+  --lav:#CBB7F7; --lav-deep:#8F78CF; --lav-soft:#F1EBFD; --rose:#F7E5EA; --peach:#FFD6C2; --mint:#CDECCF; --mint-deep:#5E9C6B; --fin-in:#4E9A5C; --fin-out:#C2607F;
   --gold:#E9D6A7; --gold-deep:#B48F4E; --line:rgba(85,96,112,.09); --glass:rgba(255,255,255,.66); --glass-line:rgba(255,255,255,.8);
   --shadow:0 14px 34px -18px rgba(118,96,170,.35),0 2px 6px -2px rgba(118,96,170,.08);
   --desk:#F3EEF6; --frame:#FFFFFF; --sky1:#F4ECFE; --sky2:#FFF1EA; --hill1:#E3F1E1; --hill2:#CDECCF; --pond:#D8E8F6; --trunk:#B9A08C;
@@ -26,14 +26,14 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1C1925; --bg2:#231F2E; --card:#2A2537; --text:#E3DEEC; --ink:#F1ECF7; --text2:#A69FB8;
-  --lav:#B9A3EE; --lav-deep:#CDBBF7; --lav-soft:#332B47; --rose:#3B2E3A; --peach:#E9BBA6; --mint:#A5D3AA; --mint-deep:#A5D3AA;
+  --lav:#B9A3EE; --lav-deep:#CDBBF7; --lav-soft:#332B47; --rose:#3B2E3A; --peach:#E9BBA6; --mint:#A5D3AA; --mint-deep:#A5D3AA; --fin-in:#A5D3AA; --fin-out:#EE9DB5;
   --gold:#E0C98F; --gold-deep:#E0C98F; --line:rgba(255,255,255,.07); --glass:rgba(42,37,55,.66); --glass-line:rgba(255,255,255,.08);
   --shadow:0 18px 40px -20px rgba(0,0,0,.6),0 2px 6px -2px rgba(0,0,0,.3);
   --desk:#14121B; --frame:#2A2537; --sky1:#2A2440; --sky2:#3A2E45; --hill1:#2E3B35; --hill2:#3B5245; --pond:#33405A; --trunk:#7E6A5E;
   --sun:#EDE3C6; --on-pastel:#2B2538; --track:#352F44; color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#1C1925; --bg2:#231F2E; --card:#2A2537; --text:#E3DEEC; --ink:#F1ECF7; --text2:#A69FB8;
-  --lav:#B9A3EE; --lav-deep:#CDBBF7; --lav-soft:#332B47; --rose:#3B2E3A; --peach:#E9BBA6; --mint:#A5D3AA; --mint-deep:#A5D3AA;
+  --lav:#B9A3EE; --lav-deep:#CDBBF7; --lav-soft:#332B47; --rose:#3B2E3A; --peach:#E9BBA6; --mint:#A5D3AA; --mint-deep:#A5D3AA; --fin-in:#A5D3AA; --fin-out:#EE9DB5;
   --gold:#E0C98F; --gold-deep:#E0C98F; --line:rgba(255,255,255,.07); --glass:rgba(42,37,55,.66); --glass-line:rgba(255,255,255,.08);
   --shadow:0 18px 40px -20px rgba(0,0,0,.6),0 2px 6px -2px rgba(0,0,0,.3);
   --desk:#14121B; --frame:#2A2537; --sky1:#2A2440; --sky2:#3A2E45; --hill1:#2E3B35; --hill2:#3B5245; --pond:#33405A; --trunk:#7E6A5E;
@@ -894,7 +894,22 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-key{display:flex;gap:12px;font-size:12px;color:var(--text2)}
 .fin-key span{display:flex;align-items:center;gap:5px}
 .fin-amt{font-family:var(--f-display);font-size:16px;font-weight:600;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;flex:none}
-.fin-amt.in{color:var(--mint-deep)}
+.fin-amt.in{color:var(--fin-in)}.fin-amt.out{color:var(--fin-out)}
+.fin-eq{font-size:12px;color:var(--text2);margin-top:2px}
+.fin-io>button{background:color-mix(in srgb,var(--card) 78%,transparent);border-radius:16px;padding:10px 12px;min-width:0;text-align:left;border:1.5px solid transparent;color:inherit}
+.fin-io>button.in{border-color:color-mix(in srgb,var(--fin-in) 35%,transparent)}.fin-io>button.out{border-color:color-mix(in srgb,var(--fin-out) 35%,transparent)}
+.fin-io>button.in b{color:var(--fin-in)}.fin-io>button.out b{color:var(--fin-out)}
+.fin-io em{display:block;font-style:normal;font-size:11px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fio-ic{width:20px;height:20px;border-radius:7px;display:grid;place-items:center;flex:none;color:#fff}
+.fin-io .in .fio-ic{background:var(--fin-in)}.fin-io .out .fio-ic{background:var(--fin-out)}
+.fin-add{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fin-add button{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 10px;border-radius:18px;font-weight:600;font-size:13.5px;border:1.5px solid}
+.fin-add .in{color:var(--fin-in);border-color:color-mix(in srgb,var(--fin-in) 45%,transparent);background:color-mix(in srgb,var(--fin-in) 12%,var(--card))}
+.fin-add .out{color:var(--fin-out);border-color:color-mix(in srgb,var(--fin-out) 45%,transparent);background:color-mix(in srgb,var(--fin-out) 12%,var(--card))}
+.fin-budl{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:12.5px;color:var(--text2)}.fin-budl b{color:var(--ink)}
+.fin-seg button{display:flex;align-items:center;justify-content:center;gap:6px}
+.fin-seg button.on.in{background:color-mix(in srgb,var(--fin-in) 20%,var(--card));color:var(--fin-in)}.fin-seg button.on.out{background:color-mix(in srgb,var(--fin-out) 18%,var(--card));color:var(--fin-out)}
+.fin-hint{font-size:12.5px;color:var(--text2);margin-top:10px;text-align:center}
 .fin-rn{display:block;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin-row .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin-day{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--text2);margin:6px 4px -4px}
@@ -926,7 +941,8 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-amtin input{width:100%;min-width:0;field-sizing:content;max-width:100%;border:0;background:none;outline:none;text-align:right;font-family:var(--f-display);font-size:38px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 .fin-amtin input:placeholder-shown{min-width:1.2ch}
 .fin-amtin span{font-family:var(--f-display);font-size:22px;font-weight:600;color:var(--text2);flex:none}
-.fin-amtin.in input{color:var(--mint-deep)}
+.fin-amtin.in input{color:var(--fin-in)}.fin-amtin.out input{color:var(--fin-out)}
+.fin-amtin .sg{font-family:var(--f-display);font-size:34px;font-weight:600;margin-right:-4px}.fin-amtin .sg+input{width:auto;flex:0 1 auto;text-align:left}.fin-amtin.in .sg{color:var(--fin-in)}.fin-amtin.out .sg{color:var(--fin-out)}
 .fin-cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .fin-cat{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 2px;border-radius:14px;border:1.5px solid transparent;min-width:0}
 .fin-cat span{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:var(--on-pastel)}
@@ -3197,7 +3213,9 @@ Object.assign(IC,{
  repeat:'M17 2.5l3 3-3 3 M20 5.5H8.5a4.5 4.5 0 0 0-4.5 4.5v.5 M7 21.5l-3-3 3-3 M4 18.5h11.5a4.5 4.5 0 0 0 4.5-4.5v-.5',
  piggy:'M4.5 11.5c0-3.3 3.1-6 7-6 1.7 0 3.2.5 4.4 1.3L18.5 5v3.4c.8.8 1.3 1.8 1.5 2.9l1.5.4v3l-1.8.6c-.5 1-1.3 1.9-2.2 2.5V20h-2.5v-1.2a8 8 0 0 1-3.5 0V20H9v-2.2c-2.7-1.2-4.5-3.6-4.5-6.3z M15 10.5h.01',
  download:'M12 4v11 M7.5 10.5L12 15l4.5-4.5 M5 20h14',
- search:'M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z M20 20l-4.8-4.8'});
+ arrIn:'M12 4v11 M7 10.5l5 5 5-5 M5 19.5h14',
+arrOut:'M12 20V9 M7 13.5l5-5 5 5 M5 4.5h14',
+search:'M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z M20 20l-4.8-4.8'});
 const FC_OUT=[['food','Élelmiszer','cart','#CDECCF'],['home','Lakhatás','home','#E9D6A7'],['bills','Rezsi, számlák','bolt','#F2E0B5'],['transport','Közlekedés','car','#CFE2F6'],
  ['eat','Étterem, kávé','cup','#FFD6C2'],['health','Egészség','pill','#D7ECE4'],['beauty','Szépség','sparkle','#F5D3DC'],['clothes','Ruházat','shirt','#F1D7F2'],
  ['fun','Szórakozás','music','#E6DDF7'],['subs','Előfizetések','repeat','#D5E6F7'],['gift','Ajándék','gift','#F7D9E6'],['edu','Tanulás','book','#DCEFC9'],
@@ -3245,6 +3263,7 @@ function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(f
   const six=[...Array(6)].map((_,i)=>{const k=fmKey(off-5+i),s=monthSum(k);return{k,i:s.i,o:s.o}});
   const dlt=pm.o?Math.round((m.o-pm.o)/pm.o*100):null;
   const due=cur?S.fin.rec.filter(r=>r.last!==mk).sort((a,b)=>a.day-b.day):[];
+  const nIn=m.l.filter(t=>t.t==='in').length,nOut=m.l.length-nIn;
   const recent=m.l.slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.ts||0)-(a.ts||0)).slice(0,5);
   const ins=[];
   if(top&&m.o)ins.push(['chart',`A legtöbbet <b>${top.n.toLowerCase()}</b> kategóriára költötted: ${ft(top.v)}, a kiadások ${Math.round(top.v/m.o*100)}%-a.`]);
@@ -3254,12 +3273,13 @@ function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(f
   if(over.length)ins.push(['shield',`Túllépett keret: <b>${over.join(', ')}</b>.`]);
   if(m.i&&m.o&&(!cur||el>=20)&&bal>0&&bal/m.i>=.2)ins.push(['sparkle',`Szép! A bevételed <b>${Math.round(bal/m.i*100)}%-át</b> megtakarítottad ebben a hónapban.`]);
   return`${fmNav()}
-  <section class="fin-hero"><small>Egyenleg · ${cur?'ebben a hónapban':fmt(mk+'-01',{month:'long'})}</small><b class="${bal<0?'neg':''}">${bal<0?'−':''}${ft(Math.abs(bal))}</b>
-   <div class="fin-io"><div><small><span class="fin-dot in"></span>Bevétel</small><b>${ft(m.i)}</b></div><div><small><span class="fin-dot out"></span>Kiadás</small><b>${ft(m.o)}</b></div></div>
+  <section class="fin-hero"><small>Egyenleg · ${cur?'ebben a hónapban':fmt(mk+'-01',{month:'long'})}</small><b class="${bal<0?'neg':''}">${bal>0?'+':bal<0?'−':''}${ft(Math.abs(bal))}</b><div class="fin-eq">bevétel mínusz kiadás</div>
+   <div class="fin-io"><button class="in" data-a="fioGo" data-v="in" aria-label="Bevételek listája"><small><span class="fio-ic">${ic('arrIn',14)}</span>Bevétel</small><b>+${ft(m.i)}</b><em>${nIn} tétel · ami bejött</em></button><button class="out" data-a="fioGo" data-v="out" aria-label="Kiadások listája"><small><span class="fio-ic">${ic('arrOut',14)}</span>Kiadás</small><b>−${ft(m.o)}</b><em>${nOut} tétel · amit elköltöttél</em></button></div>
    ${m.i?`<div class="fin-rate">Megtakarítási ráta: <b>${Math.max(0,Math.round(bal/m.i*100))}%</b></div>`:''}</section>
-  ${bt?`<section class="card"><div class="row" style="justify-content:space-between"><b style="color:var(--ink)">Havi költségkeret</b><span class="muted">${Math.round(bp*100)}%</span></div><div class="bar fin-bar ${bp>=1?'over':bp>=.85?'warn':''}" style="margin-top:10px"><i style="width:${Math.min(100,bp*100)}%"></i></div>
-   <div class="muted" style="margin-top:8px">${left>=0?`${ft(left)} maradt a ${ft(bt)} keretből${cur&&dl>0?` · naponta kb. <b style="color:var(--ink)">${ft(left/dl)}</b> költhető`:''}`:`<b style="color:#B0485F">${ft(-left)}-tal túllépted</b> a havi keretet`}</div></section>`
-   :`<button class="insight" data-a="fv" data-v="bud" style="width:100%;text-align:left">${ic('target')}<p>Állíts be <b>havi költségkeretet</b>, és a Bloomsette naponta megmutatja, mennyit költhetsz még.</p></button>`}
+  ${cur?`<div class="fin-add"><button class="in" data-a="addTx" data-t="in">${ic('arrIn',18)}<span>Bevétel rögzítése</span></button><button class="out" data-a="addTx" data-t="out">${ic('arrOut',18)}<span>Kiadás rögzítése</span></button></div>`:''}
+  ${bt?`<section class="card"><div class="row" style="justify-content:space-between"><b style="color:var(--ink)">Havi költségkeret</b><button class="link" data-a="budSet" data-v="total">Módosítás</button></div><div class="fin-budl"><span>${ft(m.o)} elköltve · <b>${ft(bt)}</b> keret</span><span>${Math.round(bp*100)}%</span></div><div class="bar fin-bar ${bp>=1?'over':bp>=.85?'warn':''}" style="margin-top:10px"><i style="width:${Math.min(100,bp*100)}%"></i></div>
+   <div class="muted" style="margin-top:8px">${left>=0?`${ft(left)} maradt${cur&&dl>0?` · naponta kb. <b style="color:var(--ink)">${ft(left/dl)}</b> költhető`:''}`:`<b style="color:#B0485F">${ft(-left)}-tal túllépted</b> a havi keretet`}</div></section>`
+   :`<button class="insight" data-a="budSet" data-v="total" style="width:100%;text-align:left">${ic('target')}<p>Állíts be <b>havi költségkeretet</b>, és a Bloomsette naponta megmutatja, mennyit költhetsz még.</p></button>`}
   <div class="kpis"><div class="kpi"><b>${ftS(avg)} Ft</b><small>napi átlagos kiadás</small></div><div class="kpi"><b>${ftS(proj)} Ft</b><small>${cur?'várható havi kiadás':'havi kiadás'}</small></div>
    <div class="kpi"><b>${dlt==null?'–':(dlt>0?'+':'')+dlt+'%'}</b><small>kiadás az előző hónaphoz képest</small></div><div class="kpi"><b>${m.n}</b><small>tétel ebben a hónapban</small></div></div>
   ${due.length?`<div class="sec-h"><h2>Rögzítésre vár</h2>${due.length>1?`<button class="link" data-a="recPayAll">Mind rögzítése</button>`:''}</div><section class="card list">${due.map(r=>{const c=FCAT[r.cat]||FCAT.other,st=recState(r,mk);
@@ -3313,10 +3333,11 @@ function finGoals(){const g=S.fin.goals,tot=g.reduce((a,x)=>a+x.saved,0),tg=g.re
 /* ───── Lapok: tétel, keret, rendszeres tétel, cél, befizetés ───── */
 let fd=null;
 const catGrid=(list,sel,act)=>`<div class="fin-cats">${list.map(([id,n,i,c])=>`<button class="fin-cat ${sel===id?'on':''}" data-a="${act}" data-k="cat" data-v="${id}" aria-pressed="${sel===id}"><span style="background:${c}">${ic(i,18)}</span><small>${n}</small></button>`).join('')}</div>`;
-const amtIn=(id,v,cls)=>`<div class="fin-amtin ${cls||''}"><input id="${id}" inputmode="numeric" autocomplete="off" placeholder="0" value="${v?Math.round(v).toLocaleString('hu-HU'):''}" aria-label="Összeg forintban"><span>Ft</span></div>`;
+const amtIn=(id,v,cls)=>`<div class="fin-amtin ${cls||''}">${cls==='in'?'<span class="sg">+</span>':cls==='out'?'<span class="sg">−</span>':''}<input id="${id}" inputmode="numeric" autocomplete="off" placeholder="0" value="${v?Math.round(v).toLocaleString('hu-HU'):''}" aria-label="Összeg forintban"><span>Ft</span></div>`;
 function txSheet(){const t=fd;
   openSheet(`<h2>${t.id?'Tétel szerkesztése':t.t==='in'?'Új bevétel':'Új kiadás'}</h2>
-  <div class="seg" style="margin-top:14px">${[['out','Kiadás'],['in','Bevétel']].map(([k,n])=>`<button class="${t.t===k?'on':''}" data-a="txSet" data-k="t" data-v="${k}">${n}</button>`).join('')}</div>
+  <div class="seg fin-seg" style="margin-top:14px">${[['out','Kiadás'],['in','Bevétel']].map(([k,n])=>`<button class="${k} ${t.t===k?'on':''}" data-a="txSet" data-k="t" data-v="${k}">${ic(k==='in'?'arrIn':'arrOut',16)} ${n}</button>`).join('')}</div>
+  <p class="fin-hint">${t.t==='in'?'Bevétel: pénz, ami bejön, például fizetés, ajándék, visszatérítés.':'Kiadás: pénz, amit elköltesz, például bevásárlás, számlák, étterem.'}</p>
   ${amtIn('txa',t.amt,t.t)}
   <div class="field"><span class="lbl">Kategória</span>${catGrid(t.t==='in'?FC_IN:FC_OUT,t.cat,'txSet')}</div>
   <div class="field"><label for="txn">Megjegyzés</label><input class="inp" id="txn" maxlength="60" value="${esc(t.note||'')}" placeholder="${t.t==='in'?'pl. Novemberi fizetés':'pl. Heti bevásárlás'}"></div>
@@ -3374,7 +3395,8 @@ const FIN_A={
  ftp(el){S.ui.ftp=el.dataset.v;render(true)},
  fcGo(el){S.ui.fc=el.dataset.v;S.ui.ftp='out';S.ui.fv='tx';render()},
  fcClear(){S.ui.fc='';render(true)},
- addTx(){ensureFin();closeSheet();const off=S.ui.fm||0;fd={t:'out',amt:0,cat:'food',note:'',pm:'Kártya',date:off===0?TODAY:`${fmKey(off)}-${String(fmDim(fmKey(off))).padStart(2,'0')}`};txSheet()},
+ fioGo(el){S.ui.ftp=el.dataset.v;S.ui.fc='';S.ui.fv='tx';render()},
+ addTx(el){ensureFin();closeSheet();const off=S.ui.fm||0,ty=el&&el.dataset&&el.dataset.t==='in'?'in':'out';fd={t:ty,amt:0,cat:ty==='in'?'salary':'food',note:'',pm:'Kártya',date:off===0?TODAY:`${fmKey(off)}-${String(fmDim(fmKey(off))).padStart(2,'0')}`};txSheet()},
  editTx(el){const t=S.fin.tx.find(x=>x.id===el.dataset.id);if(!t)return;fd=JSON.parse(JSON.stringify(t));txSheet()},
  txSet(el){readTx();const k=el.dataset.k,v=el.dataset.v;if(k==='t'){if(fd.t===v)return;fd.t=v;fd.cat=v==='in'?'salary':'food'}else fd[k]=v;txSheet()},
  saveTx(){readTx();if(!(fd.amt>0)){toast('Add meg az összeget');$('#txa')&&$('#txa').focus();return}
