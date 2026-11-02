@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102215614">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102215614">
+<meta name="bloomly-version" content="20261102220318">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102220318">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1453,7 +1453,8 @@ function dropHabit(id){const p0=petals();S.habits=S.habits.filter(x=>x.id!==id);
 const dropMsg=(n,d)=>n+(d>0?` · −${d} szirom`:"");
 function perfectDays(s=S){return Object.keys(s.log).filter(k=>dayRate(k,s)===1).length}
 function petals(s=S){return totalDone(s)*10+(s.pomo||[]).length*10+Object.keys(s.kind||{}).length*5+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
-const LEVELS=[[0,'Mag'],[200,'Csíra'],[600,'Bimbó'],[1200,'Virágzó'],[2000,'Kert'],[3200,'Liget'],[5000,'Édenkert'],[8000,'Bloom Paradicsom']];
+/* A szintek szándékosan távol vannak egymástól: a felsőkhöz hónapokig tartó kitartás kell */
+const LEVELS=[[0,'Mag'],[400,'Csíra'],[1200,'Bimbó'],[2500,'Virágzó'],[4500,'Kert'],[7500,'Liget'],[12000,'Édenkert'],[18000,'Bloom Paradicsom']];
 function level(p=petals()){let i=0;LEVELS.forEach((l,j)=>{if(p>=l[0])i=j});const nx=LEVELS[i+1];return{i,name:LEVELS[i][1],from:LEVELS[i][0],to:nx?nx[0]:LEVELS[i][0],next:nx?nx[1]:null}}
 function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++});trackerChecks(k).forEach(v=>{b++;if(v)a++})}return b?a/b:0}
 
@@ -1506,7 +1507,7 @@ function allBadges(s=S){
    {g:'Különleges',id:'vision10',n:'Álmodozó',d:'10 elem a Vision Boardon',tier:'peach',icon:'image',v:(s.vision||[]).length,goal:10},
    {g:'Különleges',id:'contacts5',n:'Szeretetháló',d:'5 fontos ember a kapcsolataid között',tier:'coral',icon:'heart',v:(s.contacts||[]).length,goal:5},
    {g:'Különleges',id:'therapy5',n:'Bátor szív',d:'5 terápiás jegyzet',tier:'lav',icon:'chat',v:((s.therapy||{}).sessions||[]).length,goal:5},
-   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (3200 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:3200,rare:true},
+   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (7500 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:7500,rare:true},
    {g:'Sorozatok',id:'b21',n:'Három hét',d:'21 napos sorozat',tier:'sky',icon:'leaf',v:L,goal:21},
    {g:'Sorozatok',id:'b180',n:'Fél év virágzás',d:'180 napos sorozat',tier:'orchid',icon:'sun',v:L,goal:180,rare:true},
    {g:'Szokások',id:'t10',n:'Tíz bimbó',d:'10 teljesített szokás',tier:'mint',icon:'sprout',v:T,goal:10},
@@ -1617,7 +1618,9 @@ function unlocks(s=S){
    {c:'Szezonális',id:'xmas',n:'Karácsonyfa',r:'s',d:'Szezonális · december',v:mo===11?1:0,g:1,col:'#DDF0D9'},
    {c:'Szezonális',id:'snowman',n:'Hóember',r:'s',d:'Szezonális · december–február',v:season(11,1),g:1,col:'#EEF3FA'},
    {c:'Díszek',id:'wreath',n:'Virágkoszorú',r:'l',d:'Egy teljesített kihívás',v:((s.ch||{}).done||[]).length,g:1,col:'#FBE3EA'},
-  ].map(u=>({...u,got:u.v>=u.g}))
+  ].map(u=>{/* Nehezebb gyűjtemény: a célszámok duplák, a sorozatoknál másfélszeresek (a leírásban szereplő szám is igazodik) */
+   const keep=(s.gardenKeep||[]).includes(u.id);if(u.g<=1)return{...u,old:u.v>=u.g,got:u.v>=u.g||keep};const m=/sorozat/.test(u.d)?1.5:2,raw=u.g*m,g=raw>=20?Math.round(raw/5)*5:Math.floor(raw);
+   return{...u,g,d:u.d.replace(String(u.g),String(g)),old:u.v>=u.g,got:u.v>=g||keep}})
 }
 function flower(x,y,s,type,col,delay=0,isNew){
   let head='';const H=24;
@@ -3750,6 +3753,8 @@ S.habits.forEach(h=>{if(!h.area)h.area=areaOf(h)});if(!S.weight)S.weight={log:{}
 TEMPLATES.forEach(t=>{if(!LIBRARY.some(x=>x.name===t.name))LIBRARY.push({...t})});
 S.habits.forEach(h=>{if(!LIBRARY.some(t=>t.name===h.name))toMyLib(h)});
 /* Új jelvénycsomag: a már teljesített új jelvények csendben kerülnek a gyűjteménybe, ne egyszerre ugorjon fel mind */
+/* A már megszerzett kertelemek a szigorítás után is megmaradnak */
+if(!S.gardenKeep){S.gardenKeep=unlocks().filter(u=>u.old).map(u=>u.id);save()}
 if((S.badgesV||0)<2){S.seen=[...new Set([...(S.seen||[]),...allBadges().filter(b=>b.got).map(b=>b.id)])];S.badgesV=2;save()}
 window.bloomlyNotifChanged=()=>{if(S.ui.sub==='notifs')render(true)};
 {const pd=natCall('takePending');if(pd&&pd!=='[]')setTimeout(()=>bloomlyPending(pd),0)}
