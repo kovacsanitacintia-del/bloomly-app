@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102212201">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102212201">
+<meta name="bloomly-version" content="20261102212352">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102212352">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -174,6 +174,10 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .chip{white-space:nowrap;padding:8px 14px;border-radius:999px;background:var(--bg2);font-size:13px;font-weight:600;color:var(--text);border:1px solid transparent;transition:all .3s}
 .chip.on{background:var(--lav-soft);color:var(--lav-deep);border-color:color-mix(in srgb,var(--lav) 70%,transparent)}
 .wrapchips{flex-wrap:wrap;overflow:visible}
+.chip.pm-own{display:inline-flex;align-items:center;gap:2px;padding:0 4px 0 0}.chip.pm-own>button{padding:8px 4px 8px 14px;font:inherit;color:inherit}
+.chip.pm-own .pm-x{padding:4px 7px;font-size:11px;opacity:.6;border-radius:50%}
+.chip.pm-add{display:inline-flex;align-items:center;gap:4px;color:var(--lav-deep);background:transparent;border:1.5px dashed color-mix(in srgb,var(--lav-deep) 50%,transparent)}
+.pm-new{gap:8px;margin-top:10px}.pm-new .inp{flex:1;min-width:0}.pm-new .btn{flex:none;padding:12px 16px;font-size:13.5px}
 
 .week{display:flex;gap:5px;margin-top:8px}
 .week i{width:16px;height:6px;border-radius:4px;background:var(--track)}
@@ -3229,7 +3233,7 @@ const FC_IN=[['salary','Fizetés','wallet','#CDECCF'],['side','Mellékes','star'
 const FCAT=Object.fromEntries([...FC_OUT,...FC_IN].map(([id,n,i,c])=>[id,{id,n,i,c}]));
 const PMS=['Kártya','Készpénz','Átutalás','SZÉP-kártya'];
 const GOAL_C=['#CFE2F6','#CDECCF','#F5D3DC','#CBB7F7','#F2E0B5','#FFD6C2'];
-function ensureFin(){const f=S.fin=S.fin||{};f.tx=f.tx||[];f.budget=f.budget||{total:0,cats:{}};f.budget.cats=f.budget.cats||{};f.rec=f.rec||[];f.goals=f.goals||[];f.cats=f.cats||[];f.cats.forEach(c=>{FCAT[c.id]={id:c.id,n:c.n,i:c.i,c:c.c,own:1}});return f}
+function ensureFin(){const f=S.fin=S.fin||{};f.tx=f.tx||[];f.budget=f.budget||{total:0,cats:{}};f.budget.cats=f.budget.cats||{};f.rec=f.rec||[];f.goals=f.goals||[];f.cats=f.cats||[];f.pms=f.pms||[];f.cats.forEach(c=>{FCAT[c.id]={id:c.id,n:c.n,i:c.i,c:c.c,own:1}});return f}
 /* Saját kategóriák: a beépítettek után jelennek meg, kiadásnál és bevételnél külön */
 const FC_ICONS=['cart','home','bolt','car','cup','apple','pill','heart','sparkle','shirt','music','repeat','gift','book','paw','globe','dumbbell','plant','receipt','wallet','coin','piggy','chart','star','phone','bike','bath','palette','flower','headphones'];
 const FC_COLS=['#CDECCF','#E9D6A7','#F2E0B5','#CFE2F6','#FFD6C2','#F5D3DC','#E6DDF7','#F1D7F2','#CFEAEC','#DCEFC9','#FADCD0','#E5E1EA'];
@@ -3350,7 +3354,8 @@ function txSheet(){const t=fd;
   <div class="field"><span class="lbl">Kategória</span>${catGrid(catList(t.t),t.cat,'txSet',t.t)}</div>
   <div class="field"><label for="txn">Megjegyzés</label><input class="inp" id="txn" maxlength="60" value="${esc(t.note||'')}" placeholder="${t.t==='in'?'pl. Novemberi fizetés':'pl. Heti bevásárlás'}"></div>
   <div class="field"><label for="txd">Dátum</label><input class="inp" type="date" id="txd" value="${t.date}"></div>
-  ${t.t==='out'?`<div class="field"><span class="lbl">Fizetési mód</span><div class="chips wrapchips">${PMS.map(p=>`<button class="chip ${t.pm===p?'on':''}" data-a="txSet" data-k="pm" data-v="${p}">${p}</button>`).join('')}</div></div>`:''}
+  ${t.t==='out'?`<div class="field"><span class="lbl">Fizetési mód</span><div class="chips wrapchips">${PMS.map(p=>`<button class="chip ${t.pm===p?'on':''}" data-a="txSet" data-k="pm" data-v="${p}">${p}</button>`).join('')}${S.fin.pms.map(p=>`<span class="chip pm-own ${t.pm===p?'on':''}"><button data-a="txSet" data-k="pm" data-v="${esc(p)}">${esc(p)}</button><button class="pm-x" data-a="pmDel" data-v="${esc(p)}" aria-label="${esc(p)} törlése">✕</button></span>`).join('')}${t.pmAdd?'':`<button class="chip pm-add" data-a="pmAdd">${ic('plus',14)} Saját</button>`}</div>
+   ${t.pmAdd?`<div class="row pm-new"><input class="inp" id="pmn" maxlength="24" placeholder="pl. Revolut, Hitelkártya, Utalvány" aria-label="Új fizetési mód"><button class="btn" data-a="pmSave">Hozzáadás</button></div>`:''}</div>`:''}
   <div class="btns">${t.id?`<button class="btn danger" data-a="delTx">Törlés</button>`:''}<button class="btn" data-a="saveTx">${t.id?'Mentés':'Rögzítés'}</button></div>`);
   if(!t.id&&!t.amt)setTimeout(()=>{const i=$('#txa');if(i)i.focus()},320)}
 /* Saját kategória felvétele, szerkesztése; a végén visszatér a tétel vagy rendszeres tétel lapjára */
@@ -3433,12 +3438,17 @@ const FIN_A={
  ftp(el){S.ui.ftp=el.dataset.v;render(true)},
  fcGo(el){S.ui.fc=el.dataset.v;S.ui.ftp='out';S.ui.fv='tx';render()},
  fcClear(){S.ui.fc='';render(true)},
+ /* Saját fizetési módok: a tétel lapján írható be, és egy koppintással törölhető */
+ pmAdd(){readTx();fd.pmAdd=true;txSheet();setTimeout(()=>{const i=$('#pmn');if(i)i.focus()},60)},
+ pmSave(){const i=$('#pmn'),v=i&&i.value.trim();if(!v){toast('Írd be a fizetési módot');i&&i.focus();return}readTx();
+  const ex=[...PMS,...S.fin.pms].find(p=>p.toLowerCase()===v.toLowerCase());if(!ex){S.fin.pms.push(v);save()}fd.pm=ex||v;delete fd.pmAdd;txSheet();toast(ex?'Ez a fizetési mód már megvan, kiválasztottam':`${v} hozzáadva`)},
+ pmDel(el){readTx();const v=el.dataset.v;S.fin.pms=S.fin.pms.filter(p=>p!==v);if(fd.pm===v)fd.pm='Kártya';save();txSheet();toast(`${v} törölve a fizetési módok közül`)},
  fioGo(el){S.ui.ftp=el.dataset.v;S.ui.fc='';S.ui.fv='tx';render()},
  addTx(el){ensureFin();closeSheet();const off=S.ui.fm||0,ty=el&&el.dataset&&el.dataset.t==='in'?'in':'out';fd={t:ty,amt:0,cat:ty==='in'?'salary':'food',note:'',pm:'Kártya',date:off===0?TODAY:`${fmKey(off)}-${String(fmDim(fmKey(off))).padStart(2,'0')}`};txSheet()},
  editTx(el){const t=S.fin.tx.find(x=>x.id===el.dataset.id);if(!t)return;fd=JSON.parse(JSON.stringify(t));txSheet()},
  txSet(el){readTx();const k=el.dataset.k,v=el.dataset.v;if(k==='t'){if(fd.t===v)return;fd.t=v;fd.cat=v==='in'?'salary':'food'}else fd[k]=v;txSheet()},
  saveTx(){readTx();if(!(fd.amt>0)){toast('Add meg az összeget');$('#txa')&&$('#txa').focus();return}
-  if(!FCAT[fd.cat])fd.cat=fd.t==='in'?'otherin':'other';fd.note=(fd.note||'').trim();if(fd.t==='in')fd.pm='';
+  if(!FCAT[fd.cat])fd.cat=fd.t==='in'?'otherin':'other';delete fd.pmAdd;fd.note=(fd.note||'').trim();if(fd.t==='in')fd.pm='';
   if(fd.id){const i=S.fin.tx.findIndex(x=>x.id===fd.id);S.fin.tx[i]=fd}else S.fin.tx.push({...fd,id:uid(),ts:Date.now()});
   save();closeSheet();render(true);toast(fd.id?'Tétel mentve':fd.t==='in'?`Bevétel rögzítve · +${ft(fd.amt)}`:`Kiadás rögzítve · −${ft(fd.amt)}`);finWarn(fd)},
  delTx(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.fin.tx=S.fin.tx.filter(x=>x.id!==fd.id);
@@ -3482,6 +3492,7 @@ Object.assign(SCREENS,{money:moneyView});
 /* Keresés a tételek között: gépelés közben szűr, a fókusz és a kurzor megmarad */
 document.addEventListener('input',e=>{if(e.target.id!=='fq')return;S.ui.fq=e.target.value;const p=e.target.selectionStart;render(true);const i=$('#fq');if(i){i.focus();try{i.setSelectionRange(p,p)}catch(_){}}});
 /* Összeg mezők: ezres tagolás gépelés közben */
+document.addEventListener('keydown',e=>{if(e.target.id==='pmn'&&e.key==='Enter'){e.preventDefault();A.pmSave()}});
 document.addEventListener('input',e=>{if(e.target.id!=='fcn')return;const b=$('#sheet .fin-cat-prev+b');if(b)b.textContent=e.target.value.trim()||'A kategória neve'});
 document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest('.fin-amtin'))return;const v=parseAmt(t.value);const s=v?v.toLocaleString('hu-HU'):'';if(t.value!==s){t.value=s;try{t.setSelectionRange(s.length,s.length)}catch(_){}}});
 /* ───────── Otthon: takarítási terv (Profilom) ─────────
