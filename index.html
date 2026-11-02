@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102214055">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102214055">
+<meta name="bloomly-version" content="20261102214508">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102214508">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -441,7 +441,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .ob-pills{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;gap:8px;margin-top:4px}
 .ob-pills span{justify-content:center}
 .ob-pills span{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-line);font-size:12.5px;font-weight:600;color:var(--ink);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:screenIn .7s var(--ease) backwards}
-.ob-pills span:nth-child(2){animation-delay:.12s}.ob-pills span:nth-child(3){animation-delay:.24s}.ob-pills span:nth-child(4){animation-delay:.36s}
+.ob-pills span:nth-child(2){animation-delay:.12s}.ob-pills span:nth-child(3){animation-delay:.24s}.ob-pills span:nth-child(4){animation-delay:.36s}.ob-pills span:nth-child(5){animation-delay:.48s}.ob-pills span:nth-child(6){animation-delay:.6s}.ob-pills span:nth-child(7){animation-delay:.72s}.ob-pills span:nth-child(8){animation-delay:.84s}
 .ob-pills svg.i{color:var(--lav-deep)}
 .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .area{position:relative;padding:18px 12px 16px;border-radius:22px;background:var(--glass);border:1.5px solid var(--glass-line);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .35s var(--ease),border-color .3s,background .3s}
@@ -2387,7 +2387,7 @@ function renderOb(dir){
   const s=ob.step,N=OB_ORDER.length,pos=OB_ORDER.indexOf(s)+1;let b='',cta='Tovább',ok=true,skip=false,sec='';
   const H=(eb,t,l)=>`<div class="eyebrow">${eb}</div><h1>${t}</h1>${l?`<p class="lead">${l}</p>`:''}`;
   const freq=t=>freqLabel(t).toLowerCase();
-  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMSETTE</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomsette világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('cycle',14)} Ciklus</span><span>${ic('wallet',14)} Pénzügyek</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
+  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMSETTE</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomsette világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills">${[['check','Szokások'],['smile','Hangulatnapló'],['cycle','Ciklus'],['wallet','Pénzügyek'],['home','Otthon'],['image','Vision Board'],['target','Kihívások'],['sprout','Bloom Kert']].map(([i,n])=>`<span>${ic(i,14)} ${n}</span>`).join('')}</div></div>`;cta='Kezdjük el'}
   /* Bemutató lépés: az app elmondja, milyen életterületek vannak benne; választani nem kell, a további lépések mind a nyolcból ajánlanak */
   if(s===1){const card=a=>`<div class="area info" style="--ac:${a.c}"><span class="tile">${ic(a.i,20)}</span><b>${a.n}</b><small>${a.d}</small></div>`;
     const feat=(icn,c,t,d)=>`<div class="li"><span class="tile" style="width:38px;height:38px;border-radius:13px;display:grid;place-items:center;flex:none;background:${c};color:var(--on-pastel)">${ic(icn,17)}</span><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div></div>`;
