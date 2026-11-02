@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102153519">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102153519">
+<meta name="bloomly-version" content="20261102163440">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102163440">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1114,7 +1114,7 @@ const ic=(n,s)=>`<svg class="i" viewBox="0 0 24 24" ${s?`style="width:${s}px;hei
 /* Lótusz logó: áttetsző pasztell szirmok vékony arany kontúrral, felül arany pont (márkaikon) */
 const LOTUS_PETALS=[['M60 81C46 86 30 84 18 76C32 72 48 74 60 81Z','#F3D7E1'],['M60 81C74 86 90 84 102 76C88 72 72 74 60 81Z','#F3D7E1'],['M60 80C42 80 28 70 22 56C38 56 52 64 60 80Z','#F6E1E9'],['M60 80C78 80 92 70 98 56C82 56 68 64 60 80Z','#F6E1E9'],['M60 80C47 72 38 56 40 38C52 46 59 60 60 80Z','#EFC9D8'],['M60 80C73 72 82 56 80 38C68 46 61 60 60 80Z','#EFC9D8'],['M60 26C71 40 73 60 60 80C47 60 49 40 60 26Z','#D7C4F0']];
 const lotusMark=()=>`<g transform="translate(0 5)">${LOTUS_PETALS.map(([d,f])=>`<path d="${d}" fill="${f}" fill-opacity=".9" stroke="#C9A66B" stroke-width="1.1" stroke-linejoin="round"/>`).join('')}<circle cx="60" cy="17" r="3.4" fill="#D4B373"/>${[34,40,46].map(y=>`<circle cx="60" cy="${y}" r=".95" fill="#C9A66B"/>`).join('')}</g>`;
-const LOTUS=(id='lg')=>`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lotus-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBF1F4"/><stop offset="1" stop-color="#E6D9F0"/></linearGradient></defs><rect width="120" height="120" rx="30" fill="url(#lotus-${id})"/><rect x=".5" y=".5" width="119" height="119" rx="29.5" fill="none" stroke="#fff" stroke-opacity=".8"/>${lotusMark()}</svg>`;
+const LOTUS=(id='lg')=>`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lotus-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F7F1FA"/></linearGradient></defs><rect width="120" height="120" rx="30" fill="url(#lotus-${id})"/><rect x=".5" y=".5" width="119" height="119" rx="29.5" fill="none" stroke="#fff" stroke-opacity=".8"/>${lotusMark()}</svg>`;
 
 const COLORS={lav:'#CBB7F7',rose:'#F5D3DC',peach:'#FFD6C2',mint:'#CDECCF',gold:'#E9D6A7',sky:'#CFE2F6',
   orchid:'#EBC9F0',coral:'#F6BDB0',sage:'#D6E6C3',aqua:'#C3E6E3',lemon:'#F6E7A8',sand:'#E6D8CC'};
