@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102220318">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102220318">
+<meta name="bloomly-version" content="20261102220718">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102220718">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -821,6 +821,14 @@ textarea.inp{min-height:92px;resize:vertical}
 .hmx-pi{width:46px;height:46px;border-radius:16px;font-size:22px}
 .hmx-per.over .hmx-st{color:var(--fin-out);font-weight:600}.hmx-per.soon .hmx-st{color:var(--gold-deep);font-weight:600}
 .hmx-per .chk.due{border-color:var(--fin-out)}
+.lv-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.lv-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:18px;background:var(--bg2);border:1.5px solid transparent}
+.lv-row b{font-size:14.5px;color:var(--ink)}.lv-row small{font-size:12px;color:var(--text2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.lv-e{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;font-size:21px;flex:none;background:var(--card)}
+.lv-st{font-size:12px;color:var(--text2);margin-top:2px}
+.lv-row.done .lv-st{color:var(--fin-in);font-weight:600}
+.lv-row.cur{background:var(--lav-soft);border-color:var(--lav)}.lv-row.cur .lv-st{color:var(--lav-deep);font-weight:600}
+.lv-row.later{opacity:.6}.lv-row.later .lv-e{filter:grayscale(.7)}
 .hm-head b{font-size:15px;color:inherit}.hm-head small{font-size:10.5px;font-style:italic;color:inherit;opacity:.72;margin-left:auto;text-align:right}
 .hm-badge{margin-left:auto;font-size:18px}.hm-head small+.hm-badge{margin-left:6px}
 .hm-grid{display:grid;grid-template-columns:minmax(0,1fr) repeat(7,20px);gap:3px;align-items:center;padding:0 12px}
@@ -1454,8 +1462,15 @@ const dropMsg=(n,d)=>n+(d>0?` · −${d} szirom`:"");
 function perfectDays(s=S){return Object.keys(s.log).filter(k=>dayRate(k,s)===1).length}
 function petals(s=S){return totalDone(s)*10+(s.pomo||[]).length*10+Object.keys(s.kind||{}).length*5+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
 /* A szintek szándékosan távol vannak egymástól: a felsőkhöz hónapokig tartó kitartás kell */
-const LEVELS=[[0,'Mag'],[400,'Csíra'],[1200,'Bimbó'],[2500,'Virágzó'],[4500,'Kert'],[7500,'Liget'],[12000,'Édenkert'],[18000,'Bloom Paradicsom']];
-function level(p=petals()){let i=0;LEVELS.forEach((l,j)=>{if(p>=l[0])i=j});const nx=LEVELS[i+1];return{i,name:LEVELS[i][1],from:LEVELS[i][0],to:nx?nx[0]:LEVELS[i][0],next:nx?nx[1]:null}}
+const LEVELS=[[0,'Mag','🌰'],[300,'Csíra','🌱'],[800,'Hajtás','🌿'],[1500,'Bimbó','🌷'],[2500,'Virágzó','🌸'],[3800,'Virágoskert','💐'],[5500,'Kert','🏡'],[7500,'Rózsakert','🌹'],[10000,'Liget','🌳'],[13000,'Virágmező','🌼'],[17000,'Édenkert','🌺'],[22000,'Varázskert','✨'],[28000,'Tündérkert','🧚'],[35000,'Királyi kert','👑'],[45000,'Bloom Paradicsom','🏵️']];
+/* Az összes szint egy listában: ami megvan, ahol most tartasz, és mennyi szirom kell a többihez */
+function lvSheetHTML(){const pt=petals(),lv=level(pt);
+  return`<h2>A Bloom Kert szintjei</h2><p class="muted">${pt.toLocaleString('hu-HU')} szirmod van · ${lv.i+1}. szint a ${LEVELS.length}-ből. Szirmot a pipált szokásokért, a hangulatért, a ráhangolódásért, a reflexióért, a fókuszidőért és a kedvességekért kapsz.</p>
+  <div class="lv-list">${LEVELS.map(([p,n,e],i)=>{const st=i<lv.i?'done':i===lv.i?'cur':'later',nx=LEVELS[i+1],pr=st==='cur'&&nx?Math.min(100,(pt-p)/(nx[0]-p)*100):0;
+   return`<div class="lv-row ${st}"><span class="lv-e">${e}</span><div class="grow" style="min-width:0"><div class="row" style="justify-content:space-between;gap:8px"><b>${i+1}. ${n}</b><small>${p.toLocaleString('hu-HU')} szirom</small></div>
+    ${st==='done'?`<div class="lv-st">✓ Elérve</div>`:st==='cur'?`<div class="lv-st">Itt tartasz${nx?` · még ${(nx[0]-pt).toLocaleString('hu-HU')} szirom a következőig`:''}</div>${nx?`<div class="bar" style="margin-top:6px"><i style="width:${pr}%"></i></div>`:''}`:`<div class="lv-st">Még ${(p-pt).toLocaleString('hu-HU')} szirom</div>`}</div></div>`}).join('')}</div>`}
+function lvSheetOpen(){openSheet(lvSheetHTML());setTimeout(()=>{const c=$('#sheet .lv-row.cur'),sh=$('#sheet');if(c&&sh)sh.scrollTop+=c.getBoundingClientRect().top-sh.getBoundingClientRect().top-sh.clientHeight/2+c.offsetHeight/2},520)}
+function level(p=petals()){let i=0;LEVELS.forEach((l,j)=>{if(p>=l[0])i=j});const nx=LEVELS[i+1];return{i,name:LEVELS[i][1],e:LEVELS[i][2],from:LEVELS[i][0],to:nx?nx[0]:LEVELS[i][0],next:nx?nx[1]:null}}
 function rangeRate(n){let a=0,b=0;for(let i=0;i<n;i++){const k=keyOf(addDays(now(),-i));const d=parseK(k);S.habits.forEach(h=>{if(isT(h)||!scheduledOn(h,d))return;b++;if(isDone(h,k))a++});trackerChecks(k).forEach(v=>{b++;if(v)a++})}return b?a/b:0}
 
 /* Ciklus */
@@ -1507,7 +1522,7 @@ function allBadges(s=S){
    {g:'Különleges',id:'vision10',n:'Álmodozó',d:'10 elem a Vision Boardon',tier:'peach',icon:'image',v:(s.vision||[]).length,goal:10},
    {g:'Különleges',id:'contacts5',n:'Szeretetháló',d:'5 fontos ember a kapcsolataid között',tier:'coral',icon:'heart',v:(s.contacts||[]).length,goal:5},
    {g:'Különleges',id:'therapy5',n:'Bátor szív',d:'5 terápiás jegyzet',tier:'lav',icon:'chat',v:((s.therapy||{}).sessions||[]).length,goal:5},
-   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (7500 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:7500,rare:true},
+   {g:'Különleges',id:'grove',n:'Ligetőr',d:'Liget szint a Bloom Kertben (10 000 szirom)',tier:'arany',icon:'sprout',v:petals(s),goal:10000,rare:true},
    {g:'Sorozatok',id:'b21',n:'Három hét',d:'21 napos sorozat',tier:'sky',icon:'leaf',v:L,goal:21},
    {g:'Sorozatok',id:'b180',n:'Fél év virágzás',d:'180 napos sorozat',tier:'orchid',icon:'sun',v:L,goal:180,rare:true},
    {g:'Szokások',id:'t10',n:'Tíz bimbó',d:'10 teljesített szokás',tier:'mint',icon:'sprout',v:T,goal:10},
@@ -1775,8 +1790,8 @@ habits(){
 garden(){
   const us=unlocks(),lv=level(),pt=petals(),got=us.filter(u=>u.got).length,T=totalDone();
   const mo=now().getMonth();const season=mo<2||mo===11?'Téli':mo<5?'Tavaszi':mo<8?'Nyári':'Őszi';
-  return`<div class="top">${backBtn()}<div class="grow"><div class="eyebrow">Bloom Kert</div><h1>${esc(S.name)} kertje</h1></div><button class="iconbtn" data-a="shareGarden" aria-label="Kert mentése képként">${ic('share',18)}</button><span class="rar l" style="font-size:11px;padding:6px 10px">${lv.name}</span></div>
-  <section class="card garden" style="padding:0;overflow:hidden">${gardenSVG(false)}<div style="padding:16px 18px"><div class="row"><div class="grow"><b style="color:var(--ink)">${pt.toLocaleString('hu-HU')} szirom</b><div class="muted">${lv.next?`Következő szint: ${lv.next} (${lv.to.toLocaleString('hu-HU')})`:'Legmagasabb szint'}</div></div></div><div class="bar" style="margin-top:10px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div></div></section>
+  return`<div class="top">${backBtn()}<div class="grow"><div class="eyebrow">Bloom Kert</div><h1>${esc(S.name)} kertje</h1></div><button class="iconbtn" data-a="shareGarden" aria-label="Kert mentése képként">${ic('share',18)}</button><button class="rar l" style="font-size:11px;padding:6px 10px" data-a="lvSheet" aria-label="Szintek megtekintése">${lv.name}</button></div>
+  <section class="card garden" style="padding:0;overflow:hidden">${gardenSVG(false)}<div style="padding:16px 18px"><div class="row"><div class="grow"><b style="color:var(--ink)">${pt.toLocaleString('hu-HU')} szirom</b><div class="muted">${lv.i+1}. szint a ${LEVELS.length}-ből · ${lv.e} ${lv.name}</div><div class="muted">${lv.next?`Következő: ${lv.next} · még ${(lv.to-pt).toLocaleString('hu-HU')} szirom`:'Elérted a legmagasabb szintet'}</div></div><button class="link" data-a="lvSheet">Szintek</button></div><div class="bar" style="margin-top:10px"><i style="width:${lv.next?Math.min(100,(pt-lv.from)/(lv.to-lv.from)*100):100}%"></i></div></div></section>
   <div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>${Math.min(T,80)}</b><small>virág nyílik</small></div><div class="kpi"><b>${got}/${us.length}</b><small>gyűjtemény</small></div><div class="kpi"><b>${curStreak()}</b><small>napos sorozat</small></div></div>
   <section class="insight">${ic('leaf')}<div><b>${season} szezon</b><br>${(()=>{const now_=us.filter(u=>u.c==='Szezonális'&&u.got).map(u=>u.n);return now_.length?`Most a kertedben: ${now_.join(', ')}. A szezonális elemek maguktól jelennek meg és tűnnek el, ahogy az évszakok változnak.`:'A szezonális elemek maguktól jelennek meg és tűnnek el, ahogy az évszakok változnak.'})()}</div></section>
   <div class="sec-h"><h2>Gyűjtemény</h2><span class="muted">${got} feloldva</span></div>
@@ -3625,6 +3640,7 @@ const HOME_A={
 function hmCheer(){const s=hmStats();if(s.todayTot&&s.today===s.todayTot){petalsFall(30);toast('Ma minden kész. Ragyog az otthonod! ✨')}else if(s.pct===100)toast('Az egész heti terv kész! 🏡')}
 Object.assign(A,HOME_A);
 Object.assign(SCREENS,{otthon:otthonView,otthonx:otthonX});
+A.lvSheet=lvSheetOpen;
 
 /* ───── Otthon · áttekintés: heti összesítő és időszakos (ritkább) feladatok ───── */
 const HM_EVERY=[[14,'2 hetente'],[30,'Havonta'],[60,'2 havonta'],[90,'Negyedévente'],[182,'Félévente'],[365,'Évente']];
