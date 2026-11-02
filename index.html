@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102211604">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102211604">
+<meta name="bloomly-version" content="20261102212153">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102212153">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -948,6 +948,10 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-cat span{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:var(--on-pastel)}
 .fin-cat small{font-size:10.5px;font-weight:600;color:var(--text);text-align:center;line-height:1.2;overflow-wrap:anywhere}
 .fin-cat.on{border-color:var(--lav-deep);background:var(--lav-soft)}
+.fin-cat.add span{background:var(--bg2);color:var(--lav-deep);border:1.5px dashed color-mix(in srgb,var(--lav-deep) 55%,transparent)}
+.fin-cat.add small{color:var(--lav-deep)}
+.fin-catman{display:block;margin:10px auto 0;font-size:13px}
+.fin-cat-prev{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;flex:none;color:var(--on-pastel)}
 .fin-goal .bar i{background:linear-gradient(90deg,var(--gc),color-mix(in srgb,var(--gc) 70%,var(--lav-deep)))}
 .fin-gp{font-family:var(--f-display);font-size:22px;font-weight:600;color:var(--ink)}
 .acard-new{border:1.5px dashed var(--line);background:transparent;box-shadow:none;--ac:var(--lav-soft)}
@@ -3225,7 +3229,11 @@ const FC_IN=[['salary','Fizetés','wallet','#CDECCF'],['side','Mellékes','star'
 const FCAT=Object.fromEntries([...FC_OUT,...FC_IN].map(([id,n,i,c])=>[id,{id,n,i,c}]));
 const PMS=['Kártya','Készpénz','Átutalás','SZÉP-kártya'];
 const GOAL_C=['#CFE2F6','#CDECCF','#F5D3DC','#CBB7F7','#F2E0B5','#FFD6C2'];
-function ensureFin(){const f=S.fin=S.fin||{};f.tx=f.tx||[];f.budget=f.budget||{total:0,cats:{}};f.budget.cats=f.budget.cats||{};f.rec=f.rec||[];f.goals=f.goals||[];return f}
+function ensureFin(){const f=S.fin=S.fin||{};f.tx=f.tx||[];f.budget=f.budget||{total:0,cats:{}};f.budget.cats=f.budget.cats||{};f.rec=f.rec||[];f.goals=f.goals||[];f.cats=f.cats||[];f.cats.forEach(c=>{FCAT[c.id]={id:c.id,n:c.n,i:c.i,c:c.c,own:1}});return f}
+/* Saját kategóriák: a beépítettek után jelennek meg, kiadásnál és bevételnél külön */
+const FC_ICONS=['cart','home','bolt','car','cup','apple','pill','heart','sparkle','shirt','music','repeat','gift','book','paw','globe','dumbbell','plant','receipt','wallet','coin','piggy','chart','star','phone','bike','bath','palette','flower','headphones'];
+const FC_COLS=['#CDECCF','#E9D6A7','#F2E0B5','#CFE2F6','#FFD6C2','#F5D3DC','#E6DDF7','#F1D7F2','#CFEAEC','#DCEFC9','#FADCD0','#E5E1EA'];
+function catList(t){const f=ensureFin();return[...(t==='in'?FC_IN:FC_OUT),...f.cats.filter(c=>c.t===t).map(c=>[c.id,c.n,c.i,c.c])]}
 const ft=n=>`${Math.round(n).toLocaleString('hu-HU')} Ft`;
 const ftS=n=>{const a=Math.abs(n);return a>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M':a>=1e4?Math.round(n/1e3)+' e':Math.round(n).toLocaleString('hu-HU')};
 /* Forintösszeg beolvasása: a szóköz, illetve a 3 számjegy előtti pont vagy vessző ezres tagolás (12 500, 12.500, 12,500);
@@ -3307,7 +3315,7 @@ function budRow(id,sp,lim){const c=FCAT[id],p=lim?sp/lim:0;
   return`<button class="habit" data-a="budSet" data-v="${id}" style="text-align:left;width:100%"><span class="tile" style="background:${c.c}">${ic(c.i)}</span><div class="grow" style="min-width:0"><div class="row" style="justify-content:space-between;gap:8px"><span class="name">${c.n}</span><span class="muted" style="white-space:nowrap">${lim?`${ftS(sp)} / ${ftS(lim)} Ft`:ft(sp)}</span></div>
    ${lim?`<div class="bar fin-bar ${p>=1?'over':p>=.85?'warn':''}" style="margin-top:8px"><i style="width:${Math.min(100,p*100)}%"></i></div><div class="muted" style="font-size:11.5px;margin-top:5px">${sp>lim?`${ft(sp-lim)} túllépés`:`${ft(lim-sp)} maradt`}</div>`:'<div class="muted" style="font-size:11.5px;margin-top:4px">Nincs keret · koppints a beállításhoz</div>'}</div></button>`}
 function finBud(){const mk=fmKey(0),m=monthSum(mk),b=S.fin.budget,bt=b.total,bp=bt?m.o/bt:0;
-  const ids=FC_OUT.map(x=>x[0]).filter(id=>b.cats[id]||m.by[id]),sumLim=Object.values(b.cats).reduce((a,x)=>a+(x||0),0);
+  const ids=catList('out').map(x=>x[0]).filter(id=>b.cats[id]||m.by[id]),sumLim=Object.values(b.cats).reduce((a,x)=>a+(x||0),0);
   const recOut=S.fin.rec.filter(r=>r.t==='out').reduce((a,r)=>a+r.amt,0),recIn=S.fin.rec.filter(r=>r.t==='in').reduce((a,r)=>a+r.amt,0);
   return`<p class="muted">${fmLabel(mk)} · a keretek minden hónapban újraindulnak.</p>
   <section class="card"><div class="row" style="gap:12px"><span class="tile sm" style="background:var(--lav-soft);color:var(--lav-deep)">${ic('wallet',18)}</span><div class="grow"><b style="color:var(--ink)">Teljes havi keret</b><div class="muted">${bt?`${ft(m.o)} elköltve`:'Még nincs beállítva'}</div></div><button class="btn ${bt?'ghost':''}" style="padding:9px 14px;font-size:13px" data-a="budSet" data-v="total">${bt?ft(bt):'Beállítás'}</button></div>
@@ -3332,19 +3340,49 @@ function finGoals(){const g=S.fin.goals,tot=g.reduce((a,x)=>a+x.saved,0),tg=g.re
 
 /* ───── Lapok: tétel, keret, rendszeres tétel, cél, befizetés ───── */
 let fd=null;
-const catGrid=(list,sel,act)=>`<div class="fin-cats">${list.map(([id,n,i,c])=>`<button class="fin-cat ${sel===id?'on':''}" data-a="${act}" data-k="cat" data-v="${id}" aria-pressed="${sel===id}"><span style="background:${c}">${ic(i,18)}</span><small>${n}</small></button>`).join('')}</div>`;
+const catGrid=(list,sel,act,t)=>`<div class="fin-cats">${list.map(([id,n,i,c])=>`<button class="fin-cat ${sel===id?'on':''}" data-a="${act}" data-k="cat" data-v="${id}" aria-pressed="${sel===id}"><span style="background:${c}">${ic(i,18)}</span><small>${esc(n)}</small></button>`).join('')}${t?`<button class="fin-cat add" data-a="fcNew" data-t="${t}"><span>${ic('plus',18)}</span><small>Új kategória</small></button>`:''}</div>${t&&S.fin.cats.some(c=>c.t===t)?`<button class="link fin-catman" data-a="fcManage" data-t="${t}">Saját kategóriáim szerkesztése</button>`:''}`;
 const amtIn=(id,v,cls)=>`<div class="fin-amtin ${cls||''}">${cls==='in'?'<span class="sg">+</span>':cls==='out'?'<span class="sg">−</span>':''}<input id="${id}" inputmode="numeric" autocomplete="off" placeholder="0" value="${v?Math.round(v).toLocaleString('hu-HU'):''}" aria-label="Összeg forintban"><span>Ft</span></div>`;
 function txSheet(){const t=fd;
   openSheet(`<h2>${t.id?'Tétel szerkesztése':t.t==='in'?'Új bevétel':'Új kiadás'}</h2>
   <div class="seg fin-seg" style="margin-top:14px">${[['out','Kiadás'],['in','Bevétel']].map(([k,n])=>`<button class="${k} ${t.t===k?'on':''}" data-a="txSet" data-k="t" data-v="${k}">${ic(k==='in'?'arrIn':'arrOut',16)} ${n}</button>`).join('')}</div>
   <p class="fin-hint">${t.t==='in'?'Bevétel: pénz, ami bejön, például fizetés, ajándék, visszatérítés.':'Kiadás: pénz, amit elköltesz, például bevásárlás, számlák, étterem.'}</p>
   ${amtIn('txa',t.amt,t.t)}
-  <div class="field"><span class="lbl">Kategória</span>${catGrid(t.t==='in'?FC_IN:FC_OUT,t.cat,'txSet')}</div>
+  <div class="field"><span class="lbl">Kategória</span>${catGrid(catList(t.t),t.cat,'txSet',t.t)}</div>
   <div class="field"><label for="txn">Megjegyzés</label><input class="inp" id="txn" maxlength="60" value="${esc(t.note||'')}" placeholder="${t.t==='in'?'pl. Novemberi fizetés':'pl. Heti bevásárlás'}"></div>
   <div class="field"><label for="txd">Dátum</label><input class="inp" type="date" id="txd" value="${t.date}"></div>
   ${t.t==='out'?`<div class="field"><span class="lbl">Fizetési mód</span><div class="chips wrapchips">${PMS.map(p=>`<button class="chip ${t.pm===p?'on':''}" data-a="txSet" data-k="pm" data-v="${p}">${p}</button>`).join('')}</div></div>`:''}
   <div class="btns">${t.id?`<button class="btn danger" data-a="delTx">Törlés</button>`:''}<button class="btn" data-a="saveTx">${t.id?'Mentés':'Rögzítés'}</button></div>`);
   if(!t.id&&!t.amt)setTimeout(()=>{const i=$('#txa');if(i)i.focus()},320)}
+/* Saját kategória felvétele, szerkesztése; a végén visszatér a tétel vagy rendszeres tétel lapjára */
+let fcd=null,fcBack=null;
+function fcFrom(){if($('#txa')){readTx();fcBack='tx'}else if($('#rca')){readRec();fcBack='rec'}}
+function fcReturn(){if(fcBack==='tx')txSheet();else if(fcBack==='rec')recSheet();else closeSheet()}
+function fcSheet(){const c=fcd,nm=$('#fcn');if(nm)c.n=nm.value;
+  openSheet(`<h2>${c.id?'Kategória szerkesztése':c.t==='in'?'Új bevételi kategória':'Új kiadási kategória'}</h2>
+  <div class="row" style="gap:12px;margin-top:14px"><span class="fin-cat-prev" style="background:${c.c}">${ic(c.i,22)}</span><b style="color:var(--ink);font-size:16px">${esc(c.n)||'A kategória neve'}</b></div>
+  <div class="field"><label for="fcn">Megnevezés</label><input class="inp" id="fcn" maxlength="24" value="${esc(c.n)}" placeholder="${c.t==='in'?'pl. Ösztöndíj, Albérlet bevétel':'pl. Kávé, Babaholmi, Autó'}"></div>
+  <div class="field"><span class="lbl">Ikon · ${FC_ICONS.length} közül</span><div class="icongrid">${FC_ICONS.map(i=>`<button class="${c.i===i?'on':''}" data-a="fcSet" data-k="i" data-v="${i}" aria-pressed="${c.i===i}" aria-label="${ICHU[i]||i} ikon">${ic(i)}</button>`).join('')}</div></div>
+  <div class="field"><span class="lbl">Szín</span><div class="swatches">${FC_COLS.map(x=>`<button class="${c.c===x?'on':''}" style="background:${x}" data-a="fcSet" data-k="c" data-v="${x}" aria-label="Szín" aria-pressed="${c.c===x}"></button>`).join('')}</div></div>
+  <div class="btns">${c.id?`<button class="btn danger" data-a="fcDel">Törlés</button>`:`<button class="btn ghost" data-a="fcCancel">Mégse</button>`}<button class="btn" data-a="fcSave">${c.id?'Mentés':'Hozzáadás'}</button></div>`);
+  if(!c.id&&!c.n)setTimeout(()=>{const i=$('#fcn');if(i)i.focus()},320)}
+function fcManageSheet(t){const own=S.fin.cats.filter(c=>c.t===t);
+  openSheet(`<h2>Saját ${t==='in'?'bevételi':'kiadási'} kategóriáim</h2><p class="muted">Koppints egy kategóriára a szerkesztéshez.</p>
+  <div class="habits" style="margin-top:12px">${own.map(c=>`<button class="habit" data-a="fcEdit" data-id="${c.id}" style="text-align:left;width:100%"><span class="tile" style="background:${c.c}">${ic(c.i)}</span><div class="grow"><div class="name">${esc(c.n)}</div><div class="meta"><span>${S.fin.tx.filter(x=>x.cat===c.id).length} tétel</span></div></div>${ic('next',18)}</button>`).join('')}</div>
+  <div class="btns"><button class="btn ghost" data-a="fcCancel">Vissza</button><button class="btn" data-a="fcNew" data-t="${t}">${ic('plus',16)} Új kategória</button></div>`)}
+Object.assign(A,{
+ fcNew(el){if(!$('#fcn')&&!$('#sheet .fin-catman-list'))fcFrom();fcd={t:el.dataset.t,n:'',i:FC_ICONS[S.fin.cats.length%FC_ICONS.length],c:FC_COLS[S.fin.cats.length%FC_COLS.length]};fcSheet()},
+ fcManage(el){fcFrom();fcManageSheet(el.dataset.t)},
+ fcEdit(el){const c=S.fin.cats.find(x=>x.id===el.dataset.id);if(!c)return;fcd={...c};fcSheet()},
+ fcSet(el){fcd[el.dataset.k]=el.dataset.v;fcSheet()},
+ fcCancel(){fcReturn()},
+ fcSave(){const n=($('#fcn')||{}).value.trim();if(!n){toast('Add meg a kategória nevét');$('#fcn').focus();return}fcd.n=n;
+  if([...catList(fcd.t)].some(([id,nm])=>id!==fcd.id&&nm.toLowerCase()===n.toLowerCase())){toast('Már van ilyen nevű kategória');return}
+  if(fcd.id){const c=S.fin.cats.find(x=>x.id===fcd.id);Object.assign(c,{n,i:fcd.i,c:fcd.c})}else{fcd.id='fc'+uid();S.fin.cats.push({id:fcd.id,t:fcd.t,n,i:fcd.i,c:fcd.c})}
+  ensureFin();if(fd&&fd.t===fcd.t&&fcBack)fd.cat=fcd.id;save();render(true);toast(`${n} kategória mentve`);fcReturn()},
+ fcDel(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}
+  const id=fcd.id,to=fcd.t==='in'?'otherin':'other',f=S.fin;f.tx.forEach(x=>{if(x.cat===id)x.cat=to});f.rec.forEach(x=>{if(x.cat===id)x.cat=to});delete f.budget.cats[id];
+  f.cats=f.cats.filter(x=>x.id!==id);delete FCAT[id];if(fd&&fd.cat===id)fd.cat=to;save();render(true);toast('Kategória törölve · a tételei az Egyébbe kerültek');fcReturn()}
+});
 function readTx(){const a=$('#txa'),n=$('#txn'),d=$('#txd');if(a)fd.amt=parseAmt(a.value);if(n)fd.note=n.value;if(d&&d.value)fd.date=d.value}
 function budSheet(k){const b=S.fin.budget,cur=k==='total'?b.total:(b.cats[k]||0),a=avg3(k==='total'?null:k);
   openSheet(`<h2>${k==='total'?'Teljes havi keret':`${FCAT[k].n} · havi keret`}</h2><p class="muted">${k==='total'?'Ennyit szeretnél legfeljebb elkölteni egy hónapban.':'Ennyit szeretnél legfeljebb erre a kategóriára költeni havonta.'}</p>
@@ -3358,7 +3396,7 @@ function recSheet(){const r=fd;
   <div class="field"><label for="rcn">Megnevezés</label><input class="inp" id="rcn" maxlength="40" value="${esc(r.name)}" placeholder="pl. Lakbér, Netflix, Telefon"></div>
   ${amtIn('rca',r.amt,r.t)}
   <div class="field"><label for="rcd">A hónap melyik napján szokott lenni (a rögzítés dátumához)</label><input class="inp" id="rcd" type="number" inputmode="numeric" min="1" max="31" value="${r.day}"></div>
-  <div class="field"><span class="lbl">Kategória</span>${catGrid(r.t==='in'?FC_IN:FC_OUT,r.cat,'recSet')}</div>
+  <div class="field"><span class="lbl">Kategória</span>${catGrid(catList(r.t),r.cat,'recSet',r.t)}</div>
   <div class="btns">${r.id?`<button class="btn danger" data-a="delRec">Törlés</button>`:''}<button class="btn" data-a="saveRec">Mentés</button></div>`)}
 function readRec(){const n=$('#rcn'),a=$('#rca'),d=$('#rcd');if(n)fd.name=n.value;if(a)fd.amt=parseAmt(a.value);if(d)fd.day=Math.max(1,Math.min(31,parseInt(d.value)||1))}
 function goalSheet(){const g=fd;
@@ -3411,7 +3449,7 @@ const FIN_A={
  budUse(el){const i=$('#bda');if(i)i.value=(+el.dataset.v).toLocaleString('hu-HU')},
  budSave(el){const k=el.dataset.v,v=parseAmt(($('#bda')||{}).value);if(!(v>0)){toast('Adj meg egy összeget');return}if(k==='total')S.fin.budget.total=v;else S.fin.budget.cats[k]=v;save();closeSheet();render(true);toast('Keret mentve')},
  budClear(el){const k=el.dataset.v;if(k==='total')S.fin.budget.total=0;else delete S.fin.budget.cats[k];save();closeSheet();render(true);toast('Keret törölve')},
- budAdd(){const free=FC_OUT.filter(([id])=>!S.fin.budget.cats[id]);openSheet(`<h2>Keret kategóriához</h2><p class="muted">Melyik kategória kiadásait szeretnéd figyelni?</p><div style="margin-top:14px">${catGrid(free,'','budPick')}</div>`)},
+ budAdd(){const free=catList('out').filter(([id])=>!S.fin.budget.cats[id]);openSheet(`<h2>Keret kategóriához</h2><p class="muted">Melyik kategória kiadásait szeretnéd figyelni?</p><div style="margin-top:14px">${catGrid(free,'','budPick')}</div>`)},
  budPick(el){budSheet(el.dataset.v)},
  addRec(){ensureFin();fd={name:'',amt:0,t:'out',cat:'bills',day:Math.min(28,now().getDate())};recSheet()},
  editRec(el){const r=S.fin.rec.find(x=>x.id===el.dataset.id);if(!r)return;fd=JSON.parse(JSON.stringify(r));recSheet()},
@@ -3444,6 +3482,7 @@ Object.assign(SCREENS,{money:moneyView});
 /* Keresés a tételek között: gépelés közben szűr, a fókusz és a kurzor megmarad */
 document.addEventListener('input',e=>{if(e.target.id!=='fq')return;S.ui.fq=e.target.value;const p=e.target.selectionStart;render(true);const i=$('#fq');if(i){i.focus();try{i.setSelectionRange(p,p)}catch(_){}}});
 /* Összeg mezők: ezres tagolás gépelés közben */
+document.addEventListener('input',e=>{if(e.target.id!=='fcn')return;const b=$('#sheet .fin-cat-prev+b');if(b)b.textContent=e.target.value.trim()||'A kategória neve'});
 document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest('.fin-amtin'))return;const v=parseAmt(t.value);const s=v?v.toLocaleString('hu-HU'):'';if(t.value!==s){t.value=s;try{t.setSelectionRange(s.length,s.length)}catch(_){}}});
 /* ───────── Otthon: takarítási terv (Profilom) ─────────
    Napi feladatok heti pipálótáblával, a hét napjaira szabott feladatok és heti haladás (a korábbi időbeosztás adatai megmaradnak, de nem jelennek meg).
