@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102163440">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102163440">
+<meta name="bloomly-version" content="20261102163807">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102163807">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -428,9 +428,10 @@ textarea.inp{min-height:92px;resize:vertical}
 .ob-count{font-size:12px;font-weight:600;color:var(--text2);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
 .ob-link{margin-top:14px;align-self:center}
 .ob-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
-.ob-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:4px}
+.ob-pills{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;gap:8px;margin-top:4px}
+.ob-pills span{justify-content:center}
 .ob-pills span{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-line);font-size:12.5px;font-weight:600;color:var(--ink);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:screenIn .7s var(--ease) backwards}
-.ob-pills span:nth-child(2){animation-delay:.12s}.ob-pills span:nth-child(3){animation-delay:.24s}
+.ob-pills span:nth-child(2){animation-delay:.12s}.ob-pills span:nth-child(3){animation-delay:.24s}.ob-pills span:nth-child(4){animation-delay:.36s}
 .ob-pills svg.i{color:var(--lav-deep)}
 .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .area{position:relative;padding:18px 12px 16px;border-radius:22px;background:var(--glass);border:1.5px solid var(--glass-line);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .35s var(--ease),border-color .3s,background .3s}
@@ -2330,7 +2331,7 @@ function renderOb(dir){
   const s=ob.step,N=12-OB_SKIP.length,pos=s+1-OB_SKIP.filter(x=>x<s).length;let b='',cta='Tovább',ok=true,skip=false,sec='';
   const H=(eb,t,l)=>`<div class="eyebrow">${eb}</div><h1>${t}</h1>${l?`<p class="lead">${l}</p>`:''}`;
   const freq=t=>freqLabel(t).toLowerCase();
-  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMSETTE</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomsette világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('cycle',14)} Ciklus</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
+  if(s===0){b=`<div class="ob-hero"><div class="logo-big">${LOTUS('ob')}</div><div class="brand-wm">BLOOMSETTE</div><div class="brand-tag"><i></i>Virágozz minden nap.<i></i></div><h1>Üdvözlünk a Bloomsette világában</h1><p class="lead">Egy nyugodt hely, ahol a kis szokásokból virágzó élet lesz. Két perc, és együtt megtervezzük a te utadat.</p><div class="ob-pills"><span>${ic('check',14)} Szokások</span><span>${ic('cycle',14)} Ciklus</span><span>${ic('wallet',14)} Pénzügyek</span><span>${ic('sprout',14)} Bloom Kert</span></div></div>`;cta='Kezdjük el'}
   if(s===1){ok=ob.areas.length>0;const card=(a,sm)=>{const on=ob.areas.includes(a.id);return`<button class="area ${sm?'sm':''} ${on?'on':''}" style="--ac:${a.c}" data-a="obArea" data-v="${a.id}" aria-pressed="${on}"${sm?` title="${AREAS.find(x=>x.id===a.p).n} szirom"`:''}><span class="tile">${ic(a.i,sm?18:20)}</span><b>${a.n}</b>${sm?'':`<small>${a.d}</small>`}<span class="tick">${ic('check',sm?11:13)}</span></button>`};
     b=H('Fókusz','Miben szeretnél fejlődni?','Válaszd ki azokat a területeket, amelyek most a legfontosabbak neked. Bármennyit választhatsz, és később is módosíthatod.')+`<div class="sec-h"><h2 style="font-size:16px">Életterületek</h2><span class="muted">${AREAS.filter(a=>ob.areas.includes(a.id)).length}/8</span></div><div class="area-grid">${AREAS.map(a=>card(a)).join('')}</div>`;cta=ok?`Tovább · ${ob.areas.length} terület`:'Válassz legalább egy területet'}
   if(s===2){const seenG=new Set(),opts=ALL_FOCUS.filter(a=>ob.areas.includes(a.id)).flatMap(a=>a.g.map(g=>({g,a}))).filter(o=>!seenG.has(o.g)&&seenG.add(o.g));ok=ob.goals.length>0;
