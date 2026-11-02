@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102205609">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102205609">
+<meta name="bloomly-version" content="20261102210009">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102210009">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2343,7 +2343,7 @@ const MOOD_REPLY=['Csodás! Vigyük tovább ezt a ragyogást.','Szép, kiegyens�
 /* A bemutatkozás sorrendje: bemutatkozás, rólad, mit tud az app, beállítások, első bejegyzések, összefoglaló.
    A számok a renderOb lépései; az Életvirág (4) kimarad. */
 const OB_ORDER=[0,9,1,5,2,3,6,8,7,10,11];
-function obStep(d){ob.step=OB_ORDER[Math.max(0,Math.min(OB_ORDER.length-1,OB_ORDER.indexOf(ob.step)+d))]}
+function obStep(d){ob.step=OB_ORDER[Math.max(0,Math.min(OB_ORDER.length-1,OB_ORDER.indexOf(ob.step)+d))];if(ob.step===10)ob.planted=false}
 let ob;
 function newOb(){ob={step:0,dir:1,areas:AREAS.map(a=>a.id),goals:[],picks:[],picksInit:false,life:Object.fromEntries(AREAS.map(a=>[a.id,5])),lfs:null,lfAnim:true,cycle:true,last:'',clen:28,mood:null,nm:true,ne:true,mt:'07:30',et:'21:00',theme:S.theme||'system',name:S.onboarded?S.name:'',flower:'lav',planted:false,sample:false}}
 const flowerArt=(type,col,size)=>`<svg viewBox="-17 -41 34 44" width="${size}" height="${size}" aria-hidden="true">${flower(0,0,1,type,col,0,false)}</svg>`;
@@ -2377,7 +2377,7 @@ function renderOb(dir){
   if(s===8){b=H('Értesítések','Kérsz kedves emlékeztetőket?','Naponta legfeljebb kettőt küldünk, pontosan a beállított időpontban, akkor is, ha a Bloomsette be van zárva. Soha nem sürgetünk, és bármikor kikapcsolhatod.')+`<div class="notif glass notif-demo"><span class="ap">${LOTUS('obn')}</span><div class="grow"><div class="row"><b class="grow" style="font-size:13px;color:var(--ink)">Bloomsette</b><span class="muted" style="font-size:11px">${ob.mt}</span></div><p style="font-size:13.5px;color:var(--ink)">Jó reggelt${ob.name?', '+esc(ob.name):''}! A kerted vár rád 🌸</p></div></div>
     <section class="card list">${[['nm','mt','Reggeli ráhangolódás','Hogy indul a napod?'],['ne','et','Esti reflexió','Mire vagy ma büszke?']].map(([k,tk,t,d])=>`<div class="li"><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div><input type="time" class="inp" id="ob-${tk}" value="${ob[tk]}" style="width:auto;padding:8px 10px" aria-label="${t} időpontja" ${ob[k]?'':'disabled'}><button class="switch ${ob[k]?'on':''}" data-a="obNotif" data-k="${k}" role="switch" aria-checked="${ob[k]}" aria-label="${t}"></button></div>`).join('')}</section>`;cta='Engedélyezem';sec='Most nem'}
   if(s===9){b=H('Személyre szabás','Tedd a magadévá','Hogyan szólíthatunk, és melyik hangulat illik hozzád?')+`<div class="field"><label for="obn">Keresztneved</label><input class="inp" id="obn" value="${esc(ob.name)}" placeholder="pl. Anna" maxlength="24" autocomplete="given-name"></div><div class="lbl" style="margin-top:18px">Téma</div>${themeCards(ob.theme,'obTheme')}`}
-  if(s===10){const f=OB_FLOWERS.find(x=>x.id===ob.flower);ok=ob.planted;b=H('Első virág','Ültesd el az első virágodat',ob.planted?'Gyönyörű. Ez a virág mindig a kerted közepén marad, emlékeztetőül arra, hogy itt kezdődött.':'Válassz egy virágot, majd tartsd lenyomva a gombot, amíg a mag a földbe kerül.')+`${ob.planted?'':`<div class="flower-pick">${OB_FLOWERS.map(x=>`<button class="fp ${ob.flower===x.id?'on':''}" data-a="obFlower" data-v="${x.id}" aria-pressed="${ob.flower===x.id}">${flowerArt(x.id,x.col,52)}${x.n}</button>`).join('')}</div><p class="muted fp-hint">${OB_FLOWERS.length} virág közül választhatsz · húzd oldalra a többiért</p>`}<div class="pot">${potArt(f,ob.planted)}</div>${ob.planted?`<div class="insight mood-reply">${ic('sparkle')}<p>Az első virágod kinyílt: <b>${f.n}</b></p></div>`:`<button class="plant-btn" id="plantBtn" aria-label="Tartsd lenyomva az ültetéshez, vagy nyomj Entert"><i></i><span>${ic('sprout',18)} Tartsd lenyomva az ültetéshez</span></button>`}`;cta=ok?'Tovább':'Előbb ültesd el a virágot'}
+  if(s===10){const f=OB_FLOWERS.find(x=>x.id===ob.flower);ok=ob.planted;b=H('Első virág','Ültesd el az első virágodat',ob.planted?'Gyönyörű. Ez a virág mindig a kerted közepén marad, emlékeztetőül arra, hogy itt kezdődött. Ha mást választasz, ültesd el újra.':'Válassz egy virágot, majd tartsd lenyomva a gombot, amíg a mag a földbe kerül.')+`<div class="flower-pick">${OB_FLOWERS.map(x=>`<button class="fp ${ob.flower===x.id?'on':''}" data-a="obFlower" data-v="${x.id}" aria-pressed="${ob.flower===x.id}">${flowerArt(x.id,x.col,52)}${x.n}</button>`).join('')}</div><p class="muted fp-hint">${OB_FLOWERS.length} virág közül választhatsz · húzd oldalra a többiért</p><div class="pot">${potArt(f,ob.planted)}</div>${ob.planted?`<div class="insight mood-reply">${ic('sparkle')}<p>Az első virágod kinyílt: <b>${f.n}</b></p></div>`:`<button class="plant-btn" id="plantBtn" aria-label="Tartsd lenyomva az ültetéshez, vagy nyomj Entert"><i></i><span>${ic('sprout',18)} Tartsd lenyomva az ültetéshez</span></button>`}`;cta=ok?'Tovább':'Előbb ültesd el a virágot'}
   if(s===11){const f=OB_FLOWERS.find(x=>x.id===ob.flower);b=`<div class="ob-hero"><div class="ob-final-flower">${flowerArt(f.id,f.col,120)}</div><h1>Kezdődhet a virágzás${ob.name.trim()?', '+esc(ob.name.trim()):''}</h1><p class="lead">Minden készen áll. Az első lépést már megtetted, a többit napról napra együtt visszük.</p></div>
     <div class="sum-grid"><div class="kpi"><b>${f.n}</b><small>első virágod</small></div><div class="kpi"><b>8</b><small>életterület vár rád</small></div><div class="kpi"><b>${(ob.nm?1:0)+(ob.ne?1:0)}</b><small>napi emlékeztető</small></div><div class="kpi"><b>${ob.cycle?"Be":"Ki"}</b><small>ciklus követése</small></div></div>
     <button class="opt ${ob.sample?'on':''}" data-a="obSample" role="switch" aria-checked="${ob.sample}"><span class="tile" style="background:var(--gold)">${ic('chart',18)}</span><div class="grow"><b>Bemutató előzmények</b><div class="muted">60 nap mintaadat, hogy azonnal lásd a statisztikákat</div></div><span class="switch ${ob.sample?'on':''}" aria-hidden="true"></span></button>`;cta='Belépés a kertembe'}
@@ -2499,7 +2499,7 @@ const A={
  obMood(el){ob.mood=+el.dataset.v;renderOb()},
  obNotif(el){readOb();ob[el.dataset.k]=!ob[el.dataset.k];renderOb()},
  obTheme(el){readOb();ob.theme=el.dataset.v;S.theme=ob.theme;applyTheme();renderOb()},
- obFlower(el){const p0=document.querySelector('.flower-pick'),sl=p0?p0.scrollLeft:0;ob.flower=el.dataset.v;renderOb();const p=document.querySelector('.flower-pick');if(p)p.scrollLeft=sl},
+ obFlower(el){const p0=document.querySelector('.flower-pick'),sl=p0?p0.scrollLeft:0;ob.flower=el.dataset.v;ob.planted=false;renderOb();const p=document.querySelector('.flower-pick');if(p)p.scrollLeft=sl},
  obSample(){ob.sample=!ob.sample;renderOb()},
  lfSel(el){const v=el.dataset.v;if($('#ob').innerHTML){ob.lfs=v;renderOb()}else{S.ui.lfs=v;render(true)}},
  lfSave(){S.life.hist=S.life.hist.filter(h=>h.date!==TODAY);S.life.hist.push({date:TODAY,scores:{...S.life.scores}});save();render(true);toast('Életvirág elmentve 🌸')}
