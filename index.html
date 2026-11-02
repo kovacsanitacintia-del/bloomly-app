@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102212352">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102212352">
+<meta name="bloomly-version" content="20261102212657">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102212657">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -918,7 +918,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-row .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin-day{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--text2);margin:6px 4px -4px}
 .fin-sum{display:flex;gap:14px;font-size:13px;font-weight:600;color:var(--text2);padding:0 4px}
-.fin-sum .in{color:var(--mint-deep)}
+.fin-sum .in{color:var(--fin-in)}.fin-sum .out{color:var(--fin-out)}
 .fin-search{position:relative}
 .fin-search>span{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text2);display:flex;pointer-events:none}
 .fin-search .inp{padding-left:44px}
@@ -2453,7 +2453,7 @@ const A={
   if(was)S.log[k]=S.log[k].filter(x=>x!==id);else{S.log[k].push(id);S.lastBloom=Date.now()}save();render(true);
   if(!was){const c=view.querySelector(`.habit[data-h="${id}"] .chk`);if(c){c.classList.add('burst')}const all=todays().filter(h=>!isT(h)).every(h=>isDone(h,k));
    if(all&&!before){setTimeout(()=>{petalsFall(40);toast('Minden mai szokásod kész. Virágzol! 🌸')},400)}else toast(['+10 szirom · új virág nyílt','Szép volt! +10 szirom','Egy lépéssel közelebb +10 szirom'][Math.floor(Math.random()*3)]);checkBadges()}},
- quick(){if(S.ui.tab==='money'&&!S.ui.sub){A.addTx();return}openSheet(`<h2>Gyors hozzáadás</h2><div class="opts" style="margin-top:14px">${[['plus','Új szokás','editHabit','lav'],['smile','Hangulat rögzítése','openCheckin','peach'],['moon','Esti reflexió','openReflect','sky'],['image','Vision Board elem','addVision','rose'],['wallet','Kiadás rögzítése','addTx','mint']].map(([i,n,a,c])=>`<button class="opt" data-a="${a}"><span class="tile" style="background:${COLORS[c]}">${ic(i,18)}</span><b>${n}</b></button>`).join('')}</div>`)},
+ quick(){if(S.ui.tab==='money'&&!S.ui.sub){const ty=S.ui.fv==='tx'&&['in','out'].includes(S.ui.ftp)?S.ui.ftp:'';A.addTx(ty?{dataset:{t:ty,lock:'1'}}:null);return}openSheet(`<h2>Gyors hozzáadás</h2><div class="opts" style="margin-top:14px">${[['plus','Új szokás','editHabit','lav'],['smile','Hangulat rögzítése','openCheckin','peach'],['moon','Esti reflexió','openReflect','sky'],['image','Vision Board elem','addVision','rose'],['wallet','Kiadás rögzítése','addTx','mint']].map(([i,n,a,c])=>`<button class="opt" data-a="${a}"><span class="tile" style="background:${COLORS[c]}">${ic(i,18)}</span><b>${n}</b></button>`).join('')}</div>`)},
  closeSheet(){closeSheet()},
  editHabit(el){const h=el.dataset.id&&S.habits.find(x=>x.id===el.dataset.id);draft=h?JSON.parse(JSON.stringify(h)):{name:'',icon:'lotus',color:'lav',cat:'Nyugalom',area:el.dataset.area||'soul',freq:'daily',days:[0,1,2,3,4,5,6],target:3,note:''};habitSheet()},
  tpl(el){const t=TEMPLATES.find(x=>x.name===el.dataset.n);draft={...draft,...JSON.parse(JSON.stringify(t)),days:t.days||[0,1,2,3,4,5,6],target:t.target||3};habitSheet()},
@@ -3311,7 +3311,7 @@ function finTx(){const mk=fmKey(S.ui.fm||0),q=(S.ui.fq||'').trim().toLowerCase()
   return`${fmNav()}
   <div class="fin-search"><span>${ic('search',18)}</span><input class="inp" id="fq" type="search" placeholder="Keresés: megjegyzés, kategória, fizetési mód" value="${esc(S.ui.fq||'')}" aria-label="Keresés a tételek között"></div>
   <div class="chips">${[['all','Mind'],['out','Kiadások'],['in','Bevételek']].map(([k,n])=>`<button class="chip ${ty===k?'on':''}" data-a="ftp" data-v="${k}">${n}</button>`).join('')}${fc?`<button class="chip on" data-a="fcClear" aria-label="Kategóriaszűrő törlése">${(FCAT[fc]||FCAT.other).n} ✕</button>`:''}</div>
-  <div class="fin-sum"><span>${l.length} tétel</span><span class="in">+${ft(si)}</span><span>−${ft(so)}</span></div>
+  <div class="fin-sum"><span>${l.length} tétel</span>${ty!=='out'?`<span class="in">+${ft(si)}</span>`:''}${ty!=='in'?`<span class="out">−${ft(so)}</span>`:''}</div>
   ${l.length?Object.entries(days).map(([k,ts])=>{const net=ts.reduce((a,t)=>a+(t.t==='in'?t.amt:-t.amt),0);return`<div class="fin-day"><span>${k===TODAY?'Ma':fmt(k,{month:'long',day:'numeric',weekday:'long'})}</span><span>${net>=0?'+':'−'}${ft(Math.abs(net))}</span></div><div class="habits">${ts.map(txRow).join('')}</div>`}).join('')
    :`<div class="card empty-note">${q||fc||ty!=='all'?'Nincs a szűrésnek megfelelő tétel.':'Ebben a hónapban még nincs tétel. A + gombbal rögzítheted az elsőt.'}</div>`}`}
 
@@ -3348,7 +3348,7 @@ const catGrid=(list,sel,act,t)=>`<div class="fin-cats">${list.map(([id,n,i,c])=>
 const amtIn=(id,v,cls)=>`<div class="fin-amtin ${cls||''}">${cls==='in'?'<span class="sg">+</span>':cls==='out'?'<span class="sg">−</span>':''}<input id="${id}" inputmode="numeric" autocomplete="off" placeholder="0" value="${v?Math.round(v).toLocaleString('hu-HU'):''}" aria-label="Összeg forintban"><span>Ft</span></div>`;
 function txSheet(){const t=fd;
   openSheet(`<h2>${t.id?'Tétel szerkesztése':t.t==='in'?'Új bevétel':'Új kiadás'}</h2>
-  <div class="seg fin-seg" style="margin-top:14px">${[['out','Kiadás'],['in','Bevétel']].map(([k,n])=>`<button class="${k} ${t.t===k?'on':''}" data-a="txSet" data-k="t" data-v="${k}">${ic(k==='in'?'arrIn':'arrOut',16)} ${n}</button>`).join('')}</div>
+  ${t.lock?'':`<div class="seg fin-seg" style="margin-top:14px">${[['out','Kiadás'],['in','Bevétel']].map(([k,n])=>`<button class="${k} ${t.t===k?'on':''}" data-a="txSet" data-k="t" data-v="${k}">${ic(k==='in'?'arrIn':'arrOut',16)} ${n}</button>`).join('')}</div>`}
   <p class="fin-hint">${t.t==='in'?'Bevétel: pénz, ami bejön, például fizetés, ajándék, visszatérítés.':'Kiadás: pénz, amit elköltesz, például bevásárlás, számlák, étterem.'}</p>
   ${amtIn('txa',t.amt,t.t)}
   <div class="field"><span class="lbl">Kategória</span>${catGrid(catList(t.t),t.cat,'txSet',t.t)}</div>
@@ -3444,11 +3444,11 @@ const FIN_A={
   const ex=[...PMS,...S.fin.pms].find(p=>p.toLowerCase()===v.toLowerCase());if(!ex){S.fin.pms.push(v);save()}fd.pm=ex||v;delete fd.pmAdd;txSheet();toast(ex?'Ez a fizetési mód már megvan, kiválasztottam':`${v} hozzáadva`)},
  pmDel(el){readTx();const v=el.dataset.v;S.fin.pms=S.fin.pms.filter(p=>p!==v);if(fd.pm===v)fd.pm='Kártya';save();txSheet();toast(`${v} törölve a fizetési módok közül`)},
  fioGo(el){S.ui.ftp=el.dataset.v;S.ui.fc='';S.ui.fv='tx';render()},
- addTx(el){ensureFin();closeSheet();const off=S.ui.fm||0,ty=el&&el.dataset&&el.dataset.t==='in'?'in':'out';fd={t:ty,amt:0,cat:ty==='in'?'salary':'food',note:'',pm:'Kártya',date:off===0?TODAY:`${fmKey(off)}-${String(fmDim(fmKey(off))).padStart(2,'0')}`};txSheet()},
+ addTx(el){ensureFin();closeSheet();const off=S.ui.fm||0,ty=el&&el.dataset&&el.dataset.t==='in'?'in':'out';fd={t:ty,lock:!!(el&&el.dataset&&el.dataset.lock),amt:0,cat:ty==='in'?'salary':'food',note:'',pm:'Kártya',date:off===0?TODAY:`${fmKey(off)}-${String(fmDim(fmKey(off))).padStart(2,'0')}`};txSheet()},
  editTx(el){const t=S.fin.tx.find(x=>x.id===el.dataset.id);if(!t)return;fd=JSON.parse(JSON.stringify(t));txSheet()},
  txSet(el){readTx();const k=el.dataset.k,v=el.dataset.v;if(k==='t'){if(fd.t===v)return;fd.t=v;fd.cat=v==='in'?'salary':'food'}else fd[k]=v;txSheet()},
  saveTx(){readTx();if(!(fd.amt>0)){toast('Add meg az összeget');$('#txa')&&$('#txa').focus();return}
-  if(!FCAT[fd.cat])fd.cat=fd.t==='in'?'otherin':'other';delete fd.pmAdd;fd.note=(fd.note||'').trim();if(fd.t==='in')fd.pm='';
+  if(!FCAT[fd.cat])fd.cat=fd.t==='in'?'otherin':'other';delete fd.pmAdd;delete fd.lock;fd.note=(fd.note||'').trim();if(fd.t==='in')fd.pm='';
   if(fd.id){const i=S.fin.tx.findIndex(x=>x.id===fd.id);S.fin.tx[i]=fd}else S.fin.tx.push({...fd,id:uid(),ts:Date.now()});
   save();closeSheet();render(true);toast(fd.id?'Tétel mentve':fd.t==='in'?`Bevétel rögzítve · +${ft(fd.amt)}`:`Kiadás rögzítve · −${ft(fd.amt)}`);finWarn(fd)},
  delTx(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.fin.tx=S.fin.tx.filter(x=>x.id!==fd.id);
