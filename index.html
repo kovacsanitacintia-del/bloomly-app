@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102192855">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102192855">
+<meta name="bloomly-version" content="20261102194820">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102194820">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1393,7 +1393,11 @@ const active=(k,s=S)=>(s.log[k]||[]).length>0||trackerDone(k,s);
 function curStreak(s=S){let d=now();if(!active(keyOf(d),s))d=addDays(d,-1);let c=0,g=0;while(g++<3650){const k=keyOf(d);if(active(k,s))c++;else if(!isPaused(k))break;d=addDays(d,-1)}return c}
 function longestStreak(s=S){const ks=[...new Set([...Object.keys(s.log).filter(k=>s.log[k].length),...Object.keys(s.moods||{}),...Object.keys(s.sleep||{}),...(s.med||[]).map(x=>x.date),...Object.keys((s.fitness||{}).log||{}).filter(k=>s.fitness.log[k].done),...Object.keys((s.skin||{}).log||{}).filter(k=>{const e=s.skin.log[k];return e.am.length||e.pm.length})])].filter(k=>k<=TODAY).sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&(dayDiff(k,prev)===1||pausedGap(prev,k))?run+1:1;best=Math.max(best,run);prev=k});return best}
 function habitStreak(h){let d=now();if(!isDone(h,keyOf(d)))d=addDays(d,-1);let c=0,guard=0;while(guard++<400){if(!scheduledOn(h,d)||isT(h)){d=addDays(d,-1);if(isT(h))break;continue}if(isDone(h,keyOf(d))){c++;d=addDays(d,-1)}else break}return c}
-function totalDone(s=S){return Object.values(s.log).reduce((a,v)=>a+v.length,0)}
+/* Csak a meglévő szokások pipái számítanak: egy törölt szokás szirmai is eltűnnek */
+function totalDone(s=S){const ids=new Set(s.habits.map(h=>h.id));return Object.values(s.log).reduce((a,v)=>a+v.filter(id=>ids.has(id)).length,0)}
+/* Szokás végleges törlése a naplóbejegyzéseivel együtt; visszaadja, hány szirom tűnt el */
+function dropHabit(id){const p0=petals();S.habits=S.habits.filter(x=>x.id!==id);for(const k in S.log){S.log[k]=S.log[k].filter(x=>x!==id);if(!S.log[k].length)delete S.log[k]}return p0-petals()}
+const dropMsg=(n,d)=>n+(d>0?` · −${d} szirom`:"");
 function perfectDays(s=S){return Object.keys(s.log).filter(k=>dayRate(k,s)===1).length}
 function petals(s=S){return totalDone(s)*10+(s.pomo||[]).length*10+Object.keys(s.kind||{}).length*5+Object.keys(s.checkins).length*15+Object.keys(s.reflections).length*15+Object.keys(s.moods).length*5}
 const LEVELS=[[0,'Mag'],[200,'Csíra'],[600,'Bimbó'],[1200,'Virágzó'],[2000,'Kert'],[3200,'Liget'],[5000,'Édenkert'],[8000,'Bloom Paradicsom']];
@@ -2417,7 +2421,7 @@ const A={
  htarget(el){syncDraft();draft.target=Math.max(1,Math.min(periodMax(draft.freq),draft.target+ +el.dataset.v));habitSheet()},
  saveHabit(){syncDraft();delete draft.newCat;draft.area=areaOf(draft);if(!draft.name.trim()){$('#hn').focus();toast('Adj nevet a szokásnak');return}toMyLib(draft);
   if(draft.id){const i=S.habits.findIndex(x=>x.id===draft.id);S.habits[i]=draft}else{S.habits.push({...draft,id:uid(),created:TODAY})}save();closeSheet();render(true);toast(draft.id?'Szokás frissítve':'Új szokás elültetve 🌱')},
- delHabit(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.habits=S.habits.filter(x=>x.id!==draft.id);save();closeSheet();render(true);toast('Szokás törölve')},
+ delHabit(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}const d=dropHabit(draft.id);save();closeSheet();render(true);toast(dropMsg('Szokás törölve',d))},
  habitDetail(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;let heat='';const st=addDays(now(),-(7*12-1)-wd(addDays(now(),-(7*12-1))));let a=0,b=0;
   for(let d=new Date(st);d<=now();d=addDays(d,1)){const k=keyOf(d),sc=scheduledOn(h,d),dn=isDone(h,k);if(sc&&!isT(h)){b++;if(dn)a++}heat+=`<i class="${dn?'l3':''}" style="${dn?`background:${COLORS[h.color]}`:''}"></i>`}
   const last=Object.keys(S.log).filter(k=>S.log[k].includes(h.id)).sort().reverse().slice(0,5);
@@ -3489,7 +3493,7 @@ document.addEventListener('pointerup',swEnd);document.addEventListener('pointerc
 /* Húzás után (vagy nyitott sorra koppintva) ne fusson le a sor gombja */
 document.addEventListener('click',e=>{if(Date.now()-swBlock<400&&e.target.closest('.swipe>.habit')){swBlock=0;e.preventDefault();e.stopPropagation()}},true);
 A.swDel=el=>{const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;const box=el.closest('.swipe');box.style.transition='opacity .25s,transform .25s';box.style.opacity='0';box.style.transform='translateX(-30px)';
-  setTimeout(()=>{S.habits=S.habits.filter(x=>x.id!==h.id);save();render(true);toast(`„${h.name}” törölve`)},230)};
+  setTimeout(()=>{const d=dropHabit(h.id);save();render(true);toast(dropMsg(`„${h.name}” törölve`,d))},230)};
 
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const fn=A[el.dataset.a];if(fn){if(el.dataset.a!=='closeModal')e.stopPropagation();fn(el,e)}});
 document.addEventListener('change',e=>{const id=e.target.id;if(id==='fzw'||id==='fzb')fzPut(id.slice(2),e.target.value)});
