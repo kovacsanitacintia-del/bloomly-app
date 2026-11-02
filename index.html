@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102213112">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102213112">
+<meta name="bloomly-version" content="20261102213716">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102213716">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -888,7 +888,13 @@ textarea.inp{min-height:92px;resize:vertical}
 .fin-hero>b{display:block;font-family:var(--f-display);font-size:40px;font-weight:600;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .fin-hero>b.neg{color:#C2607F}
 .fin-io{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.fin-io>div{background:color-mix(in srgb,var(--card) 72%,transparent);border-radius:16px;padding:10px 12px;min-width:0}
+.fin-io>div{background:color-mix(in srgb,var(--card) 78%,transparent);border-radius:16px;padding:10px 12px;min-width:0;border:1.5px solid transparent}
+.fin-io>div.in{border-color:color-mix(in srgb,var(--fin-in) 35%,transparent)}.fin-io>div.out{border-color:color-mix(in srgb,var(--fin-out) 35%,transparent)}
+.fin-io>div.in b{color:var(--fin-in)}.fin-io>div.out b{color:var(--fin-out)}
+.fin-per{margin-bottom:-4px}
+.fin-legr{display:flex;align-items:center;gap:12px}
+.fin-ym .li{width:100%;text-align:left;gap:10px}.fin-ym .li b{display:block;color:var(--ink);font-size:14.5px;text-transform:capitalize}.fin-ym .li small{display:block;font-size:12px;color:var(--text2);margin-top:2px}
+.fin-ymb{font-family:var(--f-display);font-weight:600;font-size:15px;white-space:nowrap;color:var(--text2)}.fin-ymb.pos{color:var(--fin-in)}.fin-ymb.neg{color:var(--fin-out)}
 .fin-io small{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text2)}
 .fin-io b{display:block;font-family:var(--f-display);font-size:17px;font-weight:600;margin-top:3px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fin-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
@@ -3261,7 +3267,7 @@ function donut(parts,total,center,sub){const R=70,C=2*Math.PI*R;let acc=0;
   return`<svg viewBox="0 0 180 180" class="fin-donut" role="img" aria-label="Kiadások kategóriánként"><circle cx="90" cy="90" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="22"/>${segs}<text x="90" y="88" text-anchor="middle" class="dn-v">${center}</text><text x="90" y="108" text-anchor="middle" class="dn-s">${sub}</text></svg>`}
 function ioBars(six){const W=320,H=150,P=20,step=(W-P*2)/six.length,bw=Math.min(13,step*.28),mx=Math.max(1,...six.map(x=>Math.max(x.i,x.o)));
   return`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bevételek és kiadások havonta">${[0,.5,1].map(t=>`<line x1="${P}" x2="${W-P}" y1="${H-P-t*(H-P*2)}" y2="${H-P-t*(H-P*2)}" style="stroke:var(--line)"/>`).join('')}${six.map((s,i)=>{const x=P+i*step+step/2,hi=s.i?Math.max(3,s.i/mx*(H-P*2)):0,ho=s.o?Math.max(3,s.o/mx*(H-P*2)):0;
-   return`<g class="barr" data-a="barTip" data-t="${fmLabel(s.k)}: +${ft(s.i)} / −${ft(s.o)}"><rect x="${x-bw-1.5}" y="${H-P-(H-P*2)}" width="${bw*2+3}" height="${H-P*2}" fill="transparent"/><rect x="${x-bw-1.5}" y="${H-P-hi}" width="${bw}" height="${hi}" rx="4" fill="#9FD0A5"/><rect x="${x+1.5}" y="${H-P-ho}" width="${bw}" height="${ho}" rx="4" fill="#B9A3EE"/><text x="${x}" y="${H-5}" text-anchor="middle">${fmt(s.k+'-01',{month:'short'}).replace('.','')}</text></g>`}).join('')}</svg>`}
+   return`<g class="barr" data-a="barTip" data-t="${fmLabel(s.k)}: +${ft(s.i)} / −${ft(s.o)}"><rect x="${x-bw-1.5}" y="${H-P-(H-P*2)}" width="${bw*2+3}" height="${H-P*2}" fill="transparent"/><rect x="${x-bw-1.5}" y="${H-P-hi}" width="${bw}" height="${hi}" rx="4" fill="#9FD0A5"/><rect x="${x+1.5}" y="${H-P-ho}" width="${bw}" height="${ho}" rx="4" fill="#B9A3EE"/><text x="${x}" y="${H-5}" text-anchor="middle">${six.length>6?fmt(s.k+'-01',{month:'narrow'}):fmt(s.k+'-01',{month:'short'}).replace('.','')}</text></g>`}).join('')}</svg>`}
 function txRow(t){const c=FCAT[t.cat]||FCAT.other;
   return`<button class="habit fin-row" data-a="editTx" data-id="${t.id}" style="text-align:left;width:100%"><span class="tile" style="background:${c.c}">${ic(c.i)}</span><div class="grow"><div class="name">${esc(t.note||c.n)}</div><div class="meta"><span>${t.note?c.n:fmt(t.date,{month:'short',day:'numeric'})}</span>${t.pm?`<span>· ${t.pm}</span>`:''}${t.rec?'<span>· rendszeres</span>':''}</div></div><b class="fin-amt ${t.t}">${t.t==='in'?'+':'−'}${ft(t.amt)}</b></button>`}
 
@@ -3270,7 +3276,33 @@ function moneyView(){ensureFin();const v=S.ui.fv||'ov';
   <div class="seg">${[['ov','Áttekintés'],['tx','Tételek'],['bud','Keretek'],['goal','Célok']].map(([k,n])=>`<button class="${v===k?'on':''}" data-a="fv" data-v="${k}">${n}</button>`).join('')}</div>
   ${v==='tx'?finTx():v==='bud'?finBud():v==='goal'?finGoals():finOv()}`}
 
-function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(fmKey(off-1)),bal=m.i-m.o,cur=off===0,D=fmDim(mk),el=cur?now().getDate():D;
+/* Éves összesítő: egy naptári év bevételei, kiadásai, kategóriái és hónapjai */
+function yearSum(y){let i=0,o=0,n=0;const by={},ms=[...Array(12)].map((_,x)=>{const k=`${y}-${String(x+1).padStart(2,'0')}`,m=monthSum(k);i+=m.i;o+=m.o;n+=m.n;for(const c in m.by)by[c]=(by[c]||0)+m.by[c];return{k,i:m.i,o:m.o,n:m.n}});return{ms,i,o,n,by}}
+const finPer=()=>`<div class="seg fin-per">${[['m','Havi'],['y','Éves']].map(([k,n])=>`<button class="${(S.ui.fper||'m')===k?'on':''}" data-a="fper" data-v="${k}">${n}</button>`).join('')}</div>`;
+function finYear(){const yo=S.ui.fyo||0,y=now().getFullYear()+yo,cur=yo===0,Y=yearSum(y),P=yearSum(y-1),bal=Y.i-Y.o,mc=cur?now().getMonth()+1:12;
+  const f0=Math.max(0,Y.ms.findIndex(m=>m.n)),span=Math.max(1,mc-f0),d0=new Date(y,f0,1),days=Math.max(1,Math.ceil(((cur?now():new Date(y+1,0,1))-d0)/864e5)),avgO=Y.o/span,avgI=Y.i/span,dlt=P.o?Math.round((Y.o-P.o)/P.o*100):null;
+  const cats=Object.entries(Y.by).sort((a,b)=>b[1]-a[1]).map(([id,v])=>({...(FCAT[id]||FCAT.other),v}));
+  const act=Y.ms.filter(m=>m.n),hi=act.filter(m=>m.o).sort((a,b)=>b.o-a.o)[0],lo=act.filter(m=>m.o).sort((a,b)=>a.o-b.o)[0],best=act.slice().sort((a,b)=>(b.i-b.o)-(a.i-a.o))[0];
+  const bt=S.fin.budget.total,bm=bt?act.filter(m=>m.o):[],under=bm.filter(m=>m.o<=bt).length;
+  const mn=k=>fmt(k+'-01',{month:'long'}),inM=k=>mn(k)+(/ber$/.test(mn(k))?'ben':'ban'),ins=[];
+  if(hi&&lo&&hi!==lo)ins.push(['chart',`A legtöbbet <b>${inM(hi.k)}</b> költötted (${ft(hi.o)}), a legkevesebbet <b>${inM(lo.k)}</b> (${ft(lo.o)}).`]);
+  if(best&&best.i-best.o>0)ins.push(['sparkle',`A legjobb hónapod <b>${mn(best.k)}</b> volt: ${ft(best.i-best.o)} maradt meg.`]);
+  if(cats[0])ins.push(['target',`Az év legnagyobb kiadási kategóriája: <b>${cats[0].n.toLowerCase()}</b>, ${ft(cats[0].v)} (${Math.round(cats[0].v/Y.o*100)}%).`]);
+  if(bm.length)ins.push(['shield',`${bm.length} hónapból <b>${under} hónap</b> maradt a havi költségkereten belül.`]);
+  const offOf=k=>{const [yy,mm]=k.split('-').map(Number),d=now();return(yy-d.getFullYear())*12+(mm-1-d.getMonth())};
+  return`${finPer()}<div class="fin-month"><button class="iconbtn" data-a="fyGo" data-v="-1" aria-label="Előző év">${ic('back',18)}</button><b>${y}</b><button class="iconbtn" data-a="fyGo" data-v="1" aria-label="Következő év" ${cur?'disabled':''}>${ic('next',18)}</button></div>
+  <section class="fin-hero"><small>Éves egyenleg · ${cur?'idén eddig':y}</small><b class="${bal<0?'neg':''}">${bal>0?'+':bal<0?'−':''}${ft(Math.abs(bal))}</b><div class="fin-eq">bevétel mínusz kiadás</div>
+   <div class="fin-io"><div class="in"><small><span class="fio-ic">${ic('arrIn',14)}</span>Bevétel</small><b>+${ft(Y.i)}</b><em>havi átlag ${ftS(avgI)} Ft</em></div><div class="out"><small><span class="fio-ic">${ic('arrOut',14)}</span>Kiadás</small><b>−${ft(Y.o)}</b><em>havi átlag ${ftS(avgO)} Ft</em></div></div>
+   ${Y.i?`<div class="fin-rate">Éves megtakarítási ráta: <b>${Math.max(0,Math.round(bal/Y.i*100))}%</b></div>`:''}</section>
+  <div class="kpis"><div class="kpi"><b>${ftS(avgO)} Ft</b><small>havi átlagos kiadás</small></div><div class="kpi"><b>${ftS(Y.o/days)} Ft</b><small>napi átlagos kiadás</small></div>
+   <div class="kpi"><b>${dlt==null?'–':(dlt>0?'+':'')+dlt+'%'}</b><small>kiadás az előző évhez képest</small></div><div class="kpi"><b>${Y.n}</b><small>tétel ebben az évben</small></div></div>
+  <section class="card chart"><div class="row" style="justify-content:space-between"><b style="color:var(--ink)">Hónapról hónapra</b><div class="fin-key"><span><i class="fin-dot in"></i>Bevétel</span><span><i class="fin-dot out"></i>Kiadás</span></div></div>${ioBars(Y.ms)}<div class="muted" id="barInfo" style="text-align:center;font-size:12.5px;min-height:18px">Koppints egy hónapra a részletekért</div></section>
+  ${ins.map(([i,t])=>`<div class="insight">${ic(i)}<p>${t}</p></div>`).join('')}
+  <div class="sec-h"><h2>Kiadások kategóriánként</h2></div>
+  ${cats.length?`<section class="card">${donut(cats,Y.o,ftS(Y.o),'Ft kiadás')}<div class="fin-leg">${cats.map(c=>`<div class="fin-legr"><span class="sw" style="background:${c.c}">${ic(c.i,17)}</span><div class="grow" style="min-width:0"><div class="nm">${esc(c.n)}</div><div class="bb"><i style="width:${c.v/cats[0].v*100}%;background:${c.c}"></i></div></div><div class="vv">${ft(c.v)}<small>${Math.round(c.v/Y.o*100)}%</small></div></div>`).join('')}</div></section>`:`<div class="card empty-note">Ebben az évben még nincs rögzített kiadás.</div>`}
+  <div class="sec-h"><h2>Hónapok</h2></div>
+  <section class="card list fin-ym">${Y.ms.filter((m,x)=>x>=f0&&(!cur||x<mc)).slice().reverse().map(m=>{const b=m.i-m.o;return`<button class="li" data-a="fyMonth" data-v="${offOf(m.k)}"><span class="grow"><b>${fmt(m.k+'-01',{month:'long'})}</b><small>${m.n?`+${ft(m.i)} · −${ft(m.o)}`:'Nincs tétel'}</small></span><span class="fin-ymb ${b<0?'neg':b>0?'pos':''}">${m.n?`${b>0?'+':b<0?'−':''}${ft(Math.abs(b))}`:'–'}</span>${ic('next',16)}</button>`}).join('')}</section>`}
+function finOv(){if(S.ui.fper==='y')return finYear();const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(fmKey(off-1)),bal=m.i-m.o,cur=off===0,D=fmDim(mk),el=cur?now().getDate():D;
   const avg=el?m.o/el:0,proj=cur?Math.round(avg*D):m.o,bt=S.fin.budget.total,left=bt-m.o,dl=cur?D-el+1:0,bp=bt?m.o/bt:0;
   const cats=Object.entries(m.by).sort((a,b)=>b[1]-a[1]).map(([id,v])=>({...(FCAT[id]||FCAT.other),v})),top=cats[0];
   const six=[...Array(6)].map((_,i)=>{const k=fmKey(off-5+i),s=monthSum(k);return{k,i:s.i,o:s.o}});
@@ -3285,7 +3317,7 @@ function finOv(){const off=S.ui.fm||0,mk=fmKey(off),m=monthSum(mk),pm=monthSum(f
   const over=Object.entries(S.fin.budget.cats).filter(([id,l])=>l&&(m.by[id]||0)>l).map(([id])=>FCAT[id].n.toLowerCase());
   if(over.length)ins.push(['shield',`Túllépett keret: <b>${over.join(', ')}</b>.`]);
   if(m.i&&m.o&&(!cur||el>=20)&&bal>0&&bal/m.i>=.2)ins.push(['sparkle',`Szép! A bevételed <b>${Math.round(bal/m.i*100)}%-át</b> megtakarítottad ebben a hónapban.`]);
-  return`${fmNav()}
+  return`${finPer()}${fmNav()}
   <section class="fin-hero"><small>Egyenleg · ${cur?'ebben a hónapban':fmt(mk+'-01',{month:'long'})}</small><b class="${bal<0?'neg':''}">${bal>0?'+':bal<0?'−':''}${ft(Math.abs(bal))}</b><div class="fin-eq">bevétel mínusz kiadás</div>
    <div class="fin-io"><button class="in" data-a="fioGo" data-v="in" aria-label="Bevételek listája"><small><span class="fio-ic">${ic('arrIn',14)}</span>Bevétel</small><b>+${ft(m.i)}</b><em>${nIn} tétel · ami bejött</em></button><button class="out" data-a="fioGo" data-v="out" aria-label="Kiadások listája"><small><span class="fio-ic">${ic('arrOut',14)}</span>Kiadás</small><b>−${ft(m.o)}</b><em>${nOut} tétel · amit elköltöttél</em></button></div>
    ${m.i?`<div class="fin-rate">Megtakarítási ráta: <b>${Math.max(0,Math.round(bal/m.i*100))}%</b></div>`:''}</section>
@@ -3436,6 +3468,9 @@ function finSeed(){const f=ensureFin();if(f.tx.length)return;const r=rng(31),pic
 
 const FIN_A={
  fv(el){S.ui.fv=el.dataset.v;save();render()},
+ fper(el){S.ui.fper=el.dataset.v;save();render(true)},
+ fyGo(el){S.ui.fyo=Math.min(0,(S.ui.fyo||0)+ +el.dataset.v);render(true)},
+ fyMonth(el){S.ui.fper='m';S.ui.fm=Math.min(0,+el.dataset.v);save();render(true)},
  fmGo(el){S.ui.fm=Math.min(0,(S.ui.fm||0)+ +el.dataset.v);render(true)},
  ftp(el){S.ui.ftp=el.dataset.v;render(true)},
  fcGo(el){S.ui.fc=el.dataset.v;S.ui.ftp='out';S.ui.fv='tx';render()},
