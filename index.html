@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261102152627">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102152627">
+<meta name="bloomly-version" content="20261102153337">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261102153337">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -726,6 +726,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .vtitle{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:clamp(22px,7vw,28px);min-width:0}
 .top:has(.vtitle){gap:6px}
 .vacts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vacts.one{grid-template-columns:1fr}
 .vact{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:20px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;color:var(--ink);min-width:0}
 .vact>svg{width:36px;height:36px;padding:9px;border-radius:12px;background:var(--lav-soft);color:var(--lav-deep);flex:none}
 .vact span{display:flex;flex-direction:column;min-width:0}
@@ -2606,7 +2607,7 @@ function visionView(){
   <div class="card vhero" data-a="vword" role="button" tabindex="0" aria-label="Az év szavának szerkesztése"><span class="vh-aur" aria-hidden="true"></span><span class="vh-sp" aria-hidden="true">${[...Array(9)].map((_,i)=>`<i style="--x:${(i*37+11)%96}%;--y:${(i*53+7)%88}%;--d:${(i%5)*.7}s"></i>`).join('')}</span><div class="eyebrow">${yr} · Az én évem</div><h2 class="vword ${M.word?'shim':'ph'}">${M.word?esc(M.word):'Válaszd ki az év szavát'}</h2><p class="muted">${M.intent?esc(M.intent):'Egyetlen szó és egy szándék, ami egész évben vezet. Koppints ide.'}</p>
    <div class="vstats"><div><b>${S.vision.length}</b><small>elem</small></div><div><b>${ach}/${goals.length}</b><small>cél elérve</small></div><div><b>${favs}</b><small>kedvenc</small></div></div>
    <div class="bar" title="Célok átlagos haladása"><i style="width:${gp}%"></i></div></div>
-  ${S.vision.length?`<div class="vacts"><button class="vact play" data-a="vplay">${ic('play')}<span><b>Vizualizáció</b><small>Pár perc álmodozás</small></span></button><button class="vact" data-a="vposter">${ic('image')}<span><b>Háttérkép</b><small>A táblád a telefonodon</small></span></button></div>`:''}
+  ${S.vision.length?`<div class="vacts one"><button class="vact" data-a="vposter">${ic('image')}<span><b>Háttérkép</b><small>Mentsd el a tábládat a telefonod hátterének</small></span></button></div>`:''}
   <div class="seg">${[['board','Tábla'],['goals','Célok'],['affirm','Megerősítések']].map(([v,n])=>`<button class="${mode===v?'on':''}" data-a="vview" data-v="${v}">${n}</button>`).join('')}</div>`;
   if(mode==='goals'){
     const row=v=>{const p=vProg(v),st=v.steps||[],due=vDue(v);return`<button class="vrow ${v.done?'done':''}" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic(v.done?'check':VT[v.type].i,20)}</span><span class="grow"><b>${esc(v.text)}</b>${v.done?`<small>Elérve${v.doneAt?' · '+fmt(v.doneAt,{year:'numeric',month:'short',day:'numeric'}):''}</small>`:`<span class="bar" style="height:6px"><i style="width:${p}%"></i></span><small>${[VT[v.type].n,esc(v.cat||''),st.length?`${st.filter(x=>x.d).length}/${st.length} lépés`:'',due].filter(Boolean).join(' · ')}</small>`}</span>${v.done?'':`<span class="pct">${p}%</span>`}</button>`};
