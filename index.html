@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261104195240">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104195240">
+<meta name="bloomly-version" content="20261104195748">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104195748">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2476,8 +2476,8 @@ function renderOb(dir){
     const feat=(icn,c,t,d)=>`<div class="li"><span class="tile" style="width:38px;height:38px;border-radius:13px;display:grid;place-items:center;flex:none;background:${c};color:var(--on-pastel)">${ic(icn,17)}</span><div class="grow"><b style="color:var(--ink)">${t}</b><div class="muted">${d}</div></div></div>`;
     b=H('Életterületek','Nyolc terület, egy virágzó élet','A Bloomsette-ben a szokásaid életterületekbe rendeződnek, így egy pillantással látod, mire figyelsz eleget, és mire kevésbé.')+`<div class="area-grid">${AREAS.map(card).join('')}</div>
     <section class="card list" style="margin-top:14px">${feat('sparkle','var(--lav)','Ajánlott szokások','Minden területhez kész javaslatokat kapsz, egy koppintással felveheted őket.')}${feat('chart','var(--peach)','Haladás területenként','Minden területnél látod, hány szokásod van, mennyit teljesítettél ma és az elmúlt héten.')}${feat('plus','var(--mint)','Saját területek','Bármikor létrehozhatsz új életterületet a Szokások fülön.')}</section>`;cta='Értem, tovább'}
-  /* Bemutató oldalak a további funkciókról: mit tud, és hol találja meg */
-  const feats=(list)=>`<div class="ob-feats">${list.map(([icn,c,t,d,tags,where],i)=>`<div class="ob-feat" style="--ac:${c};--d:${(i*.09).toFixed(2)}s"><span class="tile">${ic(icn,22)}</span><div class="grow"><b>${t}</b><p>${d}</p><div class="ob-tags">${tags.map(x=>`<span>${x}</span>`).join('')}</div><div class="ob-where">${ic('next',12)} ${where}</div></div></div>`).join('')}</div>`;
+  /* Bemutató oldalak a további funkciókról: mit tudnak */
+  const feats=(list)=>`<div class="ob-feats">${list.map(([icn,c,t,d,tags,where],i)=>`<div class="ob-feat" style="--ac:${c};--d:${(i*.09).toFixed(2)}s"><span class="tile">${ic(icn,22)}</span><div class="grow"><b>${t}</b><p>${d}</p><div class="ob-tags">${tags.map(x=>`<span>${x}</span>`).join('')}</div></div></div>`).join('')}</div>`;
   if(s===2){b=H('Mindennapok','Rend és nyugalom a hétköznapokban','A szokásokon túl a Bloomsette a mindennapi teendőidben is segít, hogy minden fontos dolog egy helyen legyen.')+feats([
     ['wallet','#DCEFC9','Pénzügyek','Kövesd a kiadásaidat és a bevételeidet, állíts be havi keretet, és spórolj tudatosan a céljaidra.',['Kiadások és bevételek','Havi keret','Megtakarítási célok'],'Alsó menü · Pénzügyek'],
     ['home','#CFE2F6','Otthon','Heti takarítási terv napokra bontva és napi teendők saját ikonokkal, hogy az otthonod is virágozzon.',['Heti terv','Napi teendők','Saját feladatok'],'Profilom · Otthon'],
