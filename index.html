@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261104212204">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104212204">
+<meta name="bloomly-version" content="20261104212944">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104212944">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3261,25 +3261,25 @@ function nextD(x){if(!x.yearly){const n=dayDiff(x.date,TODAY);return{k:x.date,n,
 /* Közös lista: születésnapok + fontos dátumok, a legközelebbivel kezdve */
 function allDates(){
   const b=(S.contacts||[]).filter(c=>c.bday).map(c=>{const x=nextB(c);return{kind:'b',id:c.id,name:c.name,type:'Születésnap',c:'#CDECCF',k:x.k,n:x.n,sub:x.age?`${x.age}. születésnap`:c.rel,note:c.note}});
-  const d=(S.dates||[]).map(x=>{const r=nextD(x),t=DTYPES[x.type]||DTYPES['Egyéb'];return{kind:'d',id:x.id,name:x.name,type:x.type,c:t[1],k:r.k,n:r.n,sub:r.yrs?`${r.yrs}. ${x.type==='Évforduló'?'évforduló':'alkalom'}`:(x.yearly?'Minden évben':'Egyszeri'),note:x.note}});
+  const d=(S.dates||[]).map(x=>{const r=nextD(x),t=DTYPES[x.type]||DTYPES['Egyéb'];return{kind:'d',id:x.id,name:x.name,type:x.type,c:t[1],k:r.k,n:r.n,sub:x.type==='Névnap'?(x.yearly?'Minden évben':'Egyszeri'):r.yrs?`${r.yrs}. ${x.type==='Évforduló'?'évforduló':'alkalom'}`:(x.yearly?'Minden évben':'Egyszeri'),note:x.note}});
   return[...b,...d].sort((p,q)=>p.n-q.n)}
 const whenTxt=n=>n===0?'Ma':n===1?'Holnap':n===2?'Holnapután':n>0?`${n} nap múlva`:`${-n} napja`;
 function dateRow(x){const d=parseK(x.k);
   return`<button class="habit dt-row" data-a="${x.kind==='b'?'contactDetail':'editDate'}" data-id="${x.id}" style="text-align:left;width:100%"><span class="dt-badge" style="--dc:${x.c}"><small>${fmt(x.k,{month:'short'}).replace('.','')}</small><b>${d.getDate()}</b></span><div class="grow"><div class="name">${esc(x.name)}</div><div class="meta"><span>${x.type}</span><span>· ${esc(x.sub)}</span></div></div><div style="text-align:right;flex:none">${x.n<0?`<b class="dt-n sm">${d.getFullYear()}</b>`:x.n<=2?`<b class="dt-n sm">${whenTxt(x.n)}</b>`:`<b class="dt-n">${x.n}</b><div class="muted" style="font-size:11px">nap múlva</div>`}</div></button>`}
 function datesView(){
-  const all=allDates(),f=S.ui.dtf||'Mind',fl=all.filter(x=>f==='Mind'||(f==='Születésnapok'?x.kind==='b':x.kind==='d'));
+  const all=allDates(),f=S.ui.dtf||'Mind',fl=all.filter(x=>f==='Mind'||(f==='Születésnapok'?x.kind==='b':f==='Névnapok'?x.type==='Névnap':x.kind==='d'&&x.type!=='Névnap'));
   const up=fl.filter(x=>x.n>=0),past=fl.filter(x=>x.n<0).reverse(),today=all.filter(x=>x.n===0),soon=all.filter(x=>x.n>0&&x.n<=30);
   const months={};up.forEach(x=>{const m=fmt(x.k,{year:'numeric',month:'long'});(months[m]=months[m]||[]).push(x)});
   return`${subTop('Fontos dátumok',`<button class="iconbtn" data-a="addDateMenu" aria-label="Új születésnap vagy dátum">${ic('plus')}</button>`)}
   <p class="muted" style="margin-top:-6px">Születésnapok, évfordulók, névnapok és minden, amire emlékezni szeretnél.</p>
   ${today.map(x=>`<section class="checkin"><div class="eyebrow" style="color:inherit;opacity:.7">Ma</div><h3 style="margin-top:6px">${esc(x.name)}${x.kind==='b'?' születésnapja':' · '+x.type}${/^\d/.test(x.sub)?` · ${x.sub}`:''}</h3><p>${x.note?esc(x.note):x.kind==='b'?'Egy kedves üzenet is sokat jelent. 🎂':'Ne feledd, ma van a nagy nap. 🌸'}</p></section>`).join('')}
   ${soon.length?`<div class="insight">${ic('calendar')}<p>A következő 30 napban <b>${soon.length} fontos dátum</b> lesz. A legközelebbi: ${esc(soon[0].name)}, ${whenTxt(soon[0].n).toLowerCase()} (${fmt(soon[0].k,{month:'long',day:'numeric'})}).</p></div>`:''}
-  <div class="chips">${['Mind','Születésnapok','Fontos dátumok'].map(c=>`<button class="chip ${f===c?'on':''}" data-a="dtf" data-v="${c}">${c}</button>`).join('')}</div>
-  ${up.length?Object.entries(months).map(([m,l])=>`<div class="eyebrow" style="margin-top:6px">${m}</div><div class="habits">${l.map(dateRow).join('')}</div>`).join(''):`<div class="card empty-note" style="display:flex;flex-direction:column;gap:12px;align-items:center">Még nincs itt semmi. Vedd fel a szeretteid születésnapját és a számodra fontos napokat.<button class="btn" data-a="addDateMenu">${ic('plus',18)} Hozzáadás</button></div>`}
+  <div class="chips wrapchips">${['Mind','Születésnapok','Névnapok','Fontos dátumok'].map(c=>`<button class="chip ${f===c?'on':''}" data-a="dtf" data-v="${c}">${c}</button>`).join('')}</div>
+  ${up.length?Object.entries(months).map(([m,l])=>`<div class="eyebrow" style="margin-top:6px">${m}</div><div class="habits">${l.map(dateRow).join('')}</div>`).join(''):`<div class="card empty-note" style="display:flex;flex-direction:column;gap:12px;align-items:center">${f==='Névnapok'?'Még nincs névnap felvéve. Vedd fel a szeretteid névnapját, hogy mindig eszedbe jusson.':f==='Születésnapok'?'Még nincs születésnap felvéve. Vedd fel a szeretteid születésnapját.':f==='Fontos dátumok'?'Még nincs fontos dátum felvéve. Vedd fel a számodra fontos napokat.':'Még nincs itt semmi. Vedd fel a szeretteid születésnapját, névnapját és a számodra fontos napokat.'}<button class="btn" data-a="addDateMenu">${ic('plus',18)} Hozzáadás</button></div>`}
   ${past.length?`<div class="sec-h"><h2>Elmúlt</h2></div><div class="habits dt-past">${past.map(dateRow).join('')}</div>`:''}`}
 function dateSheet(){const x=draft;
-  openSheet(`<h2>${x.id?'Dátum szerkesztése':'Új fontos dátum'}</h2>
-  <div class="field"><label for="dtn">Megnevezés</label><input class="inp" id="dtn" maxlength="40" value="${esc(x.name)}" placeholder="pl. Házassági évforduló, Anya névnapja"></div>
+  openSheet(`<h2>${x.id?(x.type==='Névnap'?'Névnap szerkesztése':'Dátum szerkesztése'):x.type==='Névnap'?'Új névnap':'Új fontos dátum'}</h2>
+  <div class="field"><label for="dtn">Megnevezés</label><input class="inp" id="dtn" maxlength="40" value="${esc(x.name)}" placeholder="${x.type==='Névnap'?'pl. Anya névnapja':'pl. Házassági évforduló'}"></div>
   <div class="field"><span class="lbl">Típus</span><div class="chips wrapchips">${Object.keys(DTYPES).map(t=>`<button class="chip ${x.type===t?'on':''}" data-a="dtSet" data-k="type" data-v="${t}">${t}</button>`).join('')}</div></div>
   <div class="field"><label for="dtd">Dátum</label><input class="inp" type="date" id="dtd" value="${x.date||''}"></div>
   <div class="li" style="padding:6px 0"><div class="grow"><b style="color:var(--ink)">Minden évben ismétlődik</b><div class="muted">${x.yearly?'Minden évben megjelenik, és számolja az éveket':'Csak egyszer, ezen a napon'}</div></div><button class="switch ${x.yearly?'on':''}" data-a="dtSet" data-k="yearly" data-v="${x.yearly?'':'1'}" role="switch" aria-checked="${!!x.yearly}" aria-label="Minden évben ismétlődik"></button></div>
@@ -3290,8 +3290,9 @@ function readDate(){const n=$('#dtn'),d=$('#dtd'),o=$('#dto');if(n)draft.name=n.
 function datesHome(){const l=allDates().filter(x=>x.n>=0&&x.n<=3);if(!l.length)return'';
   return`<button class="card row dt-home" data-a="go" data-s="dates" style="text-align:left;width:100%"><span class="ic" style="width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:${l[0].c};color:var(--on-pastel);flex:none">${ic(l[0].kind==='b'?'gift':'calendar',20)}</span><div class="grow"><b style="color:var(--ink)">${l.map(x=>`${esc(x.name)}${x.kind==='b'?' születésnapja':''}`).slice(0,2).join(', ')}${l.length>2?` és még ${l.length-2}`:''}</b><div class="muted">${whenTxt(l[0].n)} · ${fmt(l[0].k,{month:'long',day:'numeric',weekday:'long'})}</div></div>${ic('next',18)}</button>`}
 const DATE_A={
- addDateMenu(){openSheet(`<h2>Hozzáadás</h2><div class="opts" style="margin-top:14px"><button class="opt" data-a="addContact"><span class="tile" style="background:#CDECCF">${ic('gift',18)}</span><b>Születésnap</b></button><button class="opt" data-a="addDate"><span class="tile" style="background:#F5D3DC">${ic('calendar',18)}</span><b>Fontos dátum</b></button></div>`)},
- addDate(){draft={name:'',type:'Évforduló',date:'',yearly:true,note:''};dateSheet()},
+ /* A + gomb a szűrőhöz igazodik; a Mind nézetben választani lehet */
+ addDateMenu(){const f=S.ui.dtf||'Mind';if(f==='Születésnapok'){A.addContact({dataset:{}});return}if(f==='Névnapok'){A.addDate({dataset:{t:'Névnap'}});return}if(f==='Fontos dátumok'){A.addDate({dataset:{}});return}openSheet(`<h2>Hozzáadás</h2><div class="opts" style="margin-top:14px"><button class="opt" data-a="addContact"><span class="tile" style="background:#CDECCF">${ic('gift',18)}</span><b>Születésnap</b></button><button class="opt" data-a="addDate" data-t="Névnap"><span class="tile" style="background:#E6DDF7">${ic('sparkle',18)}</span><b>Névnap</b></button><button class="opt" data-a="addDate"><span class="tile" style="background:#F5D3DC">${ic('calendar',18)}</span><b>Fontos dátum</b></button></div>`)},
+ addDate(el){draft={name:'',type:(el&&el.dataset&&el.dataset.t)||'Évforduló',date:'',yearly:true,note:''};dateSheet()},
  editDate(el){const x=(S.dates||[]).find(d=>d.id===el.dataset.id);if(!x)return;draft=JSON.parse(JSON.stringify(x));dateSheet()},
  dtSet(el){readDate();const k=el.dataset.k;if(k==='yearly')draft.yearly=!!el.dataset.v;else{draft.type=el.dataset.v;if(!draft.id)draft.yearly=!['Esemény','Határidő'].includes(draft.type)}dateSheet()},
  saveDate(){readDate();if(!draft.name.trim()){toast('Add meg a megnevezést');return}if(!draft.date){toast('Add meg a dátumot');return}
