@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261104215009">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104215009">
+<meta name="bloomly-version" content="20261104215232">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104215232">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3790,6 +3790,9 @@ document.addEventListener('click',e=>{if(Date.now()-swBlock<400&&e.target.closes
 A.swDel=el=>{const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;const box=el.closest('.swipe');box.style.transition='opacity .25s,transform .25s';box.style.opacity='0';box.style.transform='translateX(-30px)';
   setTimeout(()=>{const d=dropHabit(h.id);save();render(true);toast(dropMsg(`„${h.name}” törölve`,d))},230)};
 
+/* A dátummezőkben az évszám 4 jegyű: a felső határ nélkül a böngésző 6 jegyet is enged, és nem lép tovább a hónapra */
+const fixDates=()=>document.querySelectorAll('input[type=date]:not([max])').forEach(i=>{i.max='9999-12-31'});
+new MutationObserver(fixDates).observe(document.documentElement,{childList:true,subtree:true});
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const fn=A[el.dataset.a];if(fn){if(el.dataset.a!=='closeModal')e.stopPropagation();fn(el,e)}});
 document.addEventListener('change',e=>{const id=e.target.id;if(id==='fzw'||id==='fzb')fzPut(id.slice(2),e.target.value)});
 document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.a==='time'){S.notif[e.target.dataset.k]=e.target.value;save();toast('Időpont mentve')}});
