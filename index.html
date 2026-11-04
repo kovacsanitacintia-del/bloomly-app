@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261104213822">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104213822">
+<meta name="bloomly-version" content="20261104215009">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104215009">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2213,12 +2213,12 @@ meditation(){
   <section class="card chart"><b style="color:var(--ink)">Elmúlt 7 nap</b>${bars(days,'m')}</section>`
 },
 contacts(){
-  const list=S.contacts.map(c=>({...c,...nextB(c)})).sort((a,b)=>a.n-b.n),f=S.ui.cf||'Mind',shown=list.filter(c=>f==='Mind'||c.rel===f),soon=list.filter(c=>c.n>0&&c.n<=30);
+  const list=S.contacts.map(c=>({...c,...nextB(c)})).sort((a,b)=>a.n-b.n),f=S.ui.cf||'Mind',shown=list.filter(c=>f==='Mind'||(f==='Egyéb'?!RELS.includes(c.rel):c.rel===f)),soon=list.filter(c=>c.n>0&&c.n<=30);
   return`${subTop('Kapcsolatok',`<button class="iconbtn" data-a="addContact" aria-label="Új kapcsolat">${ic('plus')}</button>`)}
   ${list.filter(c=>c.n===0).map(c=>`<section class="checkin"><div class="eyebrow" style="color:inherit;opacity:.7">Ma ünnepel</div><h3 style="margin-top:6px">${esc(c.name)} születésnapja${c.age?` · ${c.age} éves`:''}</h3><p>${c.note?'Ajándékötlet: '+esc(c.note):'Egy kedves üzenet is sokat jelent.'}</p></section>`).join('')}
   ${soon.length?`<div class="insight">${ic('calendar')}<p>A következő 30 napban <b>${soon.length} születésnap</b> lesz. A legközelebbi ${esc(soon[0].name)}, ${soon[0].n} nap múlva.</p></div>`:''}
-  <div class="chips">${['Mind',...RELS].map(r=>`<button class="chip ${f===r?'on':''}" data-a="cf" data-v="${r}">${r}</button>`).join('')}</div>
-  <div class="habits">${shown.map(c=>`<button class="habit" style="text-align:left;width:100%" data-a="contactDetail" data-id="${c.id}"><span class="avatar" style="width:46px;height:46px;flex:none">${esc(c.name[0]||'?')}</span><div class="grow"><div class="name">${esc(c.name)}</div><div class="meta"><span>${fmt(c.k,{month:'long',day:'numeric'})}${c.age?` · ${c.age}. szülinap`:''}</span><span>· ${c.rel}</span></div></div><div style="text-align:right"><b style="font-family:var(--f-display);font-size:20px;color:var(--ink)">${c.n===0?'Ma':c.n}</b><div class="muted" style="font-size:11px">${c.n===0?'ünnep':'nap múlva'}</div></div></button>`).join('')||'<div class="card empty-note">Még nincs itt senki. Add hozzá a számodra fontos embereket.</div>'}</div>`
+  <div class="chips">${['Mind',...RELS,'Egyéb'].map(r=>`<button class="chip ${f===r?'on':''}" data-a="cf" data-v="${r}">${r}</button>`).join('')}</div>
+  <div class="habits">${shown.map(c=>`<button class="habit" style="text-align:left;width:100%" data-a="contactDetail" data-id="${c.id}"><span class="avatar" style="width:46px;height:46px;flex:none">${esc(c.name[0]||'?')}</span><div class="grow"><div class="name">${esc(c.name)}</div><div class="meta"><span>${fmt(c.k,{month:'long',day:'numeric'})}${c.age?` · ${c.age}. szülinap`:''}</span><span>· ${esc(c.rel)}</span></div></div><div style="text-align:right"><b style="font-family:var(--f-display);font-size:20px;color:var(--ink)">${c.n===0?'Ma':c.n}</b><div class="muted" style="font-size:11px">${c.n===0?'ünnep':'nap múlva'}</div></div></button>`).join('')||'<div class="card empty-note">Még nincs itt senki. Add hozzá a számodra fontos embereket.</div>'}</div>`
 },
 therapy(){
   const th=S.therapy,nx=th.next,dn=nx?dayDiff(nx,TODAY):null;
@@ -2254,13 +2254,16 @@ function medTick(){const t=Date.now(),left=Math.max(0,medEnd-t),el=$('#medTime')
   if(t>=medPhEnd){medPh=(medPh+1)%tech.p.length;const[name,sec]=tech.p[medPh];medPhEnd=t+sec*1000;$('#medPhase').textContent=name;const b=$('#breath');b.style.transitionDuration=sec+'s';if(name==='Belégzés')b.dataset.ph='in';else if(name==='Kilégzés')b.dataset.ph='out'}
   if(left<=0){stopMed();const m=S.ui.med||{min:10,t:0};S.med.push({date:TODAY,min:m.min,tech:tech.n});const hb=markHabit('Meditáció');save();render(true);petalsFall(26);toast(hb?'Meditáció kész · +10 szirom 🌸':'Meditáció mentve 🌸');checkBadges()}}
 function readSl(){if(!slDraft)slDraft=JSON.parse(JSON.stringify(S.sleep[TODAY]||{bed:'23:00',wake:'07:00',q:0,dream:'',tags:[]}));const b=$('#slb'),w=$('#slw'),d=$('#sld');if(b&&b.value)slDraft.bed=b.value;if(w&&w.value)slDraft.wake=w.value;if(d)slDraft.dream=d.value}
+/* Egyéb kapcsolat: saját szöveg (a c.rel-ben tárolva), ha nem a négy alapérték egyike */
+const relOther=c=>!!c.relO||(!!c.rel&&!RELS.includes(c.rel));
 function contactSheet(){const c=draft;openSheet(`<h2>${c.id?'Kapcsolat szerkesztése':'Új kapcsolat'}</h2><p class="muted">A születésnap előtt 3 nappal kedvesen emlékeztetünk.</p>
   <div class="field"><label for="cn">Név</label><input class="inp" id="cn" value="${esc(c.name)}" maxlength="30" placeholder="pl. Réka"></div>
-  <div class="field"><span class="lbl">Kapcsolat</span><div class="chips wrapchips">${RELS.map(r=>`<button class="chip ${c.rel===r?'on':''}" data-a="cset" data-v="${r}">${r}</button>`).join('')}</div></div>
+  <div class="field"><span class="lbl">Kapcsolat</span><div class="chips wrapchips">${RELS.map(r=>`<button class="chip ${!relOther(c)&&c.rel===r?'on':''}" data-a="cset" data-v="${r}">${r}</button>`).join('')}<button class="chip ${relOther(c)?'on':''}" data-a="cset" data-v="Egyéb">Egyéb</button></div>
+   ${relOther(c)?`<input class="inp" id="crel" style="margin-top:10px" maxlength="30" value="${esc(c.rel||'')}" placeholder="pl. Keresztanya, Szomszéd, Edző" aria-label="Kapcsolat megnevezése">`:''}</div>
   <div class="field"><label for="cb">Születésnap</label><input class="inp" type="date" id="cb" value="${c.bday?(c.year||2000)+'-'+c.bday:''}"></div>
   <div class="field"><label for="cno">Ajándékötletek, jegyzet</label><textarea class="inp" id="cno" placeholder="Mit szeret? Mire vágyik?">${esc(c.note)}</textarea></div>
   <div class="btns">${c.id?`<button class="btn danger" data-a="delContact">Törlés</button>`:''}<button class="btn" data-a="saveContact">Mentés</button></div>`)}
-function readContact(){const n=$('#cn'),b=$('#cb'),no=$('#cno');if(n)draft.name=n.value;if(no)draft.note=no.value;if(b&&b.value){const y=+b.value.slice(0,4);draft.bday=b.value.slice(5);draft.year=y===2000&&!draft.year?null:y}}
+function readContact(){const n=$('#cn'),b=$('#cb'),no=$('#cno'),ro=$('#crel');if(ro)draft.rel=ro.value;if(n)draft.name=n.value;if(no)draft.note=no.value;if(b&&b.value){const y=+b.value.slice(0,4);draft.bday=b.value.slice(5);draft.year=y===2000&&!draft.year?null:y}}
 const EXTRA_A={
  habitsList(){S.ui.hv='list';if(S.ui.tab==='habits'&&!S.ui.sub){render(true);return}A.tab({dataset:{t:'habits',keep:'1'}})},
  newCat(){syncDraft();draft.newCat=!draft.newCat;habitSheet();if(draft.newCat)setTimeout(()=>{const i=$('#hcat');if(i)i.focus()},60)},
@@ -2292,8 +2295,9 @@ const EXTRA_A={
  cf(el){S.ui.cf=el.dataset.v;render(true)},
  addContact(){draft={name:'',rel:'Barát',bday:'',year:null,note:''};contactSheet()},
  contactDetail(el){draft=JSON.parse(JSON.stringify(S.contacts.find(c=>c.id===el.dataset.id)));contactSheet()},
- cset(el){readContact();draft.rel=el.dataset.v;contactSheet()},
+ cset(el){readContact();const v=el.dataset.v;if(v==='Egyéb'){if(!relOther(draft))draft.rel='';draft.relO=true}else{draft.relO=false;draft.rel=v}contactSheet();if(v==='Egyéb')setTimeout(()=>{const i=$('#crel');if(i&&!i.value)i.focus()},60)},
  saveContact(){readContact();if(!draft.name.trim()){toast('Add meg a nevet');return}if(!draft.bday){toast('Add meg a születésnapot');return}
+  if(relOther(draft)){const t=(draft.rel||'').trim();draft.rel=RELS.find(r=>r.toLowerCase()===t.toLowerCase())||t||'Egyéb'}delete draft.relO;
   if(draft.id){S.contacts[S.contacts.findIndex(c=>c.id===draft.id)]=draft}else S.contacts.push({...draft,id:uid()});save();closeSheet();render(true);toast('Kapcsolat mentve')},
  delContact(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.contacts=S.contacts.filter(c=>c.id!==draft.id);save();closeSheet();render(true);toast('Kapcsolat törölve')},
  thq(el){const q=S.therapy.questions.find(x=>x.id===el.dataset.id);q.done=!q.done;save();render(true)},
