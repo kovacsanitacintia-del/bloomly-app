@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261104212944">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104212944">
+<meta name="bloomly-version" content="20261104213822">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104213822">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -183,6 +183,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 .chip{white-space:nowrap;padding:8px 14px;border-radius:999px;background:var(--bg2);font-size:13px;font-weight:600;color:var(--text);border:1px solid transparent;transition:all .3s}
 .chip.on{background:var(--lav-soft);color:var(--lav-deep);border-color:color-mix(in srgb,var(--lav) 70%,transparent)}
 .wrapchips{flex-wrap:wrap;overflow:visible}
+.dt-chips{gap:4px}.dt-chips .chip{flex:1 1 auto;text-align:center;padding:8px 5px;font-size:clamp(10.5px,3.15vw,11.5px)}
 .chip.pm-own{display:inline-flex;align-items:center;gap:2px;padding:0 4px 0 0}.chip.pm-own>button{padding:8px 4px 8px 14px;font:inherit;color:inherit}
 .chip.pm-own .pm-x{padding:4px 7px;font-size:11px;opacity:.6;border-radius:50%}
 .chip.pm-add{display:inline-flex;align-items:center;gap:4px;color:var(--lav-deep);background:transparent;border:1.5px dashed color-mix(in srgb,var(--lav-deep) 50%,transparent)}
@@ -3274,7 +3275,7 @@ function datesView(){
   <p class="muted" style="margin-top:-6px">Születésnapok, évfordulók, névnapok és minden, amire emlékezni szeretnél.</p>
   ${today.map(x=>`<section class="checkin"><div class="eyebrow" style="color:inherit;opacity:.7">Ma</div><h3 style="margin-top:6px">${esc(x.name)}${x.kind==='b'?' születésnapja':' · '+x.type}${/^\d/.test(x.sub)?` · ${x.sub}`:''}</h3><p>${x.note?esc(x.note):x.kind==='b'?'Egy kedves üzenet is sokat jelent. 🎂':'Ne feledd, ma van a nagy nap. 🌸'}</p></section>`).join('')}
   ${soon.length?`<div class="insight">${ic('calendar')}<p>A következő 30 napban <b>${soon.length} fontos dátum</b> lesz. A legközelebbi: ${esc(soon[0].name)}, ${whenTxt(soon[0].n).toLowerCase()} (${fmt(soon[0].k,{month:'long',day:'numeric'})}).</p></div>`:''}
-  <div class="chips wrapchips">${['Mind','Születésnapok','Névnapok','Fontos dátumok'].map(c=>`<button class="chip ${f===c?'on':''}" data-a="dtf" data-v="${c}">${c}</button>`).join('')}</div>
+  <div class="chips dt-chips">${['Mind','Születésnapok','Névnapok','Fontos dátumok'].map(c=>`<button class="chip ${f===c?'on':''}" data-a="dtf" data-v="${c}">${c}</button>`).join('')}</div>
   ${up.length?Object.entries(months).map(([m,l])=>`<div class="eyebrow" style="margin-top:6px">${m}</div><div class="habits">${l.map(dateRow).join('')}</div>`).join(''):`<div class="card empty-note" style="display:flex;flex-direction:column;gap:12px;align-items:center">${f==='Névnapok'?'Még nincs névnap felvéve. Vedd fel a szeretteid névnapját, hogy mindig eszedbe jusson.':f==='Születésnapok'?'Még nincs születésnap felvéve. Vedd fel a szeretteid születésnapját.':f==='Fontos dátumok'?'Még nincs fontos dátum felvéve. Vedd fel a számodra fontos napokat.':'Még nincs itt semmi. Vedd fel a szeretteid születésnapját, névnapját és a számodra fontos napokat.'}<button class="btn" data-a="addDateMenu">${ic('plus',18)} Hozzáadás</button></div>`}
   ${past.length?`<div class="sec-h"><h2>Elmúlt</h2></div><div class="habits dt-past">${past.map(dateRow).join('')}</div>`:''}`}
 function dateSheet(){const x=draft;
