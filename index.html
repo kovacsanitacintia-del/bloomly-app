@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261104195748">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104195748">
+<meta name="bloomly-version" content="20261104212204">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261104212204">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -838,6 +838,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .lv-row.done .lv-st{color:var(--fin-in);font-weight:600}
 .lv-row.cur{background:var(--lav-soft);border-color:var(--lav)}.lv-row.cur .lv-st{color:var(--lav-deep);font-weight:600}
 .lv-row.later{opacity:.6}.lv-row.later .lv-e{filter:grayscale(.7)}
+.hm-c:disabled{opacity:.3;cursor:default}
 .hm-head b{font-size:15px;color:inherit}.hm-head small{font-size:10.5px;font-style:italic;color:inherit;opacity:.72;margin-left:auto;text-align:right}
 .hm-badge{margin-left:auto;font-size:18px}.hm-head small+.hm-badge{margin-left:6px}
 .hm-grid{display:grid;grid-template-columns:minmax(0,1fr) repeat(7,20px);gap:3px;align-items:center;padding:0 12px}
@@ -3644,6 +3645,8 @@ function hmSeed(){let n=0;const id=()=>'hm'+(n++)+uid();
 function ensureHome(){if(!S.home)S.home=hmSeed();const h=S.home;h.daily=h.daily||[];h.time=h.time||[];h.days=h.days||[[],[],[],[],[],[],[]];h.log=h.log||{};h.wlog=h.wlog||{};h.per=h.per||[];
   /* Három régi alapfeladat cseréje (csak ha a nevük még az eredeti; a pipák megmaradnak, mert az azonosító nem változik) */
   if(!h.v3){const D=new Set(["Fürdőszoba alapos takarítása","Csempék lemosása","Tükrök tisztítása","Klíma és szűrők tisztítása","Ablakpucolás","Nyitott polcok letörlése","Cipősszekrény letörlése","Redőnyök portalanítása","Kanapé porszívózása","Emelet alapos takarítása","Ajtókeretek letörlése","Villanykapcsolók letörlése","Ágynemű cseréje","Autó belsejének takarítása","Szőnyegek kiporolása","Kukák és kültér lemosása","Hűtő kitakarítása bevásárlás előtt","Ablakok","Szekrények rendezése","Hálószobák rendrakása","Heti menü megtervezése"]);h.days=h.days.map(l=>(l||[]).filter(x=>!D.has(x.t)));h.v3=1}
+  /* A napi feladatok csak mára és a múltra pipálhatók: a korábban előre betett pipák törlődnek */
+  const fL=h.log[hmWeek()],ftd=wd(now());if(fL)for(const k in fL)fL[k]=fL[k].filter(d=>d<=ftd);
   if(!h.v2){const R={'Papucsok letörlése':['🛏️','Ágyazás'],'Bejárat felsöprése':['🪴','Növények locsolása'],'Cipők letörlése':['🪟','Szellőztetés']};h.daily.forEach(x=>{const r=R[x.t];if(r){x.i=r[0];x.t=r[1]}});h.v2=1}
   return h}
 const hmWeek=()=>keyOf(addDays(now(),-wd(now())));
@@ -3660,7 +3663,7 @@ function otthonView(){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]||{},W=h.wlog[
   ${ed?`<div class="insight">${ic('pen')}<p>Szerkesztés mód: a ✕ gombbal törölhetsz, a napokhoz is adhatsz új feladatot. Bármelyik feladat nevére koppintva átírhatod a nevét és az ikonját. Ha kész vagy, koppints a pipára fent.</p></div>`:''}
   <section class="card hm-box hm-daily"><div class="hm-head"><b>Napi feladatok</b><span class="hm-badge">✅</span></div>
    <div class="hm-grid"><span></span>${HM_DAYS.map(([n,s,c],i)=>`<span class="hm-dh ${i===td?'td':''}" style="--dc:${c}" title="${n}">${s}</span>`).join('')}</div>
-   ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><button class="hm-tb" data-a="hmOpen" data-k="daily" data-id="${x.id}" aria-label="${esc(x.t)} szerkesztése"><i aria-hidden="true">${hmIco(x.i)}</i><span>${esc(x.t)}</span></button>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
+   ${h.daily.map(x=>{const d=L[x.id]||[];return`<div class="hm-grid hm-row"><span class="hm-t"><button class="hm-tb" data-a="hmOpen" data-k="daily" data-id="${x.id}" aria-label="${esc(x.t)} szerkesztése"><i aria-hidden="true">${hmIco(x.i)}</i><span>${esc(x.t)}</span></button>${del('daily',x.id)}</span>${HM_DAYS.map(([n,,c],i)=>`<button class="hm-c ${d.includes(i)?'on':''} ${i===td?'td':''}" style="--dc:${c}" data-a="hmD" data-id="${x.id}" data-d="${i}" ${i>td?'disabled':''} aria-pressed="${d.includes(i)}" aria-label="${esc(x.t)} · ${n}">${d.includes(i)?ic('check',11):''}</button>`).join('')}</div>`}).join('')||'<p class="muted">Még nincs napi feladat.</p>'}
    ${add('daily')}</section>
   <div class="hm-days">${HM_DAYS.map(([n,,c,e],i)=>{const l=h.days[i]||[],dn=l.filter(x=>W[x.id]).length;return`<section class="hm-day ${i===td?'td':''}" style="--dc:${c}"><div class="hm-dhead"><b>${n}</b>${i===td?'<small>ma</small>':''}<span aria-hidden="true">${e}</span></div>
     <div class="hm-list">${l.map(x=>`<div class="hm-li"><button class="hm-cb ${W[x.id]?'on':''}" data-a="hmW" data-id="${x.id}" aria-pressed="${!!W[x.id]}">${W[x.id]?ic('check',11):''}</button><span class="hm-lt" data-a="hmOpen" data-k="day" data-d="${i}" data-id="${x.id}" role="button" tabindex="0">${esc(x.t)}</span>${del('day',x.id,i)}</div>`).join('')||'<p class="hm-empty">Még üres. Add hozzá, mit szeretnél ezen a napon elvégezni.</p>'}</div>
@@ -3679,7 +3682,7 @@ function hmSheetDraw(){const{k,d,id}=fd;
   if(!id)setTimeout(()=>{const i=$('#hmt');if(i&&!i.value)i.focus()},320)}
 const HOME_A={
  hmEdit(){S.ui.hme=!S.ui.hme;render(true)},
- hmD(el){const h=ensureHome(),wk=hmWeek(),L=h.log[wk]=h.log[wk]||{},id=el.dataset.id,d=+el.dataset.d,a=L[id]=L[id]||[];const was=a.includes(d);L[id]=was?a.filter(x=>x!==d):[...a,d];save();render(true);if(!was)hmCheer()},
+ hmD(el){if(+el.dataset.d>wd(now()))return;const h=ensureHome(),wk=hmWeek(),L=h.log[wk]=h.log[wk]||{},id=el.dataset.id,d=+el.dataset.d,a=L[id]=L[id]||[];const was=a.includes(d);L[id]=was?a.filter(x=>x!==d):[...a,d];save();render(true);if(!was)hmCheer()},
  hmW(el){const h=ensureHome(),wk=hmWeek(),W=h.wlog[wk]=h.wlog[wk]||{},id=el.dataset.id;if(W[id])delete W[id];else W[id]=true;save();render(true);if(W[id])hmCheer()},
  hmAdd(el){hmSheet(el.dataset.k,el.dataset.d!=null?+el.dataset.d:null)},
  hmOpen(el){hmSheet(el.dataset.k,el.dataset.d!=null?+el.dataset.d:null,el.dataset.id)},
