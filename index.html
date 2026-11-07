@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261107214032">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261107214032">
+<meta name="bloomly-version" content="20261107215111">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261107215111">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -354,6 +354,30 @@ textarea.inp{min-height:92px;resize:vertical}
 .vrow small{font-size:11.5px;color:var(--text2)}
 .vrow .pct{font-weight:700;color:var(--lav-deep);font-variant-numeric:tabular-nums;font-size:14px}
 .vrow.done b{text-decoration:line-through;color:var(--text2)}
+.vseg button{font-size:12px;padding:9px 3px}
+.vmonth{margin-top:8px;font-size:12.5px;color:var(--text2)}.vmonth b{color:var(--ink)}
+.vgrat{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--rose) 70%,var(--card)),color-mix(in srgb,var(--peach) 45%,var(--card)));border:1px solid var(--line)}
+.vgrat>span{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:var(--card);color:#D97A95;flex:none}
+.vgrat p{font-family:var(--f-display);font-size:16px;color:var(--ink);line-height:1.35}.vgrat small{display:block;font-family:var(--f-body,inherit);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:3px}
+.vgrp-h{display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:700;color:var(--ink);font-size:15px}.vgrp-h .cdot{width:12px;height:12px;margin:0}.vgrp-h small{margin-left:auto;font-weight:600;font-size:12px;color:var(--text2)}
+.vb.vgrp .grip{display:none}
+.vdream .vrow{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 28%,var(--card)),var(--card));border-color:color-mix(in srgb,var(--gold) 55%,transparent)}.vdream .vrow b{text-decoration:none;color:var(--ink)}
+.vstep-row{display:flex;align-items:center;gap:6px}.vstep-row .vstep{flex:1;min-width:0}.vstep-x{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:var(--text2);flex:none}
+.vd-habit{display:flex;align-items:center;gap:10px;margin-top:8px}.vd-hbar{width:56px;height:6px;border-radius:6px;background:var(--track);overflow:hidden;flex:none}.vd-hbar i{display:block;height:100%;background:var(--lav-deep);border-radius:6px}
+.vsoul .vsoul-w{font-family:var(--f-display);font-size:30px;color:var(--ink);margin-top:6px}
+.vsoul-hist{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.vsoul-hist span{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--lav-soft);font-size:12.5px;font-weight:600;color:var(--ink)}.vsoul-hist small{font-size:10.5px;text-transform:uppercase;color:var(--lav-deep);letter-spacing:.05em}
+.vgrat-ok{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--fin-in)}
+.vgrat-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}.vgrat-list>div{display:flex;align-items:baseline;gap:10px;font-size:13.5px;color:var(--ink)}.vgrat-list small{flex:none;width:52px;font-size:11px;color:var(--text2)}.vgrat-list span{flex:1;min-width:0}.vgrat-list button{color:var(--text2);opacity:.6}
+.vletters{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.vletter{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:var(--bg2);text-align:left;width:100%}.vletter b{display:block;font-size:14px;color:var(--ink)}.vletter small{font-size:11.5px;color:var(--text2)}
+.vletter.ready:not(.opened){background:linear-gradient(135deg,color-mix(in srgb,var(--rose) 70%,var(--card)),color-mix(in srgb,var(--lav) 35%,var(--card)))}
+.vl-ic{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--card);flex:none}
+.vletter-txt{margin:14px 0 18px;padding:16px;border-radius:18px;background:var(--bg2);font-family:var(--f-display);font-size:17px;line-height:1.5;color:var(--ink);text-align:left;max-height:46vh;overflow:auto}
+.vcele{position:relative;overflow:hidden;text-align:center}.vcele h2{font-family:var(--f-display);font-size:26px;margin-top:6px}
+.vcele-glow{position:absolute;inset:-40% -20% auto;height:70%;background:radial-gradient(closest-side,color-mix(in srgb,var(--gold) 55%,transparent),transparent);pointer-events:none}
+.vcele-art{position:relative;display:grid;place-items:center;animation:vcPop .9s var(--ease) both}@keyframes vcPop{from{transform:scale(.4) rotate(-12deg);opacity:0}}
+.vyr-hero{text-align:center;padding:18px 14px;border-radius:24px;background:linear-gradient(150deg,#3E3063,#7A5C9E 60%,#C08AA8);color:#fff}.vyr-hero .eyebrow{color:rgba(255,255,255,.75)}.vyr-hero h2{font-family:var(--f-display);font-size:34px;color:#fff;margin-top:6px}.vyr-hero p{opacity:.85;margin-top:6px;font-size:14px}
+.vyr-q{font-family:var(--f-display);font-size:16px;color:var(--ink);margin-top:8px;line-height:1.4}
 .vsec{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-weight:700;margin-top:6px}
 .videa{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
 .videa p{flex:1;font-size:13.5px;color:var(--ink);line-height:1.35}
@@ -2751,6 +2775,13 @@ const vIsGoal=v=>v.type==='goal'||v.type==='dream';
 const vProg=v=>{if(v.done)return 100;const s=v.steps||[];return s.length?Math.round(s.filter(x=>x.d).length/s.length*100):0};
 function vDue(v){if(!v.due||v.done)return'';const n=dayDiff(v.due,TODAY);return n<0?`Lejárt: ${fmt(v.due,{month:'short',day:'numeric'})}`:n===0?'Határidő: ma':n<=60?`Még ${n} nap`:`Határidő: ${fmt(v.due,{year:'numeric',month:'short',day:'numeric'})}`}
 const vMeta=()=>S.vmeta||(S.vmeta={word:'',intent:''});
+/* Egy célhoz több szokás is köthető (a régi, egyetlen v.habit is beleszámít) */
+const vHabits=v=>[...new Set([...(v.habits||[]),...(v.habit?[v.habit]:[])])].map(id=>S.habits.find(h=>h.id===id)).filter(Boolean);
+/* A hónap szándéka: minden hónapnak saját szava és szándéka */
+const vMonthKey=()=>TODAY.slice(0,7);
+const vMonth=(k=vMonthKey())=>((vMeta().months||{})[k])||{};
+/* Hála-sarok: saját bejegyzések és a reggeli ráhangolódás „hálás vagyok” válaszai együtt */
+function vGratAll(){const own=(S.grat||[]).map(g=>({k:g.date,t:g.t,id:g.id})),ci=Object.entries(S.checkins||{}).filter(([,c])=>c&&c.grateful).map(([k,c])=>({k,t:c.grateful}));return[...own,...ci].sort((a,b)=>b.k.localeCompare(a.k))}
 const vFiltered=()=>{const f=S.ui.vf||'Mind';return S.vision.filter(v=>f==='Mind'||(f==='Kedvencek'?v.fav:v.cat===f))};
 const heartBtn=v=>`<button data-a="vfav" data-id="${v.id}" aria-label="Kedvenc" aria-pressed="${!!v.fav}" style="color:${v.fav?'#D97A95':'inherit'}"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px;${v.fav?'fill:currentColor':''}"><path d="${IC.heart}"/></svg></button>`;
 function vCard(v,i){
@@ -2769,34 +2800,96 @@ function visionView(){
   const gp=goals.length?Math.round(goals.reduce((a,v)=>a+vProg(v),0)/goals.length):0;
   const head=`<div class="top"><button class="iconbtn" data-a="back" aria-label="Vissza">${ic('back')}</button><h1 class="grow vtitle">Vision Board</h1><button class="iconbtn" data-a="addVision" aria-label="Új elem">${ic('plus')}</button></div>
   <div class="card vhero" data-a="vword" role="button" tabindex="0" aria-label="Az év szavának szerkesztése"><span class="vh-aur" aria-hidden="true"></span><span class="vh-sp" aria-hidden="true">${[...Array(9)].map((_,i)=>`<i style="--x:${(i*37+11)%96}%;--y:${(i*53+7)%88}%;--d:${(i%5)*.7}s"></i>`).join('')}</span><div class="eyebrow">${yr} · Az én évem</div><h2 class="vword ${M.word?'shim':'ph'}">${M.word?esc(M.word):'Válaszd ki az év szavát'}</h2><p class="muted">${M.intent?esc(M.intent):'Egyetlen szó és egy szándék, ami egész évben vezet. Koppints ide.'}</p>
+   ${vMonth().word?`<div class="vmonth">${fmt(TODAY,{month:'long'})} szava: <b>${esc(vMonth().word)}</b></div>`:''}
    <div class="vstats"><div><b>${S.vision.length}</b><small>elem</small></div><div><b>${ach}/${goals.length}</b><small>cél elérve</small></div><div><b>${favs}</b><small>kedvenc</small></div></div>
    <div class="bar" title="Célok átlagos haladása"><i style="width:${gp}%"></i></div></div>
-  ${S.vision.length?`<div class="vacts one"><button class="vact" data-a="vposter">${ic('image')}<span><b>Háttérkép</b><small>Mentsd el a tábládat a telefonod hátterének</small></span></button></div>`:''}
-  <div class="seg">${[['board','Tábla'],['goals','Célok'],['affirm','Megerősítések']].map(([v,n])=>`<button class="${mode===v?'on':''}" data-a="vview" data-v="${v}">${n}</button>`).join('')}</div>`;
+  <div class="vacts ${S.vision.length?'':'one'}">${S.vision.length?`<button class="vact" data-a="vposter">${ic('image')}<span><b>Háttérkép</b><small>Mentsd el a telefonodra</small></span></button>`:''}<button class="vact ${now().getMonth()===11?'play':''}" data-a="vyear">${ic('star')}<span><b>Éves visszatekintő</b><small>${yr} összefoglalója</small></span></button></div>
+  <div class="seg vseg">${[['board','Tábla'],['goals','Célok'],['affirm','Megerősítések'],['soul','Szándékok']].map(([v,n])=>`<button class="${mode===v?'on':''}" data-a="vview" data-v="${v}">${n}</button>`).join('')}</div>`;
   if(mode==='goals'){
-    const row=v=>{const p=vProg(v),st=v.steps||[],due=vDue(v);return`<button class="vrow ${v.done?'done':''}" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic(v.done?'check':VT[v.type].i,20)}</span><span class="grow"><b>${esc(v.text)}</b>${v.done?`<small>Elérve${v.doneAt?' · '+fmt(v.doneAt,{year:'numeric',month:'short',day:'numeric'}):''}</small>`:`<span class="bar" style="height:6px"><i style="width:${p}%"></i></span><small>${[VT[v.type].n,esc(v.cat||''),st.length?`${st.filter(x=>x.d).length}/${st.length} lépés`:'',due].filter(Boolean).join(' · ')}</small>`}</span>${v.done?'':`<span class="pct">${p}%</span>`}</button>`};
+    const row=v=>{const p=vProg(v),st=v.steps||[],due=vDue(v);return`<button class="vrow ${v.done?'done':''}" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic(v.done?'check':VT[v.type].i,20)}</span><span class="grow"><b>${esc(v.text)}</b>${v.done?`<small>Elérve${v.doneAt?' · '+fmt(v.doneAt,{year:'numeric',month:'short',day:'numeric'}):''}</small>`:`<span class="bar" style="height:6px"><i style="width:${p}%"></i></span><small>${[VT[v.type].n,esc(v.cat||''),st.length?`${st.filter(x=>x.d).length}/${st.length} lépés`:'',vHabits(v).length?`${vHabits(v).length} szokás`:'',due].filter(Boolean).join(' · ')}</small>`}</span>${v.done?'':`<span class="pct">${p}%</span>`}</button>`};
     const open=goals.filter(v=>!v.done).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')),done=goals.filter(v=>v.done);
-    return`${head}${goals.length?`${open.length?`<div class="vsec">Folyamatban · ${open.length}</div><div class="vlist">${open.map(row).join('')}</div>`:''}${done.length?`<div class="vsec">Elérve · ${done.length}</div><div class="vlist">${done.map(row).join('')}</div>`:''}`:`<div class="card empty-note">Még nincs célod vagy bakancslistás álmod. Adj hozzá egyet, és bontsd kis lépésekre.</div>`}
+    return`${head}${goals.length?`${open.length?`<div class="vsec">Folyamatban · ${open.length}</div><div class="vlist">${open.map(row).join('')}</div>`:''}${done.length?`<div class="vsec">✨ Valóra vált álmaim · ${done.length}</div><div class="vlist vdream">${done.slice().sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||'')).map(row).join('')}</div>`:''}`:`<div class="card empty-note">Még nincs célod vagy bakancslistás álmod. Adj hozzá egyet, és bontsd kis lépésekre.</div>`}
     <button class="btn ghost" data-a="addVision" data-t="goal">${ic('plus',16)} Új cél</button>`}
   if(mode==='affirm')return head+vAffirm();
+  if(mode==='soul')return head+vSoul();
   const f=S.ui.vf||'Mind',items=vFiltered(),cats=VCATS.map(c=>c[0]).filter(c=>S.vision.some(v=>v.cat===c));
-  return`${head}<div class="chips">${['Mind','Kedvencek',...cats].map(c=>`<button class="chip ${f===c?'on':''}" data-a="vf" data-v="${c}">${c==='Mind'||c==='Kedvencek'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
-  <p class="muted">Koppints egy kártyára a részletekért, vagy rendezd át őket a jobb felső sarokban lévő fogantyúval.</p>
+  const gr=vGratAll(),g0=gr.length?gr[Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5)%gr.length]:null,grp=!!S.ui.vgrp;
+  const groups=grp?[...VCATS.map(c=>c[0]),''].map(c=>[c,items.filter(v=>(v.cat||'')===c||(!c&&!VCATS.some(x=>x[0]===v.cat)))]).filter(([,l])=>l.length):[];
+  return`${head}${g0?`<button class="vgrat" data-a="vview" data-v="soul"><span>${ic('heart',16)}</span><p><small>Hálás vagyok · ${fmt(g0.k,{month:'long',day:'numeric'})}</small>${esc(g0.t)}</p></button>`:''}
+  <div class="chips"><button class="chip ${grp?'on':''}" data-a="vgrp" aria-pressed="${grp}">${ic('chart',14)} Területenként</button>${['Mind','Kedvencek',...cats].map(c=>`<button class="chip ${f===c?'on':''}" data-a="vf" data-v="${c}">${c==='Mind'||c==='Kedvencek'?'':`<span class="cdot" style="background:${vcol(c)}"></span>`}${c}</button>`).join('')}</div>
+  ${grp?groups.map(([c,l])=>`<div class="vgrp-h"><span class="cdot" style="background:${c?vcol(c):'#E6DFFB'}"></span>${c||'Egyéb'}<small>${l.length} elem</small></div><div class="vb vgrp">${l.map(vCard).join('')}</div>`).join('')+`<button class="btn ghost" data-a="addVision">${ic('plus',16)} Új elem</button>`
+  :`<p class="muted">Koppints egy kártyára a részletekért, vagy rendezd át őket a jobb felső sarokban lévő fogantyúval.</p>
   <div class="vb" id="vb">${items.map(vCard).join('')}
-   <button class="vc empty" data-a="addVision">${ic('plus',26)}<b>Új elem</b><small>kép, idézet, megerősítés, cél, álom vagy emlékeztető</small></button></div>`}
-function vDetail(v){const t=v.type,s=v.steps||[],h=v.habit&&S.habits.find(x=>x.id===v.habit),p=vProg(v);
-  const hc=h?[...Array(30)].filter((_,i)=>isDone(h,keyOf(addDays(now(),-i)))).length:0;
+   <button class="vc empty" data-a="addVision">${ic('plus',26)}<b>Új elem</b><small>kép, idézet, megerősítés, cél, álom vagy emlékeztető</small></button></div>`}`}
+/* Szándékok fül: a hónap szándéka, hála-sarok, levél a jövőbeli önmagadnak */
+function vSoul(){const mk=vMonthKey(),mo=vMonth(),ms=Object.entries(vMeta().months||{}).filter(([k,x])=>k!==mk&&x.word).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,6);
+  const gr=vGratAll(),todayG=(S.grat||[]).filter(g=>g.date===TODAY),L=(S.vletters||[]).slice().sort((a,b)=>a.open.localeCompare(b.open));
+  return`<section class="card vsoul"><div class="eyebrow">${fmt(TODAY,{year:'numeric',month:'long'})} · A hónap szándéka</div>
+   ${mo.word?`<h3 class="vsoul-w">${esc(mo.word)}</h3>${mo.intent?`<p class="muted">${esc(mo.intent)}</p>`:''}`:`<p class="muted" style="margin-top:6px">Válassz egy szót, ami ebben a hónapban vezet. Kisebb lépés, mint az év szava, és minden hónapban újrakezdheted.</p>`}
+   <button class="btn ${mo.word?'ghost':''}" style="margin-top:12px" data-a="vmonthEdit">${mo.word?'Módosítás':`${ic('sparkle',16)} A hónap szava`}</button>
+   ${ms.length?`<div class="vsoul-hist">${ms.map(([k,x])=>`<span><small>${fmt(k+'-01',{month:'short'}).replace('.','')}</small>${esc(x.word)}</span>`).join('')}</div>`:''}</section>
+  <div class="vsec">Hála-sarok</div>
+  <section class="card vgrat-box"><p class="muted">Minden nap egy mondat arról, amiért hálás vagy. A táblán is megjelenik egy-egy közülük.</p>
+   <div class="row" style="gap:8px;margin-top:10px"><input class="inp grow" id="vgi" maxlength="120" placeholder="Ma hálás vagyok, mert…" aria-label="Mai hála"><button class="btn" data-a="vgratAdd" style="padding:12px 16px" aria-label="Hozzáadás">${ic('plus',16)}</button></div>
+   ${todayG.length?`<p class="vgrat-ok">${ic('check',14)} Ma már ${todayG.length} dologért adtál hálát</p>`:''}
+   ${gr.length?`<div class="vgrat-list">${gr.slice(0,8).map(g=>`<div><small>${fmt(g.k,{month:'short',day:'numeric'})}</small><span>${esc(g.t)}</span>${g.id?`<button data-a="vgratDel" data-id="${g.id}" aria-label="Törlés">${ic('close',12)}</button>`:''}</div>`).join('')}</div>${gr.length>8?`<p class="muted" style="font-size:12px;margin-top:8px">és még ${gr.length-8} korábbi bejegyzés</p>`:''}`:''}</section>
+  <div class="vsec">Levél a jövőbeli önmagadnak</div>
+  <section class="card"><p class="muted">Írj magadnak most, és a Bloomsette a választott napon „felbontja” neked.</p>
+   ${L.length?`<div class="vletters">${L.map(l=>{const n=dayDiff(l.open,TODAY),can=n<=0;return`<button class="vletter ${can?'ready':''} ${l.opened?'opened':''}" data-a="vletterOpen" data-id="${l.id}"><span class="vl-ic">${can?'💌':'🔒'}</span><span class="grow"><b>${can?(l.opened?'Felbontott levél':'Felbontható levél!'):'Lepecsételt levél'}</b><small>Írva: ${fmt(l.written,{year:'numeric',month:'short',day:'numeric'})} · ${can?`felbontható ${fmt(l.open,{month:'short',day:'numeric'})} óta`:`${fmt(l.open,{year:'numeric',month:'short',day:'numeric'})} · még ${n} nap`}</small></span></button>`}).join('')}</div>`:''}
+   <button class="btn ${L.length?'ghost':''} block" style="margin-top:12px" data-a="vletterNew">${ic('pen',16)} Új levél írása</button></section>`}
+function vLetterSheet(){const d=draft;const yEnd=`${now().getFullYear()}-12-31`;
+  const opts=[['1 hónap múlva',keyOf(addDays(now(),30))],['3 hónap múlva',keyOf(addDays(now(),91))],['Fél év múlva',keyOf(addDays(now(),182))],['Az év végén',yEnd>TODAY?yEnd:`${now().getFullYear()+1}-12-31`],['1 év múlva',keyOf(addDays(now(),365))]];
+  openSheet(`<h2>Levél a jövőbeli önmagadnak</h2><p class="muted">Mit szeretnél üzenni annak, aki leszel? Mire vagy most büszke, mitől félsz, miben reménykedsz?</p>
+  <div class="field"><label for="vlt">A leveled</label><textarea class="inp" id="vlt" rows="7" maxlength="2000" placeholder="Kedves jövőbeli önmagam…">${esc(d.text||'')}</textarea></div>
+  <div class="field"><span class="lbl">Mikor bonthatod fel?</span><div class="chips wrapchips">${opts.map(([n,k])=>`<button class="chip ${d.open===k?'on':''}" data-a="vlset" data-v="${k}">${n}</button>`).join('')}</div>
+   <input class="inp" type="date" id="vld" style="margin-top:10px" min="${keyOf(addDays(now(),1))}" value="${d.open||''}" aria-label="Felbontás napja"></div>
+  <div class="btns"><button class="btn" data-a="vletterSave">${ic('check',16)} Lepecsételem</button></div>`)}
+function vLetterModal(l){$('#modal').innerHTML=`<div class="modal" data-a="closeModal"><div class="box vletter-box" role="dialog" aria-label="Levél"><div class="eyebrow">Írtad: ${fmt(l.written,{year:'numeric',month:'long',day:'numeric'})}</div><h2 style="font-size:22px;margin-top:6px">Levél a múltbeli önmagadtól 💌</h2><div class="vletter-txt">${esc(l.text).replace(/\n/g,'<br>')}</div><button class="btn block" data-a="closeModal">Köszönöm</button><button class="link" style="margin-top:10px" data-a="vletterDel" data-id="${l.id}">Levél törlése</button></div></div>`}
+function vCelebrate(v){const st=v.steps||[];$('#modal').innerHTML=`<div class="modal" data-a="closeModal"><div class="box vcele" role="dialog" aria-label="Valóra vált álom"><span class="vcele-glow" aria-hidden="true"></span><div class="vcele-art">${flowerArt('peony','#F5B8C8',96)}</div><div class="eyebrow">Valóra vált</div><h2>${esc(v.text)}</h2><p class="muted" style="margin-top:6px">${fmt(TODAY,{year:'numeric',month:'long',day:'numeric'})}${st.length?` · ${st.length} lépésből építkeztél`:''}</p>${v.note?`<p class="vd-note" style="text-align:left"><b>Miért volt fontos:</b> ${esc(v.note)}</p>`:''}<p style="margin:14px 0 18px">Ez az álom mostantól a <b>Valóra vált álmaid</b> között ragyog. Büszke lehetsz magadra. 🌸</p><button class="btn block" data-a="closeModal">Köszönöm</button></div></div>`;petalsFall(46)}
+/* Éves visszatekintő: az év szava, elért célok, hónapok szavai, hála, megerősítések */
+function vYearData(){const yr=now().getFullYear(),y=String(yr),M=vMeta(),goals=S.vision.filter(vIsGoal),ach=goals.filter(v=>v.done&&(v.doneAt||'').startsWith(y));
+  const steps=goals.reduce((a,v)=>a+(v.steps||[]).filter(x=>x.d).length,0),gr=vGratAll().filter(g=>g.k.startsWith(y)),aff=S.vision.filter(v=>v.type==='affirm');
+  const months=Object.entries(M.months||{}).filter(([k,x])=>k.startsWith(y)&&x.word).sort((a,b)=>a[0].localeCompare(b[0]));
+  return{yr,M,goals,ach,steps,gr,aff,months,favs:S.vision.filter(v=>v.fav&&v.type!=='img').slice(0,3),letters:(S.vletters||[]).filter(l=>l.written.startsWith(y)).length}}
+function vYearSheet(){const D=vYearData();
+  openSheet(`<div class="vyr-hero"><div class="eyebrow">${D.yr} · Éves visszatekintő</div><h2>${esc(D.M.word||'Az én évem')}</h2>${D.M.intent?`<p>${esc(D.M.intent)}</p>`:''}</div>
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><div class="kpi"><b>${D.ach.length}</b><small>valóra vált álom</small></div><div class="kpi"><b>${D.steps}</b><small>megtett lépés</small></div><div class="kpi"><b>${D.gr.length}</b><small>hála-bejegyzés</small></div>
+   <div class="kpi"><b>${S.vision.length}</b><small>elem a táblán</small></div><div class="kpi"><b>${D.aff.length}</b><small>megerősítés</small></div><div class="kpi"><b>${D.letters}</b><small>levél a jövőnek</small></div></div>
+  ${D.ach.length?`<div class="vsec" style="margin-top:16px">✨ Valóra vált idén</div><div class="vlist vdream">${D.ach.map(v=>`<div class="vrow done"><span class="tile" style="background:${vcol(v.cat)}">${ic('check',20)}</span><span class="grow"><b>${esc(v.text)}</b><small>${fmt(v.doneAt,{month:'long',day:'numeric'})}</small></span></div>`).join('')}</div>`:`<p class="muted" style="margin-top:14px">Idén még nem jelöltél elértnek célt. Ami késik, az nem múlik: minden lépés számít. 🌱</p>`}
+  ${D.months.length?`<div class="vsec" style="margin-top:16px">Az év hónapjai</div><div class="vsoul-hist">${D.months.map(([k,x])=>`<span><small>${fmt(k+'-01',{month:'short'}).replace('.','')}</small>${esc(x.word)}</span>`).join('')}</div>`:''}
+  ${D.favs.length?`<div class="vsec" style="margin-top:16px">A kedvenceid</div>${D.favs.map(v=>`<p class="vyr-q">„${esc(v.text)}”</p>`).join('')}`:''}
+  ${D.gr.length?`<div class="vsec" style="margin-top:16px">Amiért hálás voltál</div>${D.gr.slice(0,3).map(g=>`<p class="vyr-q">${esc(g.t)}</p>`).join('')}`:''}
+  <div class="btns" style="margin-top:18px"><button class="btn" data-a="vyearPoster">${ic('download',16)} Mentés képként</button></div>`)}
+async function vYearPoster(){const D=vYearData(),W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');try{await document.fonts.ready}catch(e){}
+  const bg=x.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#2A2140');bg.addColorStop(.55,'#4A3870');bg.addColorStop(1,'#B07A9E');x.fillStyle=bg;x.fillRect(0,0,W,H);
+  for(let i=0;i<60;i++){x.fillStyle=`rgba(255,255,255,${.12+(i%5)*.07})`;x.beginPath();x.arc((i*137.5)%W,(i*251.3)%H,(i%3)+1,0,7);x.fill()}
+  x.textAlign='center';x.fillStyle='rgba(255,255,255,.75)';x.font='600 28px "Plus Jakarta Sans", sans-serif';x.fillText(`${D.yr} · ÉVES VISSZATEKINTŐ`,W/2,190);
+  const word=D.M.word||'Az én évem';let fs=128;x.font=`500 ${fs}px "Cormorant Garamond", Georgia, serif`;while(x.measureText(word).width>W-160&&fs>60){fs-=6;x.font=`500 ${fs}px "Cormorant Garamond", Georgia, serif`}
+  const gw=x.createLinearGradient(W/2-300,0,W/2+300,0);gw.addColorStop(0,'#F7D9A8');gw.addColorStop(.5,'#FFF4E0');gw.addColorStop(1,'#E8B4C8');x.fillStyle=gw;x.fillText(word,W/2,190+fs+20);let y=190+fs+90;
+  if(D.M.intent){x.fillStyle='rgba(255,255,255,.85)';x.font='italic 400 38px "Cormorant Garamond", Georgia, serif';wrap(x,D.M.intent,W-220).slice(0,3).forEach(l=>{x.fillText(l,W/2,y);y+=48})}
+  y+=40;const st=[[D.ach.length,'valóra vált álom'],[D.steps,'megtett lépés'],[D.gr.length,'hála-bejegyzés']],cw=(W-160)/3;
+  st.forEach(([n,l],i)=>{const cx=80+i*cw;x.fillStyle='rgba(255,255,255,.12)';rr(x,cx+10,y,cw-20,190,34);x.fill();x.fillStyle='#FFFFFF';x.font='600 76px "Urbanist", sans-serif';x.fillText(String(n),cx+cw/2,y+105);x.fillStyle='rgba(255,255,255,.75)';x.font='500 26px "Plus Jakarta Sans", sans-serif';x.fillText(l,cx+cw/2,y+152)});
+  y+=260;
+  if(D.ach.length){x.fillStyle='rgba(255,255,255,.7)';x.font='700 26px "Plus Jakarta Sans", sans-serif';x.fillText('VALÓRA VÁLT IDÉN',W/2,y);y+=60;x.font='500 40px "Urbanist", sans-serif';x.fillStyle='#FFFFFF';
+   for(const v of D.ach.slice(0,7)){const ls=wrap(x,'✓  '+v.text,W-200).slice(0,2);ls.forEach(l=>{x.fillText(l,W/2,y);y+=52});y+=14;if(y>H-420)break}}
+  if(D.months.length&&y<H-300){y+=30;x.fillStyle='rgba(255,255,255,.7)';x.font='700 26px "Plus Jakarta Sans", sans-serif';x.fillText('AZ ÉV HÓNAPJAI',W/2,y);y+=56;x.font='italic 400 36px "Cormorant Garamond", Georgia, serif';x.fillStyle='rgba(255,255,255,.9)';
+   wrap(x,D.months.map(([k,m])=>`${fmt(k+'-01',{month:'short'}).replace('.','')} · ${m.word}`).join('   ·   '),W-200).slice(0,4).forEach(l=>{x.fillText(l,W/2,y);y+=46})}
+  x.fillStyle='rgba(255,255,255,.75)';x.font='500 30px "Cormorant Garamond", Georgia, serif';x.fillText('Bloomsette · Virágozz minden nap.',W/2,H-80);
+  shareCanvas(cv,`bloomsette-${D.yr}-visszatekinto.png`)}
+function vDetail(v){const t=v.type,s=v.steps||[],hs=vHabits(v),p=vProg(v);
+  const hc=h=>[...Array(30)].filter((_,i)=>isDone(h,keyOf(addDays(now(),-i)))).length;
   openSheet(`<div class="eyebrow"><span class="cdot" style="background:${vcol(v.cat)}"></span>${VT[t].n} · ${esc(v.cat||'')}</div><h2 style="margin-top:6px">${t==='quote'?'„'+esc(v.text)+'”':esc(v.text)}</h2>
   ${v.img?`<img class="vd-img" src="${v.img}" alt="">`:''}
   ${v.note?`<p class="vd-note"><b>Miért fontos:</b> ${esc(v.note)}</p>`:''}
   ${t==='reminder'?`<p class="muted" style="margin-top:10px">${ic('bell',14)} ${esc(vWhen(v))}</p>`:''}
   ${vIsGoal(v)?`<div class="vd-prog"><div class="row"><b>${p}%</b><span class="muted">${v.done?'Elérve 🎉':vDue(v)||'Nincs határidő'}</span></div><div class="bar"><i style="width:${p}%"></i></div></div>
-   <div class="field"><span class="lbl">Lépések</span><div class="vsteps">${s.map((x,j)=>`<button class="vstep ${x.d?'on':''}" data-a="vstep" data-id="${v.id}" data-j="${j}" aria-pressed="${!!x.d}"><span class="vbox">${x.d?ic('check',12):''}</span>${esc(x.t)}</button>`).join('')||'<p class="muted">Bontsd kis lépésekre, így könnyebb elindulni.</p>'}</div>
+   <div class="field"><span class="lbl">Lépések</span><div class="vsteps">${s.map((x,j)=>`<div class="vstep-row"><button class="vstep ${x.d?'on':''}" data-a="vstep" data-id="${v.id}" data-j="${j}" aria-pressed="${!!x.d}"><span class="vbox">${x.d?ic('check',12):''}</span>${esc(x.t)}</button><button class="vstep-x" data-a="vdelstep" data-id="${v.id}" data-j="${j}" aria-label="Lépés törlése">${ic('close',13)}</button></div>`).join('')||'<p class="muted">Bontsd kis lépésekre, így könnyebb elindulni.</p>'}</div>
    <div class="row" style="gap:8px"><input class="inp grow" id="vns" placeholder="Új lépés…" maxlength="80" aria-label="Új lépés"><button class="btn ghost" data-a="vaddstep" data-id="${v.id}" style="padding:12px 16px" aria-label="Lépés hozzáadása">${ic('plus',16)}</button></div></div>
-   ${h?`<div class="vd-habit"><span class="tile" style="width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,15)}</span><span>Kapcsolódó szokás: <b>${esc(h.name)}</b><br><small class="muted">${hc} pipa az elmúlt 30 napban</small></span></div>`:''}
+   <div class="field"><span class="lbl">Kapcsolódó szokások</span>${hs.length?hs.map(h=>`<div class="vd-habit"><span class="tile" style="width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:${COLORS[h.color]};color:var(--on-pastel)">${ic(h.icon,15)}</span><span class="grow"><b>${esc(h.name)}</b><br><small class="muted">${hc(h)} pipa az elmúlt 30 napban</small></span><span class="vd-hbar"><i style="width:${Math.round(hc(h)/30*100)}%"></i></span></div>`).join(''):`<p class="muted">A szokások viszik közelebb a célhoz. Kösd hozzá azokat, amelyek ezt szolgálják.</p>`}
+    ${S.habits.length?`<button class="link" style="margin-top:6px" data-a="vedit" data-id="${v.id}">${hs.length?'Szokások módosítása':'+ Szokás kapcsolása'}</button>`:''}</div>
    <div class="btns"><button class="btn ${v.done?'ghost':''}" data-a="vdone" data-id="${v.id}">${v.done?'Visszaállítás folyamatban lévőre':'Elértem! 🎉'}</button></div>`:''}
   <div class="btns" style="margin-top:${vIsGoal(v)?10:22}px"><button class="btn ghost" data-a="vedit" data-id="${v.id}">${ic('pen',16)} Szerkesztés</button><button class="btn ghost" data-a="vdel" data-id="${v.id}">${ic('trash',16)} Törlés</button></div>`)}
-function vRead(){const g=id=>document.getElementById(id);[['vt','text'],['vn','note'],['vd','due'],['vw','when'],['vs','stepsTxt'],['vh','habit']].forEach(([id,k])=>{if(g(id))draft[k]=g(id).value})}
+function vRead(){const g=id=>document.getElementById(id);[['vt','text'],['vn','note'],['vd','due'],['vw','when'],['vs','stepsTxt']].forEach(([id,k])=>{if(g(id))draft[k]=g(id).value})}
 function visionSheet(){const d=draft,t=d.type,bgk=d.bg||VDEF[t];openSheet(`<h2>${d.id?'Elem szerkesztése':'Új elem a Vision Boardra'}</h2><p class="muted">Ami szem előtt van, az valósággá válik.</p>
  <div class="field"><span class="lbl">Típus</span><div class="vtypes">${Object.entries(VT).map(([k,x])=>`<button class="${t===k?'on':''}" data-a="vset" data-k="type" data-v="${k}" aria-pressed="${t===k}">${ic(x.i,18)}<span>${x.n}</span></button>`).join('')}</div></div>
  ${t==='img'?`<div class="field"><label for="vimg">Kép feltöltése</label><input class="inp" type="file" id="vimg" accept="image/*">${d.img?`<img src="${d.img}" alt="Előnézet" style="border-radius:18px;margin-top:8px;max-height:180px;object-fit:cover">`:''}</div>`:''}
@@ -2804,7 +2897,7 @@ function visionSheet(){const d=draft,t=d.type,bgk=d.bg||VDEF[t];openSheet(`<h2>$
  ${vIsGoal(d)?`<div class="field"><label for="vn">Miért fontos ez nekem?</label><textarea class="inp" id="vn" maxlength="200" placeholder="Hogyan fogod érezni magad, amikor eléred?">${esc(d.note||'')}</textarea></div>
   <div class="field"><label for="vd">Határidő (nem kötelező)</label><input class="inp" type="date" id="vd" value="${esc(d.due||'')}"></div>
   <div class="field"><label for="vs">Lépések, soronként egy</label><textarea class="inp" id="vs" rows="4" placeholder="pl. Futócipő beszerzése&#10;Heti 3 edzés">${esc(d.stepsTxt||'')}</textarea></div>
-  ${S.habits.length?`<div class="field"><label for="vh">Kapcsolódó szokás</label><select class="inp" id="vh"><option value="">Nincs</option>${S.habits.map(h=>`<option value="${h.id}" ${d.habit===h.id?'selected':''}>${esc(h.name)}</option>`).join('')}</select></div>`:''}`:''}
+  ${S.habits.length?`<div class="field"><span class="lbl">Kapcsolódó szokások</span><div class="chips wrapchips">${S.habits.map(h=>{const on=vHabits(d).some(x=>x.id===h.id);return`<button class="chip ${on?'on':''}" data-a="vhab" data-id="${h.id}" aria-pressed="${on}">${on?'✓ ':''}${esc(h.name)}</button>`}).join('')}</div></div>`:''}`:''}
  ${t==='reminder'?`<div class="field"><label for="vw">Időpont</label><input class="inp" type="time" id="vw" value="${/^\d{1,2}:\d\d$/.test(d.when||'')?d.when:'07:30'}"></div>`:''}
  <div class="field"><span class="lbl">Kategória</span><div class="chips wrapchips">${VCATS.map(([c,col])=>`<button class="chip ${d.cat===c?'on':''}" data-a="vset" data-k="cat" data-v="${c}"><span class="cdot" style="background:${col}"></span>${c}</button>`).join('')}</div></div>
  ${t!=='img'?`<div class="field"><span class="lbl">Háttér · ${vHex(bgk)?'Saját szín':esc(VBGN[bgk]||'')}</span>
@@ -2868,7 +2961,27 @@ const VISION_A={
  vopen(el,e){if(e&&e.target.closest('.grip'))return;const v=S.vision.find(x=>x.id===el.dataset.id);if(v)vDetail(v)},
  vstep(el){const v=S.vision.find(x=>x.id===el.dataset.id),s=v.steps[+el.dataset.j];s.d=!s.d;if(v.steps.every(x=>x.d)&&!v.done)toast('Minden lépés kész! Jelöld elértnek 🎉');save();vDetail(v);render(true)},
  vaddstep(el){const i=$('#vns'),t=i&&i.value.trim();if(!t){toast('Írd be a lépést');return}const v=S.vision.find(x=>x.id===el.dataset.id);(v.steps=v.steps||[]).push({t,d:false});save();vDetail(v);render(true);setTimeout(()=>{const n=$('#vns');if(n)n.focus()},50)},
- vdone(el){const v=S.vision.find(x=>x.id===el.dataset.id);v.done=!v.done;v.doneAt=v.done?TODAY:undefined;save();if(v.done){closeSheet();petalsFall(40);toast('Gratulálok! Egy álmod valóra vált 🌸')}else vDetail(v);render(true)},
+ vdone(el){const v=S.vision.find(x=>x.id===el.dataset.id);v.done=!v.done;v.doneAt=v.done?TODAY:undefined;save();if(v.done){closeSheet();render(true);vCelebrate(v)}else{vDetail(v);render(true)}},
+ vdelstep(el){const v=S.vision.find(x=>x.id===el.dataset.id);if(!v||!v.steps)return;v.steps.splice(+el.dataset.j,1);save();vDetail(v);render(true)},
+ vhab(el){vRead();const a=vHabits(draft).map(h=>h.id),id=el.dataset.id;draft.habits=a.includes(id)?a.filter(x=>x!==id):[...a,id];delete draft.habit;const st=$('#sheet').scrollTop;visionSheet();$('#sheet').scrollTop=st},
+ vgrp(){S.ui.vgrp=!S.ui.vgrp;save();render(true)},
+ vmonthEdit(){const mo=vMonth();openSheet(`<h2>${fmt(TODAY,{month:'long'}).replace(/^./,c=>c.toUpperCase())} szava</h2><p class="muted">Egy szó és egy rövid szándék erre a hónapra.</p>
+  <div class="field"><label for="vmw">Szó</label><input class="inp" id="vmw" maxlength="24" value="${esc(mo.word||'')}" placeholder="pl. Türelem"></div>
+  <div class="chips wrapchips" style="margin-top:10px">${['Türelem','Fókusz','Pihenés','Kedvesség','Bátorság','Hála','Könnyedség','Rend','Kreativitás','Kapcsolódás'].map(w=>`<button class="chip ${mo.word===w?'on':''}" data-a="vmpick" data-v="${w}">${w}</button>`).join('')}</div>
+  <div class="field"><label for="vmi">Szándék (nem kötelező)</label><textarea class="inp" id="vmi" maxlength="140" placeholder="pl. Ebben a hónapban lassítok, és több időt töltök a szeretteimmel.">${esc(mo.intent||'')}</textarea></div>
+  <div class="btns"><button class="btn" data-a="vmonthSave">Mentés</button></div>`)},
+ vmpick(el){$('#vmw').value=el.dataset.v;document.querySelectorAll('[data-a="vmpick"]').forEach(b=>b.classList.toggle('on',b===el))},
+ vmonthSave(){const M=vMeta(),w=$('#vmw').value.trim(),i=$('#vmi').value.trim();M.months=M.months||{};if(w)M.months[vMonthKey()]={word:w,intent:i};else delete M.months[vMonthKey()];save();closeSheet();render(true);toast(w?'A hónap szava elmentve ✨':'Törölve')},
+ vgratAdd(){const i=$('#vgi'),t=i&&i.value.trim();if(!t){toast('Írd be, miért vagy hálás');i&&i.focus();return}(S.grat=S.grat||[]).push({id:uid(),date:TODAY,t});save();render(true);toast('Hála elmentve 💗');setTimeout(()=>{const n=$('#vgi');if(n)n.focus()},60)},
+ vgratDel(el){S.grat=(S.grat||[]).filter(g=>g.id!==el.dataset.id);save();render(true)},
+ vletterNew(){draft={text:'',open:keyOf(addDays(now(),182))};vLetterSheet()},
+ vlset(el){const t=$('#vlt');if(t)draft.text=t.value;draft.open=el.dataset.v;vLetterSheet()},
+ vletterSave(){const t=($('#vlt')||{}).value.trim(),d=($('#vld')||{}).value||draft.open;if(!t){toast('Írd meg a leveled');return}if(!d||d<=TODAY){toast('Válassz egy jövőbeli napot');return}
+  (S.vletters=S.vletters||[]).push({id:uid(),text:t,written:TODAY,open:d,opened:false});save();closeSheet();render(true);toast(`Lepecsételve 💌 Felbontható: ${fmt(d,{year:'numeric',month:'long',day:'numeric'})}`)},
+ vletterOpen(el){const l=(S.vletters||[]).find(x=>x.id===el.dataset.id);if(!l)return;const n=dayDiff(l.open,TODAY);if(n>0){toast(`Ez a levél még ${n} napig lepecsételve marad 🔒`);return}if(!l.opened){l.opened=true;save();render(true);petalsFall(24)}vLetterModal(l)},
+ vletterDel(el){if(el.dataset.c!=='1'){el.dataset.c='1';el.textContent='Biztosan törlöd?';return}S.vletters=(S.vletters||[]).filter(x=>x.id!==el.dataset.id);save();$('#modal').innerHTML='';render(true);toast('Levél törölve')},
+ vyear(){vYearSheet()},
+ vyearPoster(){toast('A kép készül…');vYearPoster()},
  vedit(el){const v=S.vision.find(x=>x.id===el.dataset.id);draft=JSON.parse(JSON.stringify(v));draft.stepsTxt=(v.steps||[]).map(x=>x.t).join('\n');visionSheet()},
  vdel(el){if(!el.dataset.sure){el.dataset.sure=1;el.classList.add('danger');el.innerHTML=`${ic('trash',16)} Biztosan törlöd?`;return}S.vision=S.vision.filter(x=>x.id!==el.dataset.id);save();closeSheet();render(true);toast('Törölve a tábláról')},
  videa(el){const x=VIDEAS[+el.dataset.i];S.vision.unshift({id:uid(),type:x[0],text:x[1],cat:x[2],steps:x[0]==='goal'&&x[3]?x[3].map(t=>({t,d:false})):undefined,when:x[0]==='reminder'?x[3]:undefined});save();render(true);toast('Felkerült a táblára ✨')},
@@ -2886,7 +2999,7 @@ const VISION_A={
  addVision(el){const t=el&&el.dataset&&el.dataset.t;draft={type:t||'quote',text:'',cat:'Önszeretet',img:null};visionSheet()},
  vset(el){vRead();draft[el.dataset.k]=el.dataset.v;const st=$('#sheet').scrollTop;visionSheet();if(el.dataset.k!=='type')$('#sheet').scrollTop=st},
  saveVision(){vRead();const d=draft;d.text=(d.text||'').trim();if(d.type==='img'&&!d.img){toast('Válassz egy képet');return}if(!d.text&&d.type!=='img'){toast('Írd be a szöveget');return}if(!d.text)d.text='Álmaim';
-  if(vIsGoal(d)){const old=d.steps||[];d.steps=(d.stepsTxt||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>({t:x,d:!!(old.find(o=>o.t===x)||{}).d}));d.note=(d.note||'').trim()}else{delete d.steps;delete d.due;delete d.note;delete d.habit;delete d.done}
+  if(vIsGoal(d)){const old=d.steps||[];d.steps=(d.stepsTxt||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>({t:x,d:!!(old.find(o=>o.t===x)||{}).d}));d.note=(d.note||'').trim();d.habits=vHabits(d).map(h=>h.id);delete d.habit}else{delete d.steps;delete d.due;delete d.note;delete d.habit;delete d.habits;delete d.done}
   if(d.type==='reminder'&&!d.when)d.when='07:30';if(d.type!=='reminder')delete d.when;if(d.type!=='img')delete d.img;
   const {stepsTxt,...it}=d;
   if(it.id){const i=S.vision.findIndex(x=>x.id===it.id);if(i>=0)S.vision[i]=it;toast('Mentve ✨')}else{S.vision.unshift({...it,id:uid()});S.ui.vf='Mind';S.ui.vv='board';toast('Felkerült a Vision Boardra ✨')}
