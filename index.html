@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261107213826">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261107213826">
+<meta name="bloomly-version" content="20261107214032">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261107214032">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2911,7 +2911,7 @@ function vAffirm(){const mine=S.vision.filter(v=>v.type==='affirm'),have=new Set
   const day=Math.floor((now()-new Date(now().getFullYear(),0,0))/864e5),cur=pool[(day+(S.ui.vaf||0))%pool.length],bg=VAFF_BG[(day+(S.ui.vaf||0))%VAFF_BG.length];
   const f=S.ui.vafc||'Mind',lib=VAFF.map((x,i)=>({x,i})).filter(({x})=>!have.has(x[1])&&(f==='Mind'||x[0]===f)),cats=['Mind',...VCATS.map(c=>c[0]).filter(c=>VAFF.some(x=>x[0]===c))];
   return`<section class="vaff-hero" style="background:${vbgCss(bg)}"><span class="vh-sp" aria-hidden="true">${[...Array(7)].map((_,i)=>`<i style="--x:${(i*37+11)%96}%;--y:${(i*53+7)%88}%;--d:${(i%5)*.7}s"></i>`).join('')}</span>
-   <div class="eyebrow">Mai megerősítésed${cur.c?' · '+esc(cur.c):''}</div><p class="vaff-t">${esc(cur.t)}</p><p class="vaff-hint">Vegyél egy mély levegőt, és engedd, hogy ez a gondolat elkísérjen ma.</p>
+   <div class="eyebrow">Mai megerősítésed</div><p class="vaff-t">${esc(cur.t)}</p><p class="vaff-hint">Vegyél egy mély levegőt, és engedd, hogy ez a gondolat elkísérjen ma.</p>
    <div class="vaff-btns"><button class="btn ghost" data-a="vafNext">${ic('undo',16)} Másikat</button>${cur.id?`<button class="btn ghost" data-a="vopen" data-id="${cur.id}">${ic('sparkle',16)} Megnyitás</button>`:`<button class="btn" data-a="vafAdd" data-t="${esc(cur.t)}" data-c="${esc(cur.c||'')}">${ic('plus',16)} A táblámra</button>`}</div></section>
   <div class="vsec">Saját megerősítéseim · ${mine.length}</div>
   ${mine.length?`<div class="vlist">${mine.map(v=>`<button class="vrow vaff-row" data-a="vopen" data-id="${v.id}"><span class="tile" style="background:${vcol(v.cat)}">${ic('sparkle',18)}</span><span class="grow"><b>${esc(v.text)}</b><small>${esc(v.cat||'')}${v.fav?' · ♥ kedvenc':''}</small></span></button>`).join('')}</div>`:`<div class="card empty-note">Még nincs saját megerősítésed. Írj egyet, vagy válassz a tárból.</div>`}
