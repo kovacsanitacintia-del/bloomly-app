@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261108123620">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261108123620">
+<meta name="bloomly-version" content="20261108123813">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261108123813">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -645,6 +645,7 @@ textarea.inp{min-height:92px;resize:vertical}
 .gmin{width:34px;height:34px;border-radius:12px;background:var(--bg2);color:var(--text2);font-weight:700;font-size:18px;display:grid;place-items:center}
 .gmin:disabled{opacity:.4}
 .gl{width:24px;height:30px;border-radius:4px 4px 9px 9px;border:1.8px solid #A9C6EA;background:transparent;position:relative;overflow:hidden;transition:background .3s}
+.reco-gl{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}.reco-gl .gl{display:block;width:14px;height:18px;border-width:1.4px;border-radius:3px 3px 6px 6px}
 .gl.on{background:linear-gradient(transparent 22%,#BFD7F2 22%)}
 .rv-hero{text-align:center;background:linear-gradient(150deg,color-mix(in srgb,var(--lav) 30%,var(--card)),color-mix(in srgb,var(--mint) 30%,var(--card)))}
 .rv-big{font-family:var(--f-display);font-size:64px;line-height:1;color:var(--ink);margin-top:6px}
@@ -1819,7 +1820,7 @@ function greet(){const h=new Date().getHours();return h<10?'Jó reggelt':h<18?'S
 function ringSVG(p,size=118){const R=50,C=2*Math.PI*R;return`<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CBB7F7"/><stop offset="1" stop-color="#FFC9B3"/></linearGradient></defs><circle cx="60" cy="60" r="${R}" fill="none" style="stroke:var(--track)" stroke-width="11"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="url(#rg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}"/></svg>`}
 function habitRow(h,opt){
   const k=TODAY,done=isDone(h,k),st=habitStreak(h);
-  const wh=!opt&&waterHabit()===h,wn=wh?S.water.log[k]||0:0,wg=S.water.goal;
+  const wh=waterHabit()===h,wn=wh?S.water.log[k]||0:0,wg=S.water.goal;
   const meta=isT(h)?`${periodText(h)} ${periodCount(h,k)}/${h.target}`:wh?`${wn}/${wg} pohár`:(h.note?esc(h.note):areaName(h));
   return`<div class="habit ${done?'done':''} ${wh?'hw':''}" data-h="${h.id}"><button class="tile" style="background:${COLORS[h.color]}" data-a="habitDetail" data-id="${h.id}" aria-label="${esc(h.name)} részletei">${ic(h.icon)}</button><div class="grow" data-a="habitDetail" data-id="${h.id}"><div class="name">${esc(h.name)}</div><div class="meta"><span>${meta}</span>${st>1?`<span>· ${st} nap</span>`:''}</div></div>${opt&&opt.ret?`<button class="ret" data-a="unReco" data-id="${h.id}" title="Vissza a Bloomsette ajánlja részbe" aria-label="${esc(h.name)} vissza a Bloomsette ajánlja részbe">${ic('undo',17)}</button>`:''}${wh?`<div class="wbtns"><button class="gmin" data-a="wAdd" data-v="-1" aria-label="Egy pohárral kevesebb" ${wn?'':'disabled'}>−</button><button class="gmin" data-a="wAdd" data-v="1" aria-label="Egy pohárral több">+</button></div>`:''}<button class="chk" data-a="toggle" data-id="${h.id}" aria-pressed="${done}" aria-label="${esc(h.name)} ${done?'teljesítve, visszavonás':'teljesítése'}">${ic('check')}${[0,60,120,180,240,300].map(r=>`<i class="petal" style="--r:${r}deg;background:${COLORS[h.color]}"></i>`).join('')}</button>${wh?`<div class="glasses" role="group" aria-label="Poharak: ${wn}/${wg}">${[...Array(Math.max(wg,wn))].map((_,i)=>`<button class="gl ${i<wn?'on':''}" data-a="wSet" data-v="${i+1}" aria-label="${i+1}. pohár"></button>`).join('')}</div>`:''}</div>`
 }
@@ -2676,7 +2677,7 @@ function fqDraw(){const h=fq.h;
 Object.assign(A,{
  fqSet(el){const h=fq.h;h.freq=el.dataset.v;if(h.freq==='daily')h.days=[0,1,2,3,4,5,6];h.target=Math.max(1,Math.min(h.target||3,periodMax(h.freq)));fqDraw()},
  fqT(el){const h=fq.h;h.target=Math.max(1,Math.min(periodMax(h.freq),(h.target||1)+ +el.dataset.v));fqDraw()},
- fqSave(){const{h,msg}=fq;if(S.habits.some(x=>x.name===h.name)){closeSheet();return}if(S.parked)delete S.parked[h.name];S.habits.push(h);save();closeSheet();render(true);toast(msg)}
+ fqSave(){const{h,msg}=fq;if(S.habits.some(x=>x.name===h.name)){closeSheet();return}if(S.parked)delete S.parked[h.name];S.habits.push(h);if(isWaterT(h))S.waterOn=true;save();closeSheet();render(true);toast(msg)}
 });
 function recoSection(a,have){if(a.custom)return`<section class="card empty-note" style="text-align:left">Ez a saját életterületed. A fenti <b>+ Új szokás</b> gombbal adhatsz hozzá szokásokat, vagy a Szokástárból is választhatsz.</section>`;
   /* Csak a még fel nem vett javaslatok látszanak; a felvett szokás átkerül a Szokások részbe. Az üres alcsoport eltűnik. */
@@ -2685,7 +2686,7 @@ function recoSection(a,have){if(a.custom)return`<section class="card empty-note"
   const want=((S.ui.recoG||{})[a.id])||0,g=gs.find(x=>x.i===want)||gs[0],left=g.items.length;
   return`<section class="reco" style="--ac:${a.c}" aria-label="Bloomsette ajánlja: ${a.n}"><div class="reco-head"><span class="reco-mark">${LOTUS('rc')}</span><div class="grow"><div class="eyebrow">Bloomsette ajánlja</div><b>${g.g}</b></div><button class="link" data-a="go" data-s="library">Szokástár</button></div>
    ${gs.length>1?`<div class="chips">${gs.map(x=>`<button class="chip ${x.i===g.i?'on':''}" data-a="recoG" data-area="${a.id}" data-v="${x.i}">${x.g} · ${x.items.length}</button>`).join('')}</div>`:''}
-   <div class="list reco-list">${g.items.map(r=>`<div class="li"><span class="reco-ic" style="background:${COLORS[r.color]}">${ic(r.icon,17)}</span><div class="grow"><b>${r.name}</b><div class="muted">${r.note} · ${freqLabel(r).toLowerCase()}</div></div><button class="chk add" data-a="recoAdd" data-area="${a.id}" data-n="${esc(r.name)}" aria-label="${esc(r.name)} felvétele a szokásaim közé">${ic('plus')}</button></div>`).join('')}</div>
+   <div class="list reco-list">${g.items.map(r=>`<div class="li"><span class="reco-ic" style="background:${COLORS[r.color]}">${ic(r.icon,17)}</span><div class="grow"><b>${r.name}</b><div class="muted">${r.note} · ${freqLabel(r).toLowerCase()}</div>${isWaterT(r)?`<div class="reco-gl" aria-hidden="true">${[...Array(S.water.goal)].map(()=>'<i class="gl"></i>').join('')}</div>`:''}</div><button class="chk add" data-a="recoAdd" data-area="${a.id}" data-n="${esc(r.name)}" aria-label="${esc(r.name)} felvétele a szokásaim közé">${ic('plus')}</button></div>`).join('')}</div>
    ${left>1?`<button class="btn ghost block" style="margin-top:10px" data-a="recoAll" data-area="${a.id}" data-g="${g.i}">${ic('plus',16)} Mind a ${left} felvétele</button>`:''}</section>`}
 Object.assign(SCREENS,{
 /* Egy életterület: szokások, ajánlások, 7 napos statisztika */
@@ -2718,7 +2719,7 @@ Object.assign(EXTRA_A,{
  recoG(el){S.ui.recoG={...(S.ui.recoG||{}),[el.dataset.area]:+el.dataset.v};render(true)},
  unReco(el){const h=S.habits.find(x=>x.id===el.dataset.id);if(!h)return;S.parked={...(S.parked||{}),[h.name]:h};S.habits=S.habits.filter(x=>x.id!==h.id);save();render(true);toast(`„${h.name}” visszakerült a Bloomsette ajánlja részbe`)},
  recoAdd(el){const g=(RECO[el.dataset.area]||[]).flatMap(x=>x.items),r=g.find(x=>x.name===el.dataset.n);if(!r||S.habits.some(h=>h.name===r.name))return;freqSheet(recoHabit(r,el.dataset.area,1),`${r.name} elültetve 🌱`)},
- recoAll(el){const a=el.dataset.area,g=(RECO[a]||[])[+el.dataset.g];if(!g)return;let n=0;g.items.forEach(r=>{if(!S.habits.some(h=>h.name===r.name)){S.habits.push(recoHabit(r,a));n++}});save();render(true);toast(n?`${n} szokás elültetve 🌱`:'Ezek már mind a szokásaid között vannak')},
+ recoAll(el){const a=el.dataset.area,g=(RECO[a]||[])[+el.dataset.g];if(!g)return;let n=0;g.items.forEach(r=>{if(!S.habits.some(h=>h.name===r.name)){S.habits.push(recoHabit(r,a));n++;if(isWaterT(r))S.waterOn=true}});save();render(true);toast(n?`${n} szokás elültetve 🌱`:'Ezek már mind a szokásaid között vannak')},
  openArea(el){S.ui.area=el.dataset.v;if(S.ui.sub==='area'){render();return}A.go({dataset:{s:'area'}})},
  goJournal(el){S.ui.jt=el.dataset.v;A.go({dataset:{s:'journal'}})},
  openBreath(){S.ui.med={min:5,t:0};A.go({dataset:{s:'meditation'}})},
@@ -3267,7 +3268,8 @@ function homeExtras(){let o='';const pz=S.pause,ci=chInfo(),rm=reviewMon(),rk=ke
   o+=datesHome();
   return o}
 /* Vízivás: a poharak a meglévő víz-szokás sorában jelennek meg (nincs külön kártya) */
-function waterH(){return S.habits.find(h=>!isT(h)&&(h.icon==='drop'||/v[ií]z/i.test(h.name)))||null}
+const isWaterT=h=>h.icon==='drop'||/v[ií]z(?!sg)/i.test(h.name);
+function waterH(){return S.habits.find(h=>!isT(h)&&isWaterT(h))||null}
 function waterHabit(){return S.waterOn===false?null:waterH()}
 function waterSet(n){const before=S.water.log[TODAY]||0,g=S.water.goal,h=waterHabit();n=Math.max(0,n);S.water.log[TODAY]=n;
   const done=h&&(S.log[TODAY]||[]).includes(h.id);
