@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261107215648">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261107215648">
+<meta name="bloomly-version" content="20261108123620">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261108123620">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,6 +58,8 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
+/* Összevont betűpárok (pl. fi) kikapcsolva: ezekben eltűnik az i pontja, ami magyarul zavaró */
+*{font-variant-ligatures:none!important}
 body{margin:0;background:var(--desk);color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;display:flex;align-items:center;justify-content:center;gap:56px;overflow:hidden;-webkit-font-smoothing:antialiased}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none;padding:0}
@@ -2863,7 +2865,7 @@ function vYearSheet(){const D=vYearData();
   ${D.favs.length?`<div class="vsec" style="margin-top:16px">A kedvenceid</div>${D.favs.map(v=>`<p class="vyr-q">„${esc(v.text)}”</p>`).join('')}`:''}
   ${D.gr.length?`<div class="vsec" style="margin-top:16px">Amiért hálás voltál</div>${D.gr.slice(0,3).map(g=>`<p class="vyr-q">${esc(g.t)}</p>`).join('')}`:''}
   <div class="btns" style="margin-top:18px"><button class="btn" data-a="vyearPoster">${ic('download',16)} Mentés képként</button></div>`)}
-async function vYearPoster(){const D=vYearData(),W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');try{await document.fonts.ready}catch(e){}
+async function vYearPoster(){const D=vYearData(),W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.letterSpacing='0.01px';try{await document.fonts.ready}catch(e){}
   const bg=x.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#2A2140');bg.addColorStop(.55,'#4A3870');bg.addColorStop(1,'#B07A9E');x.fillStyle=bg;x.fillRect(0,0,W,H);
   for(let i=0;i<60;i++){x.fillStyle=`rgba(255,255,255,${.12+(i%5)*.07})`;x.beginPath();x.arc((i*137.5)%W,(i*251.3)%H,(i%3)+1,0,7);x.fill()}
   x.textAlign='center';x.fillStyle='rgba(255,255,255,.75)';x.font='600 28px "Plus Jakarta Sans", sans-serif';x.fillText(`${D.yr} · ÉVES VISSZATEKINTŐ`,W/2,190);
@@ -2924,7 +2926,7 @@ function vpEnd(){clearTimeout(vpT);$('#modal').innerHTML='';toast('Szép munka. 
 function vpClose(){clearTimeout(vpT);$('#modal').innerHTML=''}
 /* Vision Board háttérkép (1080×1920): az év szava és a tábla elemei kollázsban, a kedvencekkel kezdve */
 async function vPoster(){
-  const W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d'),M=vMeta(),yr=now().getFullYear();
+  const W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d'),M=vMeta(),yr=now().getFullYear();x.letterSpacing='0.01px';
   try{await document.fonts.ready}catch(e){}
   const bg=x.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#211B36');bg.addColorStop(.55,'#3E3063');bg.addColorStop(1,'#7A5C9E');x.fillStyle=bg;x.fillRect(0,0,W,H);
   [[160,260,520,'rgba(245,183,203,.30)'],[940,720,560,'rgba(203,183,246,.28)'],[300,1600,600,'rgba(255,214,194,.18)']].forEach(([cx,cy,r,c])=>{const g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,c);g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H)});
@@ -3143,7 +3145,7 @@ function shareCanvas(cv,name){saveB64(name,'image/png',cv.toDataURL('image/png')
 function rr(x,c,y,w,h,r){x.beginPath();x.moveTo(c+r,y);x.arcTo(c+w,y,c+w,y+h,r);x.arcTo(c+w,y+h,c,y+h,r);x.arcTo(c,y+h,c,y,r);x.arcTo(c,y,c+w,y,r);x.closePath()}
 function cssVars(svg){const cs=getComputedStyle(document.documentElement);return svg.replace(/var\((--[\w-]+)\)/g,(m,v)=>cs.getPropertyValue(v).trim()||'#ddd')}
 function gardenImage(){const svg=cssVars(gardenSVG(false)).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="810" ');
-  const im=new Image();im.onload=()=>{const W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  const im=new Image();im.onload=()=>{const W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.letterSpacing='0.01px';
     const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#F4EEFD');g.addColorStop(1,'#FFF0E8');x.fillStyle=g;x.fillRect(0,0,W,H);
     x.fillStyle='#4A3F5C';x.textAlign='center';x.font='600 64px Georgia, serif';x.fillText(`${S.name} kertje`,W/2,150);
     const lv=level();x.font='500 34px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${lv.name} szint · ${petals().toLocaleString('hu-HU')} szirom · ${curStreak()} napos sorozat`,W/2,210);
@@ -3153,7 +3155,7 @@ function gardenImage(){const svg=cssVars(gardenSVG(false)).replace('<svg ','<svg
   im.onerror=()=>toast('Nem sikerült a képet elkészíteni');im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)}
 function monthImage(){const off=S.ui.bm||0,b=new Date(now().getFullYear(),now().getMonth()+off,1,12),dim=new Date(b.getFullYear(),b.getMonth()+1,0).getDate();
   const hs=S.habits.filter(h=>!isT(h)).slice(0,18),cell=26,gap=4,left=300,top=230,W=Math.max(1080,left+dim*(cell+gap)+60),H=top+hs.length*(cell+12)+200;
-  const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.fillStyle='#FFFDFB';x.fillRect(0,0,W,H);
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');x.letterSpacing='0.01px';x.fillStyle='#FFFDFB';x.fillRect(0,0,W,H);
   x.fillStyle='#4A3F5C';x.textAlign='left';x.font='600 56px Georgia, serif';const t=b.toLocaleDateString('hu-HU',{year:'numeric',month:'long'});x.fillText(t.charAt(0).toUpperCase()+t.slice(1),60,110);
   x.font='500 28px system-ui, sans-serif';x.fillStyle='#8A7F99';x.fillText(`${S.name} szokáskövetője · Bloomsette`,60,158);
   x.textAlign='center';x.font='600 18px system-ui, sans-serif';for(let i=0;i<dim;i++){const d=new Date(b.getFullYear(),b.getMonth(),i+1,12);x.fillStyle=wd(d)>=5?'#B49CE6':'#8A7F99';x.fillText(i+1,left+i*(cell+gap)+cell/2,top-16)}
