@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="bloomly-version" content="20261108123813">
-<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261108123813">
+<meta name="bloomly-version" content="20261108124119">
+<link rel="icon" type="image/png" sizes="256x256" href="bloomly-256.png?v=20261108124119">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style><title>Bloomsette</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3268,7 +3268,8 @@ function homeExtras(){let o='';const pz=S.pause,ci=chInfo(),rm=reviewMon(),rk=ke
   o+=datesHome();
   return o}
 /* Vízivás: a poharak a meglévő víz-szokás sorában jelennek meg (nincs külön kártya) */
-const isWaterT=h=>h.icon==='drop'||/v[ií]z(?!sg)/i.test(h.name);
+/* Csak az ivóvízre utaló név számít: a csepp ikon más szokásoknál is előfordul (pl. Alkoholmentes nap, Mosogatás) */
+const isWaterT=h=>/(^|[^a-záéíóöőúüű])v[ií]z(iv[aá]s|et|fogyaszt[a-záéíóöőúüű]*)?($|[^a-záéíóöőúüű])|folyadék/i.test(h.name);
 function waterH(){return S.habits.find(h=>!isT(h)&&isWaterT(h))||null}
 function waterHabit(){return S.waterOn===false?null:waterH()}
 function waterSet(n){const before=S.water.log[TODAY]||0,g=S.water.goal,h=waterHabit();n=Math.max(0,n);S.water.log[TODAY]=n;
